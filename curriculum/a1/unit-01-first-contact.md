@@ -2,7 +2,7 @@
 
 > **الحالة:** ✅ القرارات اتاخدت (شوف آخر الملف)
 > **الإطار:** يوسف، مهندس مصري عنده 26 سنة، لسه واصل لندن يدرس كورس إنجليزي ويشتغل.
-> بيقابل **ميا** (Mia)، بريطانية بتشتغل مدرّسة في نفس المدرسة.
+> بيقابل **ميا** (Mia)، مدرّسة أمريكية بتشتغل في نفس المدرسة.
 
 **في آخر الوحدة الطالب هيقدر:** يسلّم ويعرّف نفسه، ويقول سنه وجاي منين وبيشتغل إيه، ويتهجى اسمه،
 ويدّي رقم تليفونه وإيميله، ويعرّف حد على حد. يعني يقدر يعدّي أول مقابلة مع أي حد بالإنجليزي.
@@ -128,7 +128,7 @@ Mia:     Where are you from, Youssef?
 Youssef: I'm from Egypt.
 Mia:     Oh, nice! Where in Egypt?
 Youssef: Cairo. Are you from London?
-Mia:     No, I'm not. I'm from Manchester, but I live in London.
+Mia:     No, I'm not. I'm from New York, but I live in London now.
 Youssef: Me too! I live in London now.
 ```
 
@@ -226,9 +226,9 @@ Mia:     Yes! Easy, right?
 
 ```
 Youssef: What's your phone number, Mia?
-Mia:     It's oh-seven-seven, double-four, five-six…
+Mia:     It's two-one-two, five-five-five, oh-four…
 Youssef: Sorry, can you say that again, please? Slowly?
-Mia:     Sure. Oh – seven – seven – four – four…
+Mia:     Sure. Two – one – two… five – five – five…
 Youssef: Thanks! And your email?
 Mia:     mia.brown@… – that's mia dot brown at …
 Youssef: Can you write it down, please?
@@ -260,7 +260,7 @@ Youssef: Can you write it down, please?
 Mia:     Youssef, this is my friend, Tom.
 Tom:     Hi, Youssef. Nice to meet you.
 Youssef: Nice to meet you too.
-Mia:     Tom is a doctor. He's from Manchester too.
+Mia:     Tom is a doctor. He's from New York too.
 Youssef: Oh, great! And who's that?
 Mia:     That's Sara. She's from Spain. Her name is Sara Lopez.
 ```
@@ -312,3 +312,4 @@ Mia:     That's Sara. She's from Spain. Her name is Sara Lopez.
 2. **الحروف:** تفضل الدرس 6 جوه الوحدة.
 3. **الجنسيات:** بنعلّمها في الدرس 4.
 4. **التقسيم:** 8 دروس ومراجعة. ماتقالش عليه رفض، وكمّلنا على الوحدة 2.
+5. **الإنجليزي أمريكي:** ميا مدرّسة أمريكية بتشتغل في المدرسة في لندن، فالأمريكي بقى طبيعي جوه القصة.

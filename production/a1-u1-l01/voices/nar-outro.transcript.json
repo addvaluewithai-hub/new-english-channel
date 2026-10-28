@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-28T20:54:56.745Z",
+  "duration_ms": 15100,
+  "word_count": 17,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG",
+    "en-US"
+  ],
+  "recognized_text": "يلا نرجع ليوسف المره دي هيقولها صح. وانت كمان اكتب في الكومنتات واسمك. ونشوفك في الدرس الجاي.",
+  "source_text": "يلا نرجع ليوسف… المرة دي هيقولها صح. وإنت كمان… اكتب في الكومنتات: Hi! I'm… واسمك. ونشوفك في الدرس الجاي: How are you?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "يلا نرجع ليوسف… المرة دي هيقولها صح. وإنت كمان… اكتب في الكومنتات: Hi! I'm… واسمك. ونشوفك في الدرس الجاي: How are you?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "يلا"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 900,
+      "text": "نرجع"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1500,
+      "text": "ليوسف"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2000,
+      "text": "المره"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2300,
+      "text": "دي"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2800,
+      "text": "هيقولها"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3100,
+      "text": "صح."
+    },
+    {
+      "start_ms": 7300,
+      "end_ms": 7600,
+      "text": "وانت"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 8200,
+      "text": "كمان"
+    },
+    {
+      "start_ms": 8300,
+      "end_ms": 8600,
+      "text": "اكتب"
+    },
+    {
+      "start_ms": 8600,
+      "end_ms": 8700,
+      "text": "في"
+    },
+    {
+      "start_ms": 8700,
+      "end_ms": 9600,
+      "text": "الكومنتات"
+    },
+    {
+      "start_ms": 11200,
+      "end_ms": 11800,
+      "text": "واسمك."
+    },
+    {
+      "start_ms": 13700,
+      "end_ms": 14300,
+      "text": "ونشوفك"
+    },
+    {
+      "start_ms": 14300,
+      "end_ms": 14400,
+      "text": "في"
+    },
+    {
+      "start_ms": 14400,
+      "end_ms": 14700,
+      "text": "الدرس"
+    },
+    {
+      "start_ms": 14700,
+      "end_ms": 15100,
+      "text": "الجاي."
+    }
+  ]
+}

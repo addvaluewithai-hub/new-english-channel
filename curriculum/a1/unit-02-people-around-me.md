@@ -8,7 +8,7 @@
 
 | # | الدرس | الفكرة في سطر |
 |---|---|---|
-| 1 | My family — عيلتي | العيلة + `I've got` + `'s` + الجمع |
+| 1 | My family — عيلتي | العيلة + `I have` + `'s` + الجمع |
 | 2 | What does he look like? — شكله إيه؟ | وصف الشكل + ترتيب الصفة قبل الاسم |
 | 3 | I really like it! — بحبه جدًا! | بحب / ما بحبش + الهوايات + `Do you…?` |
 | 4 | Tell me about her — احكيلي عنها | المضارع مع `he/she` (الـ`-s`) |
@@ -35,26 +35,26 @@ Mia:     Is that your family?
 Youssef: Yes! This is my father, and this is my mother.
 Mia:     And who's that?
 Youssef: That's my sister, Nour. And these are my brothers, Ali and Omar.
-Mia:     Wow, a big family! Have you got any children?
-Youssef: No, I haven't. I'm not married. Have you got brothers or sisters?
-Mia:     I've got one brother. His name is Jack.
+Mia:     Wow, a big family! Do you have any children?
+Youssef: No, I don't. I'm not married. Do you have brothers or sisters?
+Mia:     I have one brother. His name is Jack.
 Youssef: And what's your mother's name?
 Mia:     Helen.
 ```
 
 **اللغة المستهدفة**
-- **عبارات:** `This is my …` · `These are my …` ➕ · `I've got …` · `Have you got any …?` ← `Yes, I have. / No, I haven't.` · `How many brothers have you got?` · `I'm (not) married.`
+- **عبارات:** `This is my …` · `These are my …` ➕ · `I have …` · `Do you have any …?` ← `Yes, I do. / No, I don't.` · `How many brothers do you have?` · `I'm (not) married.`
 - **كلمات (الأساس):** family, mother, father, parents, brother, sister, son, daughter, husband, wife, child / children, baby, married
 - **كلمات (للتعرّف بس):** grandmother, grandfather, grandparents, aunt, uncle, cousin, mum, dad, family member
 - **قاعدة:**
   - `'s` بتاعة الملكية ➕: `my mother's name`, `Youssef's sister`.
   - الجمع بـ`-s` + جمع شاذ واحد: `child → children`.
-  - `I've got / Have you got?` (إنجليزي بريطاني، ومعاه الإطار في لندن). `I have` صح برضه، وهنعرّفها للطالب.
+  - `I have / Do you have?` (أمريكي). هنا بنعلّمها كعبارات جاهزة، وقاعدة `Do you…?` الرسمية بتيجي في الدرس 3. وهنعرّف الطالب على `I've got` البريطاني للتعرّف بس.
 
 **أخطاء العرب**
 - ❌ `I have two brother.` ← العدد بعده جمع: ✅ `two brothers`.
 - ❌ `My mother name is Fatma.` ← "اسم أمي" بالعربي مفيهوش علامة. ✅ `My mother's name is…`
-- ❌ `How many brother you have?` ← ✅ `How many brothers have you got?`
+- ❌ `How many brother you have?` ← ✅ `How many brothers do you have?`
 - **ملحوظة ثقافية:** العربي فيه "ابن عم" و"ابن خال"، والإنجليزي كلهم `cousin`. و`uncle` = عم وخال، و`aunt` = عمة وخالة.
 
 **النطق:** آخر الجمع ليه 3 أصوات: `sisters` /z/، `parents` /s/، و`boxes` /ɪz/.
@@ -71,14 +71,14 @@ Mia:     Helen.
 
 ```
 Youssef: What does Tom look like?
-Mia:     He's tall. He's got short black hair and brown eyes.
-Youssef: Has he got a beard?
-Mia:     No, he hasn't. Oh, and he's got glasses.
+Mia:     He's tall. He has short black hair and brown eyes.
+Youssef: Does he have a beard?
+Mia:     No, he doesn't. Oh, and he has glasses.
 Youssef: Tall, short black hair, glasses… I can see him! Thanks!
 ```
 
 **اللغة المستهدفة**
-- **عبارات:** `What does he / she look like?` (حتة واحدة) · `He's / She's + صفة` · `He's / She's got + شعر/عيون` · `I look like my father.`
+- **عبارات:** `What does he / she look like?` (حتة واحدة) · `He's / She's + صفة` · `He / She has + شعر/عيون` · `I look like my father.`
 - **كلمات:** tall, short, young, old, big, small, beautiful, pretty, hair, eye, face, long, black, brown, blonde, blue, green, beard ➕, glasses ➕
 - **قاعدة:**
   - الصفة **قبل** الاسم: `long hair`, `a tall man`.
@@ -91,7 +91,7 @@ Youssef: Tall, short black hair, glasses… I can see him! Thanks!
 - ❌ `What is he look like?` ← ✅ `What does he look like?`
 - **ملحوظة ذوق:** كلمة `fat` موجودة في الليستة، بس قولها عن حد قلة ذوق. نعلّمها للتعرّف بس ونقول بدالها `big`.
 
-**النطق:** `hair` /heə/ من غير ما تنطق الـr في البريطاني.
+**النطق:** `hair` /her/، والـr بتتنطق في الأمريكي.
 
 **بنكرر:** الألوان اللي بتتقال عن الشعر والعيون بس. باقي الألوان ليها درس كامل في الوحدة 3 (الحاجات).
 
@@ -193,7 +193,7 @@ Youssef: Yes! I can make koshari.
 - ❌ `I can to swim.` / ❌ `I can swimming.` ← ✅ `I can swim.`
 - ❌ `She cans…` ← `can` ما بتاخدش `-s`.
 - ❌ `I am can…` ← نفس غلطة `be`.
-- **مشكلة سمع:** `can` /kən/ و`can't` /kɑːnt/ في البريطاني. لازم الطالب يسمع الفرق، لأن الـt ممكن تختفي.
+- **مشكلة سمع:** في الأمريكي `can` /kən/ و`can't` /kænt/، والـt في `can't` غالبًا مش بتتسمع. الفرق في قوة الكلمة وطول الحرف المتحرك، ولازم تمرين سمع مخصوص.
 
 **النطق:** `can` بتبقى ضعيفة في الجملة، و`can't` بتبقى قوية ومضغوطة.
 
@@ -205,7 +205,7 @@ Youssef: Yes! I can make koshari.
 
 **مفيش لغة جديدة.** يوسف بيكلم عيلته فيديو وبيعرّفهم على ميا.
 1. **مين ده؟** المشاهد بيسمع وصف ويختار الشخص الصح من 4 صور.
-2. **وقّف وجاوب:** "Have you got any brothers? What do you like? What can you do?"
+2. **وقّف وجاوب:** "Do you have any brothers? What do you like? What can you do?"
 3. **اكتشف الغلطة:** `She like football`، `a man tall`، `I can to swim`، `My father name is…`
 4. **دورك في الكومنتات:** احكي عن حد من عيلتك في 4 جمل (هو مين، شكله، بيحب إيه، يقدر يعمل إيه).
 
@@ -231,6 +231,6 @@ Youssef: Yes! I can make koshari.
 
 ## ❓ قرارات مستنياك
 
-1. **بريطاني ولا أمريكي؟** بما إن الإطار لندن، أنا شايف إن الأساس يبقى **بريطاني** (`I've got`، `mobile`، `flat`)، ونقول البديل الأمريكي في جملة لما يكون مختلف (`I have`، `cell phone`، `apartment`). الناس بتسمع أمريكي كتير في الأفلام، فلازم يعرفوا الاتنين.
+1. ✅ **اتقرر: أمريكي.** الأساس `I have` و`cell phone` و`apartment`، والبريطاني (`I've got`، `mobile`، `flat`) بنذكره للتعرّف بس. ميا مدرّسة أمريكية بتشتغل في لندن.
 2. **boyfriend / girlfriend:** موجودين في الليستة. نعلّمهم للتعرّف بس ومنحطهمش في قصة يوسف، ولا نشيلهم خالص من A1؟ أنا شايف التعرّف بس، لأنهم هيقابلوهم في أي فيلم.
 3. **الأكل المصري في القصة (الكشري):** نخلي القصة فيها لمسات مصرية/عربية زي كده؟ أنا شايف إنها بتقرّب المشاهد جدًا.

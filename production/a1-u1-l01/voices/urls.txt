@@ -1,0 +1,16 @@
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220869/gemini-tts/channel-a1u1l01-open-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220881/gemini-tts/channel-a1u1l01-retake-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220888/gemini-tts/channel-a1u1l01-nar-intro-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220897/gemini-tts/channel-a1u1l01-nar-turn-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220898/gemini-tts/channel-a1u1l01-nar-outro-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220912/gemini-tts/channel-a1u1l01-nar-phrases-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220920/gemini-tts/channel-a1u1l01-models-v2.transcript.json
+https://res.cloudinary.com/as9o12al/raw/upload/v1793220920/gemini-tts/channel-a1u1l01-nar-mistakes-v2.transcript.json
+https://res.cloudinary.com/as9o12al/video/upload/v1793220868/gemini-tts/channel-a1u1l01-open-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220880/gemini-tts/channel-a1u1l01-retake-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220886/gemini-tts/channel-a1u1l01-nar-intro-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220896/gemini-tts/channel-a1u1l01-nar-turn-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220897/gemini-tts/channel-a1u1l01-nar-outro-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220910/gemini-tts/channel-a1u1l01-nar-phrases-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220919/gemini-tts/channel-a1u1l01-models-v2.wav
+https://res.cloudinary.com/as9o12al/video/upload/v1793220919/gemini-tts/channel-a1u1l01-nar-mistakes-v2.wav

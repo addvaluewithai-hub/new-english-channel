@@ -1,0 +1,248 @@
+{
+ "open": {
+  "turns": [
+   {
+    "speaker": "Mia",
+    "text": "Hi! I'm Mia.",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Hello! I Youssef.",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "<short pause> Sorry?",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   }
+  ],
+  "speakers": {
+   "Mia": "Aoede",
+   "Youssef": "Achird"
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "models": {
+  "turns": [
+   {
+    "speaker": "Mia",
+    "text": "Hello! <long pause>",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Hi! <long pause>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "I'm Mia. <long pause>",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "My name is Youssef. <long pause>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "What's your name? <long pause>",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Nice to meet you. <long pause>",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Nice to meet you too. <long pause>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Bye! See you. <long pause>",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Goodbye! <long pause>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "I am Youssef. <long pause>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "I'm Youssef. <long pause>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Hi! I'm Mia. What's your name? <long pause>",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Nice to meet you!",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   }
+  ],
+  "speakers": {
+   "Mia": "Aoede",
+   "Youssef": "Achird"
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "retake": {
+  "turns": [
+   {
+    "speaker": "Mia",
+    "text": "Hi! I'm Mia.",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Hello, Mia. I'm Youssef.",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Sorry? What's your name?",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Youssef. My name is Youssef.",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Nice to meet you, Youssef.",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Nice to meet you too.",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Bye, Youssef! See you.",
+    "style": "Friendly young American woman, a warm English teacher. Natural, clear, relaxed American accent, medium pace."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Goodbye!",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Polite, a little shy at first."
+   }
+  ],
+  "speakers": {
+   "Mia": "Aoede",
+   "Youssef": "Achird"
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "nar-intro": {
+  "text": "يوسف لسه واصل لندن… وأول جملة قالها بالإنجليزي طلعت غلط. <short pause> في الدرس ده هنعرف ليه… وهنتعلم إزاي تسلّم وتعرّف نفسك صح، من أول مرة.",
+  "style": "Warm, friendly Egyptian Arabic tutor (Cairo dialect), smiling, encouraging, clear, medium pace. Every English word or phrase is pronounced clearly with a natural American accent.",
+  "voice": "Zephyr",
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "ar-EG",
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "nar-phrases": {
+  "text": "أول كلمة: Hello… أو Hi، وهي أبسط. الاتنين معناهم: أهلًا. <long pause> عشان تقول اسمك، قول: I'm… وبعدها اسمك. يعني: أنا ميا. <long pause> أو تقول: My name is… يعني: اسمي يوسف. <long pause> ولو عايز تسأل حد عن اسمه: What's your name? يعني: اسمك إيه؟ <long pause> ولما تتعرّف على حد، تقول: Nice to meet you، يعني: اتشرّفت بمعرفتك. والرد: Nice to meet you too. <long pause> وفي الآخر، وإنت بتمشي: Bye… See you… أو Goodbye. <long pause> يلا، قولها معايا.",
+  "style": "Warm, friendly Egyptian Arabic tutor (Cairo dialect), smiling, encouraging, clear, medium pace. Every English word or phrase is pronounced clearly with a natural American accent.",
+  "voice": "Zephyr",
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "ar-EG",
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "nar-mistakes": {
+  "text": "طب ليه يوسف قال: I Youssef؟ <short pause> لأن في العربي بنقول: أنا يوسف… من غير فعل. لكن الإنجليزي لازم يكون فيه فعل في النص: am. <short pause> يعني: I am Youssef… وبنختصرها: I'm Youssef. <long pause> ونفس الكلام في: اسمي يوسف. مش My name Youssef… لازم is: My name is Youssef. <long pause> وغلطة تانية مشهورة: لما حد يقولك Nice to meet you… ما تردّش Me too. الرد الصح: Nice to meet you too.",
+  "style": "Warm, friendly Egyptian Arabic tutor (Cairo dialect), smiling, encouraging, clear, medium pace. Every English word or phrase is pronounced clearly with a natural American accent.",
+  "voice": "Zephyr",
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "ar-EG",
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "nar-turn": {
+  "text": "دورك! <short pause> وقّف الفيديو، وقول اسمك بصوت عالي: My name is… أو I'm… <long pause> وإنت ترد: Nice to meet you too!",
+  "style": "Warm, friendly Egyptian Arabic tutor (Cairo dialect), smiling, encouraging, clear, medium pace. Every English word or phrase is pronounced clearly with a natural American accent.",
+  "voice": "Zephyr",
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "ar-EG",
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ },
+ "nar-outro": {
+  "text": "يلا نرجع ليوسف… المرة دي هيقولها صح. <long pause> وإنت كمان… اكتب في الكومنتات: Hi! I'm… واسمك. <short pause> ونشوفك في الدرس الجاي: How are you?",
+  "style": "Warm, friendly Egyptian Arabic tutor (Cairo dialect), smiling, encouraging, clear, medium pace. Every English word or phrase is pronounced clearly with a natural American accent.",
+  "voice": "Zephyr",
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1,
+  "transcript": {
+   "language_codes": [
+    "ar-EG",
+    "en-US"
+   ],
+   "write_vtt": true
+  }
+ }
+}

@@ -1,0 +1,370 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-28T20:55:18.878Z",
+  "duration_ms": 33100,
+  "word_count": 69,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG",
+    "en-US"
+  ],
+  "recognized_text": "طب ليه يوسف قال اي يوسف؟ لان في العربي بنقول انا يوسف من غير فعل، لكن الانجليزي لازم يكون فيه فعل في النص ام. يعني اي ام يوسف وبنختصرها اي ام يوسف. ونفس الكلام في اسمي يوسف مش ماي نيم يوسف لازم از ماي نيم از يوسف. وغلطه تانيه مشهوره لما حد يقول لك نايس تو ميت يو ما تردش مي تو. الرد الصح نايس تو ميت يو تو.",
+  "source_text": "طب ليه يوسف قال: I Youssef؟ لأن في العربي بنقول: أنا يوسف… من غير فعل. لكن الإنجليزي لازم يكون فيه فعل في النص: am. يعني: I am Youssef… وبنختصرها: I'm Youssef. ونفس الكلام في: اسمي يوسف. مش My name Youssef… لازم is: My name is Youssef. وغلطة تانية مشهورة: لما حد يقولك Nice to meet you… ما تردّش Me too. الرد الصح: Nice to meet you too.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "طب ليه يوسف قال: I Youssef؟ لأن في العربي بنقول: أنا يوسف… من غير فعل. لكن الإنجليزي لازم يكون فيه فعل في النص: am. يعني: I am Youssef… وبنختصرها: I'm Youssef. ونفس الكلام في: اسمي يوسف. مش My name Youssef… لازم is: My name is Youssef. وغلطة تانية مشهورة: لما حد يقولك Nice to meet you… ما تردّش Me too. الرد الصح: Nice to meet you too."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 400,
+      "text": "طب"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "ليه"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1100,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1600,
+      "text": "قال"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2200,
+      "text": "اي"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2800,
+      "text": "يوسف؟"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3600,
+      "text": "لان"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 3700,
+      "text": "في"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4100,
+      "text": "العربي"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4700,
+      "text": "بنقول"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 5200,
+      "text": "انا"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5800,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 5800,
+      "end_ms": 5900,
+      "text": "من"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6100,
+      "text": "غير"
+    },
+    {
+      "start_ms": 6100,
+      "end_ms": 6600,
+      "text": "فعل،"
+    },
+    {
+      "start_ms": 6800,
+      "end_ms": 7100,
+      "text": "لكن"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7800,
+      "text": "الانجليزي"
+    },
+    {
+      "start_ms": 7900,
+      "end_ms": 8300,
+      "text": "لازم"
+    },
+    {
+      "start_ms": 8300,
+      "end_ms": 8700,
+      "text": "يكون"
+    },
+    {
+      "start_ms": 8700,
+      "end_ms": 8900,
+      "text": "فيه"
+    },
+    {
+      "start_ms": 8900,
+      "end_ms": 9300,
+      "text": "فعل"
+    },
+    {
+      "start_ms": 9300,
+      "end_ms": 9400,
+      "text": "في"
+    },
+    {
+      "start_ms": 9400,
+      "end_ms": 10000,
+      "text": "النص"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 10500,
+      "text": "ام."
+    },
+    {
+      "start_ms": 11100,
+      "end_ms": 11700,
+      "text": "يعني"
+    },
+    {
+      "start_ms": 11900,
+      "end_ms": 12200,
+      "text": "اي"
+    },
+    {
+      "start_ms": 12300,
+      "end_ms": 12600,
+      "text": "ام"
+    },
+    {
+      "start_ms": 12600,
+      "end_ms": 13300,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 13600,
+      "end_ms": 14600,
+      "text": "وبنختصرها"
+    },
+    {
+      "start_ms": 14800,
+      "end_ms": 15000,
+      "text": "اي"
+    },
+    {
+      "start_ms": 15000,
+      "end_ms": 15100,
+      "text": "ام"
+    },
+    {
+      "start_ms": 15100,
+      "end_ms": 15600,
+      "text": "يوسف."
+    },
+    {
+      "start_ms": 16900,
+      "end_ms": 17300,
+      "text": "ونفس"
+    },
+    {
+      "start_ms": 17300,
+      "end_ms": 17800,
+      "text": "الكلام"
+    },
+    {
+      "start_ms": 17800,
+      "end_ms": 18100,
+      "text": "في"
+    },
+    {
+      "start_ms": 18200,
+      "end_ms": 18700,
+      "text": "اسمي"
+    },
+    {
+      "start_ms": 18700,
+      "end_ms": 19400,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 19500,
+      "end_ms": 19800,
+      "text": "مش"
+    },
+    {
+      "start_ms": 20000,
+      "end_ms": 20200,
+      "text": "ماي"
+    },
+    {
+      "start_ms": 20200,
+      "end_ms": 20500,
+      "text": "نيم"
+    },
+    {
+      "start_ms": 20500,
+      "end_ms": 21100,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 21300,
+      "end_ms": 21800,
+      "text": "لازم"
+    },
+    {
+      "start_ms": 21900,
+      "end_ms": 22400,
+      "text": "از"
+    },
+    {
+      "start_ms": 22700,
+      "end_ms": 23000,
+      "text": "ماي"
+    },
+    {
+      "start_ms": 23000,
+      "end_ms": 23400,
+      "text": "نيم"
+    },
+    {
+      "start_ms": 23500,
+      "end_ms": 23800,
+      "text": "از"
+    },
+    {
+      "start_ms": 23800,
+      "end_ms": 24400,
+      "text": "يوسف."
+    },
+    {
+      "start_ms": 25200,
+      "end_ms": 25800,
+      "text": "وغلطه"
+    },
+    {
+      "start_ms": 25800,
+      "end_ms": 26100,
+      "text": "تانيه"
+    },
+    {
+      "start_ms": 26100,
+      "end_ms": 26800,
+      "text": "مشهوره"
+    },
+    {
+      "start_ms": 26900,
+      "end_ms": 27100,
+      "text": "لما"
+    },
+    {
+      "start_ms": 27100,
+      "end_ms": 27400,
+      "text": "حد"
+    },
+    {
+      "start_ms": 27400,
+      "end_ms": 27700,
+      "text": "يقول"
+    },
+    {
+      "start_ms": 27700,
+      "end_ms": 27900,
+      "text": "لك"
+    },
+    {
+      "start_ms": 28000,
+      "end_ms": 28200,
+      "text": "نايس"
+    },
+    {
+      "start_ms": 28200,
+      "end_ms": 28400,
+      "text": "تو"
+    },
+    {
+      "start_ms": 28400,
+      "end_ms": 28600,
+      "text": "ميت"
+    },
+    {
+      "start_ms": 28600,
+      "end_ms": 29000,
+      "text": "يو"
+    },
+    {
+      "start_ms": 29100,
+      "end_ms": 29300,
+      "text": "ما"
+    },
+    {
+      "start_ms": 29300,
+      "end_ms": 29900,
+      "text": "تردش"
+    },
+    {
+      "start_ms": 30000,
+      "end_ms": 30200,
+      "text": "مي"
+    },
+    {
+      "start_ms": 30200,
+      "end_ms": 30600,
+      "text": "تو."
+    },
+    {
+      "start_ms": 30900,
+      "end_ms": 31300,
+      "text": "الرد"
+    },
+    {
+      "start_ms": 31300,
+      "end_ms": 31900,
+      "text": "الصح"
+    },
+    {
+      "start_ms": 32000,
+      "end_ms": 32400,
+      "text": "نايس"
+    },
+    {
+      "start_ms": 32400,
+      "end_ms": 32500,
+      "text": "تو"
+    },
+    {
+      "start_ms": 32500,
+      "end_ms": 32700,
+      "text": "ميت"
+    },
+    {
+      "start_ms": 32700,
+      "end_ms": 32800,
+      "text": "يو"
+    },
+    {
+      "start_ms": 32800,
+      "end_ms": 33100,
+      "text": "تو."
+    }
+  ]
+}

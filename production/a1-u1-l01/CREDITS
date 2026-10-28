@@ -1,0 +1,9 @@
+Lesson 1 · Hello! I'm Youssef — third-party assets
+
+Visual style & engine techniques: "Paper Pop-up Book" style, lemo-opuscar (https://github.com/lemomo-ai/lemo-opuscar) — MIT License
+  (book.js, paper.js, cutmesh.js, post.js, lib.js and the prop drawings in art.js are adapted from its demo)
+3D library: three.js r170 — MIT License
+Room HDRI (lythwood_lounge), walnut veneer texture, desk lamp & tea set models: Poly Haven — CC0
+Fonts (Google Fonts, SIL Open Font License 1.1): Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar
+Voices: Gemini TTS (Google) via the gemini-tts factory — voices Zephyr (narrator), Aoede (Mia), Achird (Youssef)
+Music & sound effects: original, synthesized in code for this film (no samples)

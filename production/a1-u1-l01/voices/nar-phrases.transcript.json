@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-28T20:55:09.608Z",
+  "duration_ms": 39700,
+  "word_count": 48,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG",
+    "en-US"
+  ],
+  "recognized_text": "اول كلمه او وهي ابسط الاتنين معناهم اهلا. عشان تقول اسمك قول وبعديها اسمك يعني انا مايا. او تقول يعني اسمي يوسف. ولو عايز تسأل حد عن اسمه يعني اسمك ايه؟ ولما تتعرف على حد تقول يعني اتشرفت بمعرفتك. والرد وفي الاخر وانت بتمشي او يلا قولها معايا.",
+  "source_text": "أول كلمة: Hello… أو Hi، وهي أبسط. الاتنين معناهم: أهلًا. عشان تقول اسمك، قول: I'm… وبعدها اسمك. يعني: أنا ميا. أو تقول: My name is… يعني: اسمي يوسف. ولو عايز تسأل حد عن اسمه: What's your name? يعني: اسمك إيه؟ ولما تتعرّف على حد، تقول: Nice to meet you، يعني: اتشرّفت بمعرفتك. والرد: Nice to meet you too. وفي الآخر، وإنت بتمشي: Bye… See you… أو Goodbye. يلا، قولها معايا.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "أول كلمة: Hello… أو Hi، وهي أبسط. الاتنين معناهم: أهلًا. عشان تقول اسمك، قول: I'm… وبعدها اسمك. يعني: أنا ميا. أو تقول: My name is… يعني: اسمي يوسف. ولو عايز تسأل حد عن اسمه: What's your name? يعني: اسمك إيه؟ ولما تتعرّف على حد، تقول: Nice to meet you، يعني: اتشرّفت بمعرفتك. والرد: Nice to meet you too. وفي الآخر، وإنت بتمشي: Bye… See you… أو Goodbye. يلا، قولها معايا."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "اول"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 900,
+      "text": "كلمه"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2500,
+      "text": "او"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3700,
+      "text": "وهي"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4200,
+      "text": "ابسط"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5000,
+      "text": "الاتنين"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5700,
+      "text": "معناهم"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6200,
+      "text": "اهلا."
+    },
+    {
+      "start_ms": 7500,
+      "end_ms": 7700,
+      "text": "عشان"
+    },
+    {
+      "start_ms": 7700,
+      "end_ms": 8100,
+      "text": "تقول"
+    },
+    {
+      "start_ms": 8100,
+      "end_ms": 8700,
+      "text": "اسمك"
+    },
+    {
+      "start_ms": 8800,
+      "end_ms": 9200,
+      "text": "قول"
+    },
+    {
+      "start_ms": 10200,
+      "end_ms": 10700,
+      "text": "وبعديها"
+    },
+    {
+      "start_ms": 10700,
+      "end_ms": 11300,
+      "text": "اسمك"
+    },
+    {
+      "start_ms": 11400,
+      "end_ms": 11800,
+      "text": "يعني"
+    },
+    {
+      "start_ms": 12100,
+      "end_ms": 12500,
+      "text": "انا"
+    },
+    {
+      "start_ms": 12800,
+      "end_ms": 13100,
+      "text": "مايا."
+    },
+    {
+      "start_ms": 14100,
+      "end_ms": 14200,
+      "text": "او"
+    },
+    {
+      "start_ms": 14200,
+      "end_ms": 14800,
+      "text": "تقول"
+    },
+    {
+      "start_ms": 16000,
+      "end_ms": 16600,
+      "text": "يعني"
+    },
+    {
+      "start_ms": 16800,
+      "end_ms": 17400,
+      "text": "اسمي"
+    },
+    {
+      "start_ms": 17500,
+      "end_ms": 18000,
+      "text": "يوسف."
+    },
+    {
+      "start_ms": 19300,
+      "end_ms": 19500,
+      "text": "ولو"
+    },
+    {
+      "start_ms": 19500,
+      "end_ms": 19800,
+      "text": "عايز"
+    },
+    {
+      "start_ms": 19800,
+      "end_ms": 20100,
+      "text": "تسأل"
+    },
+    {
+      "start_ms": 20100,
+      "end_ms": 20500,
+      "text": "حد"
+    },
+    {
+      "start_ms": 20500,
+      "end_ms": 20700,
+      "text": "عن"
+    },
+    {
+      "start_ms": 20700,
+      "end_ms": 21000,
+      "text": "اسمه"
+    },
+    {
+      "start_ms": 22500,
+      "end_ms": 23000,
+      "text": "يعني"
+    },
+    {
+      "start_ms": 23100,
+      "end_ms": 23500,
+      "text": "اسمك"
+    },
+    {
+      "start_ms": 23500,
+      "end_ms": 23700,
+      "text": "ايه؟"
+    },
+    {
+      "start_ms": 24800,
+      "end_ms": 25100,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 25100,
+      "end_ms": 25500,
+      "text": "تتعرف"
+    },
+    {
+      "start_ms": 25500,
+      "end_ms": 25700,
+      "text": "على"
+    },
+    {
+      "start_ms": 25700,
+      "end_ms": 26000,
+      "text": "حد"
+    },
+    {
+      "start_ms": 26000,
+      "end_ms": 26400,
+      "text": "تقول"
+    },
+    {
+      "start_ms": 28000,
+      "end_ms": 28400,
+      "text": "يعني"
+    },
+    {
+      "start_ms": 28600,
+      "end_ms": 29100,
+      "text": "اتشرفت"
+    },
+    {
+      "start_ms": 29100,
+      "end_ms": 29700,
+      "text": "بمعرفتك."
+    },
+    {
+      "start_ms": 30200,
+      "end_ms": 30600,
+      "text": "والرد"
+    },
+    {
+      "start_ms": 33600,
+      "end_ms": 33700,
+      "text": "وفي"
+    },
+    {
+      "start_ms": 33700,
+      "end_ms": 34100,
+      "text": "الاخر"
+    },
+    {
+      "start_ms": 34100,
+      "end_ms": 34400,
+      "text": "وانت"
+    },
+    {
+      "start_ms": 34400,
+      "end_ms": 34900,
+      "text": "بتمشي"
+    },
+    {
+      "start_ms": 36800,
+      "end_ms": 37200,
+      "text": "او"
+    },
+    {
+      "start_ms": 38600,
+      "end_ms": 38900,
+      "text": "يلا"
+    },
+    {
+      "start_ms": 39100,
+      "end_ms": 39400,
+      "text": "قولها"
+    },
+    {
+      "start_ms": 39400,
+      "end_ms": 39700,
+      "text": "معايا."
+    }
+  ]
+}

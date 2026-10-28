@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-28T20:54:55.920Z",
+  "duration_ms": 12200,
+  "word_count": 10,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG",
+    "en-US"
+  ],
+  "recognized_text": "دورك. وقف الفيديو وقول اسمك بصوت عالي. او وانت ترد",
+  "source_text": "دورك! وقّف الفيديو، وقول اسمك بصوت عالي: My name is… أو I'm… وإنت ترد: Nice to meet you too!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "دورك! وقّف الفيديو، وقول اسمك بصوت عالي: My name is… أو I'm… وإنت ترد: Nice to meet you too!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 900,
+      "text": "دورك."
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1600,
+      "text": "وقف"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2200,
+      "text": "الفيديو"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2700,
+      "text": "وقول"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3000,
+      "text": "اسمك"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3300,
+      "text": "بصوت"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3500,
+      "text": "عالي."
+    },
+    {
+      "start_ms": 5800,
+      "end_ms": 6000,
+      "text": "او"
+    },
+    {
+      "start_ms": 11600,
+      "end_ms": 11900,
+      "text": "وانت"
+    },
+    {
+      "start_ms": 11900,
+      "end_ms": 12200,
+      "text": "ترد"
+    }
+  ]
+}

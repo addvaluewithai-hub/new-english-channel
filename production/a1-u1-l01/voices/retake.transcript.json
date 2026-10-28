@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-28T20:54:40.340Z",
+  "duration_ms": 15900,
+  "word_count": 31,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Hi, I'm Mia. Hello Mia. I'm Yusef. Sorry, what's your name? Yusef. My name is Yusef. Nice to meet you Yusef. Nice to meet you too. Bye Yusef, see you. Goodbye.",
+  "source_text": "Hi! I'm Mia. Hello, Mia. I'm Youssef. Sorry? What's your name? Youssef. My name is Youssef. Nice to meet you, Youssef. Nice to meet you too. Bye, Youssef! See you. Goodbye!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Mia",
+      "text": "Hi! I'm Mia."
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "Hello, Mia. I'm Youssef."
+    },
+    {
+      "index": 2,
+      "speaker": "Mia",
+      "text": "Sorry? What's your name?"
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Youssef. My name is Youssef."
+    },
+    {
+      "index": 4,
+      "speaker": "Mia",
+      "text": "Nice to meet you, Youssef."
+    },
+    {
+      "index": 5,
+      "speaker": "Youssef",
+      "text": "Nice to meet you too."
+    },
+    {
+      "index": 6,
+      "speaker": "Mia",
+      "text": "Bye, Youssef! See you."
+    },
+    {
+      "index": 7,
+      "speaker": "Youssef",
+      "text": "Goodbye!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 800,
+      "text": "Hi,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1000,
+      "text": "I'm",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1400,
+      "text": "Mia.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2500,
+      "text": "Hello",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 2800,
+      "text": "Mia.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3500,
+      "text": "I'm",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3900,
+      "text": "Yusef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5200,
+      "text": "Sorry,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5600,
+      "text": "what's",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 5800,
+      "text": "your",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5800,
+      "end_ms": 6100,
+      "text": "name?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6900,
+      "end_ms": 7500,
+      "text": "Yusef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8200,
+      "end_ms": 8400,
+      "text": "My",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8400,
+      "end_ms": 8600,
+      "text": "name",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8600,
+      "end_ms": 8700,
+      "text": "is",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8700,
+      "end_ms": 9200,
+      "text": "Yusef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10000,
+      "end_ms": 10200,
+      "text": "Nice",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 10200,
+      "end_ms": 10300,
+      "text": "to",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 10300,
+      "end_ms": 10500,
+      "text": "meet",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 10500,
+      "end_ms": 10600,
+      "text": "you",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 10600,
+      "end_ms": 11100,
+      "text": "Yusef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11900,
+      "end_ms": 12100,
+      "text": "Nice",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 12100,
+      "end_ms": 12200,
+      "text": "to",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 12200,
+      "end_ms": 12300,
+      "text": "meet",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 12300,
+      "end_ms": 12400,
+      "text": "you",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 12400,
+      "end_ms": 12600,
+      "text": "too.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 13400,
+      "end_ms": 13500,
+      "text": "Bye",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 13500,
+      "end_ms": 14100,
+      "text": "Yusef,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 14200,
+      "end_ms": 14400,
+      "text": "see",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 14400,
+      "end_ms": 14600,
+      "text": "you.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 15600,
+      "end_ms": 15900,
+      "text": "Goodbye.",
+      "speaker": "spk:1"
+    }
+  ]
+}

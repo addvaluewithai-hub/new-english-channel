@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-28T20:54:27.551Z",
+  "duration_ms": 5400,
+  "word_count": 7,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Hi, I'm Mia. Hello, uh Youssef. Sorry?",
+  "source_text": "Hi! I'm Mia. Hello! I Youssef. Sorry?",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Mia",
+      "text": "Hi! I'm Mia."
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "Hello! I Youssef."
+    },
+    {
+      "index": 2,
+      "speaker": "Mia",
+      "text": "Sorry?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 700,
+      "text": "Hi,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 900,
+      "text": "I'm",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1300,
+      "text": "Mia.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2600,
+      "text": "Hello,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3100,
+      "text": "uh",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3700,
+      "text": "Youssef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5400,
+      "text": "Sorry?",
+      "speaker": "spk:0"
+    }
+  ]
+}
