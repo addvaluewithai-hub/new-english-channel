@@ -11,19 +11,19 @@ import { cutMesh, particles, blobShadow } from './cutmesh.js';
 import { makePost } from './post.js';
 import * as HUD from './hud.js';
 
-const W = 1920, H = 1080;
+const W = 1920, H = 1080, QP = new URLSearchParams(location.search), RS = +(QP.get('res') || 1), RW = Math.round(W * RS), RH = Math.round(H * RS);
 const TL = await (await fetch('timeline.json')).json();
 const BUBW = TL.bubbles;
 const T = TL.T, WK = T.work, DUR = T.dur;
 const renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
-renderer.setSize(W, H); renderer.setPixelRatio(1);
+renderer.setSize(RW, RH, false); renderer.domElement.style.width = W + 'px'; renderer.domElement.style.height = H + 'px'; renderer.setPixelRatio(1);
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.NeutralToneMapping; renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.getElementById('stage').appendChild(renderer.domElement);
 const ov = document.getElementById('ov'), OX = ov.getContext('2d');
 const scene = new THREE.Scene();
 const cam = new THREE.PerspectiveCamera(30, W / H, .004, 30);
-const post = makePost(renderer, scene, cam, W, H);
+const post = makePost(renderer, scene, cam, RW, RH, { taps: +(QP.get('taps') || 64), msaa: +(QP.get('msaa') ?? 4) });
 
 // ---------- assets ----------
 await Promise.all(['500 40px Fredoka', '600 40px Fredoka', '700 40px Fredoka', '40px "Lilita One"', '500 40px "Baloo Bhaijaan 2"', '600 40px "Baloo Bhaijaan 2"', '700 40px "Baloo Bhaijaan 2"', '800 40px "Baloo Bhaijaan 2"', '40px Lalezar'].map(f => document.fonts.load(f, 'Aaأهلا')));
@@ -294,9 +294,9 @@ function miaState(t) {
 // ---------- lights ----------
 const lampHead = new THREE.Vector3(-.28, .375, .44);
 const spot = new THREE.SpotLight('#fff0dc', 0, 3, .75, .55, 2); spot.position.copy(lampHead); spot.target.position.set(.02, 0, .2);
-spot.castShadow = true; spot.shadow.mapSize.set(2048, 2048); spot.shadow.bias = -.00006; spot.shadow.normalBias = .0004; spot.shadow.radius = 5; spot.shadow.camera.near = .05; spot.shadow.camera.far = 2;
+spot.castShadow = true; spot.shadow.mapSize.setScalar(+(QP.get('sh') || 1) * 2048); spot.shadow.bias = -.00006; spot.shadow.normalBias = .0004; spot.shadow.radius = 5; spot.shadow.camera.near = .05; spot.shadow.camera.far = 2;
 scene.add(spot, spot.target);
-const sun = new THREE.DirectionalLight('#fff3e0', 0); sun.castShadow = true; sun.shadow.mapSize.set(3072, 3072); sun.shadow.bias = -.00008; sun.shadow.normalBias = .0003; sun.shadow.radius = 4;
+const sun = new THREE.DirectionalLight('#fff3e0', 0); sun.castShadow = true; sun.shadow.mapSize.setScalar(+(QP.get('sh') || 1) * 3072); sun.shadow.bias = -.00008; sun.shadow.normalBias = .0003; sun.shadow.radius = 4;
 Object.assign(sun.shadow.camera, { left: -.3, right: .3, top: .3, bottom: -.3, near: .1, far: 3 }); sun.target.position.set(0, .05, .12); scene.add(sun, sun.target);
 const hemi = new THREE.HemisphereLight('#cfe6ff', '#caa27a', 0); scene.add(hemi);
 
@@ -453,7 +453,7 @@ window.render = function (t) {
   // camera
   const C = camAt(t);
   cam.position.copy(C.pos); cam.fov = C.fov; cam.lookAt(C.tgt); cam.updateProjectionMatrix(); cam.updateMatrixWorld(); camQ.copy(cam.quaternion);
-  post.dof.focus = C.pos.distanceTo(C.tgt); post.dof.aper = C.aper; post.dof.maxCoc = 12;
+  post.dof.focus = C.pos.distanceTo(C.tgt); post.dof.aper = C.aper; post.dof.maxCoc = 12 * RS;
   post.vig.uniforms.fade.value = 1; post.vig.uniforms.warm.value = .12; post.bloom.strength = .2;
   for (const p of PS) p.userData.update(t);
   scene.updateMatrixWorld(true);

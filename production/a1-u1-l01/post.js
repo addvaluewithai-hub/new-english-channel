@@ -19,7 +19,7 @@ const cocShader = {
       gl_FragColor = vec4(texture2D(tColor, vUv).rgb, c);
     }`
 };
-const gatherShader = {
+const gatherShader = (N = 64) => ({
   uniforms: { tIn: { value: null }, res: { value: new THREE.Vector2(1920, 1080) }, maxCoc: { value: 18 } },
   vertexShader: cocShader.vertexShader,
   fragmentShader: `
@@ -28,7 +28,7 @@ const gatherShader = {
       vec4 c0 = texture2D(tIn, vUv); float a0 = abs(c0.a);
       if (maxCoc < .5) { gl_FragColor = vec4(c0.rgb, 1.); return; }
       vec3 acc = c0.rgb / (a0*a0 + 1.); float wsum = 1. / (a0*a0 + 1.);
-      const int N = 64;
+      const int N = ${N};
       for (int i = 0; i < N; i++) {
         float r = maxCoc * sqrt((float(i) + .5) / float(N));
         float th = float(i) * 2.39996;
@@ -42,15 +42,15 @@ const gatherShader = {
       }
       gl_FragColor = vec4(acc / wsum, 1.);
     }`
-};
+});
 
 class DofScenePass extends Pass {
-  constructor(scene, camera, w, h) {
+  constructor(scene, camera, w, h, o = {}) {
     super(); this.scene = scene; this.camera = camera; this.needsSwap = true;
-    this.rt = new THREE.WebGLRenderTarget(w, h, { samples: 4, type: THREE.HalfFloatType, depthTexture: new THREE.DepthTexture(w, h, THREE.FloatType) });
+    this.rt = new THREE.WebGLRenderTarget(w, h, { samples: o.msaa ?? 4, type: THREE.HalfFloatType, depthTexture: new THREE.DepthTexture(w, h, THREE.FloatType) });
     this.rtC = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType });
     this.coc = new FullScreenQuad(new THREE.ShaderMaterial(cocShader));
-    this.gat = new FullScreenQuad(new THREE.ShaderMaterial(gatherShader));
+    this.gat = new FullScreenQuad(new THREE.ShaderMaterial(gatherShader(o.taps ?? 64))); this.gat.material.uniforms.res.value.set(w, h);
     this.focus = .3; this.aper = 4; this.maxCoc = 16;
   }
   render(renderer, writeBuffer) {
@@ -72,9 +72,9 @@ const vignetteShader = {
       c.rgb *= v * fade; c.rgb *= mix(vec3(1.), vec3(1.06, 1., .9), warm); gl_FragColor = c; }`
 };
 
-export function makePost(renderer, scene, camera, w, h) {
+export function makePost(renderer, scene, camera, w, h, o = {}) {
   const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType }));
-  const dof = new DofScenePass(scene, camera, w, h);
+  const dof = new DofScenePass(scene, camera, w, h, o);
   const bloom = new UnrealBloomPass(new THREE.Vector2(w, h), .2, .5, 1.6);
   const vig = new ShaderPass(vignetteShader);
   const out = new OutputPass();
