@@ -1,0 +1,13 @@
+Living Letters - style test credits
+
+Picture: original, drawn in code (Canvas2D) for this project. No third-party images.
+Voice: production/style-tests/audio/test_audio.wav (project's own track, unchanged apart from loudness mastering in mux).
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/):
+- Bagel Fat One - Kyungwon Kim, JAMO. https://fonts.google.com/specimen/Bagel+Fat+One (Latin subset via Google Fonts API)
+- Anton - Vernon Adams. https://fonts.google.com/specimen/Anton
+- Baloo Bhaijaan 2 - Ek Type. https://fonts.google.com/specimen/Baloo+Bhaijaan+2
+- Fredoka, Lilita One, Lalezar (copied with fonts.css from a1-u1-l01; Fredoka/Lilita/Lalezar loaded but not used on screen)
+OFL text: https://openfontlicense.org
+
+Render tooling: lemo-opuscar core (render/still.mjs, video.mjs, mux.sh copy as mux_local.sh, lib.js helpers).

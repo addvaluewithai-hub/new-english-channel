@@ -20,7 +20,7 @@ export const INKA = a => `rgba(30,34,53,${a})`;
 export const CREAMA = a => `rgba(250,243,230,${a})`;
 
 export const YOUSSEF = {
-  id: 'y', W: 150, H: 250, body: '#A8653F', hair: '#1E2235', beard: '#2A1E1C', brow: '#1E2235',
+  id: 'y', W: 150, H: 250, body: '#A8653F', hair: '#1E2235', beard: '#33231F', brow: '#1E2235',
   sleeve: PAL.navy, shoe: PAL.ink, mouthY: 0.578,
 };
 export const MIA = {
@@ -97,12 +97,20 @@ export function drawBean(c, ch, p) {
     c.fillStyle = ch.hair;
     c.beginPath();
     const qx = fx * 0.7 + Wb * 0.06;
-    c.moveTo(qx - Wb * 0.32, -Hb * 0.95);
-    c.bezierCurveTo(qx - Wb * 0.2, -Hb * 1.07, qx + Wb * 0.18, -Hb * 1.08, qx + Wb * 0.3, -Hb * 0.99);
-    c.bezierCurveTo(qx + Wb * 0.2, -Hb * 1.02, qx, -Hb * 0.99, qx - Wb * 0.1, -Hb * 0.94);
+    c.moveTo(qx - Wb * 0.3, -Hb * 0.93);
+    c.bezierCurveTo(qx - Wb * 0.26, -Hb * 1.055, qx + Wb * 0.1, -Hb * 1.075, qx + Wb * 0.27, -Hb * 0.985);
+    c.bezierCurveTo(qx + Wb * 0.16, -Hb * 0.99, qx + Wb * 0.08, -Hb * 0.96, qx + Wb * 0.02, -Hb * 0.92);
     c.closePath(); c.fill();
   }
 
+  // sleeves sit behind the body; only the hand nubs come in front
+  const hands = p.hands || [];
+  const HP = [0, 1].map(i => { const s = i ? 1 : -1, h = hands[i] || [s * 0.56, -0.25]; return [h[0] * Wb, h[1] * Hb]; });
+  for (const i of [0, 1]) {
+    const s = i ? 1 : -1, sxw = s * Wb * 0.36, syw = -Hb * 0.4, [hx, hy] = HP[i];
+    c.strokeStyle = ch.sleeve; c.lineWidth = Wb * 0.12; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(sxw, syw); c.lineTo(sxw + (hx - sxw) * 0.82, syw + (hy - syw) * 0.82); c.stroke();
+  }
   // ---- body (clipped layers) ----
   beanPath(c, Wb, Hb);
   c.fillStyle = ch.body; c.fill();
@@ -122,16 +130,18 @@ export function drawBean(c, ch, p) {
     // blush sits under the beard
     if (p.blush > 0) {
       c.fillStyle = `rgba(226,82,63,${0.55 * p.blush})`;
-      for (const s of [-1, 1]) { ell(c, fx + s * Wb * 0.27, -Hb * 0.668, Wb * 0.1, Hb * 0.032); c.fill(); }
+      for (const s of [-1, 1]) { ell(c, fx + s * Wb * 0.27, -Hb * 0.655, Wb * 0.09, Hb * 0.03); c.fill(); }
     }
     // hair cap with sideburns
     c.fillStyle = ch.hair; c.beginPath();
-    c.moveTo(-Wb, -Hb * 1.3); c.lineTo(Wb, -Hb * 1.3); c.lineTo(Wb, -Hb * 0.64);
-    c.lineTo(fx + Wb * 0.37, -Hb * 0.64); c.lineTo(fx + Wb * 0.36, -Hb * 0.78);
-    c.bezierCurveTo(fx + Wb * 0.2, -Hb * 0.85, fx - Wb * 0.12, -Hb * 0.85, fx - Wb * 0.36, -Hb * 0.785);
-    c.lineTo(fx - Wb * 0.37, -Hb * 0.64); c.lineTo(-Wb, -Hb * 0.64); c.closePath(); c.fill();
+    c.moveTo(-Wb, -Hb * 1.3); c.lineTo(Wb, -Hb * 1.3); c.lineTo(Wb, -Hb * 0.73);
+    c.lineTo(fx + Wb * 0.4, -Hb * 0.73); c.lineTo(fx + Wb * 0.4, -Hb * 0.63); c.lineTo(fx + Wb * 0.34, -Hb * 0.63);
+    c.lineTo(fx + Wb * 0.34, -Hb * 0.785);
+    c.bezierCurveTo(fx + Wb * 0.2, -Hb * 0.855, fx - Wb * 0.12, -Hb * 0.855, fx - Wb * 0.34, -Hb * 0.79);
+    c.lineTo(fx - Wb * 0.34, -Hb * 0.63); c.lineTo(fx - Wb * 0.4, -Hb * 0.63); c.lineTo(fx - Wb * 0.4, -Hb * 0.73);
+    c.lineTo(-Wb, -Hb * 0.73); c.closePath(); c.fill();
     // beard: full short beard with a skin U around the mouth
-    const by0 = -Hb * 0.668, yc = -Hb * 0.6, rx = Wb * 0.41, ryo = Hb * 0.112, ri = Wb * 0.2, yc2 = -Hb * 0.607, ryi = Hb * 0.06;
+    const by0 = -Hb * 0.64, yc = -Hb * 0.6, rx = Wb * 0.4, ryo = Hb * 0.1, ri = Wb * 0.255, yc2 = -Hb * 0.6, ryi = Hb * 0.068;
     c.fillStyle = ch.beard; c.beginPath();
     c.moveTo(fx - rx, by0); c.lineTo(fx - rx, yc);
     c.ellipse(fx, yc, rx, ryo, 0, Math.PI, 0, true);
@@ -139,8 +149,8 @@ export function drawBean(c, ch, p) {
     c.ellipse(fx, yc2, ri, ryi, 0, 0, Math.PI, false);
     c.lineTo(fx - ri, by0); c.closePath(); c.fill();
     // moustache
-    c.strokeStyle = ch.beard; c.lineCap = 'round'; c.lineWidth = Hb * 0.03;
-    c.beginPath(); c.moveTo(fx - Wb * 0.11, -Hb * 0.628); c.quadraticCurveTo(fx, -Hb * 0.645, fx + Wb * 0.11, -Hb * 0.628); c.stroke();
+    c.strokeStyle = ch.beard; c.lineCap = 'round'; c.lineWidth = Hb * 0.022;
+    c.beginPath(); c.moveTo(fx - Wb * 0.09, -Hb * 0.622); c.quadraticCurveTo(fx, -Hb * 0.638, fx + Wb * 0.09, -Hb * 0.622); c.stroke();
   } else {
     // cardigan + teal hem + blouse V + buttons
     c.fillStyle = PAL.mustard; c.fillRect(-Wb, -Hb * 0.4, Wb * 2, Hb * 0.5);
@@ -236,14 +246,8 @@ export function drawBean(c, ch, p) {
     }
   }
   // arms: stubby sleeve + hand nub
-  const hands = p.hands || [];
   for (const i of [0, 1]) {
-    const s = i ? 1 : -1;
-    const sxw = s * Wb * 0.4, syw = -Hb * 0.41;
-    const h = hands[i] || [s * 0.56, -0.25];
-    const hx = h[0] * Wb, hy = h[1] * Hb;
-    c.strokeStyle = ch.sleeve; c.lineWidth = Wb * 0.11; c.lineCap = 'round';
-    c.beginPath(); c.moveTo(sxw, syw); c.lineTo(sxw + (hx - sxw) * 0.8, syw + (hy - syw) * 0.8); c.stroke();
+    const [hx, hy] = HP[i];
     c.fillStyle = ch.body; ell(c, hx, hy, Wb * 0.072, Wb * 0.072); c.fill();
     c.fillStyle = INKA(0.12); c.beginPath(); c.arc(hx, hy, Wb * 0.072, -0.2, Math.PI * 0.8); c.fill();
   }
@@ -261,7 +265,7 @@ export function drawBean(c, ch, p) {
   // sweat drop
   if (p.sweat > 0 && p.sweat < 1) {
     const u = p.sweat, a = Math.min(1, u * 6, (1 - u) * 5);
-    const dx = fx + Wb * 0.42 * (f >= 0 ? -1 : 1), dy = -Hb * (0.9 - 0.14 * u), r = Wb * 0.055;
+    const dx = fx + Wb * 0.37, dy = -Hb * (0.9 - 0.12 * u), r = Wb * 0.055;
     c.globalAlpha = a;
     c.fillStyle = mix('sky', 'teal', 0.3); c.beginPath();
     c.moveTo(dx, dy - r * 2.2); c.bezierCurveTo(dx + r * 0.6, dy - r, dx + r * 1.1, dy - r * 0.2, dx + r, dy + r * 0.3);

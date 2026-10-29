@@ -45,8 +45,8 @@ const CAM = [
   [2.7, [960, 540, 1.0], eio],
   [3.0, [960, 540, 1.0]],
   [6.9, [1265, 585, 1.2], eio],
-  [7.9, [1655, 640, 1.8], eio],
-  [15.22, [1660, 632, 1.88], x => x],
+  [7.9, [1655, 598, 1.7], eio],
+  [15.22, [1660, 600, 1.76], x => x],
   [15.55, [1468, 696, 3.0], eo],
   [17, [1478, 700, 3.12], x => x],
 ];
@@ -120,13 +120,13 @@ function youssef(t) {
   if (tug > 0) hands[1] = [lerp(0.56, 0.12 + p.f * 0.13, ss(Math.min(1, tug * 1.6))), lerp(-0.25, -0.4, ss(Math.min(1, tug * 1.6)))];
   // "Hello!" wave
   const wave = bell(t, 9.92, 11.0);
-  if (wave > 0) { const a = Math.sin((t - 9.9) * 18) * 0.06; hands[1] = [lerp(0.56, 0.68 + a, ss(Math.min(1, wave * 2))), lerp(-0.25, -0.78, ss(Math.min(1, wave * 2)))]; }
+  if (wave > 0) { const a = Math.sin((t - 9.9) * 18) * 0.06; hands[1] = [lerp(0.56, 0.7 + a, ss(Math.min(1, wave * 2))), lerp(-0.25, -0.64, ss(Math.min(1, wave * 2)))]; }
   // "I Youssef" — taps his chest
   const me = bell(t, 12.55, 13.85);
   if (me > 0) { const k = ss(Math.min(1, me * 2)); hands[1] = [lerp(0.56, 0.1 + p.f * 0.12, k), lerp(-0.25, -0.33 + 0.02 * Math.sin((t - 12.7) * 20) * k, k)]; }
   // embarrassed: scratches the back of his head
   const scr = ramp(t, 15.55, 15.85);
-  if (scr > 0) { const k = ss(scr); hands[0] = [lerp(-0.56, -0.5, k), lerp(-0.25, -0.86 + 0.02 * Math.sin(t * 24), k)]; }
+  if (scr > 0) { const k = ss(scr); hands[0] = [lerp(-0.56, -0.5, k), lerp(-0.25, -0.8 + 0.02 * Math.sin(t * 24), k)]; }
   p.hands = hands;
   return p;
 }
@@ -174,7 +174,7 @@ function mia(t) {
   p.s *= 1 + 0.03 * p.open;
   const hands = [null, null];
   const wave = bell(t, 7.85, 9.65);
-  if (wave > 0) { const k = ss(Math.min(1, wave * 2.5)), w = Math.sin((t - 7.9) * 15) * 0.09; hands[0] = [lerp(-0.56, -0.72 + w, k), lerp(-0.25, -0.86, k)]; }
+  if (wave > 0) { const k = ss(Math.min(1, wave * 2.5)), w = Math.sin((t - 7.9) * 15) * 0.09; hands[0] = [lerp(-0.56, -0.7 + w, k), lerp(-0.25, -0.68, k)]; }
   const puzz = ramp(t, 14.35, 14.6) * (1 - ramp(t, 16.3, 16.7));
   if (puzz > 0) hands[1] = [lerp(0.56, 0.3, puzz), lerp(-0.25, -0.5, puzz)];
   p.hands = hands;

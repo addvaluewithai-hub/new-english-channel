@@ -66,10 +66,10 @@ let SP = {};
 function buildSprites() {
   // Youssef: brown Y, espresso beard crescent, navy jacket with cream collar V
   SP.Y = glyphSprite('Y', 400, BAGEL, C.yBody, (x, ox, oy, w, h) => {
-    const y0 = oy + h * 0.655;
+    const y0 = oy + h * 0.58;
     x.fillStyle = C.beard; x.beginPath();
-    x.moveTo(ox, y0); x.quadraticCurveTo(ox + w / 2, y0 + h * 0.05, ox + w, y0);
-    x.lineTo(ox + w, y0 + h * 0.03); x.quadraticCurveTo(ox + w / 2, y0 + h * 0.2, ox, y0 + h * 0.03); x.fill();
+    x.moveTo(ox, y0); x.quadraticCurveTo(ox + w / 2, y0 + h * 0.15, ox + w, y0);
+    x.lineTo(ox + w, y0 + h * 0.02); x.quadraticCurveTo(ox + w / 2, y0 + h * 0.3, ox, y0 + h * 0.02); x.fill();
     x.fillStyle = C.jacket; x.fillRect(ox - 10, oy + h * 0.79, w + 20, h);
     x.fillStyle = C.paper; x.beginPath();
     x.moveTo(ox + w * 0.43, oy + h * 0.79); x.lineTo(ox + w * 0.5, oy + h * 0.875); x.lineTo(ox + w * 0.57, oy + h * 0.79); x.fill();
@@ -432,7 +432,7 @@ function miaB(t) {
   const sorry = env1(t, 14.95, 16.1);
   let sy = (1 - 0.24 * land) * (q < 0 ? 1.12 : 1) * (1 + 0.012 * Math.sin(t * 3.7 + 1));
   const s = {
-    x: MX, sc: 1, hop: -yoff, sy, rot: 0.11 * puzzled + 0.03 * Math.sin(Math.PI * env1(t, 11.3, 12.3)) + 0.04 * sorry,
+    x: MX, y: G + yoff, sc: 1, hop: 0, sy, rot: 0.11 * puzzled + 0.03 * Math.sin(Math.PI * env1(t, 11.3, 12.3)) + 0.04 * sorry,
     look: puzzled > 0.1 ? [-0.9, 0.2] : t < 7.8 ? [0, 0.6] : [-1, 0.05],
     blink: blinkOf(t, M_BLINK), big: 1 + 0.08 * puzzled, open: talk('mia', t), oShape: sorry > 0.2,
     smile: lerp(0.85, -0.05, puzzled), brow: -0.05, browTilt: -0.45 * puzzled, browUp: 0.4 * puzzled,
@@ -536,7 +536,7 @@ function camA(t) {
 function camB(t) {
   const est = { x: 1080, y: 540, z: 1.0 };
   const two = { x: 1020, y: 562, z: 1.1 };
-  const close = { x: 729, y: 642, z: 1.8 };
+  const close = { x: 688, y: 658, z: 2.1 };
   const a = eio(seg(t, 6.9, 7.75));
   let cam = { x: lerp(est.x - 30 * seg(t, 5, 7), two.x, a), y: lerp(est.y, two.y, a), z: expLerp(est.z, two.z, a) };
   // slow drift in the two-shot
@@ -629,7 +629,7 @@ function drawAm(c, t, by, size) {
   c.save(); c.translate(x, by + 6); c.rotate(-0.16 * k + Math.sin(t * 5) * 0.015); c.scale(sc, sc);
   drawSprite(c, sp);
   const blink = blinkOf(t, [16.75]);
-  [[-sp.w * 0.27, -sp.h * 0.42], [-sp.w * 0.02, -sp.h * 0.42]].forEach(([ex, ey]) => {
+  [[-sp.w * 0.3, -sp.h * 0.97], [-sp.w * 0.07, -sp.h * 0.97]].forEach(([ex, ey]) => {
     c.fillStyle = C.white; c.beginPath(); c.ellipse(ex, ey, 11, 13 * (1 - blink * 0.9), 0, 0, Math.PI * 2); c.fill();
     c.fillStyle = C.ink; c.beginPath(); c.arc(ex - 4.5, ey + 1, 6.5 * (1 - blink * 0.9), 0, Math.PI * 2); c.fill();
   });
