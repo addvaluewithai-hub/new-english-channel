@@ -96,7 +96,7 @@ export function plate(c, t, { y = 1000, hide = 0 } = {}) {
   if (a <= 0) return;
   const ch = chunks[k], prev = chunks[k - 1];
   const wOf = cc => cc.idx.reduce((s, i) => s + measureTok(n.tok[i]), 0) + 18 * (cc.idx.length - 1) + 96;
-  const sw = seg(t, ch.t0, ch.t0 + .18);
+  const sw = seg(t, ch.t0 - .06, ch.t0 + .22);
   const pw = prev ? lerp(wOf(prev), wOf(ch), ss(sw)) : wOf(ch);
   c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = a;
   const ph = 100, px = 960 - pw / 2, py = y - ph / 2 + (1 - eo(a)) * 12;
@@ -120,8 +120,9 @@ export function plate(c, t, { y = 1000, hide = 0 } = {}) {
       xr -= w + 18;
     }
   };
-  if (prev && sw < 1) words(prev, 1 - sw);
-  words(ch, prev ? sw : 1);
+  // the old phrase leaves before the new one arrives, so two lines never overlap
+  if (prev && sw < .5) words(prev, 1 - sw * 2);
+  words(ch, prev ? seg(sw, .5, 1) : 1);
   c.restore();
 }
 
