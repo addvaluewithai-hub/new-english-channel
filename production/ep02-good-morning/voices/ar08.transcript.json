@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:22.298Z",
+  "duration_ms": 1700,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "تعالوا نشوف اتعلمت ايه النهارده.",
+  "source_text": "تعالوا نشوف اتعلمت إيه النهارده.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "تعالوا نشوف اتعلمت إيه النهارده."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "تعالوا"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 800,
+      "text": "نشوف"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1200,
+      "text": "اتعلمت"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1300,
+      "text": "ايه"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1700,
+      "text": "النهارده."
+    }
+  ]
+}

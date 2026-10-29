@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:21.593Z",
+  "duration_ms": 6500,
+  "word_count": 17,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "قلت لها تصبحي على خير. الساعه 8:00 الصبح. هي ضحكت وانا كنت عايز ارجع انام من الكسوف.",
+  "source_text": "قلتلها تصبحي على خير… الساعة تمانية الصبح! هي ضحكت، وأنا كنت عايز أرجع أنام من الكسوف.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "قلتلها تصبحي على خير… الساعة تمانية الصبح! هي ضحكت، وأنا كنت عايز أرجع أنام من الكسوف."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 700,
+      "text": "لها"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1000,
+      "text": "تصبحي"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1200,
+      "text": "على"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1600,
+      "text": "خير."
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2800,
+      "text": "الساعه"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3200,
+      "text": "8:00"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3700,
+      "text": "الصبح."
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4400,
+      "text": "هي"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4900,
+      "text": "ضحكت"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5000,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5300,
+      "text": "كنت"
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 5400,
+      "text": "عايز"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5700,
+      "text": "ارجع"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 5900,
+      "text": "انام"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6000,
+      "text": "من"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6500,
+      "text": "الكسوف."
+    }
+  ]
+}

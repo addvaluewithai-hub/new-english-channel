@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:20.176Z",
+  "duration_ms": 4500,
+  "word_count": 14,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "جريت على المدرسه من غير فطار ولا قهوة وده كان الغلط الاول في اليوم.",
+  "source_text": "جريت على المدرسة من غير فطار ولا قهوة… وده كان الغلط الأول في اليوم.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "جريت على المدرسة من غير فطار ولا قهوة… وده كان الغلط الأول في اليوم."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "جريت"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 600,
+      "text": "على"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1000,
+      "text": "المدرسه"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1100,
+      "text": "من"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "غير"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1900,
+      "text": "فطار"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2200,
+      "text": "ولا"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2600,
+      "text": "قهوة"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3300,
+      "text": "وده"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3400,
+      "text": "كان"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 3700,
+      "text": "الغلط"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4000,
+      "text": "الاول"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4100,
+      "text": "في"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4500,
+      "text": "اليوم."
+    }
+  ]
+}

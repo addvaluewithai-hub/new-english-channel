@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:23.024Z",
+  "duration_ms": 9400,
+  "word_count": 17,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وفي الاخر قلتها صح. بتتقال وانت ماشي مش وانت جاي. بس الاستماره دي فيها سؤال وقفت قدامه.",
+  "source_text": "وفي الآخر، قلتها صح: جود نايت بتتقال وإنت ماشي، مش وإنت جاي. بس الاستمارة دي… فيها سؤال وقفت قدامه.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وفي الآخر، قلتها صح: جود نايت بتتقال وإنت ماشي، مش وإنت جاي. بس الاستمارة دي… فيها سؤال وقفت قدامه."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 300,
+      "text": "وفي"
+    },
+    {
+      "start_ms": 300,
+      "end_ms": 1000,
+      "text": "الاخر"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1300,
+      "text": "قلتها"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1800,
+      "text": "صح."
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3500,
+      "text": "بتتقال"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3700,
+      "text": "وانت"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4200,
+      "text": "ماشي"
+    },
+    {
+      "start_ms": 4300,
+      "end_ms": 4500,
+      "text": "مش"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4800,
+      "text": "وانت"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5100,
+      "text": "جاي."
+    },
+    {
+      "start_ms": 6100,
+      "end_ms": 6300,
+      "text": "بس"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6700,
+      "text": "الاستماره"
+    },
+    {
+      "start_ms": 6700,
+      "end_ms": 7200,
+      "text": "دي"
+    },
+    {
+      "start_ms": 8100,
+      "end_ms": 8300,
+      "text": "فيها"
+    },
+    {
+      "start_ms": 8300,
+      "end_ms": 8600,
+      "text": "سؤال"
+    },
+    {
+      "start_ms": 8600,
+      "end_ms": 8900,
+      "text": "وقفت"
+    },
+    {
+      "start_ms": 8900,
+      "end_ms": 9400,
+      "text": "قدامه."
+    }
+  ]
+}

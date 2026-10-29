@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:45.850Z",
+  "duration_ms": 1200,
+  "word_count": 2,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Not bad.",
+  "source_text": "Not bad!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Not bad!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "Not"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1200,
+      "text": "bad."
+    }
+  ]
+}

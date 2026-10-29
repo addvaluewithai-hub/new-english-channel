@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:22.764Z",
+  "duration_ms": 1700,
+  "word_count": 3,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وبعدها اساله هو",
+  "source_text": "وبعدها اسأله هو: آند يو؟",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وبعدها اسأله هو: آند يو؟"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 800,
+      "text": "وبعدها"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "اساله"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1700,
+      "text": "هو"
+    }
+  ]
+}

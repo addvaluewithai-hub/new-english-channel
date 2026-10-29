@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:24.663Z",
+  "duration_ms": 6400,
+  "word_count": 10,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "رديت؟ برافو. واكتب في الكومنتات انت عامل ايه النهارده؟ بالانجليزي.",
+  "source_text": "رديت؟ برافو! واكتب في الكومنتات: إنت عامل إيه النهارده… بالإنجليزي.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "رديت؟ برافو! واكتب في الكومنتات: إنت عامل إيه النهارده… بالإنجليزي."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 600,
+      "text": "رديت؟"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 1900,
+      "text": "برافو."
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3300,
+      "text": "واكتب"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3400,
+      "text": "في"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 4100,
+      "text": "الكومنتات"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4500,
+      "text": "انت"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4800,
+      "text": "عامل"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 4900,
+      "text": "ايه"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5300,
+      "text": "النهارده؟"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6400,
+      "text": "بالانجليزي."
+    }
+  ]
+}

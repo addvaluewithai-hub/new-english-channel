@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:23.184Z",
+  "duration_ms": 4100,
+  "word_count": 8,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولما حد يقول لك ما تقول لوحدها. الرد الصح",
+  "source_text": "ولما حد يقولك: ثانك يو، ما تقولش: ويلكم، لوحدها. الرد الصح:",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولما حد يقولك: ثانك يو، ما تقولش: ويلكم، لوحدها. الرد الصح:"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 800,
+      "text": "حد"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1000,
+      "text": "يقول لك"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 1900,
+      "text": "ما"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2100,
+      "text": "تقول"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 2900,
+      "text": "لوحدها."
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3600,
+      "text": "الرد"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 4100,
+      "text": "الصح"
+    }
+  ]
+}

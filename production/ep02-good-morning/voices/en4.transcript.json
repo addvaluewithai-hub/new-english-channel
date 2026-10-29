@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:49.828Z",
+  "duration_ms": 9500,
+  "word_count": 18,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Oh, one more thing. This form please for tomorrow. Okay. Thank you. Good night Youssef. Good night Mia.",
+  "source_text": "Oh! One more thing. This form, please. For tomorrow. OK… thank you. Good night, Youssef! Good night, Mia!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Mia",
+      "text": "Oh! One more thing. This form, please. For tomorrow."
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "OK… thank you."
+    },
+    {
+      "index": 2,
+      "speaker": "Mia",
+      "text": "Good night, Youssef!"
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Good night, Mia!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "Oh,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 900,
+      "text": "one",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1100,
+      "text": "more",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "thing.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2200,
+      "text": "This",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2500,
+      "text": "form",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 2900,
+      "text": "please",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3100,
+      "text": "for",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3600,
+      "text": "tomorrow.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 5000,
+      "text": "Okay.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6300,
+      "text": "Thank",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6400,
+      "text": "you.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 7300,
+      "end_ms": 7400,
+      "text": "Good",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7400,
+      "end_ms": 7600,
+      "text": "night",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 8200,
+      "text": "Youssef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 8800,
+      "end_ms": 9000,
+      "text": "Good",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 9000,
+      "end_ms": 9200,
+      "text": "night",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 9200,
+      "end_ms": 9500,
+      "text": "Mia.",
+      "speaker": "spk:1"
+    }
+  ]
+}

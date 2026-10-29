@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:22.592Z",
+  "duration_ms": 6000,
+  "word_count": 11,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "قلت زي ما بنقول عفوا بس طلعت ناقصة كلمة هحكي لكم",
+  "source_text": "قلت: ويلكم! زي ما بنقول عفوًا… بس طلعت ناقصة كلمة. هحكيلكم.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "قلت: ويلكم! زي ما بنقول عفوًا… بس طلعت ناقصة كلمة. هحكيلكم."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1500,
+      "text": "زي"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1600,
+      "text": "ما"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 1900,
+      "text": "بنقول"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2300,
+      "text": "عفوا"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3300,
+      "text": "بس"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3600,
+      "text": "طلعت"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 3900,
+      "text": "ناقصة"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4200,
+      "text": "كلمة"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5700,
+      "text": "هحكي"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 6000,
+      "text": "لكم"
+    }
+  ]
+}

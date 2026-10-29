@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:25.334Z",
+  "duration_ms": 7000,
+  "word_count": 14,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "طول الطريق وانا بحضر تحيه الصبح عارفها سهله بس انا كنت نايم وانا بجري",
+  "source_text": "طول الطريق وأنا بحضّر تحية الصبح. عارفها: جود مورنينج! سهلة… بس أنا كنت نايم وأنا بجري.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "طول الطريق وأنا بحضّر تحية الصبح. عارفها: جود مورنينج! سهلة… بس أنا كنت نايم وأنا بجري."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "طول"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 1000,
+      "text": "الطريق"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1200,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1700,
+      "text": "بحضر"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 2100,
+      "text": "تحيه"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2600,
+      "text": "الصبح"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3300,
+      "text": "عارفها"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5000,
+      "text": "سهله"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5600,
+      "text": "بس"
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 5700,
+      "text": "انا"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 6100,
+      "text": "كنت"
+    },
+    {
+      "start_ms": 6100,
+      "end_ms": 6500,
+      "text": "نايم"
+    },
+    {
+      "start_ms": 6500,
+      "end_ms": 6600,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 6600,
+      "end_ms": 7000,
+      "text": "بجري"
+    }
+  ]
+}

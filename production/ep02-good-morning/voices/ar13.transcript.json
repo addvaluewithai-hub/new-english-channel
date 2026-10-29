@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:25.164Z",
+  "duration_ms": 4600,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وكلمتين من الذوق لما تطلب لما تغلط.",
+  "source_text": "وكلمتين من الذوق: بليز لما تطلب، وسوري لما تغلط.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وكلمتين من الذوق: بليز لما تطلب، وسوري لما تغلط."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 800,
+      "text": "وكلمتين"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 900,
+      "text": "من"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1200,
+      "text": "الذوق"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 2700,
+      "text": "لما"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3200,
+      "text": "تطلب"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4100,
+      "text": "لما"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4600,
+      "text": "تغلط."
+    }
+  ]
+}

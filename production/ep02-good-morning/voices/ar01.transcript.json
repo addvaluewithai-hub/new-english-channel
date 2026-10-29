@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:22.119Z",
+  "duration_ms": 7100,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ثاني يوم ليا في لندن. المنبه رن الساعه سبعه وانا ما سمعتوش. صحيت الساعه 8:10",
+  "source_text": "تاني يوم ليّا في لندن. المنبه رن الساعة سبعة… وأنا ما سمعتوش. صحيت الساعة تمانية وعشرة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "تاني يوم ليّا في لندن. المنبه رن الساعة سبعة… وأنا ما سمعتوش. صحيت الساعة تمانية وعشرة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 700,
+      "text": "ثاني"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1000,
+      "text": "يوم"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1300,
+      "text": "ليا"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1400,
+      "text": "في"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1600,
+      "text": "لندن."
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2800,
+      "text": "المنبه"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3000,
+      "text": "رن"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3200,
+      "text": "الساعه"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3800,
+      "text": "سبعه"
+    },
+    {
+      "start_ms": 3800,
+      "end_ms": 4200,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4500,
+      "text": "ما"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4800,
+      "text": "سمعتوش."
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 5900,
+      "text": "صحيت"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6200,
+      "text": "الساعه"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 7100,
+      "text": "8:10"
+    }
+  ]
+}

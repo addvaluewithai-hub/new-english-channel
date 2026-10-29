@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T16:36:47.939Z",
+  "duration_ms": 2600,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Good morning. How are you?",
+  "source_text": "Good morning! How are you?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Good morning! How are you?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 400,
+      "text": "Good"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 1200,
+      "text": "morning."
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 2000,
+      "text": "How"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2300,
+      "text": "are"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2600,
+      "text": "you?"
+    }
+  ]
+}
