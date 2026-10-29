@@ -42,8 +42,8 @@
 
 | # | الحلقة | الموقف | درس المنهج | الغلطة | آخر الحلقة |
 |---|---|---|---|---|---|
-| 1 | **First Day** | يوسف بيوصل المدرسة ويقابل ميا | U1-L1 Hello! I'm… | `I Youssef` | ميا: "See you tomorrow… at 8!". يوسف: "8؟! 😳" |
-| 2 | **Good Morning?** | تاني يوم، متأخر وتعبان. بيقابل ميا في الطرقة | U1-L2 How are you? | `Good night` كتحية / `Welcome` كرد | بيلاقي ورقة فيها استمارة لازم يملاها |
+| 1 ✅ | **First Day** | يوسف بيوصل المدرسة ويقابل ميا | U1-L1 Hello! I'm… | `I Youssef` | ميا: "See you tomorrow… at 8!". يوسف: "8؟! 😳" |
+| 2 ✅ | **Good Morning?** | صحي متأخر، بيقابل ميا في الطرقة وهو نايم في الواقف | U1-L2 How are you? | `Good… night` كرد على How are you / `Welcome` كرد على Thank you | ميا بتديله استمارة فيها خانة `Age: ____` |
 | 3 | **The Form** | بيملا استمارة التسجيل في الريسبشن | U1-L3 Numbers + age | `I have 26 years` | الموظفة: "Where are you from?" |
 | 4 | **Where Are You From?** | أول كلاس، الطلبة بيعرّفوا نفسهم، وبيقابل سارة | U1-L4 Countries | `I am live in Cairo` | المدرّسة: "What do you do?" |
 | 5 | **The Engineer** | بريك القهوة، كلام عن الشغل | U1-L5 Jobs + a/an | `I am engineer` | يوسف لازم يفتح حساب في البنك… |
