@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T19:42:30.430Z",
+  "duration_ms": 6600,
+  "word_count": 18,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وعشان الجمل دي تثبت في دماغك ادخل على الموقع وحل تمارين الحلقه خمس دقائق بس اللينك في الوصف",
+  "source_text": "وعشان الجمل دي تثبت في دماغك… ادخل على الموقع وحل تمارين الحلقة. خمس دقايق بس. اللينك في الوصف.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وعشان الجمل دي تثبت في دماغك… ادخل على الموقع وحل تمارين الحلقة. خمس دقايق بس. اللينك في الوصف."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "وعشان"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1000,
+      "text": "الجمل"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1100,
+      "text": "دي"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "تثبت"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1500,
+      "text": "في"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 2000,
+      "text": "دماغك"
+    },
+    {
+      "start_ms": 2600,
+      "end_ms": 2800,
+      "text": "ادخل"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 2900,
+      "text": "على"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3200,
+      "text": "الموقع"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3500,
+      "text": "وحل"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3900,
+      "text": "تمارين"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4300,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 5000,
+      "text": "خمس"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5200,
+      "text": "دقائق"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5600,
+      "text": "بس"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6200,
+      "text": "اللينك"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6300,
+      "text": "في"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6600,
+      "text": "الوصف"
+    }
+  ]
+}

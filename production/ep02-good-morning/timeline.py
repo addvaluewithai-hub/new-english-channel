@@ -74,6 +74,11 @@ b.beat('pause_start')
 b.hold(4.5)
 b.beat('pause_end')
 b.put('ar15', .6)
+# 4b. Solve the exercises on the site
+b.section('site')
+b.beat('site_card')
+b.hold(.5)
+b.put('ar17', .8)
 # 5. Next time
 b.section('next')
 b.put('ar16', .5)

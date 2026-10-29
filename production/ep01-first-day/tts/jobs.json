@@ -483,5 +483,19 @@
   "routing": "quality",
   "format": "wav",
   "temperature": 1
+ },
+ "ar19": {
+  "text": "وعشان الجمل دي تثبت في دماغك… <short pause> ادخل على الموقع وحل تمارين الحلقة. <short pause> خمس دقايق بس. <short pause> اللينك في الوصف.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Friendly nudge, encouraging, like a tip from a friend.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
  }
 }

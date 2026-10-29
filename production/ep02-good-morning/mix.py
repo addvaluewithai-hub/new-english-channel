@@ -114,6 +114,8 @@ sting(rc[0] + .2, (77, 81, 84), .4, .09)                                        
 block(rc[0] + 1.6, rc[1], fade_in=1.0, mel=False, strum=False, perc=True, lvl=.5)   # recap: bass + brushes only
 block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)
 sting(BT['pause_end'] + .2, (72, 76, 79, 84), .45)                                  # praise
+si = SEC['site']
+block(si[0] + .2, si[1] - .3, fade_in=.6, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)   # the site nudge: soft strum
 block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.85, fade_out=1.0)                # theme out
 for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .4), DUR - 2.4 + dt, 1, 0)
 MUSIC = .32          # music under the voices (the owner asked for it quiet)

@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T19:42:37.981Z",
+  "duration_ms": 8300,
+  "word_count": 16,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وزي كل حلقه ادخل على الموقع وحل تمارين الحلقه خمس دقائق والجمل تثبت. اللينك في الوصف.",
+  "source_text": "وزي كل حلقة: ادخل على الموقع وحل تمارين الحلقة، خمس دقايق والجمل تثبت. اللينك في الوصف.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وزي كل حلقة: ادخل على الموقع وحل تمارين الحلقة، خمس دقايق والجمل تثبت. اللينك في الوصف."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 500,
+      "text": "وزي"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 700,
+      "text": "كل"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1000,
+      "text": "حلقه"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2100,
+      "text": "ادخل"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2200,
+      "text": "على"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2800,
+      "text": "الموقع"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3300,
+      "text": "وحل"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3700,
+      "text": "تمارين"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4200,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 5100,
+      "end_ms": 5400,
+      "text": "خمس"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 6000,
+      "text": "دقائق"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6400,
+      "text": "والجمل"
+    },
+    {
+      "start_ms": 6400,
+      "end_ms": 6900,
+      "text": "تثبت."
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 7900,
+      "text": "اللينك"
+    },
+    {
+      "start_ms": 7900,
+      "end_ms": 8000,
+      "text": "في"
+    },
+    {
+      "start_ms": 8000,
+      "end_ms": 8300,
+      "text": "الوصف."
+    }
+  ]
+}
