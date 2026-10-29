@@ -8,7 +8,7 @@ import { loadTimeline, TL, SEC } from './tl.js';
 import { bakeWorld } from './world.js';
 import { buildStory, sceneA, sceneD } from './story.js';
 import { buildRecap, sceneRecap } from './recap.js';
-import { buildOutro, titleCard, wipe, sceneTurn, sceneNext, endCard, O } from './outro.js';
+import { buildOutro, titleCard, wipe, sceneTurn, sceneSite, sceneNext, endCard, O } from './outro.js';
 import { plate } from './ui.js';
 import { cue, finishCues } from './cues.js';
 
@@ -17,13 +17,14 @@ const SW = 1920, SH = 1080;
 let X = null;   // section times
 
 function frame(t) {
-  const { day, recap, turn, next } = X;
+  const { day, recap, turn, site, next } = X;
   if (t < day.t0) { sceneA(c, t); titleCard(c, t); return; }
   if (t < recap.t0 - .05) return sceneD(c, t);
   if (t < recap.t0 + .7) return wipe(c, seg(t, recap.t0 - .05, recap.t0 + .65), () => sceneD(c, t), () => sceneRecap(c, t));
   if (t < turn.t0 - .1) return sceneRecap(c, t);
   if (t < turn.t0 + .65) return wipe(c, seg(t, turn.t0 - .1, turn.t0 + .6), () => sceneRecap(c, t), () => sceneTurn(c, t));
-  if (t < next.t0) return sceneTurn(c, t);
+  if (t < (site.t1 > 0 ? site.t0 : next.t0)) return sceneTurn(c, t);
+  if (t < next.t0) return sceneSite(c, t);   // the site nudge (the phone card)
   if (t < O.bEnd) return sceneNext(c, t);
   if (t < O.bEnd + .5) return wipe(c, seg(t, O.bEnd, O.bEnd + .45), () => sceneNext(c, t), () => endCard(c, t));
   return endCard(c, t);
@@ -51,7 +52,7 @@ window.render = t => {
   await Promise.all([document.fonts.load('400 40px "Lilita One"'), document.fonts.load('700 40px "Baloo Bhaijaan 2"', 'أول يوسف'),
     document.fonts.load('800 40px "Baloo Bhaijaan 2"', 'أول يوسف'), document.fonts.load('500 40px "Fredoka"'), document.fonts.load('700 40px "Fredoka"')]);
   await document.fonts.ready;
-  X = { day: SEC('day'), recap: SEC('recap'), turn: SEC('turn'), next: SEC('next') };
+  X = { day: SEC('day'), recap: SEC('recap'), turn: SEC('turn'), site: SEC('site'), next: SEC('next') };
   const at = (v, end) => v == null ? null : isNaN(+v) ? (end ? SEC(v).t1 : SEC(v).t0) : +v;
   OFF = at(Q.get('from'), false) ?? 0;
   window.DUR = (at(Q.get('to'), true) ?? TL.dur) - OFF;

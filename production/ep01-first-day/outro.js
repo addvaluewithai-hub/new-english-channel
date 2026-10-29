@@ -6,7 +6,7 @@ import { TL, SEC, BEAT, NARR, LINE, nwT, has } from './tl.js';
 import { drawWorld, toScreen, GROUND } from './world.js';
 import { charState, drawActor, head, camAt, dofOf } from './story.js';
 import { fold, F, ARM, CUP, CLAP, POINT, PULL } from './act.js';
-import { bubble, lineBubble, wordStates, micIcon, check, sparkle, commentIcon, alarmClock, timeTag, SPEAKER } from './ui.js';
+import { bubble, lineBubble, wordStates, micIcon, check, sparkle, commentIcon, alarmClock, timeTag, SPEAKER, squiggle } from './ui.js';
 import { cue } from './cues.js';
 
 const AR = '"Baloo Bhaijaan 2"';
@@ -478,6 +478,25 @@ export function endCard(c, t) {
       c.beginPath(); c.roundRect(-14, -50, 28, 70, 14); c.roundRect(-40, 0, 80, 64, 22); c.fill(); c.stroke();
       c.restore();
     }
+  }
+  // "solve the exercises" (the companion site): a teal pill with a pencil, left of the subscribe pill
+  const k4 = back(seg(u, 1.45, 1.85), 2);
+  if (k4 > 0) {
+    c.save(); c.translate(900, 780); c.scale(k4, k4);
+    c.direction = 'rtl'; c.font = `800 60px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const label = 'حل التمارين', bw = c.measureText(label).width + 170;
+    rr(c, -bw / 2, -50 + 8, bw, 100, 50); c.fillStyle = rgba('#2A2742', .2); c.fill();
+    rr(c, -bw / 2, -50, bw, 100, 50); c.fillStyle = P.teal; c.fill();
+    c.fillStyle = P.cream; c.fillText(label, 30, 6);
+    // pencil
+    c.save(); c.translate(-bw / 2 + 58, 2); c.rotate(.78);
+    c.fillStyle = P.mustard; rr(c, -9, -30, 18, 44, 3); c.fill();
+    c.fillStyle = P.cream; c.fillRect(-9, -30, 18, 8);
+    c.fillStyle = P.red; rr(c, -9, -36, 18, 8, 3); c.fill();
+    c.fillStyle = '#F3DDB8'; c.beginPath(); c.moveTo(-9, 14); c.lineTo(9, 14); c.lineTo(0, 30); c.closePath(); c.fill();
+    c.fillStyle = P.ink; c.beginPath(); c.moveTo(-3.5, 24); c.lineTo(3.5, 24); c.lineTo(0, 30); c.closePath(); c.fill();
+    c.restore();
+    c.restore();
   }
 }
 export { O };
