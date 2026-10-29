@@ -46,8 +46,8 @@ function mood(t) {
 // ---------------------------------------------------------------- camera
 function camera(t) {
   if (t < 7.75) { const u = eio(seg(t, 0, 7.75)); return { shot: 1, x: lerp(-120, 150, u), y: lerp(-390, -330, u), z: lerp(1.0, 1.25, u) }; }
-  if (t < 15.4) { const u = ss(seg(t, 7.75, 15.4)); return { shot: 2, x: lerp(415, 425, u), y: -155, z: lerp(2.2, 2.32, u) }; }
-  const u = eo(seg(t, 15.4, 17)); return { shot: 3, x: lerp(318, 322, u), y: lerp(-196, -200, u), z: lerp(5.0, 5.3, u) };
+  if (t < 15.4) { const u = ss(seg(t, 7.75, 15.4)); return { shot: 2, x: lerp(415, 425, u), y: lerp(-112, -116, u), z: lerp(2.2, 2.32, u) }; }
+  const u = eo(seg(t, 15.4, 17)); return { shot: 3, x: lerp(345, 347, u), y: lerp(-200, -203, u), z: lerp(6.0, 6.35, u) };
 }
 const scl = (p, cam) => 1 + (cam.z - 1) * p;
 const proj = (x, y, p, cam) => { const s = scl(p, cam); return [(x - cam.x * p) * s + 960, (y - cam.y * p) * s + 540]; };
@@ -89,7 +89,7 @@ const Y = {
   lean: K([[0, 0.06], [4.55, 0.06], [5.05, 0], [5.35, -0.045], [6.2, -0.045], [6.6, 0], [7.2, 0], [7.4, -0.03], [7.8, 0.01], [9.9, 0.02], [10.2, 0.05], [10.6, 0.03], [11.0, 0.01], [11.9, -0.02], [12.4, -0.02], [12.9, 0.04], [13.4, 0.04], [13.9, 0.05], [15.1, 0.05], [15.3, -0.02], [15.6, 0.05], [16.0, 0.08], [17, 0.08]]),
   head: K([[0, -0.05], [1.6, -0.14], [2.6, -0.14], [3.4, -0.02], [4.9, -0.02], [5.2, -0.24], [5.9, -0.22], [6.4, 0], [7.15, 0], [7.35, -0.08], [7.7, 0], [8.25, 0], [8.4, 0.1], [8.6, 0], [9.9, 0], [10.1, -0.06], [10.6, -0.04], [10.9, 0.14], [11.3, 0.12], [11.45, 0], [11.8, 0], [12.0, -0.13], [12.4, -0.13], [12.55, 0], [12.85, 0], [13.05, 0.09], [13.25, 0], [13.7, -0.04], [15.05, -0.04], [15.25, -0.1], [15.45, -0.08], [15.9, 0.27], [17, 0.3]]),
   drop: K([[0, 0], [15.45, 0], [15.95, 4.5], [17, 5.2]]),
-  handF: K2([[0, 6, -86], [5.25, 6, -86], [5.5, 11, -129], [5.75, 11, -121], [5.95, 11, -124], [6.35, 6, -86], [8.6, 6, -86], [8.8, 9, -92], [9.4, 8, -90], [9.85, 7, -88], [10.12, 14, -152], [10.55, 14, -152], [10.85, 12, -118], [11.25, 12, -116], [11.45, 13, -129], [12.4, 13, -129], [12.8, 13.5, -128], [13.05, 26, -120], [13.35, 26, -120], [13.8, 8, -95], [15.5, 8, -95], [15.82, 2, -150], [16.05, -10, -172], [17, -10, -172]]),
+  handF: K2([[0, 6, -86], [5.25, 6, -86], [5.5, 11, -129], [5.75, 11, -121], [5.95, 11, -124], [6.35, 6, -86], [8.6, 6, -86], [8.8, 9, -92], [9.4, 8, -90], [9.85, 7, -88], [10.12, 34, -158], [10.55, 34, -158], [10.85, 12, -118], [11.25, 12, -116], [11.45, 13, -129], [12.4, 13, -129], [12.8, 13.5, -128], [13.05, 26, -120], [13.35, 26, -120], [13.8, 8, -95], [15.5, 8, -95], [15.8, -8, -128], [17, -8, -128]]),
   handB: K2([[0, -24, -88], [4.6, -24, -88], [5.2, -28, -92], [17, -28, -92]]),
 };
 function youssefPose(t) {
@@ -106,7 +106,6 @@ function youssefPose(t) {
   hf = [lerp(hf[0], 6 - gF[0] * 0.6, w), lerp(hf[1], -86 + Math.abs(gF[0]) * 0.08, w)];
   const wave = env(t, 10.1, 10.6, 0.08, 0.1); hf[0] += 4.5 * wave * Math.sin(TAU * 3.2 * (t - 10.1));
   hf[0] -= 2.2 * pulse(t, 12.55, 0.09);                                 // pat on chest for "I"
-  const scr = env(t, 16.0, 17.2, 0.15, 0.1); hf[0] += 2.6 * scr * Math.sin(TAU * 4.6 * t); hf[1] += 1.3 * scr * Math.cos(TAU * 4.6 * t);
   const hb = Y.handB(t);
   hb[1] += w * 1.2 * Math.sin(phi * 2);
   let d = 48 * (1 - ss(seg(t, 4.55, 5.0)));
@@ -114,9 +113,16 @@ function youssefPose(t) {
   const stF = [5, 0], stB = [-8, 0];
   const fF = [lerp(stF[0], gF[0] + 2, w), -gF[1] * w], fB = [lerp(stB[0], gB[0] - 2, w), -gB[1] * w];
   const rF = -0.25 * w * Math.sin(Math.PI * gF[2]), rB = -0.25 * w * Math.sin(Math.PI * gB[2]);
-  return { x, y: 0, lift, lean, head, drop: Y.drop(t), hf, hb, fF, fB, rF, rB, d, wave };
+  const P = { x, y: 0, lift, lean, head, drop: Y.drop(t), hf, hb, fF, fB, rF, rB, d, wave, bendF: t > 15.45 ? -1 : 1, fsF: 1 };
+  const sb = ss(seg(t, 15.6, 16.05));
+  if (sb > 0) { // hand goes to the back of the head and scratches (target follows the head)
+    const J = youssefJoints(P), scr = env(t, 16.0, 17.3, 0.15, 0.1);
+    const tg = rot([-6 + 2.2 * scr * Math.sin(TAU * 4.4 * t), -20 + 1.4 * scr * Math.cos(TAU * 4.4 * t)], J.headPiv, J.headA);
+    P.hf = [lerp(hf[0], tg[0], sb), lerp(hf[1], tg[1], sb)];
+  }
+  return P;
 }
-const Y_HEAD = [[-6, 1], [-9.5, -4], [-11, -11], [-10.2, -18], [-6.8, -23], [-1, -25.6], [5, -25.9], [9.6, -24.6], [12, -21.6], [11.1, -18.6], [11.9, -15.2], [12.1, -13.8], [14.8, -10.2], [12.5, -8.8], [12.9, -7.5], [13.2, -5.4], [12.6, -2.2], [10.6, 0.2], [6.5, 1.8], [2.5, 2.8]];
+const Y_HEAD = [[-6, 1], [-9.5, -4], [-11, -11], [-10.2, -18], [-6.8, -23], [-1, -25.6], [5, -25.9], [9.8, -24.8], [12.8, -22], [11.2, -18.6], [11.9, -15.2], [12.1, -13.8], [14.8, -10.2], [12.5, -8.8], [12.9, -7.5], [13.4, -5.4], [13.2, -1.6], [11, 1.6], [6.5, 3], [2.5, 3.4]];
 function youssefJoints(P) {
   const hip = [0, -92 - P.lift], d = P.drop;
   const T = p => rot(p, hip, P.lean);
@@ -155,7 +161,7 @@ function drawYoussef(g, P, col) {
   // head
   g.save(); g.translate(J.headPiv[0], J.headPiv[1]); g.rotate(J.headA); smooth(g, Y_HEAD); g.fill(); g.restore();
   // front arm
-  const aF = ik(J.sh, P.hf, 29, 29, 1);
+  const aF = ik(J.sh, P.hf, 29 * P.fsF, 29, P.bendF);
   limb(g, J.sh, aF.e, 11.5); limb(g, aF.e, aF.h, 10.5); hand_(g, aF.e, aF.h, 1 + 0.2 * P.wave);
 }
 function hand_(g, e, h, k) { const a = Math.atan2(h[1] - e[1], h[0] - e[0]); g.beginPath(); g.ellipse(h[0] + Math.cos(a) * 2, h[1] + Math.sin(a) * 2, 5.6 * k, 4.4 * k, a, 0, TAU); g.fill(); }
@@ -166,7 +172,7 @@ const M = {
   x: K([[0, 640], [7.0, 640], [7.62, 549], [7.95, 545], [17, 545]]),
   lean: K([[0, 0.02], [7.7, 0.02], [7.9, 0], [8.2, -0.035], [9.3, -0.03], [9.8, 0.02], [11.5, 0.035], [13.4, 0.02], [13.8, -0.03], [14.3, -0.03], [14.75, 0.075], [17, 0.08]]),
   head: K([[0, 0], [8.1, 0], [8.25, -0.1], [9.3, -0.08], [9.8, 0.03], [10.3, 0.09], [10.5, 0.03], [11.5, 0.06], [11.7, 0.1], [11.9, 0.04], [13.4, 0.04], [13.8, -0.15], [14.3, -0.15], [14.75, 0.1], [17, 0.12]]),
-  handF: K2([[0, 5, -84], [7.85, 5, -84], [8.05, 12, -122], [8.2, 13, -154], [9.35, 13, -154], [9.75, 10, -96], [14.25, 10, -96], [14.65, 22, -106], [17, 22, -106]]),
+  handF: K2([[0, 5, -84], [7.85, 5, -84], [8.05, 14, -128], [8.2, 19, -160], [9.35, 19, -160], [9.75, 10, -96], [14.25, 10, -96], [14.65, 22, -106], [17, 22, -106]]),
   handB: K2([[0, -4, -85], [9.4, -4, -85], [9.8, 9, -97], [14.3, 9, -97], [14.65, -3, -86], [17, -3, -86]]),
 };
 function miaBase(t) {
@@ -219,7 +225,7 @@ function drawMia(g, P, col) {
   }
   // skirt
   g.fillStyle = ink;
-  smooth(g, [[-11.5, -10], [11.5, -10], [14.5, 10], [19, 37], [8, 39.5], [-8, 39.5], [-19, 37], [-14.5, 10]].map(J.T)); g.fill();
+  smooth(g, [[-11, -10], [11, -10], [13, 10], [15.5, 36], [7, 38.5], [-7, 38.5], [-16, 36], [-13.5, 10]].map(J.T)); g.fill();
   // cardigan
   g.fillStyle = acc;
   smooth(g, [[-11, 5], [-12.2, -14], [-11, -38], [-7.5, -45.5], [-1, -48], [4.8, -47.5], [7.6, -43.5], [10.8, -35], [9.6, -24], [10.6, -10], [11.6, 5], [6, 7], [-2, 7.2]].map(J.T)); g.fill();
@@ -277,7 +283,7 @@ function drawBackground(g, t, cam, P, r) {
   LT(g, 0.04, cam, r);
   g.lineCap = 'round';
   for (const [x, y, l, w, k] of [[-760, -470, 560, 15, 0.25], [160, -560, 760, 11, 0.35], [620, -330, 420, 9, 0.55], [-300, -300, 330, 7, 0.6], [-1100, -380, 380, 10, 0.45]]) {
-    g.strokeStyle = rgba(mix(P.skyMid, P.hor, k), 0.55); g.lineWidth = w;
+    g.strokeStyle = rgba(mix(P.skyMid, P.hor, k), 0.32); g.lineWidth = w * 1.6;
     const dx = t * 5; g.beginPath(); g.moveTo(x + dx, y); g.lineTo(x + l + dx, y); g.stroke();
   }
   // birds
@@ -383,10 +389,10 @@ function drawNear(g, t, cam, P) {
     g.fillStyle = near; g.fillRect(wx + 38, wy, 4, f ? 108 : 190); g.fillRect(wx, wy + (f ? 50 : 88), 80, 4); g.fillRect(wx - 8, wy + (f ? 108 : 190), 96, 7);
   }
   // sign band with backlit letters
-  g.fillStyle = rgba(mix(P.near, P.ink, 0.45)); g.fillRect(470, -484, 600, 62);
-  g.save(); g.font = '600 34px "Josefin Sans"'; g.letterSpacing = '9px'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = rgba(mix(P.near, P.ink, 0.45)); g.fillRect(446, -482, 390, 58);
+  g.save(); g.font = '600 29px "Josefin Sans"'; g.letterSpacing = '8px'; g.textAlign = 'center'; g.textBaseline = 'middle';
   g.shadowColor = rgba(P.win, 0.9); g.shadowBlur = 18 * cam.z; g.fillStyle = rgba(mix(CREAM, P.win, 0.25));
-  g.fillText('ENGLISH SCHOOL', 775, -451); g.restore();
+  g.fillText('ENGLISH SCHOOL', 645, -451); g.restore();
   // classroom window
   g.fillStyle = rgba(P.win, 0.92); g.fillRect(700, -330, 240, 220);
   g.fillStyle = near; g.fillRect(776, -330, 5, 220); g.fillRect(858, -330, 5, 220); g.fillRect(700, -262, 240, 5); g.fillRect(690, -110, 260, 9);
@@ -413,7 +419,7 @@ function drawNear(g, t, cam, P) {
     g.globalCompositeOperation = 'lighter';
     const lg = g.createRadialGradient(540, -190, 20, 540, -190, 300); lg.addColorStop(0, rgba(P.win, 0.16 * o)); lg.addColorStop(1, rgba(P.win, 0));
     g.fillStyle = lg; g.fillRect(240, -490, 600, 600);
-    gr = g.createLinearGradient(0, 0, 0, 170); gr.addColorStop(0, rgba(P.win, 0.22 * o)); gr.addColorStop(1, rgba(P.win, 0));
+    gr = g.createLinearGradient(0, 0, 0, 170); gr.addColorStop(0, rgba(P.win, 0.12 * o)); gr.addColorStop(1, rgba(P.win, 0));
     g.fillStyle = gr; poly(g, [[458, 0], [622, 0], [740, 170], [340, 170]]); g.fill();
     g.globalCompositeOperation = 'source-over';
   }
@@ -438,8 +444,8 @@ function drawChar(t, cam, P, who, pose) {
   const head = proj(pose.x + dir * headL[0] * UNIT, pose.y + headL[1] * UNIT, 1, cam);
   const sun = proj(0, -150, 0.03, cam);
   let vx = sun[0] - head[0], vy = sun[1] - head[1]; const vl = Math.hypot(vx, vy) || 1; vx /= vl; vy /= vl;
-  const k = clamp(0.32 + 0.33 * lineOn(who, t) + 0.35 * speak(who, t));
-  const wpx = clamp(1.6 * cam.z, 2, 10);
+  const k = clamp(0.26 + 0.36 * lineOn(who, t) + 0.38 * speak(who, t));
+  const wpx = clamp(1.25 * cam.z, 2, 6.5);
   // halo behind the speaker
   const hk = 0.55 * lineOn(who, t) + 0.45 * speak(who, t);
   if (hk > 0.01) {
@@ -450,7 +456,7 @@ function drawChar(t, cam, P, who, pose) {
   }
   const place = (g, dx, dy) => { LT(g, 1, cam, 1, dx, dy); g.translate(pose.x, pose.y); g.scale(UNIT * dir, UNIT); };
   cg.setTransform(1, 0, 0, 1, 0, 0); cg.clearRect(0, 0, W, H);
-  const rc = rgba(mix(P.ink, P.rim, k));
+  const rc = rgba(mix(mix(P.ink, P.skyLow, 0.42), P.rim, clamp(0.45 * lineOn(who, t) + 0.55 * speak(who, t))));
   place(cg, 0, 0); draw(cg, pose, { ink: rc, acc: rc, mono: true });
   cg.globalCompositeOperation = 'source-atop';
   place(cg, -vx * wpx, -vy * wpx);
@@ -460,55 +466,53 @@ function drawChar(t, cam, P, who, pose) {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   if (who === 'mia' && t < 7.9) { ctx.save(); const cx = proj(600, 0, 1, cam)[0]; ctx.beginPath(); ctx.rect(0, 0, cx, H); ctx.clip(); ctx.drawImage(CL, 0, 0); ctx.restore(); }
   else ctx.drawImage(CL, 0, 0);
-  return head;
+  return proj(pose.x, pose.y, 1, cam);
 }
 
 // ---------------------------------------------------------------- type
 const SHADOW = g => { g.shadowColor = 'rgba(8,5,14,0.6)'; g.shadowBlur = 22; g.shadowOffsetY = 2; };
 let TEXTLIST = [];
-function englishLine(t, L, head, cam) {
+function englishLine(t, L, foot, cam) {
   const a = env(t, L.s0, L.s1, 0.28, 0.3); if (a <= 0.001) return;
   const g = ctx; g.setTransform(1, 0, 0, 1, 0, 0); g.save();
   const isMia = L.who === 'mia', acc = isMia ? LTEAL : LRED;
-  g.font = '96px "DM Serif Display"'; g.letterSpacing = '0px'; g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+  const off = cam.shot === 3 && isMia;           // speaker is off-screen (right)
+  g.font = '92px "DM Serif Display"'; g.letterSpacing = '0.5px'; g.textBaseline = 'alphabetic'; g.textAlign = 'left';
   const words = L.text.split(' '), ws = words.map(w => g.measureText(w).width), sp = g.measureText(' ').width * 1.05;
   const total = ws.reduce((p, q) => p + q, 0) + sp * (words.length - 1);
-  let cx = isMia ? head[0] + 150 : head[0] - 40;
-  if (cam.shot === 3 && isMia) cx = 1440;
-  cx = clamp(cx, total / 2 + 110, W - total / 2 - 110);
-  const rise = (1 - eo(seg(t, L.s0, L.s0 + 0.5))) * 16;
-  const by = 232 + rise, x0 = cx - total / 2;
+  let cx = off ? 1470 : foot[0];
+  cx = clamp(cx, total / 2 + 120, W - total / 2 - 120);
+  const rise = (1 - eo(seg(t, L.s0, L.s0 + 0.5))) * 14;
+  const by = 1002 + rise, x0 = cx - total / 2, ly = by - 104;
   g.globalAlpha = a;
-  // label
-  g.font = '600 26px "Josefin Sans"'; g.letterSpacing = '9px'; g.fillStyle = rgba(acc);
+  // label: dot + NAME + rule (+ arrow when the speaker is off-screen)
+  g.font = '600 25px "Josefin Sans"'; g.letterSpacing = '9px'; g.fillStyle = rgba(acc);
   SHADOW(g); const label = isMia ? 'MIA' : 'YOUSSEF';
-  g.beginPath(); g.arc(x0 + 6, by - 112, 6, 0, TAU); g.fill();
-  g.fillText(label, x0 + 24, by - 102);
-  const lw = g.measureText(label).width;
-  g.shadowColor = 'transparent'; g.fillStyle = rgba(acc, 0.55); g.fillRect(x0 + 34 + lw, by - 113, 56 * eo(seg(t, L.s0 + 0.1, L.s0 + 0.6)), 2);
-  // words (karaoke)
+  const dotX = x0 + 6;
+  g.beginPath(); g.arc(dotX, ly - 9, 6, 0, TAU); g.fill();
+  g.fillText(label, x0 + 24, ly);
+  const lw = g.measureText(label).width, rl = 56 * eo(seg(t, L.s0 + 0.1, L.s0 + 0.6));
+  g.shadowColor = 'transparent'; g.fillStyle = rgba(acc, 0.6); g.fillRect(x0 + 32 + lw, ly - 10, rl, 2);
+  if (off) { const ax = x0 + 32 + lw + rl; g.beginPath(); g.moveTo(ax + 2, ly - 16); g.lineTo(ax + 12, ly - 9); g.lineTo(ax + 2, ly - 2); g.fill(); }
+  // pointer: hairline from the dot up to the speaker's feet
+  if (!off && foot[1] < ly - 60) {
+    const pk = eo(seg(t, L.s0 + 0.1, L.s0 + 0.55));
+    const sx = dotX, sy = ly - 24, ex = foot[0], ey = foot[1] + 16;
+    g.strokeStyle = rgba(acc, 0.55); g.lineWidth = 2; g.beginPath(); g.moveTo(sx, sy); g.lineTo(lerp(sx, ex, pk), lerp(sy, ey, pk)); g.stroke();
+  }
+  // words: dim until spoken, accent underline under the active word
   const spans = TALK.filter(s => s[2] === L.who && s[0] >= L.t0 - 0.3 && s[0] <= L.t1 + 0.3);
-  g.font = '96px "DM Serif Display"'; g.letterSpacing = '0px';
+  g.font = '92px "DM Serif Display"'; g.letterSpacing = '0.5px';
   let x = x0;
   words.forEach((w, i) => {
     const s = spans[i];
-    const k = s ? lerp(0.45, 1, ss(seg(t, s[0] - 0.06, s[0] + 0.08))) : 1;
+    const k = s ? lerp(0.5, 1, ss(seg(t, s[0] - 0.06, s[0] + 0.08))) : 1;
     SHADOW(g); g.fillStyle = rgba(CREAM, k); g.fillText(w, x, by);
     if (s) { const act = env(t, s[0] - 0.04, s[1] + 0.22, 0.06, 0.25); if (act > 0) { g.shadowColor = 'transparent'; g.fillStyle = rgba(acc, act); g.fillRect(x + 2, by + 18, (ws[i] - 4) * eo(seg(t, s[0] - 0.04, s[1])), 3); } }
     x += ws[i] + sp;
   });
-  // pointer hairline to the speaker
-  const off = cam.shot === 3 && isMia;
-  const tx = off ? W - 24 : head[0], ty = off ? 380 : head[1] - 70 * cam.z / 2.2;
-  const sx = clamp(tx, x0 + 30, x0 + total - 30), sy = by + 40;
-  const ex = lerp(sx, tx, 0.82), ey = lerp(sy, ty, 0.82);
-  if (ey > sy + 10) {
-    const pk = eo(seg(t, L.s0 + 0.15, L.s0 + 0.6));
-    g.shadowColor = 'transparent'; g.strokeStyle = rgba(acc, 0.6); g.lineWidth = 2; g.beginPath(); g.moveTo(sx, sy); g.lineTo(lerp(sx, ex, pk), lerp(sy, ey, pk)); g.stroke();
-    g.fillStyle = rgba(acc, 0.8 * pk); g.beginPath(); g.arc(lerp(sx, ex, pk), lerp(sy, ey, pk), 3.5, 0, TAU); g.fill();
-  }
   g.restore();
-  TEXTLIST.push({ id: 'en_' + L.t0, text: L.text, x0, y0: by - 130, x1: x0 + total, y1: by + 24 });
+  TEXTLIST.push({ id: 'en_' + L.t0, text: L.text, x0, y0: ly - 30, x1: x0 + total, y1: by + 24 });
 }
 function arabic(t) {
   const g = ctx; g.setTransform(1, 0, 0, 1, 0, 0);
@@ -523,13 +527,14 @@ function arabic(t) {
 function chapter(t) {
   const a = env(t, 0.5, 4.4, 0.5, 0.6); if (a <= 0.001) return;
   const g = ctx; g.setTransform(1, 0, 0, 1, 0, 0); g.save(); g.globalAlpha = a; SHADOW(g);
-  g.font = '600 24px "Josefin Sans"'; g.letterSpacing = '10px'; g.textAlign = 'right'; g.fillStyle = rgba(CREAM, 0.92);
-  g.fillText('DAY 1  ·  LONDON', 1830, 128);
-  g.shadowColor = 'transparent'; g.fillStyle = rgba(LRED, 0.8); g.fillRect(1830 - 150 * eo(seg(t, 0.7, 1.6)), 146, 150 * eo(seg(t, 0.7, 1.6)), 2);
-  SHADOW(g); g.font = '500 32px "Reem Kufi"'; g.letterSpacing = '0px'; g.direction = 'rtl'; g.textAlign = 'left'; g.fillStyle = rgba(CREAM, 0.85);
-  g.fillText('يوميات يوسف', 1830, 196);
+  g.font = '600 24px "Josefin Sans"'; g.letterSpacing = '12px'; g.textAlign = 'center'; g.fillStyle = rgba(CREAM, 0.92);
+  g.fillText('DAY 1  ·  LONDON', 966, 112);
+  const rl = 90 * eo(seg(t, 0.7, 1.6));
+  g.shadowColor = 'transparent'; g.fillStyle = rgba(LRED, 0.8); g.fillRect(960 - rl, 132, rl * 2, 2);
+  SHADOW(g); g.font = '500 32px "Reem Kufi"'; g.letterSpacing = '0px'; g.direction = 'rtl'; g.fillStyle = rgba(CREAM, 0.85);
+  g.fillText('يوميات يوسف', 960, 182);
   g.restore();
-  TEXTLIST.push({ id: 'chapter', text: 'DAY 1 · LONDON يوميات يوسف', x0: 1500, y0: 100, x1: 1830, y1: 205 });
+  TEXTLIST.push({ id: 'chapter', text: 'DAY 1 · LONDON يوميات يوسف', x0: 760, y0: 85, x1: 1160, y1: 195 });
 }
 
 // ---------------------------------------------------------------- vignette
@@ -546,6 +551,7 @@ function render(t) {
   ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
   if (r === 0.25) { const m = MID.getContext('2d'); m.imageSmoothingQuality = 'high'; m.drawImage(bgc, 0, 0, W / 2, H / 2); ctx.drawImage(MID, 0, 0, W, H); }
   else if (r === 0.5) ctx.drawImage(bgc, 0, 0, W, H); else ctx.drawImage(bgc, 0, 0);
+  if (r < 1) { ctx.fillStyle = rgba(mix(P.haze, P.skyMid, 0.35), r === 0.5 ? 0.1 : 0.26); ctx.fillRect(0, 0, W, H); }
   drawNear(ctx, t, cam, P);
   const yp = youssefPose(t), mp = miaPose(t);
   const heads = {};
@@ -554,7 +560,7 @@ function render(t) {
   drawLeaves(ctx, t, cam, P);
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(VIG, 0, 0);
   chapter(t); arabic(t);
-  for (const L of LINES) englishLine(t, L, heads[L.who] || [1700, 400], cam);
+  for (const L of LINES) englishLine(t, L, heads[L.who] || [1700, 700], cam);
   // fades
   const f = Math.max(1 - seg(t, 0, 0.5), seg(t, 16.5, 17));
   if (f > 0) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = `rgba(10,6,16,${f})`; ctx.fillRect(0, 0, W, H); }

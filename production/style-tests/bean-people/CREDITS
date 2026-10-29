@@ -1,0 +1,16 @@
+"First day" — Bean People (ناس الفول) style test (17 s)
+
+Picture: drawn entirely in code (Canvas 2D): bean.js (characters, suitcase), world.js (street), main.js (timing,
+camera, captions). Original designs for this project; no third-party images. Render/mux tooling from the
+Lemo-Opuscar library (core/render, core/lib.js easing helpers); mux_local.sh is a copy of core/render/mux.sh with
+the decoded-length check relaxed.
+
+Voice: ../audio/test_audio.wav, supplied by the production (unchanged; loudness-normalised to -14 LUFS on mux).
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/ via the series font kit fonts.css):
+- Fredoka — Milena Brandão — github.com/google/fonts/tree/main/ofl/fredoka (English dialogue)
+- Lilita One — Juan Montoreano — github.com/google/fonts/tree/main/ofl/lilitaone (sign, name tabs, chip)
+- Baloo Bhaijaan 2 — Ek Type — github.com/google/fonts/tree/main/ofl/baloobhaijaan2 (Arabic captions)
+- Lalezar — Borna Izadpanah — loaded by fonts.css, not drawn in this clip
+
+No music or sound effects.

@@ -183,14 +183,14 @@ function mia(t) {
 
 // ---------------- UI: bubbles, subtitles ----------------
 const LINES = [
-  { who: 'mia', t0: 7.92, t1: 9.95, words: [['Hi!', 8.2], ["I'm", 8.7], ['Mia.', 8.8]] },
+  { who: 'mia', t0: 7.92, t1: 10.15, words: [['Hi!', 8.2], ["I'm", 8.7], ['Mia.', 8.8]] },
   { who: 'youssef', t0: 9.85, t1: 14.25, words: [['Hello!', 10.1], ['I...', 11.4], ['I', 12.5], ['Youssef.', 12.8]] },
-  { who: 'mia', t0: 14.85, t1: 16.45, words: [['Sorry?', 15.05]] },
+  { who: 'mia', t0: 14.85, t1: 16.7, words: [['Sorry?', 15.05]] },
 ];
 const SUBS = [
   { t0: 0.3, t1: 2.2, text: 'أول يوم ليّا في لندن…' },
   { t0: 2.25, t1: 5.35, text: 'وكنت فاكر إن الإنجليزي بتاعي كويس.' },
-  { t0: 5.4, t1: 7.75, text: 'لحد ما قابلت ميا.' },
+  { t0: 5.4, t1: 7.9, text: 'لحد ما قابلت ميا.' },
 ];
 const BFONT = '600 60px Fredoka';
 let texts = [];
@@ -313,9 +313,9 @@ function dayChip(t) {
   c.letterSpacing = '0px'; c.globalAlpha = 1;
 }
 function questionMark(t, p) {
-  const k = back(seg(t, 14.42, 14.7), 2.6) * (1 - ss(seg(t, 16.2, 16.5)));
+  const k = back(seg(t, 14.42, 14.7), 2.6) * (1 - ss(seg(t, 15.2, 15.38)));
   if (k <= 0) return;
-  const [sx, sy] = toScreen(p.x + 40, p.gy - MIA.H - 70);
+  const [sx, sy] = toScreen(p.x - 62, p.gy - MIA.H - 34);
   c.save(); c.translate(sx, sy); c.rotate(0.18 + 0.05 * Math.sin(t * 5)); c.scale(k * CAMV[2] / 1.8, k * CAMV[2] / 1.8);
   c.font = '400 92px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle';
   c.fillStyle = INKA(0.16); c.fillText('?', 0, 8);
@@ -364,7 +364,7 @@ function render(t) {
   const headY = toScreen(py.x - 10, py.gy - YOUSSEF.H - 20), headM = toScreen(pm.x + 10, pm.gy - MIA.H - 20);
   bubble(t, LINES[0], headM, 1);
   bubble(t, LINES[1], headY, -1);
-  bubble(t, LINES[2], toScreen(pm.x - 20, pm.gy - MIA.H * 0.75), 1);
+  bubble(t, LINES[2], headM, 1);
   thought(t, toScreen(py.x - 40, py.gy - YOUSSEF.H * 0.98));
   subtitles(t);
   dayChip(t);
