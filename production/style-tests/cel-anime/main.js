@@ -117,7 +117,7 @@ S.track = (t, lt) => {
   const blink = blinkAt(lt, [.95]);
   const look = lt < 1.2 ? [.25, -.65] : [.4, 0];
   const expr = lt < 1.25 ? 'excited' : 'nervous';
-  walkWithCase(lt, 900, PL.TRACK.gy + 150, .38, { expr, look, blink, tilt: lt < 1.2 ? -.08 : 0 });
+  walkWithCase(lt, 860, PL.TRACK.gy + 150, .45, { expr, look, blink, tilt: lt < 1.2 ? -.08 : 0 });
   // foreground posts on ones, smeared
   const fx = -lt * v * 1.8 + 300;
   L.drawImage(A.foreB, fx, 0);
@@ -177,7 +177,7 @@ function twoPoses(t) {
   else if (t < 14.1) { expr = 'smile'; look = [.25, 0]; }
   else { expr = 'gulp'; look = [.3, 0]; }
   const yous = { who: 'y', P: PY, legs: { n: [.03, .04], f: [-.04, .05] },
-    arms: { n: [lerp(-.1, 2.6, scratch), lerp(.15, 2.2, scratch), 'fist'], f: [lerp(.12, 1.25, hello), lerp(.2, 1.35, hello), hello > .5 ? 'open' : 'rest'] },
+    arms: { n: [lerp(-.1, -2.35, scratch), lerp(.15, -2.08, scratch), 'fist'], f: [lerp(.12, 1.25, hello), lerp(.2, 1.35, hello), hello > .5 ? 'open' : 'rest'] },
     nearOver: scratch > .5, tilt: lean + (scratch > .5 ? .06 : 0),
     headO: { expr, look, mouth: mouthAt('youssef', t, expr === 'smileopen' ? 'smileopen' : undefined), open: blinkAt(t, [8.6, 11.9]) ? 0 : undefined, sweat: t > 12.3 && t < 13.6 ? .2 : (t > 14.1 ? .35 : null) } };
   return { mia, yous };
@@ -196,11 +196,11 @@ S.two = (t, lt) => {
 
 // 5 — Mia, medium close-up: "Sorry?"
 S.mia = (t, lt) => {
-  plateDraw(A.doorBlur, -900, -420, 1.5);
+  plateDraw(A.doorBlur, -1500, -560, 1.5);
   const tq = q12(t), tilt = -.12 - .08 * eo(seg(tq, 14.45, 14.8));
   const D = { who: 'm', P: PM, mirror: true, legs: { n: [0, 0], f: [0, 0] }, arms: { n: [-.05, .2, 'rest'], f: [.1, .3, 'rest'] }, tilt,
     headO: { expr: 'puzzled', mouth: mouthAt('mia', t, 'oh'), open: blinkAt(t, [14.62]) ? 0 : undefined, look: [.2, .05], ph: tq * .5 } };
-  fig(L, 1150, 3550, 2.35, D);
+  fig(L, 1180, 3190, 2.35, D);
 };
 
 // 6 — Youssef close-up: the embarrassed freeze (impact frame first)
@@ -221,7 +221,6 @@ S.cu = (t, lt) => {
     headO: { expr: 'shock', blush: .6, sweat: .1 + .9 * eo(seg(tq, 15.75, 16.6)), sweatSize: 1.7 } };
   if (impact) { D.P = silhouette(PY); }
   fig(L, 840 + jit, 3900, 2.75, D);
-  if (!impact) gloom(L, 840 + jit, 3900, 2.75);
 };
 // vertical gloom lines on the forehead (comedic blue lines), drawn in head space of the CU
 function gloom(ctx, x, y, k) {

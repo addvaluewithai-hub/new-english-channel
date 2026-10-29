@@ -135,7 +135,7 @@ export const CHAR = {
     halo: [-6, -14, 70, 60, Math.PI * 1.12, Math.PI * 1.85, 7, 8],
     mouth: { x: 24, y: 77, w: 24, fs: .7 },
     nose: P => g => { g.fillStyle = P.skin.s; g.beginPath(); g.moveTo(42, 40); g.lineTo(47, 52); g.lineTo(39, 56); g.lineTo(39, 49); g.closePath(); g.fill(); line(g, [[37, 56.5], [46, 53]], P.skin.l, LS); },
-    blush: [[-30, 50, 15, 5], [44, 48, 6, 3.5]],
+    blush: [[-30, 50, 15, 5], [50, 46, 4, 3]],
   },
   m: {
     face: FACE_M, iris: 1, lid: .19, flick: 1, lashes: 3, browTh: 1.4,
