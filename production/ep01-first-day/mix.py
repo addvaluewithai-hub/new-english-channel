@@ -112,7 +112,8 @@ block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, 
 sting(BT['pause_end'] + .2, (72, 76, 79, 84), .45)                                  # praise
 block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.85, fade_out=1.0)                # theme out
 for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .4), DUR - 2.4 + dt, 1, 0)
-mus *= (1 - .7 * speech)[:, None]
+MUSIC = .32          # music under the voices (the owner asked for it quiet)
+mus *= (1 - .8 * speech)[:, None]
 
 # ---------------- foley (from the page's events) ----------------
 fx = np.zeros((N, 2))
@@ -242,12 +243,12 @@ street(rt[0] - .5, dy[1] + .3, .6)
 street(by[0] - .3, by[1] + .3, .9)
 room = lp(brown(DUR + 1), 300)[:N] * .01; amb += room[:, None]
 
-mix = vox + mus * .5 + fx * .9 + amb
+mix = vox + mus * MUSIC + fx * .9 + amb
 if os.environ.get('STEMS'):   # level check: rms per section of each stem
     for s_ in T['sections']:
         a, b = int(s_['t0'] * SR), int(s_['t1'] * SR)
         db = lambda x: round(20 * np.log10(np.sqrt(np.mean(x[a:b] ** 2)) + 1e-9), 1)
-        print(f"{s_['id']:7s} vox {db(vox)} mus {db(mus * .5)} fx {db(fx * .9)} amb {db(amb)}")
+        print(f"{s_['id']:7s} vox {db(vox)} mus {db(mus * MUSIC)} fx {db(fx * .9)} amb {db(amb)}")
 mix = np.stack([limit(mix[:, c], .6) for c in range(2)], 1)
 mix = norm(mix, .89)[:int(DUR * SR)]
 os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
