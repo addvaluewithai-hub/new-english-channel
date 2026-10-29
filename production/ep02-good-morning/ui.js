@@ -266,3 +266,60 @@ export function timeTag(c, x, y, txt, s = 1) {
   const w = c.measureText(txt).width + 44; rr(c, -w / 2, -36, w, 72, 36); c.fillStyle = P.ink; c.fill();
   c.fillStyle = P.mustard; c.fillText(txt, 0, 3); c.restore();
 }
+
+// ---------------- episode 2 icons: time of day (sun / low sun / moon), a small waving hand, a "?" pop ----------------
+export function sunIcon(c, x, y, r, col = P.mustard, t = 0) {
+  c.save(); c.translate(x, y); c.rotate(t * .3);
+  c.strokeStyle = col; c.lineWidth = r * .18; c.lineCap = 'round';
+  for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; c.beginPath(); c.moveTo(Math.cos(a) * r * 1.25, Math.sin(a) * r * 1.25); c.lineTo(Math.cos(a) * r * 1.65, Math.sin(a) * r * 1.65); c.stroke(); }
+  ell(c, 0, 0, r, r); c.fillStyle = col; c.fill();
+  ell(c, -r * .3, -r * .3, r * .3, r * .22, -.6); c.fillStyle = rgba('#FFFBF0', .55); c.fill();
+  c.restore();
+}
+// afternoon: a low sun on a horizon line
+export function afternoonIcon(c, x, y, r, col = P.mustard) {
+  c.save(); c.translate(x, y);
+  c.beginPath(); c.rect(-r * 2, -r * 2, r * 4, r * 2.1); c.clip();
+  c.strokeStyle = col; c.lineWidth = r * .18; c.lineCap = 'round';
+  for (let i = 0; i < 7; i++) { const a = Math.PI + i / 6 * Math.PI; c.beginPath(); c.moveTo(Math.cos(a) * r * 1.25, Math.sin(a) * r * 1.25); c.lineTo(Math.cos(a) * r * 1.65, Math.sin(a) * r * 1.65); c.stroke(); }
+  ell(c, 0, 0, r, r); c.fillStyle = mix(col, P.red, .25); c.fill();
+  c.restore();
+  c.save(); c.translate(x, y); c.strokeStyle = P.navy; c.lineWidth = r * .18; c.lineCap = 'round'; c.beginPath(); c.moveTo(-r * 1.9, r * .25); c.lineTo(r * 1.9, r * .25); c.stroke(); c.restore();
+}
+export function moonIcon(c, x, y, r, col = P.navy) {
+  c.save(); c.translate(x, y);
+  c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2); c.fillStyle = col; c.fill();
+  c.beginPath(); c.arc(r * .45, -r * .3, r * .82, 0, Math.PI * 2); c.fillStyle = '#FBF1E1'; c.fill();
+  c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2); c.clip(); c.beginPath(); c.arc(r * .45, -r * .3, r * .82, 0, Math.PI * 2); c.fillStyle = '#FBF1E1'; c.fill();
+  c.restore();
+  c.save(); c.translate(x, y); c.fillStyle = P.mustard; for (const [sx, sy, s] of [[r * 1.3, -r * .9, r * .22], [r * 1.0, r * .9, r * .16]]) sparkle(c, sx, sy, s, P.mustard, .4); c.restore();
+}
+// a little waving hand (goodbye)
+export function waveHand(c, x, y, r, skin = '#B9773F', t = 0) {
+  c.save(); c.translate(x, y); c.rotate(Math.sin(t * 6) * .25);
+  c.fillStyle = skin; c.strokeStyle = P.ink; c.lineWidth = r * .14; c.lineJoin = 'round';
+  c.beginPath(); c.roundRect(-r * .55, -r * .2, r * 1.1, r * 1.1, r * .3); c.fill(); c.stroke();
+  for (let i = 0; i < 4; i++) { c.beginPath(); c.roundRect(-r * .55 + i * r * .29, -r * .95 + (i === 0 || i === 3 ? r * .2 : 0), r * .24, r * .9, r * .12); c.fill(); c.stroke(); }
+  c.beginPath(); c.roundRect(-r * .95, -r * .1, r * .45, r * .6, r * .2); c.fill(); c.stroke();
+  c.restore();
+}
+// a big popping mark ("?" / "!") with a drop shadow, k = 0..1 entrance, rot wobble
+export function bigMark(c, x, y, ch, size, k = 1, rot = 0, col = P.mustard) {
+  if (k <= 0) return;
+  c.save(); c.translate(x, y); c.rotate(rot); const s = back(clamp(k), 2.4); c.scale(s, s);
+  c.font = `700 ${size}px "Fredoka"`; c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillStyle = rgba('#1E1B33', .25); c.fillText(ch, size * .04, size * .05); c.fillStyle = col; c.fillText(ch, 0, 0);
+  c.restore();
+}
+// a thin "z" trail rising from a sleeper's head (n letters, cycling over per seconds)
+export function zzz(c, x, y, t, a = 1, scale = 1, col = P.ink) {
+  if (a <= 0) return;
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0);
+  for (let i = 0; i < 3; i++) {
+    const u = ((t * .55 + i * .33) % 1), s = (28 + i * 10) * scale;
+    c.globalAlpha = a * Math.sin(Math.PI * u) * .9;
+    c.font = `600 ${s}px "Fredoka"`; c.fillStyle = col; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.save(); c.translate(x + (30 + i * 26) * scale + Math.sin(u * 4 + i) * 10 * scale, y - (20 + i * 26) * scale - u * 70 * scale); c.rotate(-.2 + Math.sin(u * 3) * .15); c.fillText('z', 0, 0); c.restore();
+  }
+  c.restore();
+}

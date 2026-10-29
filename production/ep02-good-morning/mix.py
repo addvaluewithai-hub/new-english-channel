@@ -172,6 +172,21 @@ def confetti(d=1.2):
     return x + bp(noise(d), 3000, 9000) * env_exp(d, .4) * .15
 def chime2(): return over(glock(84, .5, .5), (glock(88, .7, .5), .12))
 
+def yawn_(d=1.2):
+    tt = t_(d); f = 260 * (1 + .25 * np.sin(np.pi * tt / d)) * (1 - .3 * tt / d)
+    x = lp(np.sign(np.sin(2 * np.pi * np.cumsum(f) / SR)) * .3 + bp(noise(d), 300, 1200) * .5, 1500)
+    return x * np.sin(np.pi * tt / d) ** 1.3 * .5
+def slurp(d=.45):
+    tt = t_(d); f = 1800 - 900 * tt / d
+    return (bp(noise(d), 800, 4000) * (.5 + .5 * np.sin(2 * np.pi * 22 * tt)) * .6 + np.sin(2 * np.pi * np.cumsum(f) / SR) * .15) * np.sin(np.pi * tt / d) ** .7
+def paper_(d=.35):
+    tt = t_(d); return hp(noise(d), 2500) * (rng.random(len(tt)) > .7) * np.sin(np.pi * tt / d) * .6
+def stars_(d=1.0):
+    x = np.zeros(int(d * SR))
+    for i, m in enumerate([84, 88, 91, 96]):
+        g = glock(m, .8, .3); a = int(i * .11 * SR); x[a:a + len(g)] += g[:len(x) - a]
+    return x
+
 H = {   # event type -> (sound, gain, pan)
     'door':      lambda e: (norm(over(creak(), (creak() * .7, .2))), .4, .15),
     'door_close':lambda e: (thump(1, 90), .45, .15),
@@ -203,6 +218,11 @@ H = {   # event type -> (sound, gain, pan)
     'blink':     lambda e: (np.zeros(10), 0, 0),
     'sparkle':   lambda e: (ding() * .5, .15, .2),
     'bird':      lambda e: (chirp(), .2, .5),
+    'yawn':      lambda e: (yawn_(min(1.6, e.get('dur', 1.2))), .22, -.1),
+    'laugh':     lambda e: (np.zeros(10), 0, 0),              # the laugh is in Mia's voice
+    'sip':       lambda e: (slurp(), .3, -.1),
+    'paper':     lambda e: (paper_(), .3, 0),
+    'stars':     lambda e: (stars_(e.get('dur', 1.0)), .2, .1),
     'suitcase_roll': lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'thought':   lambda e: (over(pop() * .6, (pop() * .4, .06)), .2, -.2),
     'cut_in':    lambda e: (whoosh(.25), .18, 0),
@@ -221,7 +241,7 @@ H = {   # event type -> (sound, gain, pan)
     'click':     lambda e: (tick(), .3, .2),
     'bell':      lambda e: (ding(), .2, .2),
 }
-MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon'}   # covered by the score
+MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon', 'ambience_hall'}   # covered by the score
 unknown = {}
 for e in EV:
     k = e['type']
@@ -245,6 +265,7 @@ def street(a, b, lvl=1.0):
 street(rn[0] - .3, rn[1] + .4)                 # outside only while he runs
 street(dr[0] - .3, by[1] + .3, .5)            # the door scenes
 room = lp(brown(DUR + 1), 300)[:N] * .01; amb += room[:, None]
+hall = bp(noise(hl[1] - hl[0] + 1.5), 150, 900) * .012; add(amb, hall * np.minimum(1, np.minimum(t_(len(hall) / SR) / .8, (len(hall) / SR - t_(len(hall) / SR)) / .8)), hl[0] - .5, 1, 0)   # the hallway: a bigger, duller room
 
 mix = vox + mus * MUSIC + fx * .9 + amb
 if os.environ.get('STEMS'):   # level check: rms per section of each stem

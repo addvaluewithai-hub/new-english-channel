@@ -1,12 +1,13 @@
-// Episode 1 — story scenes in the Bean People world: open, street, door (mistake + freeze), retry, day montage, bye.
-// Every time below is derived from timeline.json (sections, beats, lines, narration words); offsets are acting/animation only.
+// Episode 2 — story scenes: open (the bedroom), run (the street), hall + coffee (the school hallway), door + bye (the
+// school door, afternoon). Every time below is derived from timeline.json (sections, beats, lines, narration words);
+// offsets are acting/animation only.
 import { P, rgba, mix } from './kit.js';
-import { CAST, drawChar, drawSuitcase } from './bean.js';
-import { drawWorld, drawForeground, toScreen, GROUND, DOOR } from './world.js';
-import { clamp, lerp, seg, ss, eio, eo, back } from '/core/lib.js';
+import { CAST, drawChar, drawSuitcase, drawCup, drawTray, drawBag, drawForm, drawHand, handPos } from './bean.js';
+import { drawWorld, drawBedroom, drawHall, blanket, layerT, toScreen, GROUND, DOOR, BED, BEDCLOCK } from './world.js';
+import { clamp, lerp, seg, ss, eio, eo, back, hash } from '/core/lib.js';
 import { SEC, BEAT, NARR, LINES, nwT, has } from './tl.js';
 import { fold, F, moveAt, hop, liveFace, springAt, EXPR, ARM, pose, PULL, CUP, POINT, CLAP } from './act.js';
-import { lineBubble, thought, smiley, alarmClock, timeTag, sparkle, wordStates, bubble } from './ui.js';
+import { lineBubble, thought, sunIcon, alarmClock, timeTag, sparkle, bigMark, zzz, bubble, wordStates } from './ui.js';
 import { cue } from './cues.js';
 
 const H = { youssef: 300, mia: 276 };
@@ -48,15 +49,17 @@ function charState(C, t) {
   const hp = hop(m, H[C.id], C.hopAmp ?? 1);
   const k = fold(C.keys, t, C.base);
   const j = jumpsAt(C.jumps || [], t, H[C.id]);
+  const pant = k.pant ? 1 + .022 * k.pant * Math.sin(t * Math.PI * 2 * 2.6) : 1;
   return {
-    ...k, x: m.x, y: m.y || GROUND, k: m.k * (k.kmul ?? 1), lift: hp.lift + j.lift + (k.lift || 0), sq: hp.sq * j.sq * (k.sq ?? 1),
+    ...k, x: m.x, y: m.y || GROUND, k: m.k * (k.kmul ?? 1), lift: hp.lift + j.lift + (k.lift || 0), sq: hp.sq * j.sq * (k.sq ?? 1) * pant,
     lean: (k.lean || 0) + hp.lean + trem(t, k.trem || 0), footL: hp.footL, footR: hp.footR, phase: m.phase, walking: m.walking, dir: m.dir,
     wave: t * 1.9,
   };
 }
 const springFor = C => tt => { const s = charState(C, tt); return { lift: s.lift, lean: s.lean, x: s.x }; };
 
-// draw one character (and its suitcase) with a camera
+// draw one character (and its suitcase) with a camera. extra.behind(hands, k) / extra.front(hands, k) draw held props
+// (hands: [[x, y, far], [x, y, far]] for the left and right hand in screen px; k = the screen scale of the character)
 function drawActor(c, cam, C, t, extra = {}) {
   const st = charState(C, t);
   if ((st.alpha ?? 1) <= 0) return st;
@@ -64,13 +67,16 @@ function drawActor(c, cam, C, t, extra = {}) {
   const face = extra.frozenFace || liveFace(C.id, t, st.face, { blinks: C.blinks, extra: C.talkExtra });
   const p = pose({ ...st, x, y, k: st.k * Z, face, pony: C.id === 'mia' ? (extra.pony ?? springAt(springFor(C), t)) : 0,
     quiff: C.id === 'youssef' ? (extra.quiff ?? springAt(springFor(C), t, .25)) : 0, breathe: Math.sin(t * Math.PI * 2 / 3.2 + (C.id === 'mia' ? 1 : 0)) });
+  const hands = (extra.behind || extra.front) ? handPos(CAST[C.id], p) : null;
   c.save();
   if (st.alpha < 1) c.globalAlpha = st.alpha;
   if (st.clip) doorClip(c, cam, extra.door ?? 1);
+  if (extra.behind) extra.behind(hands, p.k);
   if (C.case) drawCase(c, cam, C, t, st);
   drawChar(c, CAST[C.id], p);
+  if (extra.front) extra.front(hands, p.k);
   c.restore();
-  return { ...st, sx: x, sy: y, Z };
+  return { ...st, sx: x, sy: y, Z, hands, ks: p.k };
 }
 // clip to the open part of the doorway (screen space); open = door amount
 function doorClip(c, cam, open) {
@@ -87,187 +93,279 @@ function drawCase(c, cam, C, t, st) {
   drawSuitcase(c, x, y, lag.k * Z, 300, { handle: .35, tilt });
 }
 const head = (st, id, f = 1.08) => st && st.sx != null ? [st.sx, st.sy - H[id] * st.k * st.Z * f] : null;
+// held props (drawn at a hand, then the hand again over them)
+const hand = (c, id, h, k) => drawHand(c, CAST[id], h[0], h[1], H[id] * k);
+const cupIn = (c, id, h, k, t, steam = 1) => { drawCup(c, h[0], h[1] - .02 * 300 * k, k, { steam, t }); hand(c, id, h, k); };
+const trayIn = (c, id, h, k, t, n, side = -1) => { drawTray(c, h[0] + side * (n > 1 ? .09 : .02) * 300 * k, h[1] - .01 * 300 * k, k, n, { steam: .8, t }); hand(c, id, h, k); };
+const bagIn = (c, id, h, k) => { drawBag(c, h[0], h[1], k); };
+const formIn = (c, id, h, k, side = -1, rot = -.12) => { drawForm(c, h[0] + side * .07 * 300 * k, h[1] - .06 * 300 * k, .24 * 300 * k, .3 * 300 * k, { rot: rot * side * -1, age: .3 }); hand(c, id, h, k); };
 
 // ======================================================================================================================
 export function buildStory() {
-  const o = SEC('open'), st = SEC('street'), dr = SEC('door'), rt = SEC('retry'), dy = SEC('day'), by = SEC('bye');
-  const D = LINES('door'), R = LINES('retry'), Y = LINES('bye');
-  const n1 = NARR('ar01'), n2 = NARR('ar02'), n3 = NARR('ar03'), n4 = NARR('ar04'), n5 = NARR('ar05'), n8 = NARR('ar08');
-  const bSeen = BEAT('school_seen', st.t0 + 7), bDoor = BEAT('door_open', dr.t0 - .8), bSorry = BEAT('sorry'), bFreeze = BEAT('freeze'),
-    bUn = BEAT('unfreeze', rt.t0), bIn = BEAT('come_in'), bEight = BEAT('eight');
-  const tLondon = nwT('ar01', has('لندن'), .95), tGood = nwT('ar02', has('كويس'), .65), tMia = nwT('ar02', has('قابلت'), .9);
-  const tConf = nwT('ar03', has('بثقة'), .75), tSmile = nwT('ar03', has('ابتسامة'), .9);
+  const op = SEC('open'), rn = SEC('run'), hl = SEC('hall'), cf = SEC('coffee'), dr = SEC('door'), by = SEC('bye'), rc = SEC('recap');
+  const HL = LINES('hall'), CF = LINES('coffee'), DR = LINES('door'), BY = LINES('bye');
+  const n1 = NARR('ar01'), n2 = NARR('ar02'), n3 = NARR('ar03'), n4 = NARR('ar04'), n5 = NARR('ar05'), n6 = NARR('ar06'), n7 = NARR('ar07');
+  const bWake = BEAT('wake', 1.2), bTitle = BEAT('title', op.t1 - 3), bMia = BEAT('mia_enters', hl.t0), bYawn = BEAT('yawn', hl.t0 + 4), bLaugh = BEAT('laugh', hl.t0 + 9),
+    bSip = BEAT('sip', cf.t0 + 11), bWelcome = BEAT('welcome', dr.t0 + 2.6), bForm = BEAT('form', by.t0 + 1.1), bNight = BEAT('good_night', by.t0 + 8.8), bAge = BEAT('age_box', by.t1 - 3);
   const tok = (L, i) => L.tok[Math.min(i, L.tok.length - 1)];
-  const D0 = D[0], D1 = D[1], D2 = D[2];
-  const pause0 = n1.t1 - 1.05, pause1 = n1.t1 + .8;
+  S = { op, rn, hl, cf, dr, by, HL, CF, DR, BY, n1, n2, n3, n4, n5, n6, n7, bWake, bTitle, bMia, bYawn, bLaugh, bSip, bWelcome, bForm, bNight, bAge };
 
-  // ---------------- Youssef: open → retry ----------------
-  const happyWalk = F('happy', { mo: .03, mw: .1, happy: .25, lx: .5, ly: -.15 });
-  const yA = { id: 'youssef', case: true, base: { turn: .5, face: happyWalk, armL: PULL, armR: ARM.rest, kmul: 1 }, blinks: [], jumps: [],
-    moves: [
-      { t0: .2, t1: pause0, x0: -2150, x1: -1150 },
-      { t0: pause1, t1: bSeen - .1, x0: -1150, x1: 930 },
-      { t0: bSeen + 1.9, t1: bDoor - .2, x0: 930, x1: 1310 },
-    ], keys: [] };
-  yA.moves.forEach(m => { m.k0 = m.k1 = .9; });
-  const K = yA.keys, J = yA.jumps, BL = yA.blinks;
-  // "…أول يوم ليّا في لندن": stops, looks up at the skyline, delighted
-  K.push({ t: pause0 - .1, turn: .2, d: .35 }, { t: tLondon - .45, face: F('joy', { lx: -.35, ly: -.6 }), d: .25 },
-    { t: tLondon - .5, armR: { dx: .12, dy: .06, bend: .1, w: 0 }, d: .15 }, { t: tLondon - .3, armR: ARM.up, d: .22 },
-    { t: pause1 - .45, armR: ARM.rest, face: happyWalk, d: .3 }, { t: pause1 - .2, turn: .5, d: .3 });
-  J.push({ t: tLondon - .25, h: .07, d: .4 }); BL.push(tLondon - .45, pause1 - .45);
-  // "…الإنجليزي بتاعي كويس" proud; "لحد ما قابلت ميا" a worried glance at us
-  K.push({ t: tGood - .1, face: F('happy', { bLy: .9, bRy: .9, happy: .5, mw: .12, mo: .04, lx: .45, ly: -.25 }), d: .3 },
-    { t: tMia - .15, face: F('worried', { lx: -.45, ly: .1, bLr: .45, bRr: .45 }), turn: .3, d: .25 },
-    { t: n2.t1 + .5, face: happyWalk, turn: .5, d: .4 });
-  BL.push(tMia - .15);
-  // street: rehearsing "Hello!" — confident, then the big smile
-  K.push({ t: tConf - .1, face: F('happy', { bLy: .8, bRy: .8, happy: .3, mw: .11, mo: .03, ms: .9, lx: .5, ly: -.3 }), d: .3 },
-    { t: tSmile - .05, face: F('joy', { mw: .15, mo: .075, lx: .4 }), d: .2 }, { t: n3.t1 + .6, face: happyWalk, d: .3 });
-  // the school: stops, looks up at the sign (surprise → delight), then walks to the door, getting nervous
-  K.push({ t: bSeen - .15, turn: .25, face: F('surprised', { lx: .45, ly: -.8 }), d: .2 }, { t: bSeen + .6, face: F('happy', { lx: .4, ly: -.7, happy: .5, mo: .05, mw: .12 }), d: .3 },
-    { t: bSeen + 1.7, turn: .5, face: F('happy', { happy: .2, bLr: .3, bRr: .3, mo: .02, lx: .5 }), d: .3 });
-  J.push({ t: bSeen + .55, h: .06, d: .38 }); BL.push(bSeen - .15, bSeen + 1.7);
-  // the door opens: a gulp, then a brave smile toward Mia
-  K.push({ t: bDoor + .05, turn: .4, face: F('surprised', { lx: .6, ly: -.1, sweat: .2 }), d: .15 }, { t: bDoor + .7, face: F('nervous', { mt: .5, mo: .03, lx: .55, sweat: .3 }), d: .25 },
-    { t: D0.t0 - .1, face: F('happy', { happy: .3, mo: .03, mw: .1, lx: .55, ly: -.1, sweat: .15 }), d: .3 });
-  BL.push(bDoor + .05);
-  // "Hello! I… I Youssef."
-  const tHello = tok(D1, 0).t0, tI1 = tok(D1, 1).t0, tI2 = tok(D1, 2).t0, tYou = tok(D1, 3).t0;
-  K.push({ t: tHello - .32, armR: { dx: .12, dy: .05, bend: .1, w: 0 }, face: F('happy', { lx: .55, happy: .4 }), d: .15 }, { t: tHello - .12, armR: ARM.wave, d: .2 },
-    { t: tI1 - .1, armR: { dx: -.1, dy: .1, bend: -.2, w: 0 }, face: F('nervous', { lx: .2, ly: .25, sweat: .5 }), trem: .006, d: .2 },
-    { t: tI2 - .1, face: F('happy', { bLy: .7, bRy: .7, happy: .15, mw: .1, ms: .7, lx: .55 }), trem: 0, lean: -.02, armR: ARM.rest, d: .25 },
-    { t: D1.t1 + .1, face: F('happy', { bLy: .75, bRy: .75, happy: .2, mw: .11, ms: .9, lx: .55 }), lean: 0, d: .3 });
-  J.push({ t: tHello - .05, h: .05, d: .34 }); BL.push(tI1 - .1, tI2 - .1);
-  // "Sorry?" — the smile sticks; then the deliberate freeze pop: embarrassed + scratch head
-  K.push({ t: bSorry + .05, face: F('happy', { bLy: 1, bRy: 1, happy: .1, mw: .1, ms: .5, lx: .5, ly: -.1 }), d: .2 },
-    { t: bFreeze, face: { ...EXPR.embarrassed }, armR: ARM.scratch, lean: -.025, turn: .1, d: .01 });
-  // unfreeze → retry
-  const R0 = R[0], R1 = R[1], R2 = R[2], R3 = R[3], R4 = R[4] || R[R.length - 1];
-  K.push({ t: bUn, face: F('nervous', { mt: .3, mo: .02, ms: .4, lx: .55, sweat: .3, blush: .7 }), armR: ARM.rest, lean: 0, turn: .4, d: .25 },
-    { t: R0.t0 + .3, face: F('happy', { happy: .1, lx: .55, ly: -.05, bLy: .5, bRy: .5, mo: 0, ms: .4, sweat: .1 }), lean: .015, d: .4 },
-    { t: R1.t0 - .25, armR: ARM.chest, face: F('talk', { bLy: .55, bRy: .55, lx: .5, mo: 0, ms: .6, blush: .5 }), d: .3 },
-    { t: R1.t1 - .25, face: F('happy', { happy: .45, lx: .55 }), d: .25 },
-    { t: R2.t0 + .1, face: F('joy', { lx: .55 }), armR: ARM.rest, lean: 0, d: .2 },
-    { t: R3.t0 - .1, face: F('happy', { happy: .6, mw: .13, lx: .55, blush: .7 }), armR: { dx: .15, dy: -.02, bend: .1, w: 0 }, d: .25 },
-    { t: R3.t1 + .05, face: F('joy', { lx: .55 }), armR: ARM.rest, d: .2 },
-    { t: R4.t0 + .2, face: F('happy', { happy: .4, lx: .7, ly: -.2 }), d: .3 });
-  J.push({ t: R2.t0 + .25, h: .04, d: .34 }, { t: R3.t1 + .02, h: .08, d: .42 }); BL.push(bUn, R1.t0 - .25, R2.t0 + .1);
-  // go in: hop up the steps into the doorway (back turned), fade into the warm interior
-  const inY0 = R4.t1 + .55, inY1 = inY0 + 2.0;
-  yA.moves.push({ t0: inY0, t1: inY1, x0: 1310, x1: 1530, y0: GROUND, y1: 800, k0: .9, k1: .62, step: .42 });
-  K.push({ t: inY0 - .1, turn: 1.3, d: .5 }, { t: inY0 + .5, turn: 2.05, d: .6 }, { t: inY1 - .45, clip: 1 }, { t: inY1 - .4, alpha: 0, d: .45 });
-  // ---------------- Mia: door → retry ----------------
-  const mA = { id: 'mia', base: { turn: 0, face: F('happy', { lx: -.4 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
-    moves: [{ t0: bDoor + .5, t1: D0.t0 - .1, x0: 1530, x1: 1540, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .46 }], keys: [] };
-  const MK = mA.keys, MJ = mA.jumps, MB = mA.blinks;
-  MK.push({ t: bDoor, alpha: 1, d: .01 }, { t: bDoor + .55, clip: null }, { t: bDoor + .5, turn: -.38, d: .7 },
-    // "Hi! I'm Mia." with a wave (dip first)
-    { t: D0.t0 - .35, armR: { dx: .12, dy: .07, bend: .1, w: 0 }, face: F('happy', { lx: -.5, happy: .4 }), d: .15 }, { t: D0.t0 - .15, armR: ARM.wave, d: .22 },
-    { t: D0.t1 + .45, armR: ARM.rest, d: .35 },
-    { t: tI1, face: F('happy', { lx: -.5, bLy: .8, bRy: .8, happy: .1 }), d: .3 },
-    { t: tYou + .25, face: F('puzzled', { lx: -.55 }), d: .3 },
-    // "Sorry?": lean in with overshoot, hand to the ear
-    { t: D2.t0 - .4, lean: -.095, armR: CUP, d: .25 }, { t: D2.t0 - .12, lean: -.065, d: .35 },
-    // retry: kind and patient
-    { t: bUn, face: F('happy', { happy: .35, lx: -.55, bLy: .6, bRy: .6 }), lean: -.03, armR: ARM.rest, armL: { dx: .16, dy: .02, bend: .05, w: 0 }, d: .3 },
-    { t: R0.t1 + .3, armL: ARM.rest, lean: -.01, d: .4 },
-    { t: tok(R1, 3).t0 + .1, face: F('joy', { lx: -.5 }), d: .2 },
-    { t: R2.t0 - .2, armL: CLAP, armR: CLAP, d: .2 }, { t: R2.t0 + .9, armL: ARM.rest, armR: ARM.rest, face: F('happy', { lx: -.5, happy: .5 }), d: .35 },
-    { t: R3.t1 + .1, face: F('joy', { lx: -.5 }), d: .2 },
-    // "Come in, come in!": step aside, sweep toward the door
-    { t: R4.t0 - .25, turn: -.15, armL: POINT, face: F('happy', { lx: -.6, happy: .5 }), d: .25 },
-    { t: R4.t1 + .1, armL: ARM.rest, d: .3 });
-  MJ.push({ t: R2.t0 + .05, h: .05, d: .36 }); MB.push(D0.t0 - .35, tYou + .25, bUn, R2.t0 - .2);
-  mA.moves.push({ t0: R4.t0 - .25, t1: R4.t0 + .35, x0: 1540, x1: 1660, step: .6 });
-  const inM0 = R4.t1 + .1, inM1 = inM0 + 1.45;
-  mA.moves.push({ t0: inM0, t1: inM1, x0: 1660, x1: 1530, y0: GROUND, y1: 800, k0: .9, k1: .6, step: .48 });
-  MK.push({ t: inM0, turn: 1.0, d: .35 }, { t: inM0 + .35, turn: 2.05, d: .5 }, { t: inM1 - .4, clip: 1 }, { t: inM1 - .35, alpha: 0, d: .4 });
-  const doorClose = Math.min(inY1 + .25, rt.t1 - .6);
-  // ---------------- day + bye: both come out in golden light ----------------
-  const Y0 = Y[0], Y1 = Y[1], Y2 = Y[2], Y3 = Y[3] || Y[Y.length - 1];
-  const outDoor = dy.t1 - 1.6, outM0 = dy.t1 - 1.15, outY0 = dy.t1 - .8;
-  const mD = { id: 'mia', base: { turn: 0, face: F('happy', { lx: .1, lid: .1 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
-    moves: [{ t0: outM0, t1: Math.min(Y0.t0 - .15, outM0 + 1.4), x0: 1530, x1: 1540, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .46 }], keys: [] };
-  mD.keys.push({ t: outM0, alpha: 1, d: .2 }, { t: outM0 + .5, clip: null }, { t: outM0 + .3, turn: -.38, d: .6 },
-    { t: Y0.t0 - .35, armR: { dx: .12, dy: .07, bend: .1, w: 0 }, face: F('happy', { lx: -.5, happy: .5 }), d: .15 }, { t: Y0.t0 - .15, armR: ARM.wave, d: .22 },
-    { t: Y0.t1 + .2, armR: ARM.rest, d: .35 },
-    { t: Y2.t0 - .35, armR: CUP, lean: -.05, face: F('happy', { lx: -.75, happy: .45 }), d: .25 },
-    { t: Y2.t1 + .25, armR: ARM.wave, lean: -.02, d: .3 }, { t: Y2.t1 + 1.6, armR: ARM.rest, d: .4 });
-  mD.blinks.push(Y0.t0 - .35, Y2.t0 - .35);
-  const yD = { id: 'youssef', case: true, base: { turn: .2, face: F('happy', { happy: .3, lid: .15, lx: .3 }), armL: PULL, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1, caseSide: -1 },
-    blinks: [], jumps: [], keys: [],
-    moves: [{ t0: outY0, t1: Math.max(outY0 + 1.0, Math.min(Y0.t0 - .05, by.t0 + .55)), x0: 1530, x1: 1310, y0: 800, y1: GROUND, k0: .64, k1: .9, step: .42 }] };
-  const walkAway0 = Y1.t1 + .3, walkAway1 = Math.max(walkAway0 + 1.2, Y2.t0 + .5);
-  yD.moves.push({ t0: walkAway0, t1: walkAway1, x0: 1310, x1: 1060 });
-  const tSabah = nwT('ar08', has('الصبح'), .2), tAdrus = nwT('ar08', has('أدرس'), .55), tArmy = nwT('ar08', has('الجيش'), .9);
-  yD.keys.push({ t: outY0, alpha: 1, d: .25 }, { t: outY0 + .5, clip: null }, { t: outY0 + .4, turn: .4, d: .5 },
-    { t: Y0.t1 - .2, face: F('happy', { happy: .5, lx: .55, lid: .1 }), d: .3 },
-    { t: Y1.t0 - .3, armR: { dx: .12, dy: .05, bend: .1, w: 0 }, d: .15 }, { t: Y1.t0 - .1, armR: ARM.wave, d: .22 },
-    { t: Y1.t1, armR: ARM.rest, d: .3 },
-    // walks away to the left (suitcase now trails on his right)
-    { t: walkAway0 - .2, turn: -.5, armL: ARM.rest, armR: PULL, caseSide: 1, face: F('happy', { happy: .35, lx: -.5, lid: .1 }), d: .3 },
-    // "Class is at eight!" — he stops; on "Eight?!" whips round, shocked
-    { t: bEight - .12, turn: .22, face: F('surprised', { pupil: .55, mo: .085, mw: .07, lx: .3, ly: -.1, sweat: .6, blush: .3 }), armL: { dx: .2, dy: -.12, bend: -.1, w: 0 }, d: .14 },
-    { t: tSabah + .1, face: F('surprised', { pupil: .5, mo: .1, mw: .065, lx: .1, ly: -.2, sweat: .9, mwob: .5 }), d: .25 },
-    { t: tAdrus - .2, face: F('worried', { lx: -.4, ly: .3, sweat: .9, mwob: 1 }), turn: .15, d: .3 },
-    { t: tArmy - .1, face: F('neutral', { lid: .48, lx: 0, ly: 0, mw: .085, ms: -.1, bLy: -.1, bRy: -.1, bLr: 0, bRr: 0, sweat: .6, blush: .3 }), turn: 0, d: .2 });
-  yD.jumps.push({ t: bEight - .1, h: .09, d: .36 }); yD.blinks.push(bEight - .12, tArmy - .1);
-  S = { o, st, dr, rt, dy, by, D, R, Y, D0, D1, D2, R4, Y3, n3, n5, n8, yA, mA, mD, yD, bSeen, bDoor, bSorry, bFreeze, bUn, bIn, bEight, doorClose, outDoor, pause0, pause1, tHello, tI1, tI2 };
-
-  // ---------------- cameras ----------------
-  const yx = tt => charState(yA, tt).x;
-  S.camA = [
-    { t: -1, x: -1120, y: 330, z: 1.12 },
-    { t: 1.0, d: 3.4, f: tt => ({ x: yx(tt - .5) + 270, y: 575, z: 1.05 }) },
-    { t: bSeen - .25, d: 1.9, x: EST.x, y: EST.y, z: EST.z },
-    { t: bDoor + .3, d: 1.15, ...TWO },
-    { t: D1.t0, d: Math.max(.5, D1.t1 - D1.t0), x: 1395, y: 672, z: 1.97 },
-    { t: bSorry, d: 0, x: 1362, y: 676, z: 3.45 },
-    { t: bFreeze, d: Math.max(.5, bUn - bFreeze), x: 1356, y: 668, z: 3.62 },
-    { t: bUn, d: 0, ...TWO },
-    { t: R2.t0, d: 2.2, x: 1430, y: 664, z: 1.93 },
-    { t: R4.t1 - .1, d: 1.5, x: 1330, y: 590, z: 1.32 },
-    { t: doorClose + .2, d: Math.max(1, rt.t1 - doorClose), x: 1420, y: 520, z: 1.55 },
+  // ================= open: asleep → the alarm → the clock → the leap → out of the door =================
+  const tSeven = nwT('ar01', has('سبعة'), .45), tHeard = nwT('ar01', has('سمعتوش'), .62), tWoke = nwT('ar01', has('صحيت'), .8), tTen = nwT('ar01', has('وعشرة'), .95);
+  const tLeap = Math.max(tWoke + .5, tTen - .25), tLand = tLeap + .5, tRunOut = (n2 ? n2.t0 : tLand + .9) + .1, tGone = tRunOut + 1.25;
+  const tIns0 = bWake + .5, tIns1 = tIns0 + .95;
+  const asleep = F('neutral', { eye: .08, bLy: .15, bRy: .15, bLr: .05, bRr: .05, mw: .07, mo: .018, ms: .25, blush: .35 });
+  const yB = { id: 'youssef', base: { turn: .15, face: asleep, armL: ARM.rest, armR: ARM.rest, kmul: 1, pant: 0 }, blinks: [], jumps: [], hopAmp: 1.3,
+    moves: [{ t0: -1, t1: -.9, x0: 820, x1: 820, y0: BED.sit, y1: BED.sit, k0: 1, k1: 1 },
+      { t0: tLeap, t1: tLand, x0: 820, x1: 880, y0: BED.sit, y1: GROUND, k0: 1, k1: 1, glide: true },
+      { t0: tRunOut, t1: tGone, x0: 880, x1: 2450, step: .26, ease: 'lin' }], keys: [] };
+  const K = yB.keys, J = yB.jumps, BL = yB.blinks;
+  // the jolt: eyes snap open, a hand slaps the clock, the ring stops
+  K.push({ t: bWake, face: F('surprised', { pupil: .75, mo: .07, mw: .06, lx: .3 }), lean: -.03, d: .1 },
+    { t: bWake + .06, armR: { dx: .62, dy: .0, bend: -.18, w: 0 }, d: .16 }, { t: bWake + .7, armR: ARM.rest, d: .3 },
+    // looks at the clock, eyes go wide
+    { t: bWake + .35, turn: .4, face: F('surprised', { pupil: .7, mo: .05, mw: .06, lx: .85, ly: .15 }), d: .2 },
+    { t: bWake + .75, face: F('surprised', { pupil: .5, mo: .095, mw: .06, lx: .85, ly: .1, sweat: .6 }), trem: .004, d: .15 },
+    // "…في لندن": a sleepy, tired look at us
+    { t: tIns1 + .1, face: F('neutral', { lid: .45, bLr: .4, bRr: .4, mw: .085, ms: -.05, mwob: .4, lx: -.1, sweat: .4, blush: .45 }), turn: .15, trem: 0, lean: 0, d: .4 },
+    // "المنبه رن الساعة سبعة": points at the clock, worried
+    { t: tSeven - .35, armR: POINT, turn: .3, face: F('worried', { lx: .8, ly: .1, sweat: .5 }), d: .25 },
+    // "وأنا ما سمعتوش": sheepish scratch
+    { t: tHeard - .2, armR: ARM.scratch, face: F('embarrassed', { lx: -.3, ly: .4, lines: .6, sweat: .6, blush: .8 }), turn: .15, lean: -.015, d: .3 },
+    // "صحيت الساعة تمانية وعشرة": looks again — panic — and leaps
+    { t: tWoke - .1, armR: ARM.rest, turn: .4, face: F('surprised', { pupil: .5, mo: .1, mw: .065, lx: .85, ly: .1, sweat: 1, blush: .4 }), lean: 0, trem: .005, d: .2 },
+    { t: tLeap - .05, armL: ARM.up, armR: ARM.up, face: F('surprised', { pupil: .45, mo: .11, mw: .07, lx: 0, ly: -.3, sweat: 1 }), turn: .25, trem: 0, d: .2 },
+    { t: tLand + .15, armL: ARM.up, armR: ARM.up, face: F('worried', { pupil: .6, mo: .06, mw: .09, mwob: 1, lx: 0, ly: 0, sweat: 1, bLr: .7, bRr: .7 }), turn: .1, trem: .006, d: .25 },
+    // "جريت": turns and runs out of the door
+    { t: tRunOut - .15, turn: .55, armL: { dx: .18, dy: -.14, bend: -.25, w: 0 }, armR: { dx: .12, dy: -.1, bend: -.3, w: 0 }, lean: .07, face: F('nervous', { sweat: 1, lx: .5, mt: .3, mo: .04 }), trem: 0, d: .2 });
+  J.push({ t: bWake - .02, h: .05, d: .3 }, { t: tLeap, h: .55, d: tLand - tLeap });
+  BL.push(bWake + .35, tIns1 + .1, tSeven - .35, tHeard - .2, tWoke - .1);
+  S.yB = yB; S.tIns0 = tIns0; S.tIns1 = tIns1; S.tLeap = tLeap; S.tLand = tLand; S.tRunOut = tRunOut; S.tGone = tGone;
+  S.ring = [0, bWake + .22];   // the alarm rings until the slap
+  S.camO = [
+    { t: -1, x: 960, y: 560, z: 1.0 },
+    { t: 0, d: tLeap, x: 980, y: 566, z: 1.07 },
+    { t: tLeap, d: .6, x: 1000, y: 580, z: 1.02 },
+    { t: tGone - .4, d: Math.max(1, bTitle - .2 - (tGone - .4)), x: 1080, y: 600, z: 1.26 },
   ];
-  const ye = charState(yD, bEight).x;
+  // ================= run: the street, fast =================
+  const tGM = nwT('ar03', w => /^Good morning/i.test(w), .5), tSleep = nwT('ar03', has('نايم'), .85);
+  const tRun0 = rn.t0 + .1, tRun1 = Math.min(rn.t1 - .4, tRun0 + 7.4), tDoorR = tRun1 - .35;
+  const runFace = F('nervous', { sweat: .9, lx: .5, mt: .3, mo: .04, bLr: .5, bRr: .5 });
+  const yR = { id: 'youssef', base: { turn: .5, face: runFace, armL: { dx: .18, dy: -.14, bend: -.25, w: 0 }, armR: { dx: .12, dy: -.1, bend: -.3, w: 0 }, lean: .07, kmul: 1 },
+    blinks: [], jumps: [], hopAmp: 1.3, moves: [{ t0: tRun0, t1: tRun1, x0: -760, x1: 1300, k0: .9, k1: .9, step: .28, ease: 'lin' }], keys: [] };
+  yR.keys.push({ t: tGM - .55, face: F('happy', { lx: .3, ly: -.6, happy: .35, mw: .11, mo: .03, sweat: .5 }), d: .35 },
+    { t: tGM + 1.6, face: runFace, d: .35 },
+    { t: tSleep - .25, face: F('neutral', { lid: .6, lx: .4, ly: .1, mw: .08, ms: .05, sweat: .5, bLy: -.1, bRy: -.1 }), d: .4 },
+    { t: tDoorR - .1, face: F('surprised', { lx: .6, ly: -.5, pupil: .8, mo: .06, sweat: .6 }), armL: ARM.rest, armR: ARM.rest, lean: 0, d: .25 });
+  yR.blinks.push(tGM - .55, tSleep - .25, tDoorR - .1);
+  S.yR = yR; S.tRun0 = tRun0; S.tRun1 = tRun1; S.tDoorR = tDoorR;
+  S.thought = [tGM - .4, tGM + 1.5];
+  S.busR = [rn.t0 + 1.2, rn.t0 + 7.5];
+  const yx = tt => charState(yR, tt).x;
+  S.camR = [
+    { t: rn.t0 - 1, f: tt => ({ x: yx(tt - .35) + 300, y: 575, z: 1.05 }) },
+    { t: tRun1 - 2.2, d: 2.0, x: 1180, y: 575, z: 1.08 },
+  ];
+  // ================= hall: Mia with two coffees, the yawn, the laugh, the apology; close-up during ar04 =================
+  const H0 = HL[0], H1 = HL[1], H2 = HL[2], H3 = HL[3] || HL[HL.length - 1];
+  const tGoodY = tok(H1, 0).t0, tNightY = tok(H1, 1).t0, tOh = tok(H3, 0).t0, tSorry = tok(H3, 1).t0, tGM2 = tok(H3, 2).t0;
+  const tEight = nwT('ar04', has('تمانية'), .4), tLaughed = nwT('ar04', has('ضحكت'), .65), tSleepAg = nwT('ar04', has('أنام'), .85), tShame = nwT('ar04', has('الكسوف'), .95);
+  const C0 = CF[0], C1 = CF[1], C2 = CF[2], C3 = CF[3], C4 = CF[4] || CF[CF.length - 1];
+  const tTired = tok(C1, 4).t0, tCoffee = tok(C2, 2).t0, tPlease = tok(C3, 1).t0, tHand = C3.t0 + .55, tTake = tHand + .35;
+  const tNotice = nwT('ar05', has('بالي'), .7), tUnknown = nwT('ar05', has('عارفها'), .85), tHuman = nwT('ar05', has('آدم'), .5);
+  const yH = { id: 'youssef', base: { turn: .5, face: F('nervous', { sweat: .9, lid: .3, mt: .2, mo: .02, lx: .5 }), armL: ARM.rest, armR: ARM.rest, kmul: 1, pant: 1 }, blinks: [], jumps: [],
+    moves: [{ t0: -1, t1: -.9, x0: 1300, x1: 1300, k0: .9, k1: .9 }], keys: [] };
+  const mH = { id: 'mia', base: { turn: -.38, face: F('happy', { lx: -.45, happy: .4 }), armL: ARM.rest, armR: { dx: -.08, dy: .1, bend: -.1, w: 0 }, kmul: 1 }, blinks: [], jumps: [],
+    moves: [{ t0: hl.t0 + .05, t1: Math.min(H0.t0 - .15, hl.t0 + 1.05), x0: 1935, x1: 1545, k0: .9, k1: .9, step: .33 }], keys: [] };
+  const YK = yH.keys, MK = mH.keys;
+  const TRAY = { dx: -.08, dy: .1, bend: -.1, w: 0 }, OFFER = { dx: -.62, dy: -.16, bend: -.12, w: 0 }, HOLD = { dx: -.3, dy: -.12, bend: -.22, w: 0 };
+  const TAKE = { dx: -.66, dy: -.12, bend: -.1, w: 0 }, MOUTH = { dx: -.4, dy: -.2, bend: .25, w: 0 }, SIPPOSE = { dx: -.4, dy: -.22, bend: .2, w: 0 }, HANDMOUTH = { dx: -.3, dy: -.19, bend: .25, w: 0 };
+  // Youssef: catches his breath, tries a smile; the yawn; "Good… night."; snaps awake, blushes; "Oh! Sorry! Good morning!" with a bow
+  const sleepy = F('neutral', { eye: .5, lid: .3, bLy: .25, bRy: .25, bLr: .2, bRr: .2, mw: .085, ms: .2, blush: .45, lx: .4, ly: .1 });
+  const yawnF = F('neutral', { eye: .1, bLy: .95, bRy: .95, bLr: .35, bRr: .35, mw: .09, mo: .125, ms: -.1, mt: 0, blush: .45, lx: 0, ly: 0 });
+  YK.push({ t: H0.t0 - .3, pant: .4, face: F('happy', { happy: .2, lid: .3, sweat: .6, lx: .5, mw: .11 }), d: .4 },
+    { t: H0.t1 - .6, pant: 0, face: F('happy', { happy: .15, lid: .4, sweat: .4, lx: .5, mw: .1, bLy: .2, bRy: .2 }), d: .5 },
+    { t: bYawn, face: yawnF, armL: MOUTH, lean: -.045, sq: 1.05, d: .55 },
+    { t: bYawn + .9, lean: -.03, sq: 1.02, d: .4 },
+    { t: tGoodY - .2, face: sleepy, armL: ARM.rest, lean: -.01, sq: 1, d: .35 },
+    { t: tGoodY + .55, face: F('neutral', { eye: .25, lid: .45, bLy: .1, bRy: .1, mw: .08, ms: .15, blush: .45, lx: .3, ly: .3 }), sq: .975, lean: -.02, d: .5 },
+    { t: tNightY - .1, face: F('neutral', { eye: .35, lid: .4, bLy: .2, bRy: .2, mw: .085, ms: .2, blush: .45, lx: .4, ly: .2 }), sq: 1, d: .3 },
+    { t: bLaugh + .08, face: F('surprised', { pupil: .55, mo: .085, mw: .06, lx: .55, ly: -.1, sweat: .5 }), lean: 0, d: .1 },
+    { t: bLaugh + .55, face: F('embarrassed', { lx: .5, ly: .15, mo: .02 }), armL: ARM.scratch, lean: -.02, d: .3 },
+    { t: tOh - .1, face: F('surprised', { pupil: .6, mo: .08, mw: .07, lx: .55, sweat: 1, blush: 1, lines: 1 }), armL: { dx: .22, dy: -.08, bend: -.15, w: 0 }, armR: { dx: .16, dy: -.06, bend: -.2, w: 0 }, lean: 0, d: .15 },
+    { t: tSorry - .08, lean: .1, sq: .94, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .1, eye: .3, lid: .3, blush: 1, sweat: .9, lines: .8, lx: .3, ly: .4, mw: .1 }), d: .14 },
+    { t: tSorry + .3, lean: .035, sq: 1, d: .3 },
+    { t: tGM2 - .1, lean: -.01, face: F('happy', { happy: .35, blush: .95, sweat: .7, lines: .5, lx: .55, ly: -.1, mw: .12 }), armL: ARM.chest, d: .25 },
+    { t: H3.t1 + .2, lean: 0, face: F('happy', { happy: .2, blush: .85, sweat: .5, lines: .5, lx: .55, bLr: .45, bRr: .45, mw: .1 }), armL: ARM.rest, d: .35 },
+    // the close-up: looks away, down; then up at us on "تمانية الصبح!"; at Mia on "ضحكت"; eyes shut on "أنام"
+    { t: n4.t0 + .2, face: F('embarrassed', { lx: -.35, ly: .45, mo: .01 }), armL: ARM.scratch, lean: -.02, turn: .3, d: .35 },
+    { t: tEight - .1, face: F('surprised', { pupil: .6, mo: .06, mw: .08, mwob: .8, lx: 0, ly: 0, sweat: 1, blush: 1, lines: 1, bLr: .6, bRr: .6 }), armL: ARM.rest, turn: .15, d: .25 },
+    { t: tLaughed - .15, face: F('embarrassed', { lx: .75, ly: -.05, mo: .0 }), turn: .3, d: .3 },
+    { t: tSleepAg - .2, face: F('embarrassed', { eye: .1, lx: 0, ly: .3, mw: .08, ms: -.2, mwob: 1 }), sq: .965, lean: -.03, d: .4 },
+    { t: tShame + .1, face: F('embarrassed', { eye: .45, lid: .3, lx: .3, ly: .4, ms: -.1 }), sq: 1, lean: -.015, d: .35 },
+    // coffee: cut back to the two-shot
+    { t: cf.t0, face: F('nervous', { lx: .55, ly: 0, sweat: .6, blush: .8, mt: .2, mo: .01, lid: .25 }), turn: .5, lean: 0, sq: 1, armL: ARM.rest, d: .01 },
+    { t: C1.t0 - .25, face: F('neutral', { lid: .4, bLy: .1, bRy: .1, bLr: .35, bRr: .35, mw: .095, ms: .3, lx: .5, blush: .55, sweat: .4 }), armL: ARM.shrug, d: .3 },
+    { t: tTired - .05, face: F('neutral', { lid: .55, bLy: .05, bRy: .05, bLr: .4, bRr: .4, mw: .09, ms: .15, lx: .45, ly: .2, blush: .55, sweat: .3 }), sq: .975, d: .35 },
+    { t: C1.t1 + .3, armL: ARM.rest, sq: 1, d: .3 },
+    { t: tCoffee + .1, face: F('surprised', { pupil: .8, mo: .05, mw: .07, lx: .6, ly: -.05, bLy: 1, bRy: 1, blush: .55 }), d: .2 },
+    { t: C3.t0 - .1, face: F('joy', { lx: .55, mw: .13 }), armL: TAKE, lean: .03, d: .25 },
+    { t: tTake + .1, armL: HOLD, lean: .01, face: F('happy', { happy: .6, lx: .55, mw: .12, mo: .05, blush: .6 }), d: .3 },
+    { t: C3.t1 + .2, lean: 0, d: .3 },
+    // the first sip: eyes shut, then wide, stars, a happy sigh
+    { t: bSip - .35, armL: SIPPOSE, face: F('neutral', { eye: .1, bLy: .3, bRy: .3, mw: .06, mo: .02, ms: .2, blush: .5 }), lean: -.02, d: .35 },
+    { t: bSip + .5, face: F('surprised', { pupil: .55, bLy: 1, bRy: 1, mo: .05, mw: .07, ms: .4, lx: .1, ly: -.3, blush: .6 }), sq: 1.06, lean: -.035, armL: HOLD, d: .14 },
+    { t: bSip + 1.4, face: F('joy', { lx: .2, mw: .13, mo: .06 }), sq: .985, lean: 0, d: .5 },
+    { t: bSip + 2.3, face: F('happy', { happy: .6, lx: .4, mw: .12, blush: .6 }), sq: 1, d: .4 },
+    { t: tHuman + .1, face: F('joy', { lx: .5 }), d: .25 }, { t: tHuman + 1.2, face: F('happy', { happy: .5, lx: .5, mw: .12 }), d: .4 },
+    // "ردت بجملة مش عارفها": a puzzled look at her
+    { t: tNotice - .1, face: F('puzzled', { lx: .6, ly: -.1 }), turn: .55, d: .3 },
+    { t: cf.t1 - .3, face: F('happy', { happy: .3, lx: .55, bLr: .3, bRr: .3 }), d: .3 });
+  yH.jumps.push({ t: bLaugh + .05, h: .045, d: .3 }, { t: bSip + .48, h: .03, d: .3 });
+  yH.blinks.push(bYawn, bLaugh + .08, tOh - .1, tGM2 - .1, n4.t0 + .2, tEight - .1, tLaughed - .15, tShame + .1, cf.t0 + .1, tCoffee + .1, bSip - .35, tNotice - .1);
+  // Mia: brings the tray; "Good morning!"; the laugh (hand over her mouth); "So… how are you?"; offers a cup; "You're welcome."
+  MK.push({ t: H0.t0 - .3, face: F('happy', { lx: -.5, happy: .5 }), lean: -.02, d: .25 },
+    { t: tok(H0, 3).t0 - .1, face: F('happy', { lx: -.5, happy: .3, bLy: .9, bRy: .9 }), lean: -.04, d: .25 },
+    { t: H0.t1 + .4, lean: -.01, face: F('happy', { lx: -.5, happy: .35 }), d: .35 },
+    { t: bYawn + .3, face: F('puzzled', { lx: -.5, ly: .05 }), d: .35 },
+    { t: tNightY + .25, face: F('surprised', { lx: -.5, pupil: .85, mo: .04, mw: .06 }), d: .2 },
+    { t: bLaugh - .05, face: F('joy', { lx: -.4, mw: .12, mo: .06 }), turn: -.12, armL: HANDMOUTH, lean: -.05, d: .18 },
+    { t: bLaugh + .9, lean: -.03, d: .3 },
+    { t: H2.t1 + .75, turn: -.38, armL: ARM.rest, lean: -.01, face: F('happy', { lx: -.5, happy: .6, mw: .12 }), d: .35 },
+    { t: tSorry - .05, face: F('happy', { lx: -.55, ly: .05, happy: .45, bLy: .7, bRy: .7 }), d: .3 },
+    { t: cf.t0, face: F('happy', { lx: -.5, happy: .35, bLy: .7, bRy: .7 }), turn: -.38, armL: ARM.rest, lean: -.02, d: .01 },
+    { t: C0.t0 - .2, lean: -.05, face: F('happy', { lx: -.55, happy: .3, bLy: .9, bRy: .9 }), d: .3 },
+    { t: C0.t1 + .3, lean: -.02, d: .35 },
+    { t: tTired + .1, face: F('happy', { lx: -.55, ly: .1, happy: .15, bLy: .3, bRy: .3, bLr: .5, bRr: .5, mw: .08 }), d: .3 },
+    { t: C2.t0 - .15, face: F('surprised', { lx: -.5, pupil: .85, mo: .05, mw: .06, bLy: 1, bRy: 1 }), d: .2 },
+    { t: tCoffee - .2, armR: OFFER, lean: -.05, face: F('happy', { lx: -.55, happy: .55, mw: .12 }), d: .3 },
+    { t: tTake + .25, armR: TRAY, lean: -.01, face: F('joy', { lx: -.5 }), d: .35 },
+    { t: C4.t0 - .2, face: F('happy', { lx: -.55, happy: .5, lid: .1, mw: .12 }), lean: -.03, d: .25 },
+    { t: C4.t1 + .4, lean: 0, face: F('happy', { lx: -.5, happy: .4 }), d: .35 },
+    { t: bSip + .6, face: F('joy', { lx: -.5 }), d: .3 }, { t: bSip + 2.2, face: F('happy', { lx: -.5, happy: .45 }), d: .4 },
+    { t: tNotice, face: F('happy', { lx: -.5, happy: .5, lid: .1 }), d: .3 });
+  mH.jumps.push({ t: bLaugh + .05, h: .03, d: .3 }, { t: bLaugh + .42, h: .028, d: .3 }, { t: bLaugh + .8, h: .022, d: .3 }, { t: tTake + .3, h: .03, d: .32 });
+  mH.blinks.push(H0.t0 - .3, bYawn + .3, tNightY + .25, bLaugh - .05, cf.t0 + .3, C2.t0 - .15, tTake + .25, bSip + .6);
+  S.yH = yH; S.mH = mH; S.tHand = tHand; S.tTake = tTake; S.tUnknown = tUnknown; S.tNotice = tNotice;
+  S.camH = [
+    { t: hl.t0 - 1, x: 1430, y: 672, z: 1.7 },
+    { t: hl.t0, d: 2.4, ...TWO },
+    { t: n4.t0 - .05, d: 0, x: 1365, y: 678, z: 3.25 },
+    { t: n4.t0, d: Math.max(.5, cf.t0 - n4.t0), x: 1352, y: 672, z: 3.62 },
+    { t: cf.t0, d: 0, ...TWO },
+    { t: bSip - .45, d: 1.1, x: 1382, y: 672, z: 2.3 },
+    { t: tNotice - .4, d: 1.4, x: 1420, y: 668, z: 1.95 },
+  ];
+  // ================= door + bye: golden afternoon at the school door =================
+  const D0 = DR[0], D1 = DR[1], D2 = DR[2], D3 = DR[3] || DR[DR.length - 1];
+  const B0 = BY[0], B1 = BY[1], B2 = BY[2], B3 = BY[3] || BY[BY.length - 1];
+  const tDoorOpen = dr.t0 + .05, tOutM = tDoorOpen + .25;
+  const tMissing = nwT('ar06', has('ناقصة'), .6), tTell = nwT('ar06', has('هحكيلكم'), .95), tAfwan = nwT('ar06', has('عفوًا'), .35);
+  const tThank2 = tok(B1, 2).t0, tLeave0 = B3.t1 + .35, tLeave1 = tLeave0 + 1.7;
+  const tFormN = nwT('ar07', has('الاستمارة'), .7), tQ = nwT('ar07', has('سؤال'), .9), tWalking = nwT('ar07', has('ماشي'), .4), tComing = nwT('ar07', has('جاي'), .5);
+  const yD = { id: 'youssef', base: { turn: .55, face: F('happy', { happy: .35, lid: .1, lx: .55 }), armL: ARM.rest, armR: { dx: .16, dy: -.56, bend: -.12, w: 0 }, kmul: 1 }, blinks: [], jumps: [],
+    moves: [{ t0: -1, t1: -.9, x0: 1400, x1: 1400, k0: .9, k1: .9 }], keys: [] };
+  const mD = { id: 'mia', base: { turn: 0, face: F('happy', { lx: .1, lid: .1 }), armL: { dx: .13, dy: -.02, bend: .1, w: 0 }, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
+    moves: [{ t0: tOutM, t1: Math.min(D0.t0 + .1, tOutM + .9), x0: 1530, x1: 1600, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .42 }], keys: [] };
+  const DK = yD.keys, EK = mD.keys;
+  EK.push({ t: tOutM, alpha: 1, d: .2 }, { t: tOutM + .5, clip: null }, { t: tOutM + .3, turn: -.38, d: .6 },
+    { t: D0.t0 - .2, face: F('happy', { lx: -.5, happy: .55, mw: .12 }), lean: -.03, d: .25 }, { t: D0.t1 + .3, lean: -.01, d: .3 },
+    { t: bWelcome + .35, face: F('happy', { lx: -.5, happy: .3, bLy: .9, bRy: .9, mw: .09 }), d: .3 },
+    { t: D2.t0 - .2, face: F('happy', { lx: -.55, ly: .05, happy: .45, lid: .15, mw: .11 }), lean: -.04, armR: { dx: -.3, dy: -.1, bend: -.15, w: 0 }, d: .3 },
+    { t: D2.t1 + .3, lean: -.01, armR: ARM.rest, d: .35 },
+    { t: D3.t0 + .2, face: F('joy', { lx: -.5 }), d: .25 }, { t: D3.t1 + .6, face: F('happy', { lx: -.5, happy: .4 }), d: .35 },
+    // "Oh!" — remembers; the form out of the bag; hands it over
+    { t: B0.t0 - .15, face: F('surprised', { lx: -.4, ly: -.3, pupil: .8, mo: .06, mw: .06, bLy: 1, bRy: 1 }), armR: ARM.up, lean: -.03, d: .15 },
+    { t: bForm - .55, armR: { dx: -.1, dy: .1, bend: .3, w: 0 }, face: F('happy', { lx: -.3, ly: .4, happy: .3 }), lean: 0, d: .3 },
+    { t: bForm - .05, armR: { dx: -.6, dy: -.14, bend: -.12, w: 0 }, face: F('happy', { lx: -.55, happy: .5, mw: .12 }), lean: -.04, d: .3 },
+    { t: tThank2 + .5, armR: ARM.rest, lean: -.01, face: F('joy', { lx: -.5 }), d: .35 },
+    { t: B1.t1 + .6, face: F('happy', { lx: -.5, happy: .4 }), d: .3 },
+    // "Good night, Youssef!": a wave; then off to the right
+    { t: B2.t0 - .35, armR: { dx: .12, dy: .07, bend: .1, w: 0 }, face: F('happy', { lx: -.5, happy: .55 }), d: .15 }, { t: B2.t0 - .15, armR: ARM.wave, d: .22 },
+    { t: B3.t1 + .2, armR: ARM.rest, d: .35 },
+    { t: tLeave0 - .1, turn: .4, d: .4 }, { t: tLeave0 + .35, turn: 1.05, face: F('happy', { lx: .5, happy: .4 }), d: .5 });
+  mD.moves.push({ t0: tLeave0, t1: tLeave1, x0: 1600, x1: 2180, k0: .9, k1: .9, step: .42 });
+  mD.blinks.push(tOutM + .3, D2.t0 - .2, B0.t0 - .15, bForm - .05, B2.t0 - .35, tLeave0 - .1);
+  const HOLDF = { dx: -.14, dy: -.06, bend: -.3, w: 0 };
+  DK.push({ t: D0.t1 - .2, face: F('happy', { happy: .55, lx: .55, mw: .12 }), d: .3 },
+    // "Welcome!": chest out, proud, eyes shut with pride
+    { t: bWelcome - .2, armR: ARM.rest, armL: ARM.chest, sq: 1.06, lean: -.035, face: F('joy', { bLy: .85, bRy: .85, mw: .12, mo: .05, lx: .5 }), d: .25 },
+    { t: D1.t1 + .4, sq: 1.02, lean: -.02, d: .4 },
+    // listens: puzzled; repeats carefully, looking up; then delighted
+    { t: D2.t0 - .05, armL: ARM.rest, sq: 1, lean: 0, face: F('puzzled', { lx: .55, ly: -.1 }), d: .3 },
+    { t: D3.t0 - .2, face: F('happy', { lx: .35, ly: -.55, happy: .2, bLy: .9, bRy: .9, mw: .1 }), armL: { dx: .06, dy: -.22, bend: .1, w: 0 }, d: .3 },
+    { t: D3.t1 + .1, face: F('joy', { lx: .5 }), armL: ARM.rest, d: .25 },
+    { t: tAfwan + .2, face: F('happy', { happy: .4, lx: .55, lid: .1 }), d: .35 },
+    { t: tMissing - .15, face: F('puzzled', { lx: .3, ly: -.3 }), armL: ARM.scratch, d: .3 },
+    { t: tTell - .15, face: F('happy', { happy: .5, lx: 0, ly: 0, mw: .12 }), turn: .2, armL: { dx: .14, dy: -.2, bend: -.1, w: 0 }, d: .3 },
+    { t: B0.t0 - .1, face: F('surprised', { lx: .6, ly: -.1, pupil: .8, mo: .05, mw: .06 }), turn: .55, armL: ARM.rest, d: .25 },
+    { t: bForm + .3, face: F('happy', { lx: .6, ly: .1, happy: .2, bLy: .7, bRy: .7 }), d: .3 },
+    // takes the form, reads it, "OK… thank you."
+    { t: B1.t0 - .25, armL: { dx: -.66, dy: -.14, bend: -.1, w: 0 }, lean: .03, d: .25 },
+    { t: B1.t0 + .3, armL: HOLDF, lean: .0, face: F('neutral', { lx: .3, ly: .55, lid: .2, bLy: .5, bRy: .5, mw: .09, ms: .3, blush: .5 }), d: .35 },
+    { t: tThank2 - .1, face: F('happy', { happy: .5, lx: .55, mw: .12 }), d: .25 },
+    // "Good night, Mia!" with a wave (the form stays in the other hand)
+    { t: bNight - .35, armR: { dx: .12, dy: .05, bend: .1, w: 0 }, face: F('joy', { lx: .55 }), d: .15 }, { t: bNight - .15, armR: ARM.wave, d: .22 },
+    { t: B3.t1 + .9, armR: ARM.rest, face: F('happy', { happy: .45, lx: .7, ly: -.05 }), d: .35 },
+    { t: tLeave1 - .3, face: F('happy', { happy: .4, lx: .6, ly: -.1 }), turn: .5, d: .3 },
+    // "بتتقال وإنت ماشي، مش وإنت جاي": a nod to us; then down at the form
+    { t: tWalking - .2, turn: .2, face: F('happy', { happy: .4, lx: 0, ly: 0, bLy: .7, bRy: .7, mw: .11 }), d: .35 },
+    { t: tComing + .2, face: F('happy', { happy: .2, lx: 0, ly: 0, bLy: .5, bRy: .5, mw: .1 }), d: .3 },
+    { t: tFormN - .2, face: F('puzzled', { lx: .05, ly: .6 }), armL: { dx: -.12, dy: -.2, bend: -.3, w: 0 }, turn: .15, d: .4 },
+    { t: tQ - .2, face: F('puzzled', { lx: 0, ly: .65, bLy: 1, mo: .03, mw: .06, sweat: .4 }), d: .3 });
+  yD.jumps.push({ t: bWelcome - .15, h: .05, d: .36 }, { t: D3.t1 + .1, h: .03, d: .3 }, { t: tThank2 - .05, h: .03, d: .3 });
+  yD.blinks.push(bWelcome - .2, D2.t0 - .05, D3.t0 - .2, tMissing - .15, tTell - .15, B0.t0 - .1, B1.t0 + .3, bNight - .35, tWalking - .2, tFormN - .2);
+  S.yD = yD; S.mD = mD; S.tDoorOpen = tDoorOpen; S.tOutM = tOutM; S.tLeave0 = tLeave0; S.tLeave1 = tLeave1; S.tQ = tQ; S.tFormN = tFormN;
+  S.formAt = { out: bForm - .05, take: B1.t0 + .05 };   // in Mia's hand from `out`, in Youssef's from `take`
   S.camD = [
-    { t: dy.t0 - 1, x: 1530, y: 430, z: 2.35 },
-    { t: dy.t1 - 2.7, d: 2.0, x: 1180, y: 575, z: 1.05 },
-    { t: by.t0, d: 0, ...TWO },
-    { t: Y1.t1 - .1, d: 1.4, x: 1300, y: 640, z: 1.5 },
-    { t: bEight, d: 0, x: ye + 70, y: 672, z: 3.2 },
-    { t: bEight + .4, d: Math.max(1, by.t1 - bEight), x: ye + 66, y: 668, z: 3.38 },
+    { t: dr.t0 - 1, x: 1500, y: 668, z: 1.85 },
+    { t: tLeave0 + .4, d: 2.0, x: 1440, y: 672, z: 2.15 },
+    { t: tFormN - .3, d: 1.6, x: 1416, y: 700, z: 2.5 },
   ];
-  S.clock0 = dy.t0 + .4; S.clock1 = dy.t1 - 2.8;
-  S.bus0 = n2.t0 + .2; S.bus1 = S.bus0 + 7;
-  S.thought = [n3.t0 + .25, bSeen - .35];
-  S.alarm = [Y3.t1 + .12, n8 ? n8.t1 + .45 : Y3.t1 + 4];
-  // ---------------- sound cues ----------------
-  for (const L of [...D, ...R, ...Y]) cue(L.t0 - .18, 'bubble', { who: L.who, text: L.text });
-  cue(.3, 'ambience_street', { dur: rt.t1 - .3, note: 'London morning street bed' });
-  steps(yA, 'youssef', 0, rt.t1); steps(mA, 'mia', 0, rt.t1); steps(yD, 'youssef', dy.t0, by.t1); steps(mD, 'mia', dy.t0, by.t1);
-  rolls(yA, 0, rt.t1); rolls(yD, dy.t0, by.t1);
-  cue(S.bus0, 'bus', { dur: S.bus1 - S.bus0, pan: 'right_to_left' });
-  cue(tLondon - .3, 'pop', { note: 'excited hop' });
-  cue(S.thought[0], 'thought', { note: 'thought bubble Hello!' });
-  cue(tSmile, 'sparkle');
-  cue(bSeen - .1, 'ding', { note: 'school seen' });
-  cue(bDoor, 'door_open');
-  cue(bDoor + .3, 'whoosh', { note: 'push in to the two-shot' });
-  cue(bSorry, 'cut_in', { note: 'close-up on Youssef' });
-  cue(bFreeze, 'freeze', { note: 'freeze-frame pop' });
-  cue(bUn, 'unfreeze');
-  cue(R4.t1 - .1, 'whoosh', { note: 'pull back' });
-  cue(doorClose, 'door_close');
-  cue(dy.t0, 'whoosh', { note: 'cut to the clock' });
-  cue(S.clock0, 'clock_spin', { dur: S.clock1 - S.clock0 });
-  for (let x = S.clock0; x < S.clock1; x += .01) if (Math.floor(clockAt(x)) !== Math.floor(clockAt(x + .01))) cue(x + .01, 'clock_tick', { note: 'hour passes' });
-  cue(dy.t0 + .3, 'ambience_afternoon', { dur: by.t1 - dy.t0 - .3 });
-  cue(outDoor, 'door_open');
-  cue(bEight - .1, 'sting_shock', { note: 'Eight?!' });
-  cue(S.alarm[0], 'thought');
-  cue(S.alarm[0] + .25, 'alarm', { dur: Math.min(3, S.alarm[1] - S.alarm[0] - .3) });
+  S.camAge = [{ t: bAge - 1, x: 1430, y: 740, z: 3.2 }, { t: bAge, d: Math.max(1, rc.t1 - bAge), x: 1440, y: 736, z: 3.4 }];
+  // ================= sound cues =================
+  cue(0, 'alarm', { dur: S.ring[1], note: 'the alarm clock rings until he slaps it' });
+  cue(bWake, 'pop', { note: 'the jolt' }); cue(S.ring[1], 'click', { note: 'the alarm is slapped' });
+  cue(tIns0, 'cut_in', { note: 'close-up of the clock: 8:10' }); cue(tIns1, 'cut', { note: 'back to the bed' });
+  cue(tSeven, 'thought', { note: 'points at the clock' });
+  cue(tLeap - .1, 'whoosh', { note: 'leaps out of bed' }); cue(tLand, 'step', { who: 'youssef', note: 'lands on the floor' });
+  cue(tLand + .1, 'sting_shock', { note: '8:10!' });
+  cue(tRunOut, 'whoosh', { note: 'runs out' });
+  for (let x = tRunOut + .26 * .68; x < tGone && x < tRunOut + 1.0; x += .26) cue(x, 'step', { who: 'youssef', run: true });
+  cue(tGone, 'door_close', { note: 'the bedroom door' });
+  cue(rn.t0, 'cut', { note: 'the street' });
+  cue(rn.t0 + .2, 'ambience_street', { dur: hl.t0 - rn.t0 - .2, note: 'London morning street bed' });
+  for (let x = tRun0 + .28 * .68; x < tRun1; x += .28) cue(x, 'step', { who: 'youssef', run: true });
+  cue(S.busR[0], 'bus', { dur: S.busR[1] - S.busR[0], pan: 'right_to_left' });
+  cue(S.thought[0], 'thought', { note: 'thought bubble Good morning!' });
+  cue(tDoorR, 'door_open', { note: 'the school door' });
+  cue(hl.t0, 'cut', { note: 'the hallway' });
+  cue(hl.t0 + .1, 'ambience_hall', { dur: dr.t0 - hl.t0 - .1, note: 'quiet school interior bed' });
+  steps(mH, 'mia', hl.t0, cf.t1);
+  for (const L of [...HL, ...CF, ...DR, ...BY]) cue(L.t0 - .18, 'bubble', { who: L.who, text: L.text });
+  cue(bYawn, 'yawn', { dur: 1.4, note: 'the big yawn' });
+  cue(bLaugh, 'laugh', { who: 'mia', dur: 1.2 });
+  cue(bLaugh + .1, 'pop', { note: 'snaps awake' });
+  cue(tSorry - .05, 'whoosh', { note: 'the bow' });
+  cue(n4.t0 - .05, 'cut_in', { note: 'close-up on the embarrassed Youssef (slow push)' });
+  cue(cf.t0, 'cut', { note: 'back to the two-shot' });
+  cue(tCoffee - .2, 'pop', { note: 'a cup is offered' });
+  cue(tTake, 'paper', { note: 'the cup changes hands' });
+  cue(bSip, 'sip', { note: 'the first sip' });
+  cue(bSip + .5, 'stars', { dur: 1.6, note: 'sparkles around his head' });
+  cue(bSip + .5, 'sparkle'); cue(bSip + 1.45, 'sparkle');
+  cue(tUnknown, 'pop', { note: '? over his head' });
+  cue(dr.t0, 'cut', { note: 'the school door, afternoon' });
+  cue(dr.t0 + .1, 'ambience_afternoon', { dur: by.t1 - dr.t0 - .1 });
+  cue(tDoorOpen, 'door_open');
+  steps(mD, 'mia', dr.t0, by.t1);
+  cue(bWelcome - .15, 'pop', { note: 'chest out' });
+  cue(B0.t0 - .1, 'ding', { note: 'Oh! remembers' });
+  cue(bForm - .05, 'paper', { note: 'the form comes out of the bag' });
+  cue(S.formAt.take, 'paper', { note: 'the form changes hands' });
+  cue(bAge - .05, 'cut_in', { note: 'close-up of the form' });
+  cue(tQ + .05, 'sting_shock', { note: 'the ? over the Age box' });
   return S;
 }
 function steps(C, who, a, b) {   // one 'step' cue per hop landing
@@ -277,129 +375,166 @@ function steps(C, who, a, b) {   // one 'step' cue per hop landing
     for (let i = 0; i < n; i++) { const tt = m.t0 + D * (i + .68) / n; if (tt >= a && tt < b) cue(tt, 'step', { who }); }
   }
 }
-function rolls(C, a, b) { for (const m of C.moves) if (m.t0 >= a && m.t0 < b && m.x0 !== m.x1) cue(m.t0, 'suitcase_roll', { dur: m.t1 - m.t0 }); }
-const clockAt = t => t < S.clock0 ? 8.93 : lerp(9.08, 15.5, eio(seg(t, S.clock0, S.clock1)));
-const todAt = t => eio(seg(t, S.clock0, S.clock1 + .4));
 
 // ======================================================================================================================
-// open → street → door → retry (one continuous world)
-export function sceneA(c, t) {
-  const cam = camAt(S.camA, t), dof = dofOf(cam.z);
-  const midC = 960 + (cam.x - 960) * .45, bu = seg(t, S.bus0, S.bus1);
-  const door = t < S.bDoor ? 0 : t < S.doorClose ? eo(seg(t, S.bDoor, S.bDoor + .6)) : 1 - ss(seg(t, S.doorClose, S.doorClose + .45));
-  const freeze = t >= S.bFreeze && t < S.bUn;
-  const tc = freeze ? S.bFreeze + .12 : t;            // character time stops during the freeze-frame
-  if (freeze) return freezeFrame(c, t);
-  drawWorld(c, cam, t, { door, dof, busX: bu > 0 && bu < 1 ? midC + 1300 - 2600 * bu : null, clock: 8.93 });
-  const ys = S.yA, ms = S.mA;
-  const yst = charState(ys, tc), mst = charState(ms, tc);
-  const closeUp = t >= S.bSorry && t < S.bUn;      // cut-in: Mia is off screen right (her bubble stays at the edge)
-  const order = (mst.y < yst.y ? [[ms, 'm'], [ys, 'y']] : [[ys, 'y'], [ms, 'm']]).filter(([, n]) => !(closeUp && n === 'm'));
-  const R = {};
-  for (const [C, n] of order) R[n] = drawActor(c, cam, C, tc, { door });
-  // ---- UI ----
-  const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
-  // street: thought bubble rehearsing "Hello!" + a drawn smile
-  const [th0, th1] = S.thought;
-  if (t > th0 && t < th1 + .3) {
-    const pop = seg(t, th0, th0 + .55), out = seg(t, th1, th1 + .25);
-    const bob = Math.sin(t * 2.4) * 4;
-    thought(c, { x: yh[0] - 250, y: yh[1] - 150 + bob, w: 380, h: 200, hx: yh[0] - 50, hy: yh[1] + 10, pop, out }, cc => {
-      cc.font = '600 64px "Fredoka"'; cc.fillStyle = P.ink; cc.textAlign = 'center'; cc.textBaseline = 'alphabetic';
-      cc.fillText('Hello!', -34, 22);
-      smiley(cc, 112, 0, 32);
-    });
+// open: the bedroom
+export function sceneOpen(c, t) {
+  if (t >= S.tIns0 && t < S.tIns1) return clockInsert(c, t);
+  const cam = camAt(S.camO, t);
+  const ring = t < S.ring[1] ? 1 : 0, thrown = ss(seg(t, S.tLeap + .05, S.tLeap + .4));
+  const tap = Math.sin(Math.PI * seg(t, S.ring[1] - .05, S.ring[1] + .2));
+  drawBedroom(c, cam, t, { blanket: thrown, live: l => {
+    l.save(); l.translate(BEDCLOCK.x, BEDCLOCK.y + BEDCLOCK.r * 1.05); l.scale(1 - .12 * tap, 1 - .18 * tap); l.translate(0, -BEDCLOCK.r * 1.05);
+    alarmClock(l, 0, 0, BEDCLOCK.r, 8 + 10 / 60, ring, t); l.restore();
+  } });
+  const R = drawActor(c, cam, S.yB, t);
+  if (thrown < 1) {   // the tucked blanket over his legs is drawn in front of him (the set layer only holds the thrown heap)
+    c.save(); layerT(c, cam, 1); blanket(c, thrown, t, 'tucked'); c.restore(); c.setTransform(1, 0, 0, 1, 0, 0);
   }
-  // door dialogue + retry: one bubble at a time, tails to the speakers' heads
-  const lines = [...S.D, ...S.R];
-  lines.forEach((L, i) => {
-    const nx = lines[i + 1] ? lines[i + 1].t0 : null;
-    if (!(L.who === 'mia' ? mh : yh) && !(t >= S.bSorry && t < S.bUn)) return;
-    if (freeze || (t >= S.bSorry && t < S.bUn)) {   // close-up: Mia is off screen right
-      if (L === S.D2) lineBubble(c, L, Math.min(t, S.bFreeze + .05), { x: 1905, y: 520, side: -1, lift: 120 }, { until: S.bUn - .2 });
-      return;
-    }
-    if (L === S.D2) return lineBubble(c, L, t, { x: mh[0] - 10, y: mh[1], side: 0, lift: 70 }, { until: S.bSorry - .01 });
-    const pos = L.who === 'mia' ? { x: mh[0] - 10, y: mh[1], side: 0, lift: 70 } : { x: yh[0] + 20, y: yh[1], side: -1, lift: 70 };
-    lineBubble(c, L, t, { ...pos, wordFx: L === S.D1 ? (k, tt) => (k === 1 && tt > S.tI1 && tt < S.tI2 ? { shake: tt } : {}) : null }, { next: nx, hold: 1.2 });
-  });
+  const yh = head(R, 'youssef');
+  // z z z while he sleeps; speed lines when he runs out
+  if (t < S.bWake + .1 && yh) zzz(c, yh[0] + 40, yh[1] - 20, t, 1 - seg(t, S.bWake - .1, S.bWake + .1), 1.1 * R.Z);
+  if (t > S.tRunOut && t < S.tGone + .2 && R.sx != null) speedLines(c, t, R, R.Z);
+  // the shock mark on landing
+  const k = seg(t, S.tLand + .1, S.tLand + .45) * (1 - seg(t, S.tRunOut - .4, S.tRunOut - .15));
+  if (k > 0 && yh) bigMark(c, yh[0] + 150 * R.Z, yh[1] - 120 * R.Z, '!', 150 * R.Z, k, .15 + Math.sin(t * 9) * .06, P.red);
   return { cam };
 }
-// the freeze-frame: the picture at the pop is held (rendered once, cached), desaturated, with a slow push; ? and ! pop as he panics
-let FZ = null;
-function freezeFrame(c, t) {
-  if (!FZ) {
-    const cv = document.createElement('canvas'); cv.width = 1920; cv.height = 1080;
-    const f = cv.getContext('2d', { willReadFrequently: true });
-    const tf = S.bFreeze, cam = camAt(S.camA, tf);
-    drawWorld(f, cam, tf, { door: 1, dof: dofOf(cam.z), clock: 8.93 });
-    const R = drawActor(f, cam, S.yA, tf + .12, { door: 1 });
-    f.setTransform(1, 0, 0, 1, 0, 0);
-    f.globalCompositeOperation = 'saturation'; f.fillStyle = 'rgba(128,128,128,.42)'; f.fillRect(0, 0, 1920, 1080); f.globalCompositeOperation = 'source-over';
-    FZ = { cv, yh: head(R, 'youssef') };
-  }
-  const u = eio(seg(t, S.bFreeze, S.bUn)), z = 1 + .05 * u, ax = FZ.yh[0], ay = FZ.yh[1] + 200;
-  c.save(); c.setTransform(z, 0, 0, z, ax * (1 - z), ay * (1 - z)); c.drawImage(FZ.cv, 0, 0); c.restore();
-  lineBubble(c, S.D2, S.bFreeze + .05, { x: 1905, y: 520, side: -1, lift: 120 }, { until: S.bUn - .2 });
-  freezeFx(c, t, FZ.yh);
+// insert: the alarm clock on the bedside table, 8:10
+function clockInsert(c, t) {
+  c.setTransform(1, 0, 0, 1, 0, 0);
+  const g = c.createLinearGradient(0, 0, 0, 1080); g.addColorStop(0, mix('#A795D6', P.cream, .62)); g.addColorStop(1, mix('#A795D6', P.cream, .78));
+  c.fillStyle = g; c.fillRect(0, 0, 1920, 1080);
+  const v = c.createRadialGradient(300, 150, 0, 300, 150, 1500); v.addColorStop(0, rgba('#FFF6E8', .5)); v.addColorStop(1, rgba('#FFF6E8', 0)); c.fillStyle = v; c.fillRect(0, 0, 1920, 1080);
+  c.fillStyle = '#C98B5E'; c.fillRect(0, 740, 1920, 400); c.fillStyle = rgba('#FFFFFF', .25); c.fillRect(0, 740, 1920, 16);
+  c.fillStyle = '#A9683F'; c.fillRect(0, 800, 1920, 300);
+  const z = 1 + .05 * eio(seg(t, S.tIns0, S.tIns1));
+  c.save(); c.translate(960, 540); c.scale(z, z);
+  ell(c, 20, 192, 230, 26); c.fillStyle = rgba('#1E1B33', .25); c.fill();
+  alarmClock(c, 0, 0, 165, 8 + 10 / 60, 0, t);
+  c.restore();
+  const k = back(seg(t, S.tIns0 + .1, S.tIns0 + .45), 2);
+  c.save(); c.translate(1340, 560); c.scale(k, k); timeTag(c, 0, 0, '8:10', 1.15); c.restore();
   return {};
 }
-function freezeFx(c, t, yh) {
-  const a = seg(t, S.bFreeze, S.bFreeze + .08);
-  c.save(); c.setTransform(1, 0, 0, 1, 0, 0);
-  const v = c.createRadialGradient(960, 540, 420, 960, 540, 1150); v.addColorStop(0, 'rgba(42,39,66,0)'); v.addColorStop(1, `rgba(42,39,66,${.38 * a})`);
-  c.fillStyle = v; c.fillRect(0, 0, 1920, 1080);
-  // flash on the pop
-  const fl = 1 - seg(t, S.bFreeze, S.bFreeze + .16); if (fl > 0) { c.fillStyle = `rgba(255,251,240,${.55 * fl})`; c.fillRect(0, 0, 1920, 1080); }
-  // a cream keyline frame (the "photo" of the moment)
-  c.strokeStyle = rgba(P.cream, .9 * a); c.lineWidth = 14; c.strokeRect(22, 22, 1876, 1036);
-  // ? and ! marks timed to his panicking narration
-  const n = S.n5, marks = n ? n.tok.filter(o => /[؟?!]/.test(o.w)).map(o => ({ t: o.t0 + .1, ch: /[؟?]/.test(o.w) ? '?' : '!' })) : [];
-  const spots = [[-330, -60, -.25], [300, -150, .2], [-250, -260, -.1], [380, 40, .3], [80, -330, 0]];
-  marks.forEach((m, i) => {
-    const k = seg(t, m.t, m.t + .35); if (k <= 0) return;
-    const [dx, dy, r] = spots[i % spots.length], s = back(k, 2.4);
-    c.save(); c.translate(yh[0] + dx, yh[1] + 160 + dy); c.rotate(r + Math.sin((t - m.t) * 3) * .05); c.scale(s, s);
-    c.font = '700 150px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle';
-    c.fillStyle = rgba('#1E1B33', .25); c.fillText(m.ch, 6, 8); c.fillStyle = m.ch === '?' ? P.mustard : P.red; c.fillText(m.ch, 0, 0);
-    c.restore();
-  });
+function ell(c, x, y, rx, ry) { c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); }
+function speedLines(c, t, st, Z = 1) {
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.strokeStyle = rgba(P.ink, .25); c.lineWidth = 6 * Z; c.lineCap = 'round';
+  const d = st.dir || 1;
+  for (let i = 0; i < 4; i++) { const y = st.sy - (80 + i * 55) * Z, ph = (t * 3 + i * .37) % 1, x = st.sx - d * (170 + ph * 120) * Z; c.globalAlpha = 1 - ph; c.beginPath(); c.moveTo(x, y); c.lineTo(x - d * 90 * Z, y); c.stroke(); }
   c.restore();
 }
 
-// day montage + goodbye (golden afternoon)
-export function sceneD(c, t) {
-  const cam = camAt(S.camD, t), dof = dofOf(cam.z), tod = todAt(t);
-  const door = t < S.outDoor ? 0 : eo(seg(t, S.outDoor, S.outDoor + .6));
-  drawWorld(c, cam, t, { door, dof, tod, clock: clockAt(t) });
+// run: the street
+export function sceneRun(c, t) {
+  const cam = camAt(S.camR, t), dof = dofOf(cam.z);
+  const midC = 960 + (cam.x - 960) * .45, bu = seg(t, S.busR[0], S.busR[1]);
+  const door = eo(seg(t, S.tDoorR, S.tDoorR + .6));
+  drawWorld(c, cam, t, { door, dof, busX: bu > 0 && bu < 1 ? midC + 1300 - 2600 * bu : null, clock: 8.25 });
+  const R = drawActor(c, cam, S.yR, t, { door });
+  if (R.sx != null && t < S.tRun1 - .3) speedLines(c, t, R, R.Z);
+  const yh = head(R, 'youssef');
+  const [th0, th1] = S.thought;
+  if (yh && t > th0 && t < th1 + .3) {
+    const pop = seg(t, th0, th0 + .5), out = seg(t, th1, th1 + .25), bob = Math.sin(t * 2.4) * 4;
+    thought(c, { x: yh[0] - 290, y: yh[1] - 150 + bob, w: 470, h: 210, hx: yh[0] - 50, hy: yh[1] + 10, pop, out }, cc => {
+      cc.font = '600 62px "Fredoka"'; cc.fillStyle = P.ink; cc.textAlign = 'center'; cc.textBaseline = 'alphabetic';
+      cc.fillText('Good morning!', 26, 22);
+      sunIcon(cc, -176, 0, 24, P.mustard, t);
+    });
+  }
+  return { cam };
+}
+
+// hall + coffee: one continuous interior; close-up during ar04
+export function sceneHall(c, t) {
+  const cam = camAt(S.camH, t), dof = dofOf(cam.z);
+  drawHall(c, cam, t, { dof, clock: 8.2 + (t - S.hl.t0) / 3600 * 40 });
+  const closeUp = t >= S.n4.t0 - .05 && t < S.cf.t0;
+  const yst = charState(S.yH, t), mst = charState(S.mH, t);
+  const order = (mst.y < yst.y ? [[S.mH, 'm'], [S.yH, 'y']] : [[S.yH, 'y'], [S.mH, 'm']]).filter(([, n]) => !(closeUp && n === 'm'));
+  const R = {};
+  const yHas = t >= S.tTake, mN = t >= S.tTake ? 1 : 2;
+  for (const [C, n] of order) {
+    if (n === 'm') R.m = drawActor(c, cam, C, t, { front: (h, k) => { if (!h[1][2]) trayIn(c, 'mia', h[1], k, t, mN, -1); } });
+    else R.y = drawActor(c, cam, C, t, { front: (h, k) => { if (yHas && !h[0][2]) cupIn(c, 'youssef', h[0], k, t, t < S.bSip + 6 ? 1 : .5); } });
+  }
+  const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
+  // stars after the first sip: a ring of sparkles orbiting his head
+  const s0 = S.bSip + .45;
+  if (yh && t > s0 && t < s0 + 2.1) {
+    const Z = R.y.Z, cx = yh[0] + 10 * Z, cy = yh[1] + 48 * Z;
+    for (let i = 0; i < 7; i++) {
+      const u = seg(t, s0 + i * .09, s0 + 1.25 + i * .09); if (u <= 0 || u >= 1) continue;
+      const a = i * .9 + .3 + t * 1.2, r = (78 + 16 * Math.sin(i * 2.1)) * Z * (.7 + .4 * eo(u));
+      sparkle(c, cx + Math.cos(a) * r * 1.25, cy + Math.sin(a) * r * .8, (15 + 5 * (i % 3)) * Math.sin(Math.PI * u) * Z, [P.mustard, P.cream, P.mustard, P.red][i % 4], a + u * 3);
+    }
+  }
+  // "?" over his head when she says something he does not know
+  if (yh) { const k = seg(t, S.tUnknown, S.tUnknown + .35) * (1 - seg(t, S.cf.t1 - .6, S.cf.t1 - .3)); if (k > 0) bigMark(c, yh[0] + 110 * R.y.Z * .6, yh[1] - 90 * R.y.Z * .6, '?', 110 * R.y.Z * .6, k, .12 + Math.sin(t * 5) * .08, P.mustard); }
+  // dialogue bubbles
+  if (!closeUp) {
+    const lines = [...S.HL, ...S.CF];
+    lines.forEach((L, i) => {
+      const nx = lines[i + 1] ? lines[i + 1].t0 : null;
+      if (!(L.who === 'mia' ? mh : yh)) return;
+      if (L === S.HL[3]) { if (t < S.n4.t0 - .05) lineBubble(c, L, t, { x: yh[0] + 20, y: yh[1], side: -1, lift: 70 }, { until: S.n4.t0 - .3 }); return; }
+      const pos = L.who === 'mia' ? { x: mh[0] - 10, y: mh[1], side: 0, lift: 70 } : { x: yh[0] + 20, y: yh[1], side: -1, lift: 70 };
+      lineBubble(c, L, t, { ...pos, wordFx: L === S.HL[1] ? (k, tt) => (k === 0 && tt > L.tok[0].t1 && tt < L.tok[1].t0 ? { shake: tt * .4 } : {}) : null }, { next: nx, hold: 1.2 });
+    });
+  } else {
+    // the close-up: a soft vignette and the slow push are the frame; blush + sweat do the acting
+    c.save(); c.setTransform(1, 0, 0, 1, 0, 0);
+    const a = seg(t, S.n4.t0, S.n4.t0 + .4);
+    const v = c.createRadialGradient(960, 540, 480, 960, 540, 1200); v.addColorStop(0, 'rgba(42,39,66,0)'); v.addColorStop(1, `rgba(42,39,66,${.3 * a})`);
+    c.fillStyle = v; c.fillRect(0, 0, 1920, 1080); c.restore();
+  }
+  return { cam };
+}
+
+// door + bye (golden afternoon), then the close-up of the form
+export function sceneDoor(c, t) {
+  if (t >= S.bAge) return formCloseUp(c, t);
+  const cam = camAt(S.camD, t), dof = dofOf(cam.z), tod = 1;
+  const door = eo(seg(t, S.tDoorOpen, S.tDoorOpen + .6));
+  drawWorld(c, cam, t, { door, dof, tod, clock: 15.5 + (t - S.dr.t0) / 3600 * 60 });
   const yst = charState(S.yD, t), mst = charState(S.mD, t);
   const order = mst.y < yst.y ? [[S.mD, 'm'], [S.yD, 'y']] : [[S.yD, 'y'], [S.mD, 'm']];
   const R = {};
-  for (const [C, n] of order) R[n] = drawActor(c, cam, C, t, { door });
-  grade(c, tod);
-  // day montage extras: little sparkles of time passing around the clock
-  if (t < S.dy.t1 - 2.4) {
-    const [cx, cy] = toScreen(cam, 1, 1530, 418);
-    for (let i = 0; i < 6; i++) { const a = t * 2.2 + i * 1.05, r = 230 + 30 * Math.sin(t * 3 + i); const k = seg(t, S.clock0 + i * .3, S.clock0 + i * .3 + .4) * (1 - seg(t, S.clock1 - .3, S.clock1)); if (k > 0) sparkle(c, cx + Math.cos(a) * r, cy + Math.sin(a) * r, 16 * k, mix(P.mustard, P.cream, .2), a); }
+  const mForm = t >= S.formAt.out && t < S.formAt.take, yForm = t >= S.formAt.take;
+  for (const [C, n] of order) {
+    if (n === 'm') R.m = drawActor(c, cam, C, t, { door, behind: (h, k) => { if (h[0][2]) bagIn(c, 'mia', h[0], k); }, front: (h, k) => { if (!h[0][2]) bagIn(c, 'mia', h[0], k); if (mForm && !h[1][2]) formIn(c, 'mia', h[1], k, -1); } });
+    else R.y = drawActor(c, cam, C, t, { door, front: (h, k) => { if (yForm && !h[0][2]) formIn(c, 'youssef', h[0], k, -1); } });
   }
-  const yh = head(R.y, 'youssef'), mh = head(R.m, 'mia', 1.12);
-  const close = t >= S.bEight;
-  S.Y.forEach((L, i) => {
-    const nx = S.Y[i + 1] ? S.Y[i + 1].t0 : null;
-    if (L === S.Y3) { if (close && yh) lineBubble(c, L, t, { x: yh[0] + 150, y: yh[1] + 40, side: 1, lift: 60 }, { hold: 1.3 }); return; }
-    if (close || !(L.who === 'mia' ? mh : yh)) return;
-    const pos = L.who === 'mia' ? { x: mh[0] - 10, y: mh[1], side: 0, lift: 70 } : { x: yh[0] + (yst.dir < 0 ? -20 : 20), y: yh[1], side: -1, lift: 70 };
+  grade(c, tod);
+  const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
+  const lines = [...S.DR, ...S.BY];
+  lines.forEach((L, i) => {
+    const nx = lines[i + 1] ? lines[i + 1].t0 : null;
+    if (!(L.who === 'mia' ? mh : yh)) return;
+    if (L.who === 'mia' && t > S.tLeave0 + .3) return;
+    const pos = L.who === 'mia' ? { x: mh[0] - 10, y: mh[1], side: 0, lift: 70, maxX: 1880 } : { x: yh[0] + 20, y: yh[1], side: -1, lift: 70 };
     lineBubble(c, L, t, pos, { next: nx, hold: 1.2 });
   });
-  // "Eight?!": a thought bubble with the ringing alarm clock at 8:00
-  const [a0, a1] = S.alarm;
-  if (close && t > a0 && t < a1 + .3) {
-    const pop = seg(t, a0, a0 + .5), out = seg(t, a1, a1 + .25), ring = seg(t, a0 + .25, a0 + .35) * (1 - seg(t, a0 + 3.2, a0 + 3.5));
-    thought(c, { x: 470, y: 330, w: 470, h: 360, hx: yh[0] - 130, hy: yh[1] + 60, pop, out }, cc => {
-      alarmClock(cc, 0, -18, 92, 8.0, ring, t);
-      timeTag(cc, 0, 118, '8:00', .8);
-    });
-  }
+  return { cam };
+}
+// the form fills the frame, held in his two hands; a big ? pops over the Age box
+function formCloseUp(c, t) {
+  const cam = camAt(S.camAge, t);
+  drawWorld(c, cam, t, { door: 1, dof: 8, tod: 1, clock: 15.6 });
+  grade(c, 1);
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0);
+  const u = eio(seg(t, S.bAge, S.bAge + 2.5)), z = 1 + .06 * u, rot = -.06 + .01 * Math.sin(t * .7);
+  c.translate(960, 600); c.scale(z, z);
+  const W = 1180, Hh = 860;
+  const q = seg(t, S.tQ, S.tQ + .35);
+  drawForm(c, 0, 0, W, Hh, { rot, text: true, age: q });
+  // his thumbs at the bottom corners
+  for (const s of [-1, 1]) { c.save(); c.rotate(rot); c.translate(s * W * .36, Hh * .42); const r = 48; ell(c, 0, 0, r * 1.25, r * .95); c.fillStyle = mix(CAST.youssef.skin, '#4B2E52', .32); c.fill(); ell(c, -4, -5, r * 1.05, r * .8); c.fillStyle = CAST.youssef.skin; c.fill(); c.restore(); }
+  // the ?
+  const yq = -Hh / 2 + Hh * .106 * .8 + Hh * .17 + 2 * Hh * .17;
+  bigMark(c, W * .22, yq - 40, '?', 230, q, .12 + Math.sin((t - S.tQ) * 5) * .12 * Math.exp(-(t - S.tQ) * .5), P.mustard);
+  c.restore();
   return { cam };
 }
 // warm late-afternoon grade over the world + characters (multiply), applied before the UI
@@ -411,4 +546,4 @@ export function grade(c, tod) {
   const g = c.createRadialGradient(150, 60, 0, 150, 60, 1300); g.addColorStop(0, `rgba(255,190,110,${.28 * tod})`); g.addColorStop(1, 'rgba(255,190,110,0)');
   c.fillStyle = g; c.fillRect(0, 0, 1920, 1080); c.restore();
 }
-export { charState, drawActor, head, H, TWO };
+export { charState, drawActor, head, H, TWO, speedLines };

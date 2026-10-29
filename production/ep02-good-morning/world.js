@@ -1,7 +1,9 @@
-// Bean People v2 — London street in the same vector language. Authored in screen px for the establishing camera
+// Bean People v2 — London street in the same vector language (episode 1), plus the two interior sets of episode 2:
+// Youssef's bedroom (open) and the school hallway (hall + coffee), authored in the same screen px / parallax 1 space. Authored in screen px for the establishing camera
 // (CAM0 = centre 960,540, zoom 1); every layer has a parallax factor p (0 = sky, 1 = the characters' pavement, >1 = foreground).
 import { CPU, P, HAZE, mix, rgba, dark, light, rr, ell, smooth, poly, contact, formed, layer } from './kit.js';
-import { clamp, lerp } from '/core/lib.js';
+import { clamp, lerp, seg } from '/core/lib.js';
+import { drawSuitcase } from './bean.js';
 
 export const SW = 1920, SH = 1080;
 const PI = Math.PI;
@@ -406,4 +408,196 @@ export function drawWorld(c, cam, t, o = {}) {
 }
 export function drawForeground(c, cam, t, o = {}) {
   c.save(); layerT(c, cam, 1.3); for (const x of (o.lamps || [200])) lamp(c, x, 1075); c.restore(); c.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+// ======================================================================================================================
+// Episode 2 interiors. Both are flat sets (parallax 1, baked once); the camera zooms and pans them like the street.
+// Youssef's bedroom: lilac wall, window on the left (the light comes from there), bed, bedside table with the alarm
+// clock, the red suitcase in the corner, a door on the right. Characters' feet: the mattress top (BED.sit) or the floor (GROUND).
+export const BED = { x0: 540, x1: 1080, top: 700, sit: 712 };
+export const BEDCLOCK = { x: 1190, y: 648, r: 50 };
+function bedroomStatic(c) {
+  const WALL = mix('#A795D6', P.cream, .64), WOOD = '#D7A676';
+  c.fillStyle = WALL; c.fillRect(-300, -300, 2600, 1100);
+  const g = c.createRadialGradient(350, 200, 0, 350, 200, 1600); g.addColorStop(0, rgba('#FFF6E8', .4)); g.addColorStop(1, rgba('#FFF6E8', 0)); c.fillStyle = g; c.fillRect(-300, -300, 2600, 1100);
+  // picture rail + skirting + floor
+  c.fillStyle = rgba('#FFFFFF', .35); c.fillRect(-300, 60, 2600, 8);
+  c.fillStyle = light(WALL, .45); c.fillRect(-300, 784, 2600, 16);
+  const fg = c.createLinearGradient(0, 800, 0, 1200); fg.addColorStop(0, WOOD); fg.addColorStop(1, dark(WOOD, .18)); c.fillStyle = fg; c.fillRect(-300, 800, 2600, 500);
+  c.strokeStyle = rgba('#7A4A2E', .16); c.lineWidth = 2;
+  for (const y of [836, 884, 946, 1030]) { c.beginPath(); c.moveTo(-300, y); c.lineTo(2300, y); c.stroke(); }
+  for (let x = -300; x < 2300; x += 170) { c.beginPath(); c.moveTo(x, 800); c.lineTo(x + (x - 960) * .45, 1200); c.stroke(); }
+  c.fillStyle = rgba('#3B2F6B', .1); c.fillRect(-300, 800, 2600, 6);
+  // rug
+  ell(c, 980, 950, 560, 105); c.fillStyle = mix(P.teal, P.cream, .58); c.fill();
+  ell(c, 980, 950, 500, 82); c.strokeStyle = mix(P.teal, P.cream, .3); c.lineWidth = 9; c.stroke();
+  // window (left wall): sky, a slice of London, mullions, curtains, rod
+  const wx = 170, wy = 120, ww = 420, wh = 400;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, wx - 6, wy - 2, ww + 24, wh + 24, 10); c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, wx - 16, wy - 16, ww + 32, wh + 32, 10); c.fill();
+  const sg = c.createLinearGradient(0, wy, 0, wy + wh); sg.addColorStop(0, '#7CC3E6'); sg.addColorStop(.7, '#C9E6F0'); sg.addColorStop(1, '#F6E8D4'); c.fillStyle = sg; c.fillRect(wx, wy, ww, wh);
+  const sun = c.createRadialGradient(wx + 70, wy + 60, 0, wx + 70, wy + 60, 260); sun.addColorStop(0, 'rgba(255,245,210,.95)'); sun.addColorStop(.3, 'rgba(255,240,200,.45)'); sun.addColorStop(1, 'rgba(255,240,200,0)'); c.fillStyle = sun; c.fillRect(wx, wy, ww, wh);
+  const F = mix(mix(P.sky, '#7C78B4', .45), '#DCEAF2', .35); c.fillStyle = F;
+  for (const [bx, bw, bh] of [[0, 60, 70], [60, 40, 110], [100, 70, 60], [170, 30, 150], [200, 80, 90], [280, 50, 120], [330, 90, 70]]) c.fillRect(wx + bx, wy + wh - bh, bw, bh);
+  c.beginPath(); c.arc(wx + 250, wy + wh - 70, 60, Math.PI, 2 * Math.PI); c.strokeStyle = F; c.lineWidth = 5; c.stroke();
+  c.fillStyle = rgba('#FFFFFF', .22); poly(c, [[wx + 40, wy + wh], [wx + 200, wy], [wx + 260, wy], [wx + 100, wy + wh]]); c.fill();
+  c.fillStyle = '#FFFBF4'; c.fillRect(wx + ww / 2 - 6, wy, 12, wh); c.fillRect(wx, wy + wh * .38 - 5, ww, 10);
+  c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(wx, wy, ww, 10); c.fillRect(wx + ww - 8, wy, 8, wh);
+  const CUR = mix(P.mustard, P.cream, .4);
+  for (const [cx0, cw] of [[wx - 76, 78], [wx + ww - 2, 78]]) { c.fillStyle = CUR; rr(c, cx0, wy - 30, cw, wh + 90, 12); c.fill(); c.fillStyle = dark(CUR, .12); for (let i = 1; i < 4; i++) c.fillRect(cx0 + i * cw / 4 - 3, wy - 30, 6, wh + 90); }
+  c.fillStyle = P.navy; rr(c, wx - 100, wy - 44, ww + 200, 12, 6); c.fill(); for (const s of [wx - 104, wx + ww + 92]) { ell(c, s, wy - 38, 12, 12); c.fill(); }
+  // the light shaft from the window on to the bed and the floor
+  c.fillStyle = rgba('#FFF6E0', .16); poly(c, [[wx + 20, wy + 60], [wx + ww, wy + 30], [1500, 1060], [700, 1120]]); c.fill();
+  // framed picture above the bed (generic skyline)
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, 735, 302, 190, 140, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, 728, 290, 190, 140, 8); c.fill(); c.fillStyle = '#F6EAD6'; c.fillRect(742, 304, 162, 112);
+  c.fillStyle = mix(P.sky, P.cream, .4); c.fillRect(742, 304, 162, 80); c.fillStyle = F; for (const [bx, bw, bh] of [[0, 30, 40], [30, 20, 70], [50, 40, 30], [90, 14, 90], [104, 40, 50], [144, 18, 36]]) c.fillRect(742 + bx, 384 - bh, bw, bh);
+  ell(c, 800, 352, 18, 18); c.strokeStyle = F; c.lineWidth = 3; c.stroke();
+  // bed: headboard, mattress, frame, pillow
+  contact(c, 820, 806, 330, 16, .25);
+  c.fillStyle = dark(P.navy, .1); rr(c, 500, 470, 64, 320, 22); c.fill();
+  c.fillStyle = P.navy; rr(c, 508, 478, 48, 300, 18); c.fill();
+  c.fillStyle = light(P.navy, .25); rr(c, 516, 486, 14, 260, 7); c.fill();
+  c.fillStyle = '#5B4A6B'; rr(c, 530, 760, 570, 34, 8); c.fill();
+  c.fillStyle = dark('#5B4A6B', .3); for (const lx of [548, 1068]) rr(c, lx, 790, 22, 12, 4), c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, BED.x0, BED.top, BED.x1 - BED.x0, 66, 16); c.fill();
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, BED.x0, BED.top + 48, BED.x1 - BED.x0, 18, { bl: 14, br: 14 }); c.fill();
+  c.fillStyle = mix(P.sky, P.cream, .7); c.fillRect(BED.x0 + 10, BED.top + 30, BED.x1 - BED.x0 - 20, 6);
+  ell(c, 640, 684, 96, 40, -.08); c.fillStyle = rgba('#3B2F6B', .12); c.fill();
+  ell(c, 634, 676, 96, 40, -.08); c.fillStyle = '#FFFBF4'; c.fill();
+  ell(c, 612, 666, 50, 18, -.1); c.fillStyle = rgba('#FFFFFF', .7); c.fill();
+  // bedside table with a book
+  contact(c, 1200, 806, 90, 12, .25);
+  c.fillStyle = '#A9683F'; rr(c, 1130, 716, 120, 84, 6); c.fill();
+  c.fillStyle = dark('#A9683F', .25); rr(c, 1142, 730, 96, 30, 5); c.fill(); c.fillStyle = P.mustard; ell(c, 1190, 745, 5, 5); c.fill();
+  c.fillStyle = '#C98B5E'; rr(c, 1118, 700, 144, 18, 6); c.fill(); c.fillStyle = rgba('#FFFFFF', .25); c.fillRect(1124, 702, 132, 5);
+  c.fillStyle = P.red; rr(c, 1226, 686, 34, 14, 3); c.fill(); c.fillStyle = '#FFFBF4'; c.fillRect(1230, 689, 26, 3); c.fillRect(1230, 694, 26, 3);
+  // suitcase in the corner, a door on the right
+  drawSuitcase(c, 1660, 876, 1, 300, { handle: .25, tilt: .02 });
+  c.fillStyle = '#FFFBF4'; rr(c, 1792, 262, 226, 540, 10); c.fill();
+  c.fillStyle = P.teal; rr(c, 1806, 276, 198, 526, 6); c.fill();
+  c.fillStyle = dark(P.teal, .18); for (const [py, ph] of [[300, 190], [520, 220]]) { rr(c, 1832, py, 146, ph, 8); c.fill(); }
+  c.fillStyle = P.mustard; ell(c, 1830, 560, 9, 9); c.fill();
+  c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(1792, 262, 10, 540);
+}
+// the blanket over his legs: a = 0 tucked over the bed; a → 1 thrown back, half on the floor (the leap)
+export function blanket(c, a = 0, t = 0, part = 'both') {
+  const BL = mix(P.mustard, P.cream, .42), TOP = '#FFFBF4';
+  c.save();
+  if (a < 1 && part !== 'thrown') {
+    c.globalAlpha = 1 - a;
+    const y0 = 604 + 40 * a, x0 = 690, x1 = BED.x1 + 8;
+    c.beginPath(); c.moveTo(x0 - 20, y0 + 30);
+    for (let x = x0; x <= x1; x += 48) c.quadraticCurveTo(x + 12, y0 - 14 + 6 * Math.sin(x * .3 + t * .5), x + 48, y0 + 2 + 5 * Math.cos(x * .4));
+    c.lineTo(x1, 766); c.quadraticCurveTo(x1 + 10, 775, x1 - 10, 776); c.lineTo(x0 - 20, 776); c.closePath();
+    c.fillStyle = BL; c.fill();
+    c.fillStyle = TOP; rr(c, x0 - 14, y0 + 20, x1 - x0 + 10, 38, 10); c.fill();
+    c.fillStyle = rgba('#3B2F6B', .1); rr(c, x0 - 14, y0 + 50, x1 - x0 + 10, 10, 5); c.fill();
+    c.strokeStyle = rgba('#B8862A', .25); c.lineWidth = 3; for (const yy of [690, 730]) { c.beginPath(); c.moveTo(x0 + 20, yy); c.lineTo(x1 - 20, yy + 8); c.stroke(); }
+  }
+  if (a > 0 && part !== 'tucked') {
+    c.globalAlpha = a;
+    // thrown: a crumpled pile kicked to the foot of the bed
+    c.beginPath(); c.moveTo(860, 760);
+    c.quadraticCurveTo(880, 690, 940, 700); c.quadraticCurveTo(960, 640, 1010, 666); c.quadraticCurveTo(1060, 630, 1090, 690);
+    c.quadraticCurveTo(1130, 700, 1100, 760); c.closePath(); c.fillStyle = BL; c.fill();
+    c.fillStyle = TOP; c.beginPath(); c.moveTo(930, 705); c.quadraticCurveTo(980, 672, 1040, 690); c.quadraticCurveTo(1010, 722, 950, 728); c.closePath(); c.fill();
+    c.fillStyle = rgba('#3B2F6B', .12); c.beginPath(); c.moveTo(1040, 700); c.quadraticCurveTo(1100, 712, 1100, 760); c.lineTo(1030, 760); c.closePath(); c.fill();
+  }
+  c.restore();
+}
+
+// ---------------- the school hallway ----------------
+// cream wall over a navy-pastel wainscot, a plank floor, a window on the left (the light), a notice board between the two
+// marks, a wall clock on the right, teal doors at both ends. GROUND = 880 as in the street, so the beans keep their scale.
+export const HALLCLOCK = { x: 1440, y: 400, r: 62 };
+function hallStatic(c) {
+  const WALL = '#F6EBD8', WAIN = mix(P.navy, P.cream, .76), WOOD = '#DDAB7A';
+  c.fillStyle = WALL; c.fillRect(-300, -300, 2800, 1100);
+  const g = c.createRadialGradient(500, 300, 0, 500, 300, 1900); g.addColorStop(0, rgba('#FFF6E8', .5)); g.addColorStop(1, rgba('#D8CFE0', .25)); c.fillStyle = g; c.fillRect(-300, -300, 2800, 1100);
+  c.fillStyle = WAIN; c.fillRect(-300, 654, 2800, 134);
+  c.fillStyle = dark(WAIN, .12); for (let x = -300; x < 2500; x += 90) c.fillRect(x, 668, 4, 112);
+  c.fillStyle = '#FFFBF4'; rr(c, -300, 642, 2800, 14, 4); c.fill(); c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(-300, 656, 2800, 5);
+  c.fillStyle = light(WAIN, .5); c.fillRect(-300, 786, 2800, 14); c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(-300, 798, 2800, 5);
+  const fg = c.createLinearGradient(0, 800, 0, 1200); fg.addColorStop(0, WOOD); fg.addColorStop(1, dark(WOOD, .2)); c.fillStyle = fg; c.fillRect(-300, 800, 2800, 500);
+  c.strokeStyle = rgba('#7A4A2E', .15); c.lineWidth = 2;
+  for (const y of [832, 872, 926, 1000, 1110]) { c.beginPath(); c.moveTo(-300, y); c.lineTo(2500, y); c.stroke(); }
+  for (let x = -300; x < 2500; x += 180) { c.beginPath(); c.moveTo(x, 800); c.lineTo(x + (x - 1300) * .5, 1200); c.stroke(); }
+  // light from the window across the floor
+  c.fillStyle = rgba('#FFF2D0', .18); poly(c, [[380, 640], [760, 640], [1500, 1100], [500, 1100]]); c.fill();
+  // doors (left end + right end): cream frames, teal leaves with two panels, mustard knobs
+  const door = (x, w) => {
+    c.fillStyle = rgba('#3B2F6B', .1); rr(c, x + 8, 300, w + 10, 496, 8); c.fill();
+    c.fillStyle = '#FFFBF4'; rr(c, x - 14, 286, w + 28, 516, 10); c.fill();
+    c.fillStyle = P.teal; rr(c, x, 300, w, 498, 6); c.fill();
+    c.fillStyle = dark(P.teal, .18); for (const [py, ph] of [[324, 170], [530, 230]]) { rr(c, x + 28, py, w - 56, ph, 8); c.fill(); }
+    c.fillStyle = P.mustard; ell(c, x + w - 30, 560, 9, 9); c.fill();
+    c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(x, 300, 8, 498);
+    c.fillStyle = light(P.teal, .2); c.fillRect(x, 300, w, 10);
+  };
+  door(50, 230); door(1930, 230);
+  // window (left) with a bench under it
+  const wx = 400, wy = 220, ww = 330, wh = 380;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, wx - 4, wy - 2, ww + 22, wh + 22, 8); c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, wx - 14, wy - 14, ww + 28, wh + 28, 8); c.fill();
+  const sg = c.createLinearGradient(0, wy, 0, wy + wh); sg.addColorStop(0, '#86C8E8'); sg.addColorStop(1, '#DCEDF2'); c.fillStyle = sg; c.fillRect(wx, wy, ww, wh);
+  c.fillStyle = mix(P.leaf, P.cream, .25); for (const [bx, by, r] of [[60, 300, 70], [150, 330, 60], [250, 290, 75]]) { ell(c, wx + bx, wy + by, r, r * .8); c.fill(); }
+  c.fillStyle = rgba('#FFFFFF', .25); poly(c, [[wx + 30, wy + wh], [wx + 170, wy], [wx + 230, wy], [wx + 90, wy + wh]]); c.fill();
+  c.fillStyle = '#FFFBF4'; c.fillRect(wx + ww / 2 - 6, wy, 12, wh); c.fillRect(wx, wy + wh * .45 - 5, ww, 10);
+  c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(wx, wy, ww, 9); c.fillRect(wx + ww - 8, wy, 8, wh);
+  c.fillStyle = '#FFFBF4'; rr(c, wx - 30, wy + wh + 14, ww + 60, 16, 4); c.fill();
+  // notice board: navy frame, cork, pinned papers
+  const nx = 1000, ny = 380, nw = 300, nh = 215;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, nx + 6, ny + 8, nw, nh, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, nx - 10, ny - 10, nw + 20, nh + 20, 10); c.fill();
+  c.fillStyle = '#D9B384'; c.fillRect(nx, ny, nw, nh);
+  c.fillStyle = rgba('#8B5A2B', .18); for (let i = 0; i < 70; i++) { const px = nx + ((i * 73) % nw), py = ny + ((i * 41) % nh); c.fillRect(px, py, 3, 2); }
+  const papers = [[nx + 18, ny + 18, 92, 70, mix(P.red, P.cream, .55), -.05], [nx + 128, ny + 14, 72, 90, mix(P.teal, P.cream, .55), .04], [nx + 216, ny + 24, 68, 62, mix(P.mustard, P.cream, .45), -.03],
+    [nx + 26, ny + 108, 80, 86, mix(P.leaf, P.cream, .55), .06], [nx + 122, ny + 118, 100, 72, '#FFFBF4', -.04], [nx + 232, ny + 104, 56, 84, mix(P.sky, P.cream, .35), .05]];
+  for (const [px, py, pw, ph, col, rot] of papers) {
+    c.save(); c.translate(px + pw / 2, py + ph / 2); c.rotate(rot);
+    c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(-pw / 2 + 3, -ph / 2 + 4, pw, ph); c.fillStyle = col; c.fillRect(-pw / 2, -ph / 2, pw, ph);
+    c.fillStyle = rgba('#2A2742', .3); for (let i = 0; i < Math.floor(ph / 16) - 1; i++) c.fillRect(-pw / 2 + 10, -ph / 2 + 14 + i * 16, pw - 20 - (i % 3) * 12, 4);
+    ell(c, 0, -ph / 2 + 2, 6, 6); c.fillStyle = [P.red, P.navy, P.teal][Math.round(Math.abs(rot) * 100) % 3]; c.fill();
+    c.restore();
+  }
+  // wall clock (face; the hands are live)
+  const { x: cx, y: cy, r } = HALLCLOCK;
+  c.fillStyle = rgba('#3B2F6B', .12); ell(c, cx + 6, cy + 8, r + 8, r + 8); c.fill();
+  c.fillStyle = P.navy; ell(c, cx, cy, r + 8, r + 8); c.fill(); c.fillStyle = P.mustard; ell(c, cx, cy, r + 1, r + 1); c.fill(); c.fillStyle = '#FFFBF4'; ell(c, cx, cy, r - 6, r - 6); c.fill();
+  c.fillStyle = P.ink; for (let i = 0; i < 12; i++) { const a = i / 12 * 2 * PI; c.save(); c.translate(cx + Math.sin(a) * (r - 16), cy - Math.cos(a) * (r - 16)); c.rotate(a); rr(c, -2.5, -(i % 3 ? 4 : 7), 5, i % 3 ? 8 : 14, 2.5); c.fill(); c.restore(); }
+  // a framed poster right of the marks (generic skyline), a plant by the right door, a small plaque by the left door (no text)
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, 1676, 402, 200, 150, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, 1668, 392, 200, 150, 8); c.fill(); c.fillStyle = '#FBF1E1'; c.fillRect(1682, 406, 172, 122);
+  c.fillStyle = mix(P.sky, P.cream, .3); c.fillRect(1682, 406, 172, 86); c.fillStyle = mix(P.red, P.cream, .4); ell(c, 1720, 440, 22, 22); c.fill();
+  const FP = mix(mix(P.sky, '#7C78B4', .45), '#DCEAF2', .35); c.fillStyle = FP;
+  for (const [bx, bw, bh] of [[0, 30, 44], [30, 22, 76], [52, 44, 34], [96, 14, 96], [110, 42, 54], [152, 20, 40]]) c.fillRect(1682 + bx, 492 - bh, bw, bh);
+  c.beginPath(); c.arc(1800, 490, 20, Math.PI, 2 * Math.PI); c.strokeStyle = FP; c.lineWidth = 3; c.stroke();
+  c.fillStyle = P.mustard; c.fillRect(1700, 506, 60, 6); c.fillStyle = rgba(P.ink, .4); c.fillRect(1700, 516, 100, 4);
+  planter(c, 1880, 884);
+  c.fillStyle = P.navy; rr(c, 330, 380, 40, 120, 6); c.fill(); c.fillStyle = P.mustard; c.fillRect(338, 392, 24, 4); c.fillRect(338, 404, 24, 4); c.fillRect(338, 416, 16, 4);
+}
+export function hallClockHands(c, hours) {
+  const { x: CX, y: CY, r } = HALLCLOCK, ha = (hours % 12) / 12 * 2 * PI, ma = (hours % 1) * 2 * PI;
+  c.lineCap = 'round'; c.strokeStyle = P.ink;
+  c.lineWidth = 7; c.beginPath(); c.moveTo(CX, CY); c.lineTo(CX + Math.sin(ha) * r * .42, CY - Math.cos(ha) * r * .42); c.stroke();
+  c.lineWidth = 5; c.beginPath(); c.moveTo(CX, CY); c.lineTo(CX + Math.sin(ma) * r * .64, CY - Math.cos(ma) * r * .64); c.stroke();
+  c.fillStyle = P.red; ell(c, CX, CY, 6, 6); c.fill();
+}
+let SETS = null;
+export function bakeSets() {
+  if (SETS) return SETS;
+  SETS = { bed: bake(-20, -20, 2000, 1100, 1.25, bedroomStatic), hall: bake(-150, -100, 2350, 1100, 1.7, hallStatic) };
+  return SETS;
+}
+// draw a flat set with the camera; dof blurs the whole set (close-ups); live(l) draws moving parts in world space
+export function drawBedroom(c, cam, t, o = {}) {
+  const k = bakeSets();
+  soft(c, cam, 1, o.dof || 0, l => { blit(l, k.bed); blanket(l, o.blanket || 0, t, 'thrown'); if (o.live) o.live(l); });
+  c.setTransform(1, 0, 0, 1, 0, 0);
+}
+export function drawHall(c, cam, t, o = {}) {
+  const k = bakeSets();
+  soft(c, cam, 1, o.dof || 0, l => { blit(l, k.hall); hallClockHands(l, o.clock ?? 8.2); if (o.live) o.live(l); });
+  c.setTransform(1, 0, 0, 1, 0, 0);
 }

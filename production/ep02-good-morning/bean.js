@@ -2,7 +2,7 @@
 // A character is one smooth egg ("bean") + a face kit (eyes, capsule brows, parametric mouth, blush, sweat)
 // + stubby stroked arms + tiny feet. Every surface feature is placed on the bean by longitude (φ) so the same
 // code draws front, 3/4 and side views. All lengths are fractions of the character height H.
-import { P, SKIN, HAIR, mix, rgba, dark, light, formed, ell, smooth, poly, contact } from './kit.js';
+import { P, SKIN, HAIR, SHADE, mix, rgba, dark, light, formed, ell, smooth, poly, contact, rr } from './kit.js';
 import { lerp, clamp } from '/core/lib.js';
 
 const PI = Math.PI;
@@ -421,4 +421,95 @@ export function drawSuitcase(ctx, x, y, k, u = 300, o = {}) {
     l.restore();
     l.restore();
   }, { sx: .03 * u * k, sy: .02 * u * k, soft: .006 * u * k, shadeA: .5, hx: .012 * u * k, hy: .012 * u * k, hiA: .5, hy0: y - .45 * u * k, hy1: y - .1 * u * k });
+}
+
+// ---------------- episode 2 props (held things; drawn after the character, then the hand is redrawn over them) ----------------
+// the round hand on its own (to draw it again over a held prop)
+export function drawHand(ctx, sp, hx, hy, H) {
+  const r = .047 * H;
+  ell(ctx, hx, hy, r, r); ctx.fillStyle = mix(sp.skin, '#4B2E52', .32); ctx.fill();
+  ell(ctx, hx - .009 * H, hy - .008 * H, r * .8, r * .8); ctx.fillStyle = sp.skin; ctx.fill();
+  ell(ctx, hx - .02 * H, hy - .02 * H, r * .25, r * .2); ctx.fillStyle = rgba('#FFF6E8', .35); ctx.fill();
+}
+// takeaway coffee cup: x,y = the centre of the cup body; k = scale (1 = a 300 px owner); o.steam (0..1) + o.t animate the steam
+export function drawCup(ctx, x, y, k, o = {}) {
+  const u = 300 * k, w = .125 * u, h = .16 * u;
+  ctx.save(); ctx.translate(x, y + h / 2); if (o.rot) ctx.rotate(o.rot);
+  contact(ctx, .01 * u, .004 * u, w * .5, .02 * u, .18);
+  poly(ctx, [[-w / 2, -h], [w / 2, -h], [w * .42, 0], [-w * .42, 0]]); ctx.fillStyle = '#FFFDF8'; ctx.fill();
+  poly(ctx, [[w * .2, -h], [w / 2, -h], [w * .42, 0], [w * .18, 0]]); ctx.fillStyle = rgba(SHADE, .18); ctx.fill();
+  poly(ctx, [[-w * .5, -h * .78], [w * .5, -h * .78], [w * .455, -h * .32], [-w * .455, -h * .32]]); ctx.fillStyle = P.navy; ctx.fill();
+  poly(ctx, [[w * .2, -h * .78], [w * .5, -h * .78], [w * .455, -h * .32], [w * .18, -h * .32]]); ctx.fillStyle = rgba(SHADE, .3); ctx.fill();
+  ell(ctx, -w * .18, -h * .55, w * .07, h * .07); ctx.fillStyle = P.mustard; ctx.fill();
+  ctx.fillStyle = P.teal; rr(ctx, -w * .56, -h - .028 * u, w * 1.12, .034 * u, .012 * u); ctx.fill();
+  rr(ctx, -w * .32, -h - .05 * u, w * .64, .028 * u, .01 * u); ctx.fill();
+  ctx.fillStyle = rgba('#FFFBF0', .45); rr(ctx, -w * .5, -h - .024 * u, w * .5, .012 * u, .006 * u); ctx.fill();
+  if (o.steam > 0) {
+    ctx.strokeStyle = rgba('#FFFFFF', .6 * o.steam); ctx.lineWidth = .012 * u; ctx.lineCap = 'round';
+    for (const s of [-1, 1]) {
+      ctx.beginPath();
+      for (let i = 0; i <= 8; i++) { const v = i / 8, yy = -h - .06 * u - v * .11 * u, xx = s * .02 * u + Math.sin(v * 5 + (o.t || 0) * 3 + s) * .014 * u; i ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); }
+      ctx.globalAlpha = .6 * o.steam; ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+// Mia's teal tote bag hanging from a hand at (x, y)
+export function drawBag(ctx, x, y, k) {
+  const u = 276 * k;
+  ctx.save(); ctx.translate(x, y);
+  ctx.strokeStyle = dark(P.mustard, .25); ctx.lineWidth = .02 * u; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(-.07 * u, .16 * u); ctx.quadraticCurveTo(-.07 * u, -.02 * u, 0, -.01 * u); ctx.quadraticCurveTo(.07 * u, -.02 * u, .07 * u, .16 * u); ctx.stroke();
+  rr(ctx, -.14 * u, .15 * u, .28 * u, .24 * u, .03 * u); ctx.fillStyle = P.teal; ctx.fill();
+  rr(ctx, .06 * u, .15 * u, .08 * u, .24 * u, { tr: .03 * u, br: .03 * u }); ctx.fillStyle = rgba(SHADE, .3); ctx.fill();
+  rr(ctx, -.14 * u, .15 * u, .28 * u, .07 * u, { tl: .03 * u, tr: .03 * u }); ctx.fillStyle = P.mustard; ctx.fill();
+  ell(ctx, 0, .27 * u, .028 * u, .028 * u); ctx.fillStyle = P.cream; ctx.fill();
+  ctx.restore();
+}
+// the paper form: a cream sheet with ruled lines and the "Age" box, centred on (x, y); w × h in px, rot in radians
+// o.age: 0..1 highlight of the Age box; o.text: draw the words (big versions only); o.hands: draw the holder's thumbs (skin colour)
+export function drawForm(ctx, x, y, w, h, o = {}) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(o.rot || 0);
+  ctx.fillStyle = rgba('#2A2742', .18); rr(ctx, -w / 2 + 8, -h / 2 + 10, w, h, w * .02); ctx.fill();
+  ctx.fillStyle = '#FFFDF6'; rr(ctx, -w / 2, -h / 2, w, h, w * .02); ctx.fill();
+  const m = w * .09, lw = Math.max(2, w * .012);
+  // header bar
+  ctx.fillStyle = P.navy; rr(ctx, -w / 2 + m, -h / 2 + m * .8, w - 2 * m, h * .085, h * .02); ctx.fill();
+  ctx.fillStyle = P.mustard; rr(ctx, -w / 2 + m + w * .03, -h / 2 + m * .8 + h * .025, w * .22, h * .035, h * .012); ctx.fill();
+  // rows: label stub + line; the Age row is boxed
+  const rows = [['Name:', 'Youssef'], ['From:', 'Cairo'], ['Age:', ''], ['Class:', 'A1']];
+  const y0 = -h / 2 + m * .8 + h * .17, dy = h * .17;
+  rows.forEach(([lab, val], i) => {
+    const yy = y0 + i * dy, isAge = i === 2;
+    if (isAge) {
+      const k = o.age ?? 0;
+      ctx.fillStyle = rgba(P.mustard, .18 + .32 * k); rr(ctx, -w / 2 + m - w * .02, yy - h * .07, w - 2 * m + w * .04, h * .13, h * .02); ctx.fill();
+      ctx.strokeStyle = rgba(P.red, .35 + .6 * k); ctx.lineWidth = lw * 1.4; rr(ctx, -w / 2 + m - w * .02, yy - h * .07, w - 2 * m + w * .04, h * .13, h * .02); ctx.stroke();
+    }
+    ctx.fillStyle = rgba(P.ink, isAge ? .9 : .55); rr(ctx, -w / 2 + m, yy - h * .012, w * .18, h * .024, h * .012); ctx.fill();
+    ctx.strokeStyle = rgba(P.ink, .3); ctx.lineWidth = lw; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-w / 2 + m + w * .24, yy + h * .03); ctx.lineTo(w / 2 - m, yy + h * .03); ctx.stroke();
+    if (o.text) {
+      ctx.fillStyle = '#FFFDF6'; rr(ctx, -w / 2 + m - 2, yy - h * .05, w * .2, h * .1, 4); ctx.fill();
+      ctx.font = `600 ${h * .075}px "Fredoka"`; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = isAge ? P.ink : rgba(P.ink, .7); ctx.fillText(lab, -w / 2 + m, yy);
+      if (val) { ctx.font = `500 ${h * .07}px "Fredoka"`; ctx.fillStyle = P.teal; ctx.fillText(val, -w / 2 + m + w * .27, yy + h * .005); }
+      if (isAge) { ctx.strokeStyle = P.ink; ctx.lineWidth = lw * 1.3; ctx.setLineDash([w * .03, w * .02]); ctx.beginPath(); ctx.moveTo(-w / 2 + m + w * .26, yy + h * .03); ctx.lineTo(-w / 2 + m + w * .62, yy + h * .03); ctx.stroke(); ctx.setLineDash([]); }
+    } else if (isAge) { ctx.fillStyle = rgba(P.ink, .55); rr(ctx, -w / 2 + m + w * .26, yy + h * .015, w * .3, h * .03, h * .01); ctx.fill(); }
+  });
+  ctx.restore();
+}
+// hand positions (screen px) for a pose, without drawing: [[x, y, far], [x, y, far]] for armL, armR
+export function handPos(sp, p) {
+  const G = geo(sp, p), arms = armGeo(sp, p, G);
+  return arms.map(A => [p.x + A.Hd[0] * p.k, p.y + A.Hd[1] * p.k, A.far]);
+}
+// a cardboard carrier with n takeaway cups, centred on (x, y)
+export function drawTray(ctx, x, y, k, n = 2, o = {}) {
+  const u = 300 * k, gap = .15 * u;
+  for (let i = 0; i < n; i++) drawCup(ctx, x + (i - (n - 1) / 2) * gap, y - .02 * u, k, o);
+  ctx.save(); ctx.translate(x, y);
+  const w = gap * n + .02 * u;
+  rr(ctx, -w / 2, -.02 * u, w, .07 * u, .02 * u); ctx.fillStyle = mix(P.mustard, P.cream, .5); ctx.fill();
+  rr(ctx, -w / 2, .03 * u, w, .02 * u, .01 * u); ctx.fillStyle = rgba(SHADE, .3); ctx.fill();
+  ctx.restore();
 }
