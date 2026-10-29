@@ -1,0 +1,111 @@
+# Ep 1 "First Day" (picture)
+
+A 2D canvas animation in the approved **Bean People v2** look, rendered headlessly with the lemo-opuscar library.
+`timeline.json` is the only source of timing. Every beat, bubble, word highlight, mouth shape and cue is derived from it, so
+regenerating the timeline re-times the picture and the cue list. Nothing that comes from speech is hard-coded.
+
+## Render
+
+```bash
+cd /home/user/ref/lemo-opuscar
+export PLAYWRIGHT_CHROME=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell   # if needed
+node core/render/still.mjs  <ep01-first-day> 36.2 45 107.3            # stills → <ep>/stills
+node core/render/video.mjs  <ep01-first-day> --workers 3              # full episode → <ep>/out/video.mp4
+node core/render/events.mjs <ep01-first-day>                          # window.EV → <ep>/events.json (for the mix)
+# preview a range (section ids or seconds); --size scales the canvas down:
+node core/render/video.mjs  <ep01-first-day> --q 'from=door&to=retry' --size 960x540 --out <ep>/out/preview.mp4
+```
+
+Page contract: `window.DUR` (= `timeline.dur`), `window.render(t)` (a pure function of t that uses seeded randomness
+only), `window.READY` (set after the timeline and the fonts have loaded) and `window.EV` (the cue list).
+
+Optional query parameters:
+- `?from=&to=` sets a preview range. DUR and t become relative to the range, but the EV times stay absolute.
+- `?tl=file.json` loads a different timeline file, for testing.
+
+## Modules (the v2 split, extended)
+
+| file | role |
+|---|---|
+| `kit.js` | Palette tokens, colour maths and the form pass. The crescent blur now runs at half resolution, canvases come from a size-aware pool, and every canvas is a CPU raster canvas. |
+| `bean.js` | The v2 characters, unchanged except for a tighter layer box. |
+| `world.js` | The street, extended to the left with a bench, a post box and lamps. The school has a clock. Adds a time-of-day sky (`tod`). Static layers are baked once into caches; the door, clock hands, bus and clouds are drawn live. Depth of field is done by downsampling. |
+| `ui.js` | Speech bubbles with name tabs and the timed word highlighter, the Arabic narration plate (RTL, words light up, bidi-safe Latin runs), thought bubbles and drawn icons: smiley, loop arrows, mic, ✓/✗, squiggle, alarm clock, bell, comment. |
+| `tl.js` | Loads the timeline. Maps display tokens to word times, builds lip sync from `talk`, chunks the narration plate and finds narration words. |
+| `act.js` | Acting: keyed pose tracks, hop-walk, blinks, eye darts, lip sync and the ponytail/quiff spring. |
+| `story.js` | Sections open → street → door → retry (one continuous world), then day and bye. |
+| `recap.js` | "اللي اتعلمته النهارده": Living Letters kinetic type on cream paper. |
+| `outro.js` | Title card, page wipe, "your turn", next-episode teaser and end card. |
+| `cues.js` | The `window.EV` registry. Scenes register their cues while they are built from the timeline. |
+
+## How the scenes map to the timeline
+
+| section | picture | keyed to |
+|---|---|---|
+| open | Camera tilts down from the skyline; Youssef hop-walks in with the red suitcase. He stops to look up at London on "لندن", the bus passes behind, and he glances at us, worried, on "قابلت ميا". The title card ("يوسف في لندن" / "الحلقة 1" / "First Day") pops in with a sting. | `ar01` / `ar02` words, `beats.title`, the start of `street` |
+| street | Walking. A thought bubble rehearses "Hello!" with a drawn smile, and he grins on "وبابتسامة". He finds the school (sign, teal door) and walks to the door, which opens. | `ar03` words, `beats.school_seen`, `beats.door_open` |
+| door | Mia is revealed in the doorway and hops out. Two-shot: "Hi! I'm Mia." with a wave, then "Hello! I… I Youssef." (the "I…" trembles). Mia leans in for "Sorry?", and the film cuts in to a close-up of Youssef. At the freeze: a cached, desaturated hold with a flash, a keyline frame, sweat and `///` blush, and ?/! marks that pop on the panicking narration. | door `lines` (per token), `beats.sorry`, `beats.freeze`, `ar05` punctuation |
+| retry | The film unfreezes back to the two-shot. Mia is kind; Youssef answers with a hand on his chest; joy, small hops. On "Come in!" Mia steps aside and points. Both turn and go into the doorway, and the door closes during `ar06`. | retry `lines`, `beats.unfreeze`, `beats.come_in` |
+| day | Close-up on the school clock: the hands spin from 9:05 to 3:30, the sky and grade warm to golden afternoon, and the camera pulls back. The door opens and both come out. | `day` t0/t1 |
+| bye | Golden two-shot. Waves, then Youssef walks away. Mia calls "Class is at eight!", he whips round, and the film cuts to a close-up of "Eight?!" with a thought bubble holding a ringing alarm clock at 8:00. On "الجيش" he gives a deadpan look to camera. | bye `lines`, `beats.eight`, `ar08` words |
+| recap | A page-wipe to paper. The title shrinks into a header pill, and the presenter beans are Youssef on the right and Mia on the left. Per item: hi/hello · "I Youssef." with a red squiggle and ✗, then the "أنا يوسف" gloss, the caret, `am` typed in and ✓ · "I am" squeezing into "I'm" · "اسمك إيه؟" gloss, then Q and A · "Nice to meet you." with "Me too." (squiggle) replaced by "Nice to meet you too." · "Sorry?" with a wobbling ? · "Bye! See you!" / "Goodbye!". A drawn "كرّر" cue appears in each repeat gap. | `recap[]` items, `lines` r01–r10 (per-word highlight), Latin tokens in `ar10` / `ar11` / `ar13` |
+| turn | A page-wipe back to the street. Mia faces camera ("دورك!" wave). Her bubble, then the "I'm ______." card with a mic and a 3-2-1 ring from `pause_start` to `pause_end`, then ✓, confetti, a clap on "برافو", and a comment icon on "واكتبها". | `turn` line, `beats.pause_start` / `beats.pause_end`, `ar16` / `ar17` words |
+| next | A ringing alarm at 8:20, then Youssef running late (speed lines). Mia asks "How are you?" (her bubble is timed to the Latin token in `ar18`), and he gulps. End card: "الحلقة الجاية", "How are you?", Youssef, and a red subscribe pill with a bell that gets tapped (no platform logo). Fades to ink. | `ar18` words, `beats.end_card` |
+
+## Sound cues (`window.EV`, also in `events.json`)
+
+Each entry is `{t, type, ...}`. Some entries add fields: `dur` (s) for long sounds; `who` (`mia`/`youssef`) on `step` and
+`bubble`; `run` on running steps; `n` on `countdown_tick`; `text` on `bubble`; and a human-readable `note`.
+
+| type | meaning |
+|---|---|
+| `step` | One hop-walk landing (`who`; `run: true` when running). |
+| `suitcase_roll` | Wheels rolling (`dur`; `fast` when running). |
+| `bubble` | A speech bubble pops (`who`, `text`). |
+| `pop` | A small UI or graphic pop: title words, the recap title, the card, an apostrophe, the comment icon, an excited hop. |
+| `thought` | A thought bubble appears. |
+| `sparkle` | The grin sparkle. |
+| `sting` | Title card. |
+| `sting_shock` | "Eight?!" |
+| `sting_end` | End card. |
+| `whoosh` | Camera moves and transitions. |
+| `cut_in` | Cut to the close-up. |
+| `cut` | Cut on arrival (teaser). |
+| `page_turn` | Page wipe, in and out of the recap. |
+| `door_open` | The door opens. |
+| `door_close` | The door closes. |
+| `bus` | The bus passes behind (`dur`, `pan`). |
+| `ambience_street` | Morning street bed (`dur`). |
+| `ambience_afternoon` | Afternoon bed (`dur`). |
+| `music_intro` | Music bed under the opening (`dur`). |
+| `music_recap` | Music bed under the recap (`dur`). |
+| `music_outro` | Music bed under the outro (`dur`). |
+| `freeze` | The freeze-frame pop. |
+| `unfreeze` | The release. |
+| `clock_spin` | The clock montage (`dur`). |
+| `clock_tick` | Each hour the hands pass. |
+| `alarm` | Alarm ringing (`dur`). |
+| `gulp` | Nervous gulp. |
+| `type` | Words typeset in the recap. |
+| `caret` | The text caret appears. |
+| `squiggle` | The red squiggle draws. |
+| `error_buzz` | The ✗ badge. |
+| `ding` | Correct / fixed / time up (✓). |
+| `squeeze` | "I am" → "I'm". |
+| `repeat` | Start of a learner repeat gap (`dur` = the gap). |
+| `mic_on` | The countdown starts. |
+| `countdown_tick` | 3, 2, 1 (`n`). |
+| `confetti` | The praise burst. |
+| `cheer` | "برافو". |
+| `click` | The subscribe tap. |
+| `bell` | The subscribe bell. |
+
+## Speed (4-core container, no GPU)
+
+- `render()` averages 120–130 ms per frame over the whole episode. The slowest frames, the golden close-ups, take about 440 ms.
+- The screenshot adds about 80 ms per frame.
+- A full frame costs about 0.2 s on average. The door + retry preview at 960×540 took 69 s for 769 frames with 4 workers.
+
+## Notes
+- Fonts and credits: see `CREDITS`. Every image is drawn in code; there are no brands or logos.
+- `events.json`, `stills/` and `out/` are generated files. Re-run `events.mjs` after the timeline changes.

@@ -1,6 +1,6 @@
 // Bean People v2 — London street in the same vector language. Authored in screen px for the establishing camera
 // (CAM0 = centre 960,540, zoom 1); every layer has a parallax factor p (0 = sky, 1 = the characters' pavement, >1 = foreground).
-import { P, HAZE, mix, rgba, dark, light, rr, ell, smooth, poly, contact, formed, layer } from './kit.js';
+import { CPU, P, HAZE, mix, rgba, dark, light, rr, ell, smooth, poly, contact, formed, layer } from './kit.js';
 import { clamp, lerp } from '/core/lib.js';
 
 export const SW = 1920, SH = 1080;
@@ -8,37 +8,44 @@ const PI = Math.PI;
 export const GROUND = 880;            // characters' feet line (world y)
 export const DOOR = { x: 1530, y: 795 };
 
-export function layerT(c, cam, p) {
-  const Z = 1 + (cam.z - 1) * p;
-  c.setTransform(Z, 0, 0, Z, SW / 2 - (960 + (cam.x - 960) * p) * Z, SH / 2 - (540 + (cam.y - 540) * p) * Z);
+export function layerT(c, cam, p, s = 1) {
+  const Z = (1 + (cam.z - 1) * p) * s;
+  c.setTransform(Z, 0, 0, Z, s * SW / 2 - (960 + (cam.x - 960) * p) * Z, s * SH / 2 - (540 + (cam.y - 540) * p) * Z);
 }
 export function toScreen(cam, p, x, y) {
   const Z = 1 + (cam.z - 1) * p;
   return [SW / 2 + (x - 960 - (cam.x - 960) * p) * Z, SH / 2 + (y - 540 - (cam.y - 540) * p) * Z, Z];
 }
 
-// draw a layer into an offscreen canvas, fade it toward the haze colour (atmospheric perspective), optional blur (depth of field)
-function hazed(c, cam, p, haze, blur, draw) {
-  const L = layer(3, SW, SH), l = L.getContext('2d');
-  l.setTransform(1, 0, 0, 1, 0, 0); l.globalCompositeOperation = 'source-over'; l.globalAlpha = 1; l.filter = 'none'; l.clearRect(0, 0, SW, SH);
-  layerT(l, cam, p); draw(l);
-  if (haze > 0) { l.setTransform(1, 0, 0, 1, 0, 0); l.globalCompositeOperation = 'source-atop'; l.fillStyle = rgba(HAZE, haze); l.fillRect(0, 0, SW, SH); l.globalCompositeOperation = 'source-over'; }
-  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); if (blur > .3) c.filter = `blur(${blur.toFixed(1)}px)`; c.drawImage(L, 0, 0, SW, SH, 0, 0, SW, SH); c.restore();
-}
-
 // ---------------- sky ----------------
-function sky(c, cam, t) {
+// tod: 0 = morning, 1 = golden afternoon (the light stays upper-left; only its colour warms)
+const SKY0 = ['#6FBCE3', '#A6D9EF', '#E3EEE9', '#F8E8D2'], SKY1 = ['#7FA9D6', '#E9C9A6', '#FBD6A0', '#FFE3B8'];
+function sky(c, cam, t, tod = 0) {
   const [, hy] = toScreen(cam, .1, 0, 660);
   const g = c.createLinearGradient(0, hy - 900, 0, hy);
-  g.addColorStop(0, '#6FBCE3'); g.addColorStop(.55, '#A6D9EF'); g.addColorStop(.88, '#E3EEE9'); g.addColorStop(1, '#F8E8D2');
+  [0, .55, .88, 1].forEach((st, i) => g.addColorStop(st, mix(SKY0[i], SKY1[i], tod)));
   c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = g; c.fillRect(0, 0, SW, SH);
   // warm sun glow, upper-left (defines the light direction for the whole film)
-  const [sx, sy] = toScreen(cam, .03, 140, 40);
-  const s = c.createRadialGradient(sx, sy, 0, sx, sy, 900); s.addColorStop(0, 'rgba(255,240,200,.75)'); s.addColorStop(.35, 'rgba(255,236,200,.25)'); s.addColorStop(1, 'rgba(255,236,200,0)');
-  c.fillStyle = s; c.fillRect(0, 0, SW, SH);
-  // clouds
-  const CL = [[300, 150, 1.1, .05], [1050, 95, .8, .07], [1650, 210, 1.25, .06], [2300, 130, .9, .05], [-300, 230, .7, .04]];
-  for (const [x, y, s2, p] of CL) { layerT(c, cam, p); cloud(c, x + t * 6 * (1 + s2), y, s2); }
+  const [sx, sy] = toScreen(cam, .03, 140 - 40 * tod, 40 + 140 * tod);
+  const sg = c.createRadialGradient(sx, sy, 0, sx, sy, 900 + 200 * tod);
+  sg.addColorStop(0, tod > .01 ? rgba(mix('#FFF0C8', '#FFD08A', tod), .75 + .15 * tod) : 'rgba(255,240,200,.75)');
+  sg.addColorStop(.35, rgba(mix('#FFECC8', '#FFC98A', tod), .25 + .15 * tod)); sg.addColorStop(1, 'rgba(255,236,200,0)');
+  c.fillStyle = sg; c.fillRect(0, 0, SW, SH);
+  // clouds (cached sprite)
+  const CL = [[300, 150, 1.1, .05], [1050, 95, .8, .07], [1650, 210, 1.25, .06], [2300, 130, .9, .05], [-300, 230, .7, .04], [-1100, 170, 1.0, .05], [-1900, 110, .85, .06]];
+  const sp = cloudSprite();
+  for (const [x, y, s2, p] of CL) {
+    layerT(c, cam, p); const cx = x + t * 6 * (1 + s2);
+    c.drawImage(sp, cx - 150 * s2, y - 130 * s2, 330 * s2, 200 * s2);
+    if (tod > .01) { c.globalAlpha = .35 * tod; c.globalCompositeOperation = 'multiply'; c.drawImage(sp, cx - 150 * s2, y - 130 * s2, 330 * s2, 200 * s2); c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; }
+  }
+  c.setTransform(1, 0, 0, 1, 0, 0);
+}
+let CLOUD = null;
+function cloudSprite() {
+  if (CLOUD) return CLOUD;
+  CLOUD = document.createElement('canvas'); CLOUD.width = 660; CLOUD.height = 400;
+  const c = CLOUD.getContext('2d', CPU); c.scale(2, 2); cloud(c, 150, 130, 1); return CLOUD;
 }
 function cloud(c, x, y, s) {
   const blobs = [[-110, 10, 52], [-55, -22, 66], [15, -40, 80], [85, -12, 62], [140, 12, 44]];
@@ -122,21 +129,19 @@ function tree(c, x, base, s = 1) {
   c.fillStyle = L; c.fill();
   c.fillStyle = rgba('#FFFFFF', .16); ell(c, x - 20 * s, base - 140 * s, 16 * s, 10 * s, -.5); c.fill();
 }
-function mid(c, t, busX) {
+function mid(c) {
   const base = 700;
   // houses
-  let x = -620, i = 0;
+  let x = -2780, i = 0;
   const W = [168, 180, 158, 186, 172, 164];
   const Hh = [232, 250, 224, 258, 240, 228];
   while (x < 2900) { const w = W[i % 6], h = Hh[(i * 5) % 6]; house(c, x, w, h, PASTEL[i % 6], DOORS[(i * 7) % 6], base); x += w; i++; }
   // far pavement + road
-  c.fillStyle = '#E2D7CC'; c.fillRect(-700, base - 4, 3700, 14);
-  c.fillStyle = '#8F90AC'; c.fillRect(-700, base + 10, 3700, 70);
-  c.fillStyle = rgba(P.cream, .8); for (let xx = -700; xx < 3000; xx += 74) c.fillRect(xx, base + 43, 40, 5);
+  c.fillStyle = '#E2D7CC'; c.fillRect(-2900, base - 4, 5900, 14);
+  c.fillStyle = '#8F90AC'; c.fillRect(-2900, base + 10, 5900, 70);
+  c.fillStyle = rgba(P.cream, .8); for (let xx = -2900; xx < 3000; xx += 74) c.fillRect(xx, base + 43, 40, 5);
   // street trees
-  for (const tx of [-380, 60, 520, 980, 1440, 1900, 2360]) tree(c, tx, base + 4, 1.05);
-  // bus
-  bus(c, busX, base + 74, 1);
+  for (const tx of [-2220, -1760, -1300, -840, -380, 60, 520, 980, 1440, 1900, 2360]) tree(c, tx, base + 4, 1.05);
 }
 export function bus(c, x, base, s) {
   c.save(); c.translate(x, base); c.scale(s, s);
@@ -161,14 +166,34 @@ export function bus(c, x, base, s) {
 
 // ---------------- near layer: our pavement, phone box, the ENGLISH SCHOOL ----------------
 function pavement(c) {
-  c.fillStyle = '#CFC4BA'; c.fillRect(-900, 770, 4200, 14);         // kerb
-  c.fillStyle = '#F0E8DC'; c.fillRect(-900, 770, 4200, 4);
+  const X0 = -3400, X1 = 3300;
+  c.fillStyle = '#CFC4BA'; c.fillRect(X0, 770, X1 - X0, 14);         // kerb
+  c.fillStyle = '#F0E8DC'; c.fillRect(X0, 770, X1 - X0, 4);
   const g = c.createLinearGradient(0, 784, 0, 1200); g.addColorStop(0, '#EDE3D5'); g.addColorStop(1, '#E2D5C6');
-  c.fillStyle = g; c.fillRect(-900, 784, 4200, 900);
+  c.fillStyle = g; c.fillRect(X0, 784, X1 - X0, 900);
   c.strokeStyle = rgba('#8B7C8E', .16); c.lineWidth = 2;
-  for (const y of [812, 858, 925, 1015, 1130]) { c.beginPath(); c.moveTo(-900, y); c.lineTo(3300, y); c.stroke(); }
-  const vx = 960, vy = 300;
-  for (let x = -900; x < 3300; x += 150) { c.beginPath(); c.moveTo(x, 784); c.lineTo(x + (x - vx) * (1300 - 784) / (784 - vy), 1300); c.stroke(); }
+  for (const y of [812, 858, 925, 1015, 1130]) { c.beginPath(); c.moveTo(X0, y); c.lineTo(X1, y); c.stroke(); }
+  // slab joints: each block of the street has its own vanishing point, so the joints never fan out too far
+  for (let x = X0; x < X1; x += 150) { const vx = Math.round((x + 600) / 1500) * 1500 - 540, vy = 300; c.beginPath(); c.moveTo(x, 784); c.lineTo(x + (x - vx) * (1300 - 784) / (784 - vy), 1300); c.stroke(); }
+}
+// a red pillar post box (generic, no crest)
+function postBox(c, x, base) {
+  contact(c, x + 10, base + 2, 44, 8, .3);
+  formed(c, { x: x - 50, y: base - 190, w: 100, h: 200 }, l => {
+    l.fillStyle = P.red; rr(l, x - 30, base - 150, 60, 150, 8); l.fill();
+    l.beginPath(); l.ellipse(x, base - 150, 34, 22, 0, PI, 2 * PI); l.fill(); l.fillRect(x - 34, base - 152, 68, 10);
+    l.fillStyle = dark(P.red, .35); rr(l, x - 18, base - 118, 36, 7, 3); l.fill();
+    l.fillStyle = P.cream; rr(l, x - 14, base - 96, 28, 20, 3); l.fill();
+    l.fillStyle = dark(P.red, .25); l.fillRect(x - 34, base - 12, 68, 12);
+  }, { sx: 8, sy: 5, soft: 2, shadeA: .45, hx: 3, hy: 3, hiA: .4, hy0: base - 170, hy1: base });
+}
+function bench(c, x, base) {
+  contact(c, x + 12, base + 2, 110, 10, .25);
+  formed(c, { x: x - 120, y: base - 120, w: 240, h: 130 }, l => {
+    l.fillStyle = P.navy; for (const s of [-1, 1]) { rr(l, x + s * 80 - 6, base - 62, 12, 62, 4); l.fill(); }
+    l.fillStyle = '#B8794E'; for (const y of [-64, -96, -112]) { rr(l, x - 104, base + y, 208, 12, 5); l.fill(); }
+    l.fillStyle = P.navy; for (const s of [-1, 1]) { rr(l, x + s * 80 - 5, base - 118, 10, 58, 4); l.fill(); }
+  }, { sx: 8, sy: 5, soft: 2, shadeA: .45, hx: 3, hy: 3, hiA: .35, hy0: base - 120, hy1: base });
 }
 function phoneBox(c, x, base) {
   const w = 86, h = 236;
@@ -195,7 +220,8 @@ function planter(c, x, base) {
     l.fillStyle = light(P.teal, .2); l.fillRect(x - 42, base - 56, 84, 10);
   }, { sx: 12, sy: 8, soft: 3, shadeA: .5, hx: 3, hy: 3, hiA: .4, hy0: base - 170, hy1: base - 60 });
 }
-export function school(c, door, t) {
+export const CLOCK = { x: 1530, y: 418 };
+export function school(c) {
   const x0 = 1140, x1 = 1920, base = 795, top = 150;
   const ST = '#F4E7D0', STd = dark(ST, .07);
   // side wall (lit, faces the sun) + facade
@@ -231,7 +257,16 @@ export function school(c, door, t) {
     for (const f of [.25, .75]) c.fillRect(wx, wy + wh * f - 2, ww, 4);
     if (cap) { c.fillStyle = light(ST, .5); poly(c, [[wx - 18, wy - 12], [wx + ww + 18, wy - 12], [wx + ww / 2, wy - 40]]); c.fill(); c.fillStyle = rgba('#3B2F6B', .1); c.fillRect(wx - 12, wy - 12, ww + 24, 4); }
   };
-  for (const cx of [1218, 1374, 1530, 1686, 1842]) win(cx - 46, 340, 92, 150, true);
+  for (const cx of [1218, 1374, 1686, 1842]) win(cx - 46, 340, 92, 150, true);
+  // the school clock (face only; the hands are drawn live by clockHands)
+  const CX = CLOCK.x, CY = CLOCK.y;
+  c.fillStyle = rgba('#3B2F6B', .14); ell(c, CX + 6, CY + 8, 70, 70); c.fill();
+  c.fillStyle = light(ST, .5); poly(c, [[CX - 70, CY - 66], [CX + 70, CY - 66], [CX, CY - 100]]); c.fill();
+  c.fillStyle = P.navy; ell(c, CX, CY, 68, 68); c.fill();
+  c.fillStyle = P.mustard; ell(c, CX, CY, 60, 60); c.fill();
+  c.fillStyle = '#FFFBF4'; ell(c, CX, CY, 53, 53); c.fill();
+  c.fillStyle = P.ink;
+  for (let i = 0; i < 12; i++) { const a = i / 12 * 2 * PI, r0 = i % 3 ? 44 : 39; c.save(); c.translate(CX + Math.sin(a) * 46, CY - Math.cos(a) * 46); c.rotate(a); rr(c, -2.5, -(i % 3 ? 4 : 7), 5, i % 3 ? 8 : 14, 2.5); c.fill(); c.restore(); }
   // ground floor windows + window boxes
   for (const cx of [1262, 1798]) {
     win(cx - 52, 606, 104, 118, false);
@@ -252,7 +287,24 @@ export function school(c, door, t) {
   c.save(); c.beginPath(); c.arc(dx, dTop - 4, dw / 2, PI, 2 * PI); c.closePath(); c.fillStyle = mix(P.navy, P.sky, .45); c.fill();
   c.strokeStyle = '#FFFBF4'; c.lineWidth = 4; for (let i = 1; i < 6; i++) { const a = PI + i / 6 * PI; c.beginPath(); c.moveTo(dx, dTop - 4); c.lineTo(dx + Math.cos(a) * dw / 2, dTop - 4 + Math.sin(a) * dw / 2); c.stroke(); }
   c.lineWidth = 6; c.beginPath(); c.arc(dx, dTop - 4, dw / 2, PI, 2 * PI); c.stroke(); c.restore();
-  // interior (warm) + door leaf
+  // columns
+  for (const s of [-1, 1]) {
+    const cx = dx + s * 104;
+    c.fillStyle = '#FFFBF4'; c.fillRect(cx - 13, 586, 26, base - 586);
+    c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(cx + 4, 586, 9, base - 586);
+    c.fillStyle = '#FFFBF4'; c.fillRect(cx - 18, 586, 36, 10); c.fillRect(cx - 18, base - 12, 36, 12);
+  }
+  // brass plaque
+  c.fillStyle = P.mustard; rr(c, dx + 132, 640, 44, 30, 4); c.fill(); c.fillStyle = dark(P.mustard, .3); c.fillRect(dx + 140, 650, 28, 3); c.fillRect(dx + 140, 657, 20, 3);
+  // steps
+  c.fillStyle = '#E8DED2'; rr(c, dx - 132, base, 264, 16, 3); c.fill(); c.fillStyle = '#DACFC2'; rr(c, dx - 150, base + 16, 300, 16, 3); c.fill();
+  c.fillStyle = rgba('#3B2F6B', .1); c.fillRect(dx - 132, base + 12, 264, 4); c.fillRect(dx - 150, base + 28, 300, 4);
+  // base shadow line
+  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(x0 - 26, base - 4, x1 - x0 + 26, 8);
+}
+// live parts of the school: the doorway interior + the door leaf (open 0..1); world coordinates
+export function doorLive(c, door) {
+  const dx = DOOR.x, dw = 116, dh = 196, base = 795, dTop = base - dh;
   const gi = c.createLinearGradient(0, dTop, 0, base); gi.addColorStop(0, '#5B4058'); gi.addColorStop(1, '#8A5E5A');
   c.fillStyle = gi; c.fillRect(dx - dw / 2, dTop, dw, dh);
   c.fillStyle = '#C98B5E'; c.fillRect(dx - dw / 2, base - 46, dw, 46);                     // hallway floor
@@ -269,20 +321,14 @@ export function school(c, door, t) {
     ell(c, dx - dw / 2 + lw * .5, dTop + 58, 8, 5); c.fill();
   }
   c.fillStyle = rgba('#3B2F6B', .25); c.fillRect(dx - dw / 2 + lw - 4, dTop, 4 + open * 10, dh);
-  // columns
-  for (const s of [-1, 1]) {
-    const cx = dx + s * 104;
-    c.fillStyle = '#FFFBF4'; c.fillRect(cx - 13, 586, 26, base - 586);
-    c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(cx + 4, 586, 9, base - 586);
-    c.fillStyle = '#FFFBF4'; c.fillRect(cx - 18, 586, 36, 10); c.fillRect(cx - 18, base - 12, 36, 12);
-  }
-  // brass plaque
-  c.fillStyle = P.mustard; rr(c, dx + 132, 640, 44, 30, 4); c.fill(); c.fillStyle = dark(P.mustard, .3); c.fillRect(dx + 140, 650, 28, 3); c.fillRect(dx + 140, 657, 20, 3);
-  // steps
-  c.fillStyle = '#E8DED2'; rr(c, dx - 132, base, 264, 16, 3); c.fill(); c.fillStyle = '#DACFC2'; rr(c, dx - 150, base + 16, 300, 16, 3); c.fill();
-  c.fillStyle = rgba('#3B2F6B', .1); c.fillRect(dx - 132, base + 12, 264, 4); c.fillRect(dx - 150, base + 28, 300, 4);
-  // base shadow line
-  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(x0 - 26, base - 4, x1 - x0 + 26, 8);
+}
+// clock hands; hours as a float (9.0 = nine o'clock)
+export function clockHands(c, hours) {
+  const CX = CLOCK.x, CY = CLOCK.y, ha = (hours % 12) / 12 * 2 * PI, ma = (hours % 1) * 2 * PI;
+  c.lineCap = 'round'; c.strokeStyle = P.ink;
+  c.lineWidth = 7; c.beginPath(); c.moveTo(CX, CY); c.lineTo(CX + Math.sin(ha) * 26, CY - Math.cos(ha) * 26); c.stroke();
+  c.lineWidth = 5; c.beginPath(); c.moveTo(CX, CY); c.lineTo(CX + Math.sin(ma) * 40, CY - Math.cos(ma) * 40); c.stroke();
+  c.fillStyle = P.red; ell(c, CX, CY, 6, 6); c.fill();
 }
 function neighbour(c) {
   const x0 = 1920, x1 = 2460, base = 795, top = 230, col = mix(P.red, P.cream, .66);
@@ -314,16 +360,50 @@ function lamp(c, x, base) {
   c.lineWidth = 6; c.beginPath(); c.moveTo(x - 50, base - 600); c.lineTo(x + 50, base - 600); c.stroke();
 }
 
-// ---------------- compose ----------------
-// o: { door (0..1), busX, dof (blur px for background layers), fg (draw foreground lamp) }
+// ---------------- caches: the static layers are baked once (haze included) and blitted with the camera each frame ----------------
+function bake(x0, y0, x1, y1, res, draw, haze = 0) {
+  const cv = document.createElement('canvas'); cv.width = Math.ceil((x1 - x0) * res); cv.height = Math.ceil((y1 - y0) * res);
+  const c = cv.getContext('2d', CPU); c.setTransform(res, 0, 0, res, -x0 * res, -y0 * res); draw(c);
+  if (haze > 0) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-atop'; c.fillStyle = rgba(HAZE, haze); c.fillRect(0, 0, cv.width, cv.height); c.globalCompositeOperation = 'source-over'; }
+  return { cv, x0, y0, x1, y1, res };
+}
+function blit(c, B) { c.drawImage(B.cv, 0, 0, B.cv.width, B.cv.height, B.x0, B.y0, B.x1 - B.x0, B.y1 - B.y0); }
+let K = null;
+const nearAll = l => { pavement(l); for (const x of [-2050, -760, 520]) { l.save(); l.translate(x, 800); l.scale(.62, .62); l.translate(-x, -1075); lamp(l, x, 1075); l.restore(); } bench(l, -1650, 812); postBox(l, -560, 812); planter(l, -980, 812); school(l); neighbour(l); phoneBox(l, 1010, 808); planter(l, 1372, 812); planter(l, 1688, 812); };
+export function bakeWorld() {
+  if (K) return K;
+  K = {
+    far: bake(-760, 170, 2760, 668, 1.25, far, 0),
+    mid: bake(-2900, 380, 3050, 790, 1.4, mid, .24),
+    nearL: bake(-3400, 60, 900, 1300, 1.3, nearAll),
+    nearR: bake(900, 60, 2600, 1300, 2.0, nearAll),
+    bus: bake(-200, -200, 200, 30, 2, l => bus(l, 0, 0, 1), .24),
+  };
+  return K;
+}
+// one parallax layer; blur (px, depth of field) is done by drawing at low resolution and scaling up (cheap on CPU)
+function soft(c, cam, p, blur, fn) {
+  if (!(blur > 1.3)) { c.save(); layerT(c, cam, p); fn(c); c.restore(); c.setTransform(1, 0, 0, 1, 0, 0); return; }
+  const s = blur < 2.6 ? .5 : Math.max(.14, 1.5 / blur), w = Math.ceil(SW * s), h = Math.ceil(SH * s);
+  const A = layer(4, w, h), a = A.getContext('2d');
+  a.setTransform(1, 0, 0, 1, 0, 0); a.globalCompositeOperation = 'source-over'; a.globalAlpha = 1; a.filter = 'none'; a.clearRect(0, 0, w + 2, h + 2);
+  layerT(a, cam, p, s); fn(a); a.setTransform(1, 0, 0, 1, 0, 0);
+  let src = A;
+  if (blur >= 2.6) {
+    const B = layer(5, w, h), b = B.getContext('2d'); b.setTransform(1, 0, 0, 1, 0, 0); b.globalCompositeOperation = 'source-over'; b.clearRect(0, 0, w + 2, h + 2);
+    b.filter = `blur(${(blur * s * .55).toFixed(2)}px)`; b.drawImage(A, 0, 0, w, h, 0, 0, w, h); b.filter = 'none'; src = B;
+  }
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.imageSmoothingQuality = 'low'; c.drawImage(src, 0, 0, w, h, 0, 0, SW, SH); c.restore();
+}
+// o: { door (0..1), busX (mid-layer x), dof (blur px for background layers), nearDof, tod (0..1), clock (hours) }
 export function drawWorld(c, cam, t, o = {}) {
-  sky(c, cam, t);
-  hazed(c, cam, .12, 0, (o.dof || 0) * .9, far);
-  hazed(c, cam, .45, .24, (o.dof || 0) * .8, l => mid(l, t, o.busX ?? 760));
-  const near = l => { pavement(l); school(l, o.door || 0, t); neighbour(l); phoneBox(l, o.phoneX ?? 1010, 808); planter(l, 1372, 812); planter(l, 1688, 812); };
-  if (o.dof) hazed(c, cam, 1, 0, o.dof * .6, near); else { c.save(); layerT(c, cam, 1); near(c); c.restore(); }
+  const k = bakeWorld(), dof = o.dof || 0;
+  sky(c, cam, t, o.tod || 0);
+  soft(c, cam, .12, dof * .9, l => blit(l, k.far));
+  soft(c, cam, .45, dof * .8, l => { blit(l, k.mid); if (o.busX != null) l.drawImage(k.bus.cv, o.busX - 200, 774 - 200, 400, 230); });
+  soft(c, cam, 1, o.nearDof ?? dof * .6, l => { blit(l, k.nearL); blit(l, k.nearR); doorLive(l, o.door || 0); clockHands(l, o.clock ?? 8.9); });
   c.setTransform(1, 0, 0, 1, 0, 0);
 }
 export function drawForeground(c, cam, t, o = {}) {
-  c.save(); layerT(c, cam, 1.3); lamp(c, o.lampX ?? 200, 1075); c.restore(); c.setTransform(1, 0, 0, 1, 0, 0);
+  c.save(); layerT(c, cam, 1.3); for (const x of (o.lamps || [200])) lamp(c, x, 1075); c.restore(); c.setTransform(1, 0, 0, 1, 0, 0);
 }

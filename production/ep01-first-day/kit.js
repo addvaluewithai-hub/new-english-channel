@@ -26,12 +26,20 @@ export const rgba = (a, al) => { const A = hx(a); return `rgba(${A[0]},${A[1]},$
 export const dark = (a, t = .2) => mix(a, '#2A2142', t);
 export const light = (a, t = .2) => mix(a, '#FFFBF2', t);
 
+// all canvases are CPU raster canvases: in headless Chromium without a GPU, accelerated canvases run on SwiftShader and
+// thrash texture uploads (frames alternated 150 / 850 ms); CPU raster is steady and faster
+export const CPU = { willReadFrequently: true };
 // ---- layer pool (offscreen canvases reused every frame) ----
 const pool = [];
+// a pool of offscreen canvases per slot; each request takes a canvas that fits (not far too big), so objects of different sizes
+// (a close-up bean, a suitcase) never force reallocations frame after frame (that thrash cost ~700 ms spikes)
 export function layer(i, w, h) {
-  let cv = pool[i];
-  if (!cv) { cv = pool[i] = document.createElement('canvas'); cv.width = 16; cv.height = 16; }
-  if (cv.width < w || cv.height < h) { cv.width = Math.max(cv.width, Math.ceil(w)); cv.height = Math.max(cv.height, Math.ceil(h)); }
+  const list = pool[i] || (pool[i] = []), A = Math.max(w * h, 65536);
+  let cv = list.find(c => c.width >= w && c.height >= h && c.width * c.height <= 3 * A);
+  if (!cv) {
+    cv = document.createElement('canvas'); cv.width = Math.ceil(w * 1.15) + 8; cv.height = Math.ceil(h * 1.15) + 8; cv.getContext('2d', CPU);
+    list.unshift(cv); if (list.length > 5) list.pop();
+  }
   return cv;
 }
 
@@ -52,10 +60,18 @@ export function formed(ctx, box, draw, o) {
   const L = layer(0, w, h), T = layer(1, w, h), l = L.getContext('2d'), t = T.getContext('2d');
   l.setTransform(1, 0, 0, 1, 0, 0); l.globalCompositeOperation = 'source-over'; l.globalAlpha = 1; l.clearRect(0, 0, w, h);
   l.setTransform(m.a, m.b, m.c, m.d, m.e - x0, m.f - y0); draw(l); l.setTransform(1, 0, 0, 1, 0, 0);
+  // the shifted, blurred silhouette is built at half resolution (it is soft anyway): ~4x cheaper than a full-res blur
+  const hw = Math.ceil(w / 2), hh = Math.ceil(h / 2), S = layer(2, hw, hh), s = S.getContext('2d');
   const pass = (fill, dx, dy, blur, alpha, op) => {
     t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.filter = 'none';
     t.clearRect(0, 0, w, h); t.fillStyle = fill; t.fillRect(0, 0, w, h);
-    if (dx || dy) { t.globalCompositeOperation = 'destination-out'; if (blur > .3) t.filter = `blur(${blur.toFixed(2)}px)`; t.drawImage(L, 0, 0, w, h, dx, dy, w, h); t.filter = 'none'; }
+    if (dx || dy) {
+      s.setTransform(1, 0, 0, 1, 0, 0); s.globalCompositeOperation = 'source-over'; s.filter = 'none'; s.clearRect(0, 0, hw + 2, hh + 2);
+      s.save(); s.beginPath(); s.rect(0, 0, hw + 2, hh + 2); s.clip();   // keeps the filter's work area to the used region of the pooled canvas
+      if (blur > .6) s.filter = `blur(${(blur / 2).toFixed(2)}px)`;
+      s.drawImage(L, 0, 0, w, h, dx / 2, dy / 2, w / 2, h / 2); s.filter = 'none'; s.restore();
+      t.globalCompositeOperation = 'destination-out'; t.drawImage(S, 0, 0, hw, hh, 0, 0, hw * 2, hh * 2);
+    }
     t.globalCompositeOperation = 'destination-in'; t.drawImage(L, 0, 0, w, h, 0, 0, w, h);
     l.globalCompositeOperation = op; l.globalAlpha = alpha; l.drawImage(T, 0, 0, w, h, 0, 0, w, h);
     l.globalCompositeOperation = 'source-over'; l.globalAlpha = 1;
@@ -102,7 +118,7 @@ let grainCv = null;
 export function grain(c, W, H, a = .045) {
   if (!grainCv) {
     grainCv = document.createElement('canvas'); grainCv.width = grainCv.height = 256;
-    const g = grainCv.getContext('2d'), im = g.createImageData(256, 256), r = mulberry(7);
+    const g = grainCv.getContext('2d', CPU), im = g.createImageData(256, 256), r = mulberry(7);
     for (let i = 0; i < im.data.length; i += 4) { const v = 110 + r() * 145; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
     g.putImageData(im, 0, 0);
   }

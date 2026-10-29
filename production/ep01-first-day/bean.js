@@ -105,7 +105,7 @@ export function drawChar(ctx, sp, p) {
   // contact shadow (stays on the ground while hopping, shrinks with lift)
   const st = p.stage ?? 9;
   if (p.shadow && st >= 3) { const s = 1 - clamp(p.lift / H) * .7; contact(ctx, p.x + .035 * H * k, p.y + .004 * H * k, .44 * H * k * s, .065 * H * k * s, .3 * p.shadow); }
-  const box = { x: p.x - 1.05 * H * k, y: p.y - 1.45 * H * k - p.lift * k, w: 2.1 * H * k, h: 1.6 * H * k + p.lift * k };
+  const bx = (sp.id === 'mia' ? .82 : .72) * H * k, box = { x: p.x - bx + p.lean * H * k * .6, y: p.y - 1.3 * H * k - p.lift * k, w: bx * 2, h: 1.38 * H * k + p.lift * k };
   const arms = armGeo(sp, p, G);
   formed(ctx, box, l => { l.save(); toScreen(l); bodyFlat(l, sp, p, G, arms); l.restore(); },
     { sx: .055 * H * k, sy: .03 * H * k, soft: .016 * H * k, shadeA: st >= 2 ? .55 : 0, hx: .016 * H * k, hy: .02 * H * k, hiA: st >= 2 ? .38 : 0,
