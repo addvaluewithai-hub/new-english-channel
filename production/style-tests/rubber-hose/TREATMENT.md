@@ -61,3 +61,16 @@ stop at "Sorry?", slide-whistle down + trombone smear on the shrink, kettle-whis
   everyday handwriting for Egyptian viewers), held ≥ 1.8 s each.
 - English dialogue: a white "speech card" (IM Fell English SC, large) with an ink tail pointing at
   the speaker, popping on and off with no fade; the speaker's name in Limelight caps above it.
+
+## Review round (one fix pass)
+- First pass: characters ~25 % of frame height, faces unreadable; the pan overtook Youssef at 4 s;
+  the "close-up" was a full shot. Fixed: per-layer cameras (far .25 / mid .62 / near 1.0, near at
+  z 1.3), a tracking pan that eases in and only pulls ahead at the end to reveal the school; stage
+  two-shot at z 1.25→1.4; close shot at z 2.85→3.05.
+- Beard read as a black mask and hid the brows: thinner jaw band, brows moved below the hairline.
+- Ear-steam read as whiskers / thought bubbles: replaced with scattered, fading puffs; the turned-up
+  collar now flanks the face instead of covering it; the "flush" is held for the close shot only.
+
+## Measured
+Render 0.23 s/frame steady (≈0.37 s/frame including the ~55 s background paint at start-up),
+408 frames in 153 s on one worker, CPU only. Master −14.0 LUFS, TP −1.2 dB, grain 3.

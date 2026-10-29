@@ -1,0 +1,16 @@
+"First Day" — Mid-century Cartoon style test (17 s)
+
+Picture: drawn entirely in code (Canvas 2D). The drawing engine engine/toon.js is adapted from the
+Lemo-Opuscar library's midcentury-toon style engine (with line-weight / register compensation added);
+characters, sets and film code are original to this project.
+
+Voice: test_audio.wav, supplied by the production (unchanged).
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/):
+- Jost — Owen Earl (indestructible type*) — github.com/google/fonts/tree/main/ofl/jost (fonts/OFL-jost.txt)
+- Alfa Slab One — JM Solé — github.com/google/fonts/tree/main/ofl/alfaslabone (fonts/OFL-alfaslabone.txt)
+- Oleo Script — soytutype — github.com/google/fonts/tree/main/ofl/oleoscript (fonts/OFL-oleoscript.txt)
+- Baloo Bhaijaan 2 — Ek Type — fonts.google.com/specimen/Baloo+Bhaijaan+2 (Arabic captions)
+- Fredoka, Lilita One, Lalezar — via the series font kit (fonts.css), loaded but not drawn in this clip
+
+No third-party images, music or sound effects.

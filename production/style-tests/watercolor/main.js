@@ -9,7 +9,7 @@ const TL = {
 
 // ---------- camera: one continuous move over one painted sheet ----------
 const camX = monotone([[0, 1950], [1.6, 2010], [4, 2400], [6.6, 2880], [7.4, 3000], [8.4, 3090], [14.75, 3094], [15.95, 2992], [17, 2985]]);
-const camY = monotone([[0, 482], [4, 500], [7, 515], [8.4, 543], [14.75, 543], [15.95, 517], [17, 514]]);
+const camY = monotone([[0, 482], [4, 500], [7, 512], [8.4, 505], [14.75, 505], [15.95, 517], [17, 514]]);
 const camZ = monotone([[0, .7], [2.5, .77], [5.5, .9], [7.0, 1.0], [8.4, 1.45], [14.75, 1.5], [15.95, 3.1], [17, 3.22]]);
 const cam = t => ({ cx: camX(t), cy: camY(t), z: camZ(t) });
 const W2S = (c, wx, wy) => [960 + (wx - c.cx) * c.z, 540 + (wy - c.cy) * c.z];
@@ -44,9 +44,9 @@ function blendTargets(t, keys) {          // keys: [[t, [x,y]], ...] monotone pe
 }
 let YN_X, YN_Y, MN_X, MN_Y;
 function buildTracks() {
-  const YN = [[6.6, [20, -138]], [7.2, [18, -140]], [9.8, [20, -142]], [10.05, [44, -318]], [10.65, [46, -322]], [11.0, [34, -205]], [11.35, [26, -226]], [12.3, [27, -224]], [12.55, [25, -230]], [12.9, [62, -205]], [13.5, [64, -200]], [14.0, [22, -150]], [14.55, [20, -146]], [14.95, [-2, -298]], [17, [-2, -296]]];
+  const YN = [[6.6, [20, -138]], [7.2, [18, -140]], [9.8, [20, -142]], [10.05, [70, -342]], [10.65, [72, -346]], [11.0, [34, -205]], [11.35, [26, -226]], [12.3, [27, -224]], [12.55, [25, -230]], [12.9, [62, -205]], [13.5, [64, -200]], [14.0, [22, -150]], [14.55, [20, -146]], [14.95, [-18, -282]], [17, [-18, -280]]];
   YN_X = monotone(YN.map(([a, p]) => [a, p[0]])); YN_Y = monotone(YN.map(([a, p]) => [a, p[1]]));
-  const MN = [[7.0, [16, -140]], [7.85, [16, -142]], [8.15, [44, -336]], [9.5, [46, -338]], [10.1, [18, -142]], [14.25, [18, -142]], [14.6, [50, -206]], [15.7, [52, -208]], [16.6, [30, -170]], [17, [28, -166]]];
+  const MN = [[7.0, [16, -140]], [7.85, [16, -142]], [8.15, [64, -350]], [9.5, [66, -352]], [10.1, [18, -142]], [14.25, [18, -142]], [14.6, [50, -206]], [15.7, [52, -208]], [16.6, [30, -170]], [17, [28, -166]]];
   MN_X = monotone(MN.map(([a, p]) => [a, p[0]])); MN_Y = monotone(MN.map(([a, p]) => [a, p[1]]));
 }
 
@@ -64,14 +64,14 @@ function youssefPose(t) {
   const open = (t > 9.95 && t < 10.85) || (t > 12.75 && t < 13.6);
   const flat = t > 11.2 && t < 12.7;
   // the suitcase: tilted and trailing while walking, upright once he stops
-  const cs = { x: lerp(-128, -178, wk), th: lerp(0, .4 + .03 * Math.sin(ph * 2), wk) };
-  const top = apP(mulM(trM(cs.x, 0), rotAt(cs.th, 0, 0)), [44, -132]), rod = lerp(52, 62, wk);
+  const cs = { x: lerp(-112, -178, wk), th: lerp(0, .4 + .03 * Math.sin(ph * 2), wk) };
+  const top = apP(mulM(trM(cs.x, 0), rotAt(cs.th, 0, 0)), [44, -132]), rod = lerp(30, 40, wk);
   const hand = [top[0] + Math.sin(cs.th) * rod, top[1] - Math.cos(cs.th) * rod];
   const shUp = 5 * ss(seg(t, 14.7, 15.1)) - 2 * ss(seg(t, 9.8, 10.1)) * (1 - ss(seg(t, 10.6, 11)));
   const breath = Math.sin(t * 2.1) * 1.2 * (1 - wk);
   return {
     legN, legF, lean: .05 * wk + .03 * ss(seg(t, 9.9, 10.2)) * (1 - ss(seg(t, 10.8, 11.2))) - .025 * ss(seg(t, 14.7, 15.2)), bob: breath, shUp,
-    armN: { target: tgt, bend: -1, open: open || flat, spread: flat ? -.2 : 0 }, armF: { target: hand, bend: -1 }, case: cs,
+    armN: { target: tgt, bend: -1, open: open || flat, spread: flat ? -.2 : 0 }, armF: { target: hand, bend: 1 }, case: cs,
     tilt: Y_TI(t) + wk * .025 * Math.sin(ph * 2),
     face: { smile: Y_SM(t), brow: Y_BR(t), worry: Y_WO(t), lx: Y_LX(t), ly: Y_LY(t), blink: blinkAt(t, [2.2, 4.6, 8.7, 12.0, 14.25, 16.55]), open: mouthOpen(t, 'youssef'), grim: t > 14.85 ? 1 : 0, blush: ss(seg(t, 14.7, 15.6)), sweat: ss(seg(t, 15.3, 15.7)), sweatSlide: ss(seg(t, 15.6, 17.2)) },
   };
@@ -120,8 +120,8 @@ function note(id, txt, x, y, wFrac, alpha, ax, ay, lp, o = {}) {
   if (alpha <= 0) return;
   ctx.save(); ctx.font = NOTE_FONT; const w = ctx.measureText(txt).width;
   ctx.globalAlpha = alpha;
-  liftPatch(x - 10, y - 50, x + w + 10, y + 26, .82, o.seed || 3);
-  if (ax !== undefined) leader(o.lx ?? x + w * .5, y + 30, ax, ay, lp, o.bend ?? 30);
+  liftPatch(x - 10, y - 50, x - 10 + (w + 20) * clamp(wFrac * 1.15 + .12), y + 26, .78, o.seed || 3);
+  if (ax !== undefined) leader(o.lx ?? x + w * .5, o.ly ?? y + 30, ax, ay, lp, o.bend ?? 30);
   ctx.beginPath(); ctx.rect(x - 8, y - 80, (w + 16) * clamp(wFrac), 130); ctx.clip();
   ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.shadowColor = rgba(PAPER, .95); ctx.shadowBlur = 14;
   ctx.fillStyle = rgba(INK, .93); ctx.fillText(txt, x, y); ctx.shadowBlur = 0; ctx.fillText(txt, x, y);
@@ -132,21 +132,21 @@ function note(id, txt, x, y, wFrac, alpha, ax, ay, lp, o = {}) {
 function drawNotes(t, c) {
   // two-shot ↔ close-up layout
   const kz = eio(seg(t, 14.8, 15.9));
-  const ym = W2S(c, ...figPt(YX(t), GY, 1, 1, ...youssefMouth));
-  const mm = W2S(c, ...figPt(MIA_X, MIA_Y, -1, MIA_S, ...miaMouth));
+  const ym = W2S(c, ...LAST.ym), mm = W2S(c, ...(LAST.mm || [MIA_X, MIA_Y - 280]));
   // Mia: "Hi! I'm Mia."
   if (t > 7.95 && t < 14.4) {
     const a = ss(seg(t, 7.95, 8.15)) * (1 - ss(seg(t, 13.95, 14.35)));
-    note('mia1', "Hi! I'm Mia.", 1420, 300, eo(seg(t, 8.05, 8.95)), a, mm[0] + 8, mm[1] - 6, seg(t, 7.95, 8.4), { lx: 1450, bend: 30, seed: 11 });
+    ctx.font = NOTE_FONT; const w = ctx.measureText("Hi! I'm Mia.").width, x = mm[0] - 70 - w;
+    note('mia1', "Hi! I'm Mia.", x, 380, eo(seg(t, 8.05, 8.95)), a, mm[0] - 12, mm[1], seg(t, 7.95, 8.4), { lx: x + w - 10, ly: 404, bend: -20, seed: 11 });
   }
   // Youssef: "Hello! I... I Youssef." — written as he says it
   if (t > 9.85) {
     ctx.font = NOTE_FONT;
     const full = 'Hello! I... I Youssef.', wf = s => ctx.measureText(s).width / ctx.measureText(full).width;
     const rev = monotone([[9.95, 0], [10.55, wf('Hello!')], [11.35, wf('Hello!')], [11.8, wf('Hello! I...')], [12.45, wf('Hello! I...')], [12.85, wf('Hello! I... I')], [12.9, wf('Hello! I... I')], [13.45, 1]]);
-    const x = lerp(170, 820, kz), y = lerp(250, 175, kz);
+    const fw = ctx.measureText(full).width, x = lerp(ym[0] + 70 - fw, 830, kz), y = lerp(250, 190, kz);
     const a = ss(seg(t, 9.85, 10.05));
-    const w = note('you1', full, x, y, rev(t), a, ym[0] + 6, ym[1] - 4, seg(t, 9.9, 10.3), { lx: x + lerp(330, 120, kz), bend: lerp(-30, 40, kz), seed: 12 });
+    const w = note('you1', full, x, y, rev(t), a, ym[0] + 24, ym[1] + 2, seg(t, 9.9, 10.3), { lx: lerp(x + fw - 30, x + 30, kz), ly: y + 30, bend: lerp(-12, 25, kz), seed: 12 });
     // the diary's red pen: the missing word
     const cp = seg(t, 15.75, 16.15);
     if (cp > 0 && w) {
@@ -162,12 +162,13 @@ function drawNotes(t, c) {
   }
   // Mia: "Sorry?"
   if (t > 14.45) {
-    const x = lerp(1440, 1560, kz), y = lerp(300, 520, kz);
-    const ax = Math.min(mm[0] + 8, 1915), ay = mm[0] > 1915 ? lerp(mm[1], 430, .5) : mm[1] - 6;
-    note('mia2', 'Sorry?', x, y, eo(seg(t, 14.55, 15.25)), ss(seg(t, 14.45, 14.65)), ax, ay, seg(t, 14.5, 14.9), { lx: x + 90, bend: lerp(30, -40, kz), seed: 13 });
+    ctx.font = NOTE_FONT; const sw = ctx.measureText('Sorry?').width;
+    const x = Math.min(mm[0] - 70 - sw, 1560), y = lerp(380, 560, kz);
+    const ax = Math.min(mm[0] - 12, 1915), ay = mm[1];
+    note('mia2', 'Sorry?', x, y, eo(seg(t, 14.55, 15.25)), ss(seg(t, 14.45, 14.65)), ax, ay, seg(t, 14.5, 14.9), { lx: lerp(x + sw - 10, x + sw - 10, kz), ly: y + 24, bend: lerp(-20, -30, kz), seed: 13 });
   }
 }
-const youssefMouth = [6 + 19, -314 + 18], miaMouth = [6 + 19, -314 + 18];
+const LAST = {};
 
 // ---------- Arabic diary subtitle + journal header ----------
 function drawSubs(t) {
@@ -210,10 +211,10 @@ function drawObjs(list, t, c) {
   }
 }
 function drawBus(t, c) {
-  const fx = 3560 - 1250 * (t - .35); if (t < .35 || t > 3.2) return;
-  setCam(c); ctx.save(); ctx.translate(fx, 960);
+  const fx = 3700 - 1250 * (t - 1.1); if (t < 1.1 || t > 4.2) return;
+  setCam(c); ctx.save(); ctx.translate(fx, 960); ctx.scale(1.22, 1.22);
   PAPER_PAT.setTransform(ctx.getTransform().invertSelf());
-  ctx.beginPath(); ctx.roundRect(4, -506, BUS.L - 2, 470, [26, 26, 8, 8]); ctx.fillStyle = PAPER_PAT; ctx.fill();
+  ctx.beginPath(); polyPath(ctx, BUS.body); ctx.fillStyle = PAPER_PAT; ctx.fill();
   drawSpr(ctx, BUS.spr);
   // dry-brush speed trails behind it
   withSeed(55, () => { for (let i = 0; i < 4; i++) { const yy = -420 + i * 100 + rnd(-10, 10); drawS(ctx, mk(qcurve(BUS.L + 10, yy, BUS.L + 210 + rnd(0, 120), yy + rnd(-4, 4), 2, 8), rnd(8, 14), '#c4392a', { prof: 'tip', nb: 3, a: .25 })); } });
@@ -224,7 +225,7 @@ function drawMist(t, c) {
   const [hx, hy] = W2S(c, YX(t) + 10, GY - 250);
   ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
   for (const [grow, a] of [[160, .45], [70, .7], [0, 1]]) {
-    const rx = lerp(1500, 700, m) + grow, ry = lerp(1100, 520, m) + grow * .7;
+    const rx = lerp(1600, 940, m) + grow, ry = lerp(1150, 640, m) + grow * .7;
     ctx.save(); ctx.beginPath(); ctx.rect(-20, -20, 1960, 1120);
     for (let i = 0; i <= 64; i++) { const an = i / 64 * Math.PI * 2, r = 1 + (vnoise(i * .45 + grow) - .5) * .16 + Math.sin(an * 3 + t) * .02; const x = hx + Math.cos(an) * rx * r, y = hy + Math.sin(an) * ry * r; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
     ctx.closePath(); ctx.clip('evenodd'); ctx.globalAlpha = a * m; ctx.drawImage(PAPER_IMG, 0, 0); ctx.restore();
@@ -247,9 +248,9 @@ function render(t) {
   // buildings
   setCam(c); drawObjs(OBJ, t, c);
   // Mia paints herself into the doorway
-  if (t > 7.25) { setCam(c); const G = figure({ kind: 'm' }, miaPose(t), 5000); drawCharacter(ctx, MIA_X, MIA_Y, -1, MIA_S, G, eio(seg(t, 7.3, 8.15))); }
+  if (t > 7.25) { setCam(c); const G = figure({ kind: 'm' }, miaPose(t), 5000); LAST.mm = figPt(MIA_X, MIA_Y, -1, MIA_S, ...G.mouth); drawCharacter(ctx, MIA_X, MIA_Y, -1, MIA_S, G, eio(seg(t, 7.3, 8.15))); }
   // Youssef
-  { setCam(c); const G = figure({ kind: 'y' }, youssefPose(t), 3000); drawCharacter(ctx, YX(t), GY, 1, 1, G, ss(seg(t, .15, 1.2))); }
+  { setCam(c); const G = figure({ kind: 'y' }, youssefPose(t), 3000); LAST.ym = figPt(YX(t), GY, 1, 1, ...G.mouth); drawCharacter(ctx, YX(t), GY, 1, 1, G, ss(seg(t, .15, 1.2))); }
   setCam(c); drawObjs(FRONT_OBJ, t, c);
   drawBus(t, c);
   ctx.setTransform(1, 0, 0, 1, 0, 0);

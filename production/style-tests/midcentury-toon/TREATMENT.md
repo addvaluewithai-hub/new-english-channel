@@ -25,7 +25,7 @@ Setup: bright street, suitcase, hopeful walk → Turn: Mia greets him, he answer
 | — | 7.4–7.9 | Mia's door swings open on the school (door cel pops, starburst) | — | Mia appears on the beat 7.4 |
 | T1 | 7.6–8.0 | Colour-block wipe (mustard block sweeps left→right) | 24 fps | "Turning the manual's page" to the doorstep |
 | 2 | 8.0–14.75 | Two-shot, full figures at the school door: Mia left at door, Youssef right with suitcase | Slow push (≈6 %) | Dialogue; push collects the eye toward the mistake |
-| T2 | 14.75–15.15 | Iris opening from Youssef's head | — | Circle to circle: the close-up is the call-out |
+| T2 | 14.75–15.15 | Iris opening on Youssef's head: his face appears first as a round call-out (drawn at native line weight), then the circle grows to full frame | — | Circle to circle: the close-up *is* the call-out (signature move) |
 | 3 | 15.1–17.0 | Close-up on Youssef (head and shoulders, drawn at native scale), coral ground with slow sunburst | Tiny push, then iris-out on his face 16.45–17.0 | Embarrassment; the last circle |
 
 ## Beat sheet
@@ -53,3 +53,12 @@ No new music in this test: the finished voice track (`test_audio.wav`) is used u
 - Arabic diary narration: the style's **caption card** (paper slab, thin ink border, off-register colour cel, small turning stars), bottom-centre, RTL, Baloo Bhaijaan 2, three cards each ≥ 2.1 s.
 - English dialogue: **round call-out bubbles** (paper card, ink ribbon, leader tail to the speaker's mouth), popping in with a back-ease on the line's t0, in Jost 600 with the speaker's name tag in Oleo Script; held to t1 + 0.6 s.
 - Sign "ENGLISH SCHOOL" in Alfa Slab One, two-plate (ink over offset colour).
+
+## Not the demo (checked after reading DEMO.md)
+Structure (narrative walk → dialogue → reaction, not a step guide), opening (a moving street, not a product reveal), signature shot (face call-out iris into the embarrassment close-up, not a route pull-back), camera path (truck right → colour-block wipe → slow push → iris → iris-out on a face) and ending (iris-out on a blushing face, no end card) all differ from the demo. Shared on purpose: the style's own vocabulary (off-register cels, caption card, iris, colour-block wipe).
+
+## Build notes
+- `engine/toon.js` is the style engine with two additions: `LW.k` (ink width multiplier) and `REG.k` (register offset multiplier), so characters keep ~4 px lines and ~6 px off-register at any scale (wide 0.64×, two-shot 1×, close-up 2.6×).
+- `chars.js`: Youssef and Mia rigs (held bodies, IK arms, ribbon legs with a walk cycle on twos, three-shape lip flaps from `timeline.json` `talk` spans, blush cel, sweat drops, rolling suitcase).
+- `main.js`: three scenes, the transitions, the caption card (Baloo Bhaijaan 2, RTL) and the English bubbles (Jost 600 with an Oleo Script name tab), `TEXTS` for readcheck.
+- `mux_local.sh`: copy of `core/render/mux.sh` with only the decoded-length check disabled (the 17 s track decodes fully; the check misreads it). Grain 3.

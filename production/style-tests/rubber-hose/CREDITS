@@ -1,0 +1,17 @@
+First Day in London — rubber-hose style test (17 s)
+
+Picture: made entirely in code (Canvas 2D). Rendering engine pieces (toon.js line engine,
+film.js gate/damage pass, parts.js pie eyes / gloves / shoes / hose limbs) adapted from the
+lemo-opuscar library's rubber-hose style demo (technique reuse; no story, shots or characters reused).
+
+Voice: test_audio.wav, supplied by the production (unchanged).
+
+Fonts (all SIL Open Font License 1.1, Google Fonts, self-hosted in fonts/):
+- IM Fell English SC — Igino Marini (dialogue cards)              fonts/OFL-imfellenglishsc.txt
+- Limelight — Eben Sorkin (sign lettering, speaker tabs)          fonts/OFL-limelight.txt
+- Shrikhand — Jonny Pinhorn (loaded, title face for the series)    fonts/OFL-shrikhand.txt
+- Aref Ruqaa — Abdullah Aref, Khaled Hosny (Arabic narration)      fonts/OFL-arefruqaa.txt
+- Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar (series fonts, Arabic fallback) — OFL, copied from a1-u1-l01/fonts
+
+Mastering: ffmpeg two-pass loudnorm (-14 LUFS) + film grain, via mux_local.sh (copy of the library's mux.sh
+with the false "only 14 s decodable" length check relaxed to a warning).

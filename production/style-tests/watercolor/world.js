@@ -30,58 +30,68 @@ function fillV(S, x0, y0, x1, y1, col, o = {}) {
 }
 const line = (S, x0, y0, x1, y1, w, col, a = .7, o = {}) => S.push(mk(qcurve(x0, y0, x1, y1, o.bend ?? rnd(-1, 1), o.n ?? Math.max(3, Math.round(Math.hypot(x1 - x0, y1 - y0) / 20))), w, col, { prof: o.prof || 'even', nb: o.nb ?? 0, a, rough: o.rough ?? .3 }));
 
+const GCTX = document.createElement('canvas').getContext('2d');
+function glassGrad(x, y, w, h) { const g = GCTX.createLinearGradient(x, y, x + w * .7, y + h); g.addColorStop(0, '#4e6476'); g.addColorStop(.55, '#7d95a6'); g.addColorStop(1, '#5f778a'); return g; }
+const inflate = ([a, b, c, d], m) => [a - m, b - m, c + m, d + m];
 function sashWindow(S, x, y, ww, hh, o = {}) {
-  const bar = 4, mid = y + hh * .5;
-  for (const [a, b] of [[y, mid - bar / 2], [mid + bar / 2, y + hh]]) {
-    const cx = x + ww / 2;
-    fillR(S, x, a, x + ww, b, GLASS, { w: Math.min(20, (b - a) * .7), a: .62, nb: 2, holes: [[cx - 1.5, a - 5, cx + 1.5, b + 5]] });
-  }
-  line(S, x + 2, y + 4, x + ww - 2, y + 4, 5, GLASS2, .55);                 // shadow under the lintel
-  line(S, x - 6, y + hh + 6, x + ww + 6, y + hh + 6, 4, '#8b7c69', .5);    // sill shadow
-  if (o.lintel) line(S, x - 4, y - 7, x + ww + 4, y - 7, 3, '#9d8a74', .45);
+  const bar = 4, my = y + hh * .5, mx = x + ww / 2, g = glassGrad(x, y, ww, hh);
+  for (const [a, b] of [[y, my - bar / 2], [my + bar / 2, y + hh]]) for (const [l, r] of [[x, mx - bar / 2], [mx + bar / 2, x + ww]]) S.push(wash(rectP(l, a, r, b), g, .78, { jit: 1.1, edge: 0, step: 14 }));
+  line(S, x + 2, y + 3, x + ww - 2, y + 3, 4, '#2f3d4a', .5);
+  line(S, x - 7, y + hh + 7, x + ww + 7, y + hh + 7, 4, '#8b7c69', .5);
+  if (o.lintel) line(S, x - 4, y - 8, x + ww + 4, y - 8, 3, '#9d8a74', .42);
+}
+function texture(S, x0, y0, x1, y1, col, n, a = .3) {
+  for (let k = 0; k < n; k++) { const y = lerp(y0, y1, (k + rnd(.2, .8)) / n); S.push(mk(qcurve(x0 + rnd(-4, 30), y, x1 - rnd(-4, 30), y + rnd(-8, 8), rnd(-8, 8), 14), rnd(30, 46), col, { prof: 'even', nb: 8, a, rib: .1, rough: .3 })); }
+}
+function bricks(S, x0, y0, x1, y1, holes, col, n) {
+  for (let k = 0; k < n; k++) { const bx = rnd(x0 + 6, x1 - 30), by = rnd(y0 + 14, y1 - 8); if (holes.some(([a, b, c, d]) => bx > a - 30 && bx < c + 4 && by > b - 6 && by < d + 6)) continue; for (let r = 0; r < 3; r++) line(S, bx + (r % 2) * 9, by + r * 8, bx + (r % 2) * 9 + rnd(12, 18), by + r * 8 + rnd(-.5, .5), 4.5, col, .32, { nb: 0, n: 3, prof: 'leaf' }); }
 }
 
 function house(x0, w, ty, seed) {
   return withSeed(seed, () => {
-    const S = [], x1 = x0 + w, top = 262 + Math.round(rnd(-6, 6));
-    const FAC = ty === 'stucco' ? ['#e4d8bd', '#ddd0b3'] : ty === 'red' ? ['#bf7f5e', '#b47459', '#c78d6a'] : ['#c79f6e', '#bf9465', '#cda877'];
-    const doorLeft = seed % 2 === 0, dx = doorLeft ? x0 + 26 : x1 - 26 - 56, door = [dx, 600, dx + 56, 727];
-    const gw = doorLeft ? [x1 - 30 - 80, 590, x1 - 30, 705] : [x0 + 30, 590, x0 + 110, 705];
-    const f1 = [[x0 + 36, 425, x0 + 36 + 60, 545], [x1 - 36 - 60, 425, x1 - 36, 545]];
-    const f2 = [[x0 + 40, 298, x0 + 40 + 54, 386], [x1 - 40 - 54, 298, x1 - 40, 386]];
-    const m = 7, holes = [door, gw, ...f1, ...f2].map(([a, b, c, d]) => [a - m, b - m - 4, c + m, d + m]);
-    holes.push([dx - 10, 560, dx + 66, 600]);                                   // fanlight surround
-    // facade: brick above, stucco ground floor for the brick houses
-    if (ty === 'stucco') fillR(S, x0, top, x1, HB, FAC, { holes, a: .42 });
-    else { fillR(S, x0, top, x1, 575, FAC, { holes, a: .5 }); fillR(S, x0, 575, x1, HB, ['#e6dac0', '#dfd2b6'], { holes, a: .42 });
-      for (let k = 0; k < 26; k++) { const bx = rnd(x0 + 6, x1 - 30), by = rnd(top + 20, 560); if (holes.some(([a, b, c, d]) => bx > a - 30 && bx < c && by > b - 6 && by < d + 6)) continue; line(S, bx, by, bx + rnd(14, 26), by + rnd(-1, 1), rnd(5, 7), ty === 'red' ? '#9c5a40' : '#a7784c', .4, { nb: 0, n: 3 }); } }
-    // cornice + parapet
-    line(S, x0 - 2, top + 14, x1 + 2, top + 14, 13, '#efe6d2', .7, { nb: 3 });
+    const S = [], x1 = x0 + w, top = 262 + Math.round(rnd(-8, 8));
+    const FAC = ty === 'stucco' ? '#e2d4b6' : ty === 'red' ? '#c27e5b' : ty === 'grey' ? '#c9c2b2' : '#c9a06c';
+    const doorLeft = seed % 2 === 0, dx = doorLeft ? x0 + 28 : x1 - 28 - 56, door = [dx, 604, dx + 56, 727];
+    const gw = doorLeft ? [x1 - 34 - 76, 596, x1 - 34, 706] : [x0 + 34, 596, x0 + 110, 706];
+    const f1 = [[x0 + 38, 428, x0 + 38 + 58, 546], [x1 - 38 - 58, 428, x1 - 38, 546]];
+    const f2 = [[x0 + 42, 300, x0 + 42 + 52, 384], [x1 - 42 - 52, 300, x1 - 42, 384]];
+    const fan = [dx - 4, 566, dx + 60, 604];
+    const up = [...f1, ...f2].map(r => inflate(r, 6)), gr = [door, gw, fan].map(r => inflate(r, 6));
+    const hole = r => rectP(...r);
+    if (ty === 'stucco' || ty === 'grey') {
+      S.push(wash(rectP(x0, top, x1, HB), FAC, .5, { holes: [...up, ...gr].map(hole) }));
+      texture(S, x0, top + 20, x1, HB - 20, darker(FAC), 4, .25);
+      line(S, x0 + 3, top + 18, x0 + 4, HB, 4, darker(FAC), .3);
+    } else {
+      S.push(wash(rectP(x0, top, x1, 580), FAC, .56, { holes: up.map(hole) }));
+      S.push(wash(rectP(x0, 580, x1, HB), '#e6d9bd', .45, { holes: gr.map(hole) }));
+      texture(S, x0, top + 20, x1, 570, darker(FAC), 3, .28);
+      bricks(S, x0, top, x1, 570, up, ty === 'red' ? '#995438' : '#9f7144', 10);
+      for (let y = 600; y < HB; y += 30) line(S, x0, y, x1, y, 1.6, '#b5a588', .35, { n: 8 });
+      line(S, x0 + 3, top + 18, x0 + 4, 578, 5, darker(FAC), .35);
+    }
+    // cornice + band
+    line(S, x0 - 2, top + 14, x1 + 2, top + 14, 13, '#efe6d2', .75, { nb: 3 });
     line(S, x0, top + 22, x1, top + 22, 3.5, '#7f6f5d', .5);
-    line(S, x0, 576, x1, 576, 4, '#8f7f6b', .45);
-    // party-wall shadow
-    line(S, x0 + 2, top + 10, x0 + 3, HB, 5, ty === 'stucco' ? '#b5a689' : '#8c6544', .35, { nb: 2 });
+    line(S, x0, 578, x1, 578, 4, '#8f7f6b', .45);
     // chimney stack on the party wall
-    const cx = doorLeft ? x1 - 30 : x0 + 30;
-    fillV(S, cx - 24, top - 64, cx + 24, top + 4, ty === 'stucco' ? ['#cbbb9a'] : ['#b88a5f', '#a97d55'], { w: 16, a: .7 });
+    const cx = doorLeft ? x1 - 30 : x0 + 30, cc = ty === 'stucco' || ty === 'grey' ? '#cbbb9a' : '#b88a5f';
+    S.push(wash(rectP(cx - 24, top - 64, cx + 24, top + 4), cc, .7, { jit: 1.5 }));
     line(S, cx - 28, top - 64, cx + 28, top - 64, 7, '#8a7a66', .6);
-    for (let k = -1; k <= 1; k++) line(S, cx + k * 14, top - 66, cx + k * 14 + rnd(-1, 1), top - 84, 8, '#b5643f', .8, { prof: 'even', n: 3 });
-    // slate roof edge behind parapet
+    for (let k = -1; k <= 1; k++) S.push(mk(qcurve(cx + k * 14, top - 64, cx + k * 14 + rnd(-1, 1), top - 84, 0, 3), 9, '#b5643f', { prof: 'trunk', nb: 0, a: .8 }));
     line(S, x0, top - 2, x1, top - 2, 9, '#7d8590', .45, { nb: 3 });
     // windows
     sashWindow(S, gw[0], gw[1], gw[2] - gw[0], gw[3] - gw[1], { lintel: true });
     for (const [a, b, c, d] of f1) sashWindow(S, a, b, c - a, d - b, { lintel: true });
     for (const [a, b, c, d] of f2) sashWindow(S, a, b, c - a, d - b);
-    // first-floor balconette
     for (const [a, , c, d] of f1) { line(S, a - 6, d - 18, c + 6, d - 18, 2.2, INK, .75); for (let x = a; x <= c; x += 9) line(S, x, d - 18, x, d + 4, 1.6, INK, .7, { n: 2 }); }
-    // door, fanlight, steps
+    // door + fanlight + steps
     const dcol = DOORS[seed % DOORS.length];
-    fillV(S, door[0], door[1], door[2], door[3], dcol, { w: 16, a: .78 });
-    line(S, door[0] + 14, door[1] + 14, door[0] + 14, door[3] - 12, 2.2, INK, .45); line(S, door[2] - 14, door[1] + 14, door[2] - 14, door[3] - 12, 2.2, INK, .45);
-    S.push(mk([[dx + 45, 668], [dx + 46, 669], [dx + 47, 668]], 6, '#c9a03c', { prof: 'leaf', nb: 0, a: .95 }));
-    { const pts = []; for (let i = 0; i <= 10; i++) { const a = Math.PI + Math.PI * i / 10; pts.push([dx + 28 + Math.cos(a) * 24, 594 + Math.sin(a) * 26]); } S.push(mk(pts, 12, GLASS[0], { prof: 'even', nb: 0, a: .55 })); }
+    S.push(wash(rectP(...door), dcol, .82, { jit: 1.2 }));
+    for (const [a, b, c, d] of [[dx + 9, 616, dx + 25, 660], [dx + 31, 616, dx + 47, 660], [dx + 9, 672, dx + 25, 718], [dx + 31, 672, dx + 47, 718]]) S.push(wash(rectP(a, b, c, d), darker(dcol), .35, { jit: .8, edge: .2, step: 12 }));
+    S.push(mk([[dx + 46, 668], [dx + 47, 669], [dx + 48, 668]], 6, '#c9a03c', { prof: 'leaf', nb: 0, a: .95 }));
+    { const pts = []; for (let i = 0; i <= 12; i++) { const a = Math.PI + Math.PI * i / 12; pts.push([dx + 28 + Math.cos(a) * 26, 600 + Math.sin(a) * 30]); } S.push(wash(pts, glassGrad(dx, 570, 56, 30), .75, { jit: 1, edge: 0, raw: true })); for (let k = -2; k <= 2; k++) line(S, dx + 28, 600, dx + 28 + Math.sin(k * .55) * 26, 600 - Math.cos(k * .55) * 28, 1.6, '#e9e0cc', .8, { n: 2 }); }
     for (let k = 0; k < 2; k++) line(S, dx - 10 - k * 6, 733 + k * 10, dx + 66 + k * 6, 733 + k * 10, 10, '#b4ab9c', .6, { nb: 2 });
-    // area railings along the front, except at the steps
     const ra = [x0 + 2, x1 - 2];
     for (let x = ra[0]; x <= ra[1]; x += 11) { if (x > dx - 16 && x < dx + 72) continue; line(S, x, 700, x + rnd(-.5, .5), HB, 2, INK, .72, { n: 3 }); S.push(mk([[x, 694], [x, 697], [x, 700]], 4, INK, { prof: 'tip', nb: 0, a: .8 })); }
     line(S, ra[0], 705, dx - 14, 705, 2.2, INK, .7); line(S, dx + 70, 705, ra[1], 705, 2.2, INK, .7);
@@ -92,43 +102,40 @@ function house(x0, w, ty, seed) {
 
 function school(x0, x1, seed) {
   return withSeed(seed, () => {
-    const S = [], top = 148, dc = (x0 + x1) / 2;   // door centre
+    const S = [], top = 148, dc = (x0 + x1) / 2;
     const door = [dc - 70, 395, dc + 70, HB], sign = [dc - 230, 292, dc + 230, 356];
-    const cols = [x0 + 40, x0 + 160, x1 - 160 - 66, x1 - 40 - 66];
-    const winG = cols.map(x => [x, 590, x + 66, 712]), winF1 = cols.map(x => [x, 405, x + 66, 520]), winF2 = [...cols.map(x => [x, 200, x + 66, 292]), [dc - 120, 200, dc - 64, 268], [dc - 28, 200, dc + 28, 268], [dc + 64, 200, dc + 120, 268]];
-    const m = 8, holes = [door, sign, ...winG, ...winF1, ...winF2].map(([a, b, c, d]) => [a - m, b - m - 4, c + m, d + m]);
-    holes.push([dc - 92, 372, dc + 92, HB]);   // stone door surround stays paper-light
-    fillR(S, x0, top, x1, HB, ['#b06a4b', '#a9644a', '#b97556'], { holes, a: .5, w: 36 });
-    for (let k = 0; k < 70; k++) { const bx = rnd(x0 + 6, x1 - 30), by = rnd(top + 20, HB - 10); if (holes.some(([a, b, c, d]) => bx > a - 30 && bx < c && by > b - 6 && by < d + 6)) continue; line(S, bx, by, bx + rnd(14, 26), by + rnd(-1, 1), rnd(5, 7), '#8d4b33', .38, { nb: 0, n: 3 }); }
-    // stone: quoins, string courses, cornice
-    for (let y = top + 20; y < HB - 20; y += 44) { line(S, x0, y, x0 + 34, y, 18, '#e3d6bb', .55, { nb: 2 }); line(S, x1 - 34, y + 22, x1, y + 22, 18, '#e3d6bb', .55, { nb: 2 }); }
-    for (const y of [top + 4, 380, 560]) { line(S, x0 - 6, y, x1 + 6, y, y === top + 4 ? 16 : 11, '#e8dcc2', .7, { nb: 3 }); line(S, x0 - 4, y + 9, x1 + 4, y + 9, 3, '#7a5f4d', .45); }
-    // surround + pediment
+    const cols = [x0 + 44, x0 + 164, x1 - 164 - 66, x1 - 44 - 66];
+    const winG = cols.map(x => [x, 590, x + 66, 712]), winF1 = cols.map(x => [x, 405, x + 66, 520]), winF2 = [...cols.map(x => [x, 200, x + 66, 292]), [dc - 120, 196, dc - 64, 262], [dc - 28, 196, dc + 28, 262], [dc + 64, 196, dc + 120, 262]];
+    const surround = [dc - 92, 372, dc + 92, HB];
+    const holes = [sign, ...winG, ...winF1, ...winF2].map(r => rectP(...inflate(r, 7)));
+    holes.push(rectP(...surround));
+    S.push(wash(rectP(x0, top, x1, HB), '#b2694a', .58, { holes }));
+    texture(S, x0, top + 30, x1, HB - 20, '#94523a', 6, .25);
+    bricks(S, x0, top, x1, HB - 10, [sign, ...winG, ...winF1, ...winF2, surround].map(r => inflate(r, 7)), '#87452f', 26);
+    for (let y = top + 20; y < HB - 20; y += 44) { S.push(wash(rectP(x0, y - 9, x0 + 34, y + 9), '#e6dac0', .7, { jit: 1, step: 12 })); S.push(wash(rectP(x1 - 34, y + 13, x1, y + 31), '#e6dac0', .7, { jit: 1, step: 12 })); }
+    for (const y of [top + 4, 380, 560]) { line(S, x0 - 6, y, x1 + 6, y, y === top + 4 ? 16 : 11, '#ebdfc6', .75, { nb: 3 }); line(S, x0 - 4, y + 9, x1 + 4, y + 9, 3, '#7a5f4d', .45); }
+    S.push(wash(rectP(...surround), '#e3d5b8', .35, { holes: [rectP(...door)] }));
     line(S, dc - 88, 372, dc - 88, HB, 6, '#a59272', .5); line(S, dc + 88, 372, dc + 88, HB, 6, '#a59272', .5);
     S.push(mk(qcurve(dc - 104, 376, dc + 104, 376, -26, 16), 10, '#9b8768', { prof: 'even', nb: 3, a: .6 }));
     // the open doorway: warm dark interior, one leaf swung in
-    fillV(S, door[0], door[1], door[2], door[3], ['#4a372b', '#55402f', '#433126'], { w: 22, a: .8 });
-    fillV(S, door[0], door[1], door[0] + 36, door[3], '#2e5a57', { w: 14, a: .75 });
-    line(S, door[0] + 4, door[1] + 4, door[2] - 4, door[1] + 4, 9, '#2c2018', .6);
-    // interior light: a pale floor glow
-    line(S, door[0] + 40, HB - 12, door[2] - 8, HB - 12, 12, '#a98a60', .35);
+    { const g = GCTX.createLinearGradient(0, 395, 0, HB); g.addColorStop(0, '#2e221b'); g.addColorStop(.6, '#4f3b2c'); g.addColorStop(1, '#6e5640'); S.push(wash(rectP(...door), g, .9, { jit: 1.2 })); }
+    S.push(wash(rectP(door[0], door[1], door[0] + 34, door[3]), '#2e5a57', .82, { jit: 1 }));
+    line(S, door[0] + 30, door[1] + 6, door[0] + 31, door[3] - 4, 3, '#1c3a38', .6);
     for (let k = 0; k < 2; k++) line(S, dc - 96 - k * 8, HB + 4 + k * 9, dc + 96 + k * 8, HB + 4 + k * 9, 11, '#b2a998', .65, { nb: 3 });
-    // the sign board
-    fillR(S, sign[0], sign[1], sign[2], sign[3], ['#efe3c4', '#e8d9b5'], { w: 26, a: .55, nb: 2 });
-    line(S, sign[0], sign[1], sign[2], sign[1], 4, '#3b4a5a', .8); line(S, sign[0], sign[3], sign[2], sign[3], 4, '#3b4a5a', .8);
-    line(S, sign[0], sign[1], sign[0], sign[3], 4, '#3b4a5a', .8); line(S, sign[2], sign[1], sign[2], sign[3], 4, '#3b4a5a', .8);
+    // sign board
+    S.push(wash(rectP(...sign), '#efe3c4', .6, { jit: 1.2, edge: .2 }));
+    for (const [a, b, c, d] of [[sign[0], sign[1], sign[2], sign[1]], [sign[0], sign[3], sign[2], sign[3]], [sign[0], sign[1], sign[0], sign[3]], [sign[2], sign[1], sign[2], sign[3]]]) line(S, a, b, c, d, 4, '#3b4a5a', .8);
     for (const w of [...winG, ...winF1, ...winF2]) sashWindow(S, w[0], w[1], w[2] - w[0], w[3] - w[1], { lintel: true });
-    // two bay trees in pots by the door
     for (const px of [dc - 128, dc + 128]) {
-      fillV(S, px - 22, HB - 46, px + 22, HB + 4, ['#b5653d', '#a95b36'], { w: 14, a: .8 });
-      line(S, px - 26, HB - 46, px + 26, HB - 46, 7, '#8f4a2a', .7);
+      S.push(wash([[px - 24, HB - 46], [px + 24, HB - 46], [px + 18, HB + 4], [px - 18, HB + 4]], '#b5653d', .82, { jit: 1, step: 12 }));
+      line(S, px - 27, HB - 46, px + 27, HB - 46, 7, '#8f4a2a', .7);
       line(S, px, HB - 46, px + rnd(-2, 2), HB - 110, 4, '#5e4a33', .8);
       clump(S, px, HB - 140, 34, 34, ['#5d7f43', '#6f9150', '#4d6e3a', '#86a35f'], { sx: 1, sy: 1, l0: 9, l1: 18, w0: 7, w1: 12 });
     }
     SKY_SEG.push([x0, x1, top - 8]);
     const extra = (c, a) => {
       if (a <= 0) return;
-      c.save(); c.globalAlpha = a * .88; c.fillStyle = '#2b3542'; c.font = '600 40px "Cormorant Garamond"'; c.letterSpacing = '7px';
+      c.save(); c.globalAlpha = a * .9; c.fillStyle = '#2b3542'; c.font = '600 40px "Cormorant Garamond"'; c.letterSpacing = '7px';
       c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('ENGLISH SCHOOL', dc + 4, 326); c.globalAlpha = a * .3; c.fillText('ENGLISH SCHOOL', dc + 5, 327);
       c.letterSpacing = '0px'; c.restore();
     };
@@ -244,7 +251,7 @@ function buildSky() {
 
 function buildWorld() {
   // terraces from far left up to the school, then the school, then two more houses
-  const types = ['brick', 'stucco', 'brick', 'red', 'stucco', 'brick', 'brick', 'stucco', 'red', 'brick', 'stucco', 'brick', 'red'];
+  const types = ['brick', 'brick', 'stucco', 'stucco', 'red', 'grey', 'brick', 'stucco', 'stucco', 'red', 'brick', 'grey', 'brick'];
   let x = -560, i = 0;
   while (x < 2900 - 200) { const w = Math.min(250, 2900 - x); const h = house(x, w, types[i % types.length], 11 + i * 7); OBJ.push(h); x += w; i++; }
   OBJ.push(school(2900, 3700, 501));
@@ -259,32 +266,30 @@ function buildWorld() {
 let BUS;
 function buildBus() {
   BUS = withSeed(808, () => {
-    const S = [], L = 820, R = ['#c4392a', '#bb3326', '#cc4130'], top = -500, bot = -46;
+    const S = [], L = 820, top = -500, bot = -46;
     const upW = [], loW = [];
     for (let k = 0; k < 6; k++) upW.push([120 + k * 112, -455, 120 + k * 112 + 92, -365]);
     for (let k = 0; k < 5; k++) loW.push([210 + k * 112, -290, 210 + k * 112 + 92, -190]);
-    const winF = [[22, -455, 100, -365], [22, -300, 120, -170]], doorR = [130, -300, 190, -60];
-    const holes = [...upW, ...loW, ...winF, doorR].map(([a, b, c, d]) => [a - 5, b - 6, c + 5, d + 6]);
-    holes.push([30, -492, 150, -466]);
-    fillR(S, 6, top, L, bot, R, { holes, a: .72, w: 40 });
-    fillR(S, 6, -150, L, bot, ['#a92d22'], { a: .3, w: 30 });
-    for (const [a, b, c, d] of [...upW, ...loW, ...winF]) {
-      fillR(S, a, b, c, d, ['#5f7487', '#6b8093', '#56697b'], { w: Math.min(26, (d - b) * .45), a: .62, nb: 2, holes: [[a + (c - a) * .55, b - 4, a + (c - a) * .55 + 10, d + 4]] });
-    }
-    // passengers: faint heads in the windows
-    for (const [a, b, c, d] of [...upW.slice(1, 5), ...loW.slice(0, 3)]) if (rnd() < .8) { const hx = rnd(a + 20, c - 20), hy = b + (d - b) * .55; S.push(mk(qcurve(hx, hy - 16, hx, hy + 14, 1, 5), 24, pick(['#7b5a46', '#c99b7d', '#5a4436']), { prof: 'leaf', nb: 0, a: .45 })); }
-    fillV(S, doorR[0], doorR[1], doorR[2], doorR[3], '#5d7083', { w: 16, a: .5 });
-    // destination blind (blank), roof line, skirt, wheels
-    fillR(S, 30, -492, 150, -466, '#2d2a28', { w: 14, a: .75, nb: 0 });
-    S.push(mk(qcurve(4, -330, L, -330, 0, 20), 10, '#9e2b20', { prof: 'even', nb: 3, a: .6 }));
-    S.push(mk(qcurve(10, top + 4, L - 6, top + 4, -6, 20), 12, '#9e2b20', { prof: 'even', nb: 3, a: .55 }));
+    const winF = [[22, -455, 100, -365], [22, -300, 120, -170]], doorR = [130, -300, 190, -60], blind = [30, -492, 150, -466];
+    const body = [[30, top], [L - 14, top], [L, top + 16], [L, bot], [8, bot], [4, top + 40], [12, top + 10]];
+    S.push(wash(body, '#c63a2a', .82, { holes: [...upW, ...loW, ...winF, doorR, blind].map(r => rectP(...inflate(r, 5))), jit: 2 }));
+    texture(S, 10, top + 20, L - 10, bot - 10, '#a12c1f', 5, .3);
+    for (const [a, b, c, d] of [...upW, ...loW, ...winF]) S.push(wash(rectP(a, b, c, d), glassGrad(a, b, c - a, d - b), .8, { jit: 1.2, edge: 0, step: 16 }));
+    for (const [a, b, c, d] of [...upW.slice(1, 5), ...loW.slice(0, 3)]) if (rnd() < .8) { const hx = rnd(a + 22, c - 22), hy = b + (d - b) * .6; S.push(mk(qcurve(hx, hy - 16, hx, hy + 16, 1, 5), 26, pick(['#7b5a46', '#c99b7d', '#5a4436']), { prof: 'leaf', nb: 0, a: .5 })); S.push(mk(qcurve(hx - 22, d, hx + 22, d, -8, 5), 14, pick(['#3f5d7a', '#7a6a3f', '#5b4b6b']), { prof: 'even', nb: 0, a: .45 })); }
+    S.push(wash(rectP(...doorR), '#5d7083', .55, { jit: 1 }));
+    line(S, 160, -296, 160, -64, 2.5, '#2f3a44', .6);
+    S.push(wash(rectP(...blind), '#2d2a28', .8, { jit: .8 }));
+    line(S, 8, -330, L, -330, 10, '#9a281e', .6, { nb: 3 });
+    line(S, 8, -150, L, -150, 8, '#9a281e', .5, { nb: 3 });
+    S.push(wash([[8, -70], [L, -70], [L, bot], [8, bot]], '#8a2419', .5, { jit: 1.5 }));
     for (const wx of [150, 660]) {
-      S.push(mk(qcurve(wx - 64, -60, wx + 64, -60, -46, 10), 16, '#7d231a', { prof: 'even', nb: 2, a: .7 }));
-      const pts = []; for (let i = 0; i <= 18; i++) { const a = i / 18 * Math.PI * 2; pts.push([wx + Math.cos(a) * 30, -40 + Math.sin(a) * 30]); }
-      S.push(mk(pts, 24, '#2b2520', { prof: 'even', nb: 3, a: .85 }));
-      S.push(mk(qcurve(wx - 8, -40, wx + 8, -40, 0, 3), 14, '#8d8a85', { prof: 'leaf', nb: 0, a: .8 }));
+      S.push(mk(qcurve(wx - 64, -58, wx + 64, -58, -46, 10), 14, '#6e1f17', { prof: 'even', nb: 2, a: .75 }));
+      const pts = []; for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2; pts.push([wx + Math.cos(a) * 34, -36 + Math.sin(a) * 34]); }
+      S.push(wash(pts, '#2b2520', .9, { jit: 1, raw: true }));
+      const hb = []; for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; hb.push([wx + Math.cos(a) * 13, -36 + Math.sin(a) * 13]); }
+      S.push(wash(hb, '#a29e98', .8, { jit: .6, raw: true, edge: 0 }));
     }
-    S.push(mk(qcurve(6, -120, 6, -60, 0, 4), 10, '#e8c56a', { prof: 'leaf', nb: 0, a: .8 }));
-    return { S, spr: sprite(S, null, 2), L };
+    S.push(mk(qcurve(10, -120, 10, -78, 0, 4), 11, '#e8c56a', { prof: 'leaf', nb: 0, a: .85 }));
+    return { S, spr: sprite(S, null, 2), L, body };
   });
 }

@@ -254,7 +254,7 @@ export class Timeline {
   }
   // eraser sweeping a zig-zag over the box [x,y,w,h] (or custom path) from t to t+dur
   erase(path, t, dur, o = {}) {
-    const E = { path: new Stroke(path.flat ? path.flat() : path, { jitter: 0, w: 1, smooth: 2 }), t0: t, t1: t + dur, width: o.width ?? 150, strength: o.strength ?? .9, id: this.erasers.length, grp: o.grp || null };
+    const E = { path: new Stroke(path.flat ? path.flat() : path, { jitter: 0, w: 1, smooth: 2 }), t0: t, t1: t + dur, width: o.width ?? 150, strength: o.strength ?? .9, id: this.erasers.length, grp: o.grp || null, away: o.away || [500, 700] };
     this.erasers.push(E); this.ev.push({ t: +t.toFixed(3), type: 'erase', dur: +dur.toFixed(3), len: Math.round(E.path.len) });
     return t + dur;
   }
@@ -489,8 +489,9 @@ export function drawEraser(ctx, e, t, c) {
   if (t < e.t0 - .45 || t > e.t1 + .45) return;
   let x, y, lift = 0;
   const P0 = e.path.start, P1 = e.path.end;
-  if (t < e.t0) { const u = (t - e.t0 + .45) / .45; [x, y] = [P0[0] + 500 * (1 - u), P0[1] + 700 * (1 - u) ** 2]; lift = 1 - u; }
-  else if (t > e.t1) { const u = (t - e.t1) / .45; [x, y] = [P1[0] + 500 * u, P1[1] + 700 * u * u]; lift = u; }
+  const AW = e.away || [500, 700];
+  if (t < e.t0) { const u = (t - e.t0 + .45) / .45; [x, y] = [P0[0] + AW[0] * (1 - u), P0[1] + AW[1] * (1 - u) ** 2]; lift = 1 - u; }
+  else if (t > e.t1) { const u = (t - e.t1) / .45; [x, y] = [P1[0] + AW[0] * u, P1[1] + AW[1] * u * u]; lift = u; }
   else[x, y] = e.path.at(e.path.len * (t - e.t0) / (e.t1 - e.t0));
   const [sx, sy] = toScreen(c, x, y), z = c.z, w = e.width * 1.9 * z, h = e.width * 1.0 * z, up = lift * 30 * z;
   ctx.setTransform(1, 0, 0, 1, 0, 0);

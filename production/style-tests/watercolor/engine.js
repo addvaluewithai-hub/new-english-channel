@@ -106,23 +106,50 @@ function drawS(c, s, p = 1, col = null, am = 1) {
   }
 }
 
+// ---------- washes: a polygon (with holes) laid in 3 jittered passes, edges pooling darker ----------
+function jitPoly(pts, j) { return pts.map(([x, y]) => [x + rnd(-j, j), y + rnd(-j, j)]); }
+function subdiv(pts, step = 30) { const out = []; for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length], n = Math.max(1, Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]) / step)); for (let k = 0; k < n; k++) out.push([lerp(a[0], b[0], k / n), lerp(a[1], b[1], k / n)]); } return out; }
+const rectP = (x0, y0, x1, y1) => subdiv([[x0, y0], [x1, y0], [x1, y1], [x0, y1]]);
+function wash(pts, col, a = .6, o = {}) {
+  const j = o.jit ?? 2.5, base = o.raw ? pts : subdiv(pts, o.step ?? 30), holes = (o.holes || []).map(h => o.raw ? h : subdiv(h, 24));
+  const passes = []; for (let k = 0; k < (o.passes ?? 3); k++) passes.push({ P: jitPoly(base, j), H: holes.map(h => jitPoly(h, j * .7)) });
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; for (const [x, y] of base) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+  return { wash: true, passes, col, a, edge: o.edge ?? .5, ew: o.ew ?? 2, ko: o.ko ?? true, bb: [x0 - j, y0 - j, x1 + j, y1 + j], dir: o.dir || 'down' };
+}
+const polyPath = (c, P) => { P.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath(); };
+const darker = h => mixc(h, '#1a1410', .28);
+function drawW(c, w, p = 1, col = null, am = 1) {
+  if (p <= 0) return;
+  const cc = col || w.col, [x0, y0, x1, y1] = w.bb;
+  c.save();
+  if (p < 1) { c.beginPath(); if (w.dir === 'right') { const R = lerp(x0 - 20, x1 + 20, p); c.moveTo(x0 - 30, y0 - 30); c.lineTo(R + 14, y0 - 30); c.lineTo(R - 14, y1 + 30); c.lineTo(x0 - 30, y1 + 30); } else { const B = lerp(y0 - 20, y1 + 20, p); c.moveTo(x0 - 30, y0 - 30); c.lineTo(x1 + 30, y0 - 30); c.lineTo(x1 + 30, B + 10); c.lineTo(x0 - 30, B - 10); } c.closePath(); c.clip(); }
+  const n = w.passes.length, solid = typeof cc === 'string';
+  for (const ps of w.passes) {
+    c.beginPath(); polyPath(c, ps.P); for (const h of ps.H) polyPath(c, h);
+    if (solid) c.fillStyle = rgba(cc, w.a / n * 1.6 * am); else { c.fillStyle = cc; c.globalAlpha = w.a / n * 1.6 * am; }
+    c.fill('evenodd'); c.globalAlpha = 1;
+  }
+  if (w.edge > 0 && solid) { c.beginPath(); polyPath(c, w.passes[0].P); for (const h of w.passes[0].H) polyPath(c, h); c.lineWidth = w.ew; c.lineJoin = 'round'; c.strokeStyle = rgba(darker(cc), w.a * w.edge * am); c.stroke(); }
+  c.restore();
+}
+const drawItem = (c, it, p = 1, col = null, am = 1) => it.wash ? drawW(c, it, p, col, am) : drawS(c, it, p, col, am);
 // a set of strokes "painted in" in order: p∈[0,1]
 function drawList(c, L, p = 1, col = null, am = 1) {
   const N = L.length; if (!N) return;
-  if (p >= 1) { for (const s of L) drawS(c, s, 1, col, am); return; }
+  if (p >= 1) { for (const s of L) drawItem(c, s, 1, col, am); return; }
   const dur = Math.min(.5, Math.max(.12, 4 / N));
-  for (let j = 0; j < N; j++) { const t0 = j / N * (1 - dur); drawS(c, L[j], (p - t0) / dur, col, am); }
+  for (let j = 0; j < N; j++) { const t0 = j / N * (1 - dur); drawItem(c, L[j], (p - t0) / dur, col, am); }
 }
 
 function bbox(L, pad = 6) {
   let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
-  for (const s of L) for (let i = 0; i < s.pts.length; i++) { const [x, y] = s.pts[i], w = s.ws[i]; x0 = Math.min(x0, x - w); y0 = Math.min(y0, y - w); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + w); }
+  for (const s of L) { if (s.wash) { x0 = Math.min(x0, s.bb[0]); y0 = Math.min(y0, s.bb[1]); x1 = Math.max(x1, s.bb[2]); y1 = Math.max(y1, s.bb[3]); continue; } for (let i = 0; i < s.pts.length; i++) { const [x, y] = s.pts[i], w = s.ws[i]; x0 = Math.min(x0, x - w); y0 = Math.min(y0, y - w); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + w); } }
   return [Math.floor(x0 - pad), Math.floor(y0 - pad), Math.ceil(x1 + pad), Math.ceil(y1 + pad)];
 }
 function sprite(L, col = null, res = 2, extra = null, box = null) {
   const [x0, y0, x1, y1] = box || bbox(L), cv = document.createElement('canvas');
   cv.width = Math.max(1, Math.ceil((x1 - x0) * res)); cv.height = Math.max(1, Math.ceil((y1 - y0) * res));
-  const c = cv.getContext('2d'); c.scale(res, res); c.translate(-x0, -y0); for (const s of L) drawS(c, s, 1, col);
+  const c = cv.getContext('2d'); c.scale(res, res); c.translate(-x0, -y0); for (const s of L) drawItem(c, s, 1, col);
   if (extra) extra(c, 1);
   return { cv, x0, y0, x1, y1, res };
 }
@@ -144,7 +171,11 @@ function koList(c, L, p = 1) {
   PAPER_PAT.setTransform(c.getTransform().invertSelf());
   c.fillStyle = PAPER_PAT;
   const N = L.length, dur = Math.min(.5, Math.max(.12, 4 / N));
-  for (let j = 0; j < N; j++) { if (!L[j].ko) continue; const q = p >= 1 ? 1 : (p - j / N * (1 - dur)) / dur; if (q <= 0) continue; c.beginPath(); ribbonPath(c, L[j], q); c.fill(); }
+  for (let j = 0; j < N; j++) { if (!L[j].ko) continue; const q = p >= 1 ? 1 : (p - j / N * (1 - dur)) / dur; if (q <= 0) continue; koItem(c, L[j], q); }
+}
+function koItem(c, it, q) {
+  if (it.wash) { c.save(); if (q < 1) { const [x0, y0, x1, y1] = it.bb, B = lerp(y0 - 20, y1 + 20, q); c.beginPath(); c.rect(x0 - 30, y0 - 30, x1 - x0 + 60, B - y0 + 30); c.clip(); } c.beginPath(); polyPath(c, it.passes[0].P); c.fill(); c.restore(); }
+  else { c.beginPath(); ribbonPath(c, it, q); c.fill(); }
 }
 function washPoly(c, pts, fill, a, passes = 3, jit = 5) {
   for (let p = 0; p < passes; p++) {

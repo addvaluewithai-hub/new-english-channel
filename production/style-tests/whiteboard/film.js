@@ -247,7 +247,7 @@ export async function build() {
   D(N2, tagG([drop(64, HY - 70)], g), 11.45, 11.7);
 
   // "Sorry?" — the eraser clears Mia's bubble (a ghost of "I'm Mia" remains), a new one is drawn
-  tl.erase(W.zigzag(MB.x - 20, MB.y - 10, MB.w + 40, MB.h + 30, 4), 13.68, .46, { width: 120 });
+  tl.erase(W.zigzag(MB.x - 20, MB.y - 10, MB.w + 40, MB.h + 30, 4), 13.68, .46, { width: 120, away: [700, -900] });
   tl.cue(13.68, 'eraser');
   const SB = { x: 4950, y: 1330, w: 440, h: 180 };
   D(N2, bubble(SB.x, SB.y, SB.w, SB.h, SB.x + 130, MX - 30, GY + MH - 92), 14.38, 14.66);
@@ -256,7 +256,7 @@ export async function build() {
 
   // embarrassed: eraser wipes his smile, pen redraws a wobbly mouth; red blush; sweat
   const mouthPath = [[-22, HY + 38], [22, HY + 38], [-18, HY + 44], [20, HY + 44]];
-  tl.erase(mouthPath, 14.74, .18, { width: 18, grp: g });
+  tl.erase(mouthPath, 14.74, .18, { width: 18, grp: g, away: [-700, -500] });
   tl.cue(14.74, 'eraserSmall');
   D(N2, tagG(W.curve([[-18, HY + 40], [-10, HY + 35], [-2, HY + 41], [6, HY + 35], [14, HY + 41], [19, HY + 37]], { w: 5, smooth: 1 }), g), 14.94, 15.08);
   D(N2, tagG([W.line(-36, HY - 34, -12, HY - 26, { w: 7 }), W.line(12, HY - 26, 36, HY - 34, { w: 7 })], g), 15.1, 15.2);   // worried brows on top

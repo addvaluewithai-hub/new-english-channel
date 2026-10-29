@@ -338,12 +338,13 @@ function renderFilm(ctx, t) {
     // iris from Youssef's head into the close-up (circle to circle)
     const r2 = scene2(ctx, t); tips = { m: r2.mia, y: r2.you };
     const k = eio(seg(t, T_IRIS, T_S3)), r3h = scene3Head();
-    const cx = lerp(r2.head[0], r3h[0], k), cy = lerp(r2.head[1], r3h[1], k), R = lerp(60, 1500, k * k);
-    ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.clip(); scene3(ctx, T_S3 + 1e-3); ctx.restore();
+    const cx = lerp(r2.head[0], r3h[0], k), cy = lerp(r2.head[1], r3h[1], k), R = lerp(120, 1500, k * k);
+    ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.clip(); ctx.translate(cx - r3h[0], cy - r3h[1]); scene3(ctx, T_S3 + 1e-3); ctx.restore();
+    ink(ctx, ellipse(cx, cy, R + 7, R + 7, 90), 6, { closed: true, color: PAL.white, seed: 959, taper: false });
     ink(ctx, ellipse(cx, cy, R, R, 90), 7, { closed: true, seed: 960 });
-    tips.m = [lerp(r2.mia[0], -60, k), lerp(r2.mia[1], 300, k)];
+    tips.m = [lerp(r2.mia[0], 230, k), lerp(r2.mia[1], 350, k)];
   }
-  else { const r = scene3(ctx, t); irisC = r.head; tips = { m: [-60, 300] }; }
+  else { const r = scene3(ctx, t); irisC = r.head; tips = { m: [230, 350] }; }
   // English bubbles
   for (const b of BUB) if (t >= b.t0 && t < b.t1 + 0.1) bubble(ctx, t, b, tips[b.who] || [b.cx, b.cy + 200]);
   // iris-out on Youssef's face
