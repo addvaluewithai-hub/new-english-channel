@@ -41,8 +41,8 @@ export function buildRecap() {
     const nextIsLine = TL.lines.some(m => Math.abs(m.t0 - nx) < .01);
     if (nx - l.t1 >= .8 && !nextIsLine) R.gaps.push({ t0: l.t1 + .18, t1: nx - .12, line: l });
   }
-  // presenter Youssef talks on his narration words (and, via talk spans, on his own model lines); Mia on hers
-  const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).flatMap(n => n.tok.map(o => [o.t0, o.t1]));
+  // presenter Youssef mouths his narration clips (the diary voice's viseme track) and his own model lines; Mia hers
+  const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Mia left facing right: armL) ----
   const hiT = it('times').t0;
   const YK = 1.6, MK_ = 1.5, YX = 1690, MX = 285;

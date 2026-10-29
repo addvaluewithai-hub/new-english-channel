@@ -1,0 +1,39 @@
+{
+  "id": "ep01", "n": 1, "title": "First Day", "titleAr": "أول يوم",
+  "intro": "يوسف قال «I Youssef» وميا ما فهمتش. تعالى نثبّت الجمل الصح.",
+  "phrases": [
+    { "id": "hi",        "en": "Hi!",                    "ar": "أهلًا!",                    "who": "mia",     "audio": "audio/ep01/r01.mp3" },
+    { "id": "hello",     "en": "Hello!",                 "ar": "أهلًا! / مرحبًا!",          "who": "youssef", "audio": "audio/ep01/r02.mp3" },
+    { "id": "iam",       "en": "I am Youssef.",          "ar": "أنا يوسف.",                 "who": "youssef", "audio": "audio/ep01/r03.mp3" },
+    { "id": "im",        "en": "I'm Youssef.",           "ar": "أنا يوسف. (المختصرة)",      "who": "youssef", "audio": "audio/ep01/r04.mp3" },
+    { "id": "whatsname", "en": "What's your name?",      "ar": "اسمك إيه؟",                 "who": "mia",     "audio": "audio/ep01/r05.mp3" },
+    { "id": "myname",    "en": "My name is Youssef.",    "ar": "اسمي يوسف.",                "who": "youssef", "audio": "audio/ep01/r06.mp3" },
+    { "id": "nice",      "en": "Nice to meet you.",      "ar": "فرصة سعيدة.",               "who": "mia",     "audio": null },
+    { "id": "nice2",     "en": "Nice to meet you too.",  "ar": "وأنا كمان، فرصة سعيدة.",    "who": "youssef", "audio": "audio/ep01/r07.mp3" },
+    { "id": "sorry",     "en": "Sorry?",                 "ar": "نعم؟ (ما سمعتش)",           "who": "mia",     "audio": "audio/ep01/r08.mp3" },
+    { "id": "bye",       "en": "Bye! See you!",          "ar": "باي! أشوفك!",               "who": "mia",     "audio": "audio/ep01/r09.mp3" },
+    { "id": "goodbye",   "en": "Goodbye!",               "ar": "مع السلامة!",               "who": "youssef", "audio": "audio/ep01/r10.mp3" }
+  ],
+  "mistakes": [
+    { "id": "m-im",     "phrase": "im",     "context": "ميا: Hi! I'm Mia.", "wrong": "I Youssef.", "span": "I", "chips": ["I'm", "Me", "My"], "answer": "I'm",
+      "explain": "في العربي بنقول «أنا يوسف» من غير فعل… لكن في الإنجليزي لازم am: I'm = I am." },
+    { "id": "m-myname", "phrase": "myname", "context": "ميا: What's your name?", "wrong": "My name Youssef.", "span": "name", "chips": ["name is", "name am", "name are"], "answer": "name is",
+      "explain": "«اسمي يوسف» في الإنجليزي محتاجة is: My name is Youssef." },
+    { "id": "m-metoo",  "phrase": "nice2",  "context": "ميا: Nice to meet you, Youssef.", "wrong": "Me too.", "span": "Me too.", "chips": ["Nice to meet you too.", "Me too, Mia.", "You too me."], "answer": "Nice to meet you too.",
+      "explain": "«Me too» مش رد على Nice to meet you. الرد الصح: Nice to meet you too." }
+  ],
+  "items": [
+    { "type": "listen", "phrase": "hi", "mode": "ar", "options": ["أهلًا!", "باي!", "نعم؟"] },
+    { "type": "fix", "mistake": "m-im" },
+    { "type": "order", "phrase": "myname", "extra": ["am"] },
+    { "type": "listen", "phrase": "whatsname", "mode": "en", "options": ["What's your name?", "What's your game?", "Where's your name?"] },
+    { "type": "gap", "phrase": "nice2", "text": "Nice to meet you ___.", "chips": ["too", "also", "me too"], "answer": "too", "explain": "too = «كمان»، وبتيجي في آخر الجملة." },
+    { "type": "fix", "mistake": "m-metoo" },
+    { "type": "listen", "phrase": "sorry", "mode": "ar", "options": ["نعم؟ ما سمعتش", "آسف، أنا غلطان", "مع السلامة"], "explain": "Sorry? بعلامة استفهام = «نعم؟ قول تاني». من غيرها = «آسف»." },
+    { "type": "order", "phrase": "nice2" },
+    { "type": "gap", "phrase": "im", "text": "___ Youssef.", "chips": ["I'm", "I", "Me"], "answer": "I'm", "explain": "I'm = I am. في الإنجليزي لازم فعل am بعد I." },
+    { "type": "fix", "mistake": "m-myname" },
+    { "type": "listen", "phrase": "bye", "mode": "en", "options": ["Bye! See you!", "Buy a shoe!", "By the sea!"] },
+    { "type": "speak", "phrase": "im", "asks": "whatsname", "hint": "I'm ______.", "keywords": ["i'm", "i am", "my name is", "name"], "examples": ["I'm Youssef.", "My name is Youssef."] }
+  ]
+}

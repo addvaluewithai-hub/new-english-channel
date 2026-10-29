@@ -1,6 +1,6 @@
 // Episode 1 — timeline access. timeline.json (built by timeline.py from the voice clips) is the single source of truth:
 // every time used by the picture comes from here (sections, beats, lines, narration words, talk spans, recap items).
-import { clamp, seg, hash } from '/core/lib.js';
+import { clamp, seg, ss } from '/core/lib.js';
 
 export let TL = null;
 export async function loadTimeline() {
@@ -9,6 +9,7 @@ export async function loadTimeline() {
   TL.lines.forEach((l, i) => { l.i = i; l.tok = tokens(l.text, l.words, l.t0, l.t1); });
   TL.narration.forEach(n => { n.tok = narrTokens(n); });
   TL.talk.sort((a, b) => a[0] - b[0]);
+  for (const k of ['mouth', 'mouth_nar']) (TL[k] = TL[k] || []).sort((a, b) => a[0] - b[0]);
   return TL;
 }
 
@@ -56,20 +57,29 @@ export function nwT(id, pred, frac = .5) {
 }
 export const has = s => w => w.includes(s);
 
-// ---- lip sync from talk spans: A/E/O cycle per word, closes between words ----
-// who: 'mia' | 'youssef'. extra: additional spans [[t0,t1]] (e.g. narration words when Youssef presents on camera)
-export function talkAt(who, t, extra) {
-  let best = null;
-  const test = (a, b) => {
-    if (t < a - .05 || t > b + .06) return;
-    const e = Math.min(seg(t, a - .05, a + .03), 1 - seg(t, b - .02, b + .06));
-    const syl = .5 + .5 * Math.abs(Math.sin((t - a) * Math.PI * 6.2 + .6));
-    const v = e * syl;
-    if (!best || v > best.open) best = { open: v, shape: Math.floor(hash(a * 13.7) * 3) };
+// ---- lip sync from the viseme track: TL.mouth = [[t0, t1, who, shape]] (Preston Blair shapes A–H, built by lib/lipsync.py
+// from the words and the voice; gaps = rest). mouthAt returns the blend weights of the shapes near t: each segment eases in
+// from .05 s before its onset to .01 s after (the mouth leads the sound by about a frame) and out the same way at its end, so
+// two adjacent segments always sum to 1 and an isolated one fades over ≈2 frames. The remaining weight is the resting mouth:
+// `rest` says how much of it is a closed mouth (a short gap inside speech) rather than the face's own expression (a long gap).
+// who: 'mia' | 'youssef' reads TL.mouth; extra: [[t0,t1]] ranges where the character mouths the diary voice (TL.mouth_nar)
+const R0 = .05, R1 = .01, edge = (t, x) => ss((t - x + R0) / (R0 + R1));
+export function mouthAt(who, t, extra) {
+  const w = {}; let talk = 0, prev = -1e9, next = 1e9, cur = null;
+  const take = (a, b, s) => {
+    if (b <= t) { if (b > prev) prev = b; } else if (a > t) { if (a < next) next = a; } else cur = [a, b];
+    if (a > t + R0 || b < t - R1) return;
+    const k = edge(t, a) * (1 - edge(t, b));
+    if (k > .001) { w[s] = (w[s] || 0) + k; talk += k; }
   };
-  for (const [a, b, w] of TL.talk) { if (a > t + .1) break; if (w === who) test(a, b); }
-  if (extra) for (const [a, b] of extra) test(a, b);
-  return best || { open: 0, shape: 0 };
+  for (const [a, b, id, s] of TL.mouth) { if (id !== who) continue; take(a, b, s); if (a > t) break; }
+  if (extra && extra.length) {
+    const inX = (a, b) => { const m = (a + b) / 2; for (const [x0, x1] of extra) if (m >= x0 - .05 && m <= x1 + .05) return true; return false; };
+    for (const [a, b, , s] of TL.mouth_nar) { if (!inX(a, b)) continue; take(a, b, s); if (a > t) break; }
+  }
+  if (talk > 1) { for (const s in w) w[s] /= talk; talk = 1; }
+  const gap = cur ? (t < (cur[0] + cur[1]) / 2 ? cur[0] - prev : next - cur[1]) : next - prev;
+  return { w, talk, rest: 1 - seg(gap, .3, .6) };
 }
 
 // ---- narration plate chunks: phrases split at punctuation, merged to a readable width, each shown while it is spoken ----

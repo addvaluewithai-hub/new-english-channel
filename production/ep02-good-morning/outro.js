@@ -50,7 +50,7 @@ export function buildOutro() {
   O.tFormN = tFormN; O.tNums = tNums; O.how = how; O.said = said; O.tWrong = tWrong;
   const yN = { id: 'youssef', base: { turn: .2, face: F('puzzled', { lx: -.3, ly: .5 }), armL: { dx: .12, dy: -.14, bend: -.25, w: 0 }, armR: ARM.rest, alpha: 1, kmul: 1 },
     moves: [{ t0: 0, t1: .1, x0: 1330, x1: 1330, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [],
-    talkExtra: said ? [[said.t0, said.t0 + (said.t1 - said.t0) * .25], [said.t0 + (said.t1 - said.t0) * .3, said.t0 + (said.t1 - said.t0) * .55], [said.t0 + (said.t1 - said.t0) * .6, said.t1]] : [] };
+    talkExtra: said ? [[said.t0, said.t1]] : [] };   // he mouths the diary voice's "I have 26 years." (TL.mouth_nar)
   yN.keys.push({ t: tNums - .1, armR: ARM.scratch, face: F('puzzled', { lx: -.4, ly: .3, sweat: .4 }), lean: -.02, d: .3 },
     { t: how ? how.t0 - .2 : tQ, face: F('worried', { lx: .6, ly: -.1, sweat: .7 }), turn: .35, d: .3 },
     { t: said ? said.t0 - .3 : tQ + 2, face: F('happy', { happy: .35, lx: .6, mw: .12, bLy: .8, bRy: .8, sweat: .5 }), armR: ARM.chest, lean: 0, turn: .4, d: .3 },

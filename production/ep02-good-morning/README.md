@@ -26,10 +26,11 @@ Optional query parameters: `?from=&to=` (a preview range; DUR and t become relat
 | file | role |
 |---|---|
 | `kit.js` | Palette tokens, colour maths and the form pass (unchanged). |
-| `bean.js` | The v2 characters, plus the episode 2 props: a takeaway coffee cup, the two-cup carrier, Mia's tote bag, the paper form, and `handPos` (hand positions for a pose, so a prop can be drawn behind a far hand or in front of a near one) and `drawHand` (the hand redrawn over a held prop). |
+| `bean.js` | The v2 characters (the mouth has the lip-sync extras `mround`, `mlip`, `mtng`), plus the episode 2 props: a takeaway coffee cup, the two-cup carrier, Mia's tote bag, the paper form, and `handPos` (hand positions for a pose, so a prop can be drawn behind a far hand or in front of a near one) and `drawHand` (the hand redrawn over a held prop). |
 | `world.js` | The street from episode 1 (unchanged), plus two new flat interiors baked once: **Youssef's bedroom** (lilac wall, the window with morning light, bed + blanket, bedside table with the alarm clock, the red suitcase, a door) and the **school hallway** (cream wall over a navy-pastel wainscot, plank floor, a window, the notice board, a wall clock, a poster, teal doors, a plant). `blanket()` has a tucked and a thrown state. |
 | `ui.js` | Bubbles, the Arabic plate and icons as in episode 1, plus: sun / afternoon / moon icons, a waving hand, `bigMark` (a popping "?" / "!"), and the `z z z` trail. |
-| `tl.js`, `act.js`, `cues.js` | Unchanged. |
+| `tl.js`, `act.js` | As in episode 1: `mouthAt` reads the timeline's viseme track (`mouth` / `mouth_nar`, shapes A–H from `lib/lipsync.py`) and `VISEME` in `act.js` draws each shape as a mouth-parameter set, blended over ≈ 2 frames. |
+| `cues.js` | Unchanged. |
 | `story.js` | open (bedroom) → run (street) → hall + coffee (hallway) → door + bye (the school door, afternoon) + the form close-up. |
 | `recap.js` | "اللي اتعلمته النهارده" with the six episode 2 items. |
 | `outro.js` | Title card ("Good Morning?"), page wipe, "your turn", the form teaser and the end card ("How old are you?"). |

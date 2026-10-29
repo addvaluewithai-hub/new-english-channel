@@ -1,0 +1,41 @@
+{
+  "id": "ep02", "n": 2, "title": "Good Morning?", "titleAr": "صباح الخير؟",
+  "intro": "يوسف قال Good night الساعة 8 الصبح… وقال Welcome بدل You're welcome. تعالى نصلّحها.",
+  "phrases": [
+    { "id": "gm",     "en": "Good morning.",           "ar": "صباح الخير.",                    "who": "mia",     "audio": "audio/ep02/r01.mp3" },
+    { "id": "ga",     "en": "Good afternoon.",         "ar": "مساء الخير. (بعد الضهر)",        "who": "youssef", "audio": "audio/ep02/r02.mp3" },
+    { "id": "ge",     "en": "Good evening.",           "ar": "مساء الخير. (بالليل)",           "who": "mia",     "audio": "audio/ep02/r03.mp3" },
+    { "id": "gn",     "en": "Good night!",             "ar": "تصبح على خير! (وإنت ماشي)",      "who": "youssef", "audio": "audio/ep02/r04.mp3" },
+    { "id": "hay",    "en": "How are you?",            "ar": "عامل إيه؟",                      "who": "mia",     "audio": "audio/ep02/r05.mp3" },
+    { "id": "good",   "en": "I'm good, thanks!",       "ar": "أنا كويس، شكرًا!",               "who": "youssef", "audio": "audio/ep02/r06.mp3" },
+    { "id": "ok",     "en": "I'm OK… a little tired.", "ar": "أنا ماشي الحال… تعبان شوية.",    "who": "youssef", "audio": "audio/ep02/r07.mp3" },
+    { "id": "notbad", "en": "Not bad!",                "ar": "مش بطّال!",                      "who": "youssef", "audio": "audio/ep02/r08.mp3" },
+    { "id": "andyou", "en": "And you?",                "ar": "وإنت؟",                          "who": "youssef", "audio": "audio/ep02/r09.mp3" },
+    { "id": "thanks", "en": "Thank you!",              "ar": "شكرًا!",                         "who": "mia",     "audio": null },
+    { "id": "yw",     "en": "You're welcome.",         "ar": "العفو.",                         "who": "mia",     "audio": "audio/ep02/r10.mp3" },
+    { "id": "please", "en": "Coffee, please.",         "ar": "قهوة، لو سمحت.",                 "who": "youssef", "audio": "audio/ep02/r11.mp3" },
+    { "id": "sorry",  "en": "Sorry!",                  "ar": "آسف!",                           "who": "youssef", "audio": "audio/ep02/r12.mp3" }
+  ],
+  "mistakes": [
+    { "id": "m-gn", "phrase": "gm", "context": "الساعة 8 الصبح. ميا: Good morning, Youssef!", "wrong": "Good night, Mia!", "span": "Good night", "chips": ["Good morning", "Good night", "Good bye"], "answer": "Good morning",
+      "explain": "Good night مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام. الصبح: Good morning." },
+    { "id": "m-welcome", "phrase": "yw", "context": "ميا: Thank you, Youssef!", "wrong": "Welcome!", "span": "Welcome!", "chips": ["You're welcome.", "Welcome you.", "Thank you too."], "answer": "You're welcome.",
+      "explain": "Welcome لوحدها معناها «أهلًا وسهلًا». الرد على Thank you: You're welcome." },
+    { "id": "m-ge", "phrase": "ge", "context": "الساعة 8 بالليل، يوسف داخل وبيقابل ميا.", "wrong": "Good night, Mia!", "span": "Good night", "chips": ["Good evening", "Good night", "Good afternoon"], "answer": "Good evening",
+      "explain": "بالليل وإنت جاي: Good evening. Good night وإنت ماشي بس." }
+  ],
+  "items": [
+    { "type": "listen", "phrase": "gm", "mode": "ar", "options": ["صباح الخير", "تصبح على خير", "مساء الخير"] },
+    { "type": "fix", "mistake": "m-gn" },
+    { "type": "listen", "phrase": "hay", "mode": "en", "options": ["How are you?", "Who are you?", "How old are you?"] },
+    { "type": "gap", "phrase": "good", "text": "I'm good, ___!", "chips": ["thanks", "please", "welcome"], "answer": "thanks", "explain": "رد حقيقي وقصير: I'm good, thanks! ومش لازم الرد المحفوظ كل مرة." },
+    { "type": "order", "phrase": "ok" },
+    { "type": "fix", "mistake": "m-welcome" },
+    { "type": "listen", "phrase": "yw", "mode": "ar", "options": ["العفو", "أهلًا وسهلًا", "شكرًا"], "explain": "You're welcome = العفو. لكن Welcome لوحدها = أهلًا وسهلًا." },
+    { "type": "fix", "mistake": "m-ge" },
+    { "type": "order", "phrase": "notbad", "join": "andyou" },
+    { "type": "gap", "phrase": "sorry", "text": "I'm late. ___!", "chips": ["Sorry", "Excuse me", "Please"], "answer": "Sorry", "explain": "Sorry = آسف، بعد الغلط. Excuse me = لو سمحت، قبل ما تطلب حاجة." },
+    { "type": "listen", "phrase": "gn", "mode": "ar", "options": ["تصبح على خير (وإنت ماشي)", "صباح الخير", "مساء الخير"] },
+    { "type": "speak", "phrase": "good", "asks": "hay", "hint": "I'm ______.", "keywords": ["good", "ok", "okay", "fine", "great", "tired", "not bad", "bad", "happy"], "examples": ["I'm good, thanks!", "Not bad!", "I'm OK… a little tired."] }
+  ]
+}

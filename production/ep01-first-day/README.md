@@ -28,11 +28,11 @@ Optional query parameters:
 | file | role |
 |---|---|
 | `kit.js` | Palette tokens, colour maths and the form pass. The crescent blur now runs at half resolution, canvases come from a size-aware pool, and every canvas is a CPU raster canvas. |
-| `bean.js` | The v2 characters, unchanged except for a tighter layer box. |
+| `bean.js` | The v2 characters, with a tighter layer box and three lip-sync extras on the parametric mouth (`mround` rounded opening, `mlip` lower lip under the teeth, `mtng` tongue up; all 0 = the classic mouth). |
 | `world.js` | The street, extended to the left with a bench, a post box and lamps. The school has a clock. Adds a time-of-day sky (`tod`). Static layers are baked once into caches; the door, clock hands, bus and clouds are drawn live. Depth of field is done by downsampling. |
 | `ui.js` | Speech bubbles with name tabs and the timed word highlighter, the Arabic narration plate (RTL, words light up, bidi-safe Latin runs), thought bubbles and drawn icons: smiley, loop arrows, mic, ✓/✗, squiggle, alarm clock, bell, comment. |
-| `tl.js` | Loads the timeline. Maps display tokens to word times, builds lip sync from `talk`, chunks the narration plate and finds narration words. |
-| `act.js` | Acting: keyed pose tracks, hop-walk, blinks, eye darts, lip sync and the ponytail/quiff spring. |
+| `tl.js` | Loads the timeline. Maps display tokens to word times, reads the viseme track (`mouth` / `mouth_nar`, Preston Blair shapes A–H built by `lib/lipsync.py`) with `mouthAt`, which blends the shapes over ≈ 2 frames and rests the mouth in the gaps, chunks the narration plate and finds narration words. |
+| `act.js` | Acting: keyed pose tracks, hop-walk, blinks, eye darts, lip sync (`VISEME`: the 8 shapes as mouth-parameter sets, tinted by the speaker's smile) and the ponytail/quiff spring. |
 | `story.js` | Sections open → street → door → retry (one continuous world), then day and bye. |
 | `recap.js` | "اللي اتعلمته النهارده": Living Letters kinetic type on cream paper. |
 | `outro.js` | Title card, page wipe, "your turn", next-episode teaser and end card. |

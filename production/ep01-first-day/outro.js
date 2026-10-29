@@ -53,7 +53,7 @@ export function buildOutro() {
     { t: tAns - .15, face: F('nervous', { sweat: 1, lx: .2, ly: .2, mo: .05, mt: 1, blush: .8, lines: .6 }), trem: .006, d: .2 });
   const mN = { id: 'mia', base: { turn: -.38, face: F('happy', { lx: -.5, happy: .45 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
     moves: [{ t0: 0, t1: .1, x0: 1540, x1: 1540, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [],
-    talkExtra: how ? [[how.t0, how.t0 + (how.t1 - how.t0) * .3], [how.t0 + (how.t1 - how.t0) * .36, how.t0 + (how.t1 - how.t0) * .62], [how.t0 + (how.t1 - how.t0) * .68, how.t1]] : [] };
+    talkExtra: how ? [[how.t0, how.t1]] : [] };   // she mouths the diary voice's "How are you?" (TL.mouth_nar)
   mN.keys.push({ t: tC - .1, armR: ARM.wave, d: .2 }, { t: tC + .9, armR: ARM.rest, face: F('happy', { lx: -.5, bLy: .8, bRy: .8, happy: .3 }), d: .3 });
   O.yN = yN; O.mN = mN;
   O.camN = [

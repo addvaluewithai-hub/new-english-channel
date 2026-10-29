@@ -1,7 +1,7 @@
 // Episode 1 — acting helpers. Everything is a pure function of t (seeded randomness only).
 import { clamp, lerp, seg, ss, eio, hash, mulberry } from '/core/lib.js';
 import { EXPR, ARM, blendFace, blendArm, pose } from './bean.js';
-import { talkAt } from './tl.js';
+import { mouthAt } from './tl.js';
 
 // ---- keyed state tracks ----
 // keys: [{t, d?, ...fields}] in time order. The state folds key by key: each key blends the previous state toward its own
@@ -88,16 +88,32 @@ export function dart(id, t, amp = .18) {
   return [lerp(prev[0] - .5, h0 - .5, k) * 2 * amp, lerp(prev[1] - .5, h1 - .5, k) * amp];
 }
 
-// mouth shapes for lip sync (A, E, O)
-const SHAPES = [EXPR.talk, EXPR.talkE, EXPR.talkO];
-const MOUTH = ['mw', 'mo', 'ms', 'mt', 'mwob', 'masym'];
-export function lipsync(face, who, t, extra, gain = 1) {
-  const L = talkAt(who, t, extra);
-  if (L.open <= .01) return face;
-  const S = SHAPES[L.shape], o = { ...face }, a = clamp(L.open * gain);
-  for (const m of MOUTH) o[m] = lerp(face[m], S[m], a);
-  o.ms = lerp(face.ms, Math.max(S.ms, face.ms * .8), a);   // keep a smile while talking
-  o.mwob = face.mwob * (1 - a);
+// ---- lip sync: the timeline's viseme track drawn as mouth-parameter sets (see mouthAt in tl.js, lib/lipsync.py) ----
+// Preston Blair shapes on the bean mouth. smk = how much of the speaker's own smile the shape keeps (an open "AH" smiles, a
+// pucker can't); mround / mlip / mtng are the mouth() extras (rounded opening, lower lip under the teeth, tongue up).
+export const VISEME = {
+  A: { mw: .085, mo: 0,    ms: .3,  mt: 0,   mround: 0,  mlip: 0,   mtng: 0, smk: .9 },   // lips pressed: M B P
+  B: { mw: .105, mo: .032, ms: .45, mt: .55, mround: 0,  mlip: .3,  mtng: 0, smk: .8 },   // slightly open, teeth: most consonants, EE IH
+  C: { mw: .105, mo: .062, ms: .4,  mt: .3,  mround: 0,  mlip: 0,   mtng: 0, smk: .8 },   // open medium: EH AE AH
+  D: { mw: .118, mo: .1,   ms: .3,  mt: .2,  mround: 0,  mlip: 0,   mtng: 0, smk: .7 },   // wide open: AA AY
+  E: { mw: .08,  mo: .06,  ms: .1,  mt: .15, mround: .6, mlip: 0,   mtng: 0, smk: .4 },   // rounded open: AO ER
+  F: { mw: .056, mo: .034, ms: 0,   mt: 0,   mround: 1,  mlip: 0,   mtng: 0, smk: .15 },  // puckered: UW OW W
+  G: { mw: .095, mo: .036, ms: .35, mt: .6,  mround: 0,  mlip: 1,   mtng: 0, smk: .7 },   // upper teeth on the lower lip: F V
+  H: { mw: .1,   mo: .065, ms: .35, mt: .25, mround: 0,  mlip: 0,   mtng: 1, smk: .7 },   // tongue up: L
+};
+const MOUTH = ['mw', 'mo', 'ms', 'mt', 'mwob', 'masym', 'mround', 'mlip', 'mtng'];
+// the face's mouth replaced by the blend of the active visemes; what is left over is the resting mouth: a closed mouth that
+// keeps the face's smile inside a phrase, the face's own expression mouth (a yawn, a grin, a wobble) in longer gaps
+export function lipsync(face, who, t, extra) {
+  const M = mouthAt(who, t, extra);
+  if (M.talk <= .001 && M.rest <= .001) return face;
+  const o = { ...face }, wX = (1 - M.talk) * M.rest, wF = 1 - M.talk - wX;
+  const X = { mw: lerp(.085, face.mw, .5), mo: 0, ms: face.ms, mt: 0, mwob: 0, masym: 0, mround: 0, mlip: 0, mtng: 0 };
+  for (const m of MOUTH) {
+    let v = (face[m] ?? 0) * wF + X[m] * wX;
+    for (const s in M.w) { const S = VISEME[s] || VISEME.C; v += (m === 'ms' ? Math.max(S.ms, face.ms * S.smk) : (S[m] ?? 0)) * M.w[s]; }
+    o[m] = v;
+  }
   return o;
 }
 

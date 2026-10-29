@@ -15,7 +15,7 @@ export const CAST = {
 
 // ---------------- expressions (face kit presets; all numeric so they can be blended) ----------------
 const F0 = { bLy: 0, bLr: .05, bRy: 0, bRr: .05, eye: 1, lid: 0, lidT: 0, happy: 0, lx: 0, ly: 0, pupil: 1,
-  mw: .075, mo: 0, ms: .4, mwob: 0, mt: 0, masym: 0, blush: .35, lines: 0, sweat: 0 };
+  mw: .075, mo: 0, ms: .4, mwob: 0, mt: 0, masym: 0, mround: 0, mlip: 0, mtng: 0, blush: .35, lines: 0, sweat: 0 };
 export const EXPR = {
   neutral:     { ...F0 },
   happy:       { ...F0, bLy: .55, bRy: .55, bLr: .12, bRr: .12, happy: .45, mw: .13, mo: .065, ms: 1, mt: .45, blush: .6 },
@@ -353,6 +353,9 @@ function eye(c, sp, f, H, fx, s) {
 
 function mouth(c, sp, f, H, fx) {
   const w = f.mw * H * fx, open = f.mo * H, sm = f.ms, as = f.masym * .03 * H;
+  // lip-sync extras (all 0 = the classic mouth): mround rounds the opening into an "O", mlip tucks the lower lip under the
+  // upper teeth (F, V), mtng raises the tongue into the middle of the mouth (L)
+  const rnd = f.mround || 0, lip = f.mlip || 0, tng = f.mtng || 0;
   const lift = -sm * .03 * H, Lp = [-w / 2, lift + as], Rp = [w / 2, lift - as];
   c.lineCap = 'round'; c.lineJoin = 'round';
   if (open < .012 * H) {
@@ -366,7 +369,24 @@ function mouth(c, sp, f, H, fx) {
   }
   const top = sm > 0 ? -open * .1 : -open * .3, bot = open * (1 + .3 * Math.max(0, sm)), my = (Lp[1] + Rp[1]) / 2;
   const path = () => {
-    c.beginPath(); c.moveTo(Lp[0], Lp[1]);
+    c.beginPath();
+    if (rnd > .01) {   // the "D" outline sampled and blended toward an ellipse of the same width (a pucker / rounded vowel)
+      const ty = open * .85, cy = my + (bot - ty) / 2, rx = w / 2, ry = (ty + bot) / 2, N = 12, C = my + top * 2, B = my + bot * 1.3;
+      for (let i = 0; i <= 2 * N; i++) {
+        let px, py;
+        if (i <= N) { const t = i / N, u = 1 - t; px = u * u * Lp[0] + t * t * Rp[0]; py = u * u * Lp[1] + 2 * u * t * C + t * t * Rp[1]; }
+        else {
+          const t = (i - N) / N, u = 1 - t, x1 = Rp[0] - w * .02, x2 = Lp[0] + w * .02;
+          px = u * u * u * Rp[0] + 3 * u * u * t * x1 + 3 * u * t * t * x2 + t * t * t * Lp[0];
+          py = u * u * u * Rp[1] + 3 * u * u * t * B + 3 * u * t * t * B + t * t * t * Lp[1];
+        }
+        const a = PI + PI * i / N, ex = rx * Math.cos(a), ey = cy + ry * Math.sin(a);   // left → top → right → bottom → left
+        const x = lerp(px, ex, rnd), y = lerp(py, ey, rnd);
+        i ? c.lineTo(x, y) : c.moveTo(x, y);
+      }
+      c.closePath(); return;
+    }
+    c.moveTo(Lp[0], Lp[1]);
     if (f.mwob > .05) { for (let i = 1; i <= 16; i++) { const t = i / 16; c.lineTo(lerp(Lp[0], Rp[0], t), lerp(Lp[1], Rp[1], t) + top * Math.sin(t * PI) + f.mwob * .009 * H * Math.sin(t * PI * 4)); } }
     else c.quadraticCurveTo(0, my + top * 2, Rp[0], Rp[1]);
     // rounded "D" bottom
@@ -380,8 +400,15 @@ function mouth(c, sp, f, H, fx) {
     const ym = my + bot * .42; c.beginPath(); c.moveTo(-w, ym); c.lineTo(w, ym); c.stroke();
     for (const x of [-.28, 0, .28]) { c.beginPath(); c.moveTo(x * w, my - open); c.lineTo(x * w, my + bot * 1.4); c.stroke(); }
   } else {
-    ell(c, 0, my + bot * 1.05, w * .3, bot * .45); c.fillStyle = '#EE7C82'; c.fill();
-    if (f.mt > .02) { c.fillStyle = '#FFFDF8'; c.fillRect(-w, my - open, w * 2, open * (.95 + f.mt * .35)); }
+    // tongue: a sliver at the bottom; raised (mtng) it sits in the middle of the mouth
+    ell(c, 0, my + bot * lerp(1.05, .68, tng), w * lerp(.3, .26, tng), bot * lerp(.45, .4, tng)); c.fillStyle = '#EE7C82'; c.fill();
+    if (f.mt > .02 || lip > .01) {   // upper teeth; with mlip they reach down onto the lower lip
+      c.fillStyle = '#FFFDF8'; c.fillRect(-w, my - open, w * 2, lerp(open * (.95 + f.mt * .35), open + bot * .7, lip));
+    }
+    if (lip > .01) {                 // the lower lip tucked under the teeth, in a lip tone, with a thin shadow above it
+      c.fillStyle = rgba(mix(sp.skin, '#8A3A48', .45), lip);
+      c.beginPath(); c.moveTo(-w, my + bot * .98); c.quadraticCurveTo(0, my + bot * .74, w, my + bot * .98); c.lineTo(w, my + bot * 2); c.lineTo(-w, my + bot * 2); c.closePath(); c.fill();
+    }
   }
   c.restore();
   if (f.mt > .85) { path(); c.strokeStyle = P.ink; c.lineWidth = .014 * H; c.stroke(); }
