@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:26.992Z",
+  "duration_ms": 5600,
+  "word_count": 8,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولقيت المدرسه باب ازرق ويافطه كبيره والباب اتفتح",
+  "source_text": "ولقيت المدرسة. باب أزرق، ويافطة كبيرة… والباب اتفتح.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولقيت المدرسة. باب أزرق، ويافطة كبيرة… والباب اتفتح."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "ولقيت"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 1000,
+      "text": "المدرسه"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2200,
+      "text": "باب"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 3000,
+      "text": "ازرق"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3500,
+      "text": "ويافطه"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3900,
+      "text": "كبيره"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5100,
+      "text": "والباب"
+    },
+    {
+      "start_ms": 5100,
+      "end_ms": 5600,
+      "text": "اتفتح"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:57.755Z",
+  "duration_ms": 8100,
+  "word_count": 13,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Bye, Yusuf. See you tomorrow. Goodbye, Mia. See you. Classes at eight. Eight?",
+  "source_text": "Bye, Youssef! See you tomorrow! Goodbye, Mia! See you! Class is at eight! Eight?!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Mia",
+      "text": "Bye, Youssef! See you tomorrow!"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "Goodbye, Mia! See you!"
+    },
+    {
+      "index": 2,
+      "speaker": "Mia",
+      "text": "Class is at eight!"
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Eight?!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "Bye,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 1200,
+      "text": "Yusuf.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1400,
+      "text": "See",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1401,
+      "text": "you",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1900,
+      "text": "tomorrow.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3100,
+      "text": "Goodbye,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3700,
+      "text": "Mia.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4100,
+      "text": "See",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4400,
+      "text": "you.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5800,
+      "text": "Classes",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5800,
+      "end_ms": 5900,
+      "text": "at",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6100,
+      "text": "eight.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7900,
+      "end_ms": 8100,
+      "text": "Eight?",
+      "speaker": "spk:1"
+    }
+  ]
+}

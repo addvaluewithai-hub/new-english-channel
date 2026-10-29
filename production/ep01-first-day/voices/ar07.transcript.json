@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:31.720Z",
+  "duration_ms": 6100,
+  "word_count": 11,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "اليوم عدى بسرعة. كلاس وناس جديدة وكلام كتير ما فهمتش نصه.",
+  "source_text": "اليوم عدّى بسرعة. كلاس، وناس جديدة، وكلام كتير ما فهمتش نصه.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "اليوم عدّى بسرعة. كلاس، وناس جديدة، وكلام كتير ما فهمتش نصه."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 400,
+      "text": "اليوم"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "عدى"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1300,
+      "text": "بسرعة."
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 3000,
+      "text": "كلاس"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3300,
+      "text": "وناس"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 4000,
+      "text": "جديدة"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4600,
+      "text": "وكلام"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 5000,
+      "text": "كتير"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5200,
+      "text": "ما"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5600,
+      "text": "فهمتش"
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 6100,
+      "text": "نصه."
+    }
+  ]
+}

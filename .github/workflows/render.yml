@@ -10,6 +10,7 @@ on:
       shards: { description: "Parallel runners", required: false, default: "20", type: string }
       quality: { description: "Page query string", required: false, default: "res=1&taps=32", type: string }
       chunk_sec: { description: "Chunk length in seconds", required: false, default: "4", type: string }
+      grain: { description: "Film grain (0 = none, for flat vector styles)", required: false, default: "1", type: string }
 
 permissions:
   contents: write
@@ -81,7 +82,7 @@ jobs:
           cd "$LIB"
           node core/render/events.mjs "$F" --q '${{ inputs.quality }}'
           .venv/bin/python "$F/mix.py"
-          sh core/render/mux.sh "$F/out/video.mp4" "$F/out/mix.wav" "$F/out/${{ inputs.name }}.mp4" 24 1
+          sh core/render/mux.sh "$F/out/video.mp4" "$F/out/mix.wav" "$F/out/${{ inputs.name }}.mp4" 24 ${{ inputs.grain }}
           if [ -f "$F/make_srt.py" ]; then .venv/bin/python "$F/make_srt.py" && cp "$F"/*.srt "$F/out/" || true; fi
           ffprobe -v error -show_entries format=duration,size -of compact "$F/out/${{ inputs.name }}.mp4"
       - uses: actions/upload-artifact@v4

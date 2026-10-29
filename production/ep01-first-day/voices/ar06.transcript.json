@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:29.704Z",
+  "duration_ms": 5200,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "المره دي فهمتني على طول. الفرق كان كلمه واحد صغيره هحكي لكم عليها في الاخر.",
+  "source_text": "المرة دي فهمتني على طول. الفرق كان كلمة واحدة صغيرة… هحكيلكم عليها في الآخر.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "المرة دي فهمتني على طول. الفرق كان كلمة واحدة صغيرة… هحكيلكم عليها في الآخر."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "المره"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 600,
+      "text": "دي"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1100,
+      "text": "فهمتني"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1200,
+      "text": "على"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1800,
+      "text": "طول."
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2700,
+      "text": "الفرق"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 2900,
+      "text": "كان"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3100,
+      "text": "كلمه"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3400,
+      "text": "واحد"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 3900,
+      "text": "صغيره"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4400,
+      "text": "هحكي"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4600,
+      "text": "لكم"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 4800,
+      "text": "عليها"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 4900,
+      "text": "في"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5200,
+      "text": "الاخر."
+    }
+  ]
+}

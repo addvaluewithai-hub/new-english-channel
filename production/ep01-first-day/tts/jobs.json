@@ -1,0 +1,487 @@
+{
+ "ar01": {
+  "text": "اسمي يوسف. <short pause> مهندس من القاهرة، عندي ستة وعشرين سنة… <short pause> والنهارده أول يوم ليّا في لندن.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Opening of the story, inviting.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar02": {
+  "text": "جاي أدرس إنجليزي وأشتغل هنا. <short pause> وكنت فاكر إن الإنجليزي بتاعي كويس… <short pause> لحد ما قابلت ميا.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Ends with a small knowing laugh in the voice.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar03": {
+  "text": "طول الطريق من المطار وأنا بحضّر أول جملة هقولها. <short pause> هقولها بثقة… وبابتسامة.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Confident, a bit proud.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar04": {
+  "text": "ولقيت المدرسة. <short pause> باب أزرق، ويافطة كبيرة… <short pause> والباب اتفتح.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Building suspense at the end.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar05": {
+  "text": "سوري؟! <short pause> هي ما سمعتنيش؟ ولا أنا قلت حاجة غلط؟ <short pause> ما أنا قلت اسمي أهو!",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Panicked and embarrassed, faster, comic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar06": {
+  "text": "المرة دي فهمتني على طول. <short pause> الفرق كان كلمة واحدة صغيرة… هحكيلكم عليها في الآخر.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Relieved, then teasing.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar07": {
+  "text": "اليوم عدّى بسرعة. <short pause> كلاس، وناس جديدة، وكلام كتير ما فهمتش نصه.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Light, a bit tired, amused.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar08": {
+  "text": "تمانية الصبح؟! <short pause> هو أنا جاي أدرس… ولا جاي الجيش؟",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Shocked, comic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar09": {
+  "text": "تعالوا نشوف اتعلمت إيه النهارده.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Upbeat, like a friendly teacher.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar10": {
+  "text": "أول حاجة، غلطتي. <short pause> أنا قلت: آي يوسف. <short pause> في العربي بنقول أنا يوسف من غير أي فعل… <short pause> لكن في الإنجليزي لازم يبقى فيه: آم.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory, friendly teacher.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar11": {
+  "text": "وغالبًا بنختصرها لـ: آيم، <short pause> وبتتقال بسرعة كأنها كلمة واحدة.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar12": {
+  "text": "ولو عايز تسأل حد عن اسمه، <short pause> والرد:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar13": {
+  "text": "ولما حد يقولك: نايس تو ميت يو، <short pause> ما تقولش: مي تو. <short pause> قول:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear, a little playful.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar14": {
+  "text": "ولو ما سمعتش كويس، قول ببساطة:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar15": {
+  "text": "وإنت ماشي:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Light.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar16": {
+  "text": "دورك! <short pause> ميا بتسألك… رد عليها بصوت عالي.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Energetic, encouraging.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar17": {
+  "text": "قلتها بـ آيم؟ <short pause> برافو عليك! <short pause> واكتبها في الكومنتات.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Proud and warm.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar18": {
+  "text": "الحلقة الجاية: <short pause> صحيت متأخر، وأول ما شفت ميا سألتني: هاو آر يو؟… <short pause> وأنا رديت رد عمري ما هنساه.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Teaser, mysterious and funny.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r01": {
+  "text": "Hi!",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Bright and clear, a model phrase for learners.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r02": {
+  "text": "Hello!",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Clear and friendly, a model phrase for learners.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r03": {
+  "text": "I am Youssef.",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Slow and clear, stressing the word 'am', a model phrase for learners.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r04": {
+  "text": "I'm Youssef.",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Natural and confident, a model phrase for learners.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r05": {
+  "text": "What's your name?",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Clear, a model phrase for learners.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r06": {
+  "text": "My name is Youssef.",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Clear and confident, a model phrase for learners.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r07": {
+  "text": "Nice to meet you too.",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Warm and clear, a model phrase for learners.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r08": {
+  "text": "Sorry?",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. A natural questioning 'Sorry?', as when you did not hear well.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r09": {
+  "text": "Bye! See you!",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Cheerful, a model phrase for learners.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r10": {
+  "text": "Goodbye!",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Cheerful, a model phrase for learners.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "turn": {
+  "text": "Hi! I'm Mia. <short pause> What's your name?",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Talking directly to the viewer, warm and inviting, a little slower.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en2": {
+  "turns": [
+   {
+    "speaker": "Mia",
+    "text": "What's your name?",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Kind and patient, a little slower, helping a nervous beginner."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "My name is Youssef.",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Careful and slow, choosing each word, then relieved."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Youssef! <short pause> Nice to meet you, Youssef.",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Delighted and warm."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Nice to meet you too.",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Happy, relieved, a big smile in the voice."
+   },
+   {
+    "speaker": "Mia",
+    "text": "Come in, come in!",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Welcoming, cheerful."
+   }
+  ],
+  "speakers": {
+   "Mia": "Aoede",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en3": {
+  "turns": [
+   {
+    "speaker": "Mia",
+    "text": "Bye, Youssef! See you tomorrow!",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Cheerful, end of the school day."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Goodbye, Mia! See you!",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Happy, tired after a long day."
+   },
+   {
+    "speaker": "Mia",
+    "text": "<short pause> Class is at eight!",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed American accent, medium pace. Calling after him brightly, as an afterthought."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "Eight?!",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Shocked, comic disbelief."
+   }
+  ],
+  "speakers": {
+   "Mia": "Aoede",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ }
+}

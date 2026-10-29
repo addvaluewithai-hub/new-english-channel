@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:57.889Z",
+  "duration_ms": 7500,
+  "word_count": 14,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "اسمي يوسف. مهندس من القاهره عندي 26 سنه. والنهارده اول يوم ليا في لندن.",
+  "source_text": "اسمي يوسف. مهندس من القاهرة، عندي ستة وعشرين سنة… والنهارده أول يوم ليّا في لندن.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "اسمي يوسف. مهندس من القاهرة، عندي ستة وعشرين سنة… والنهارده أول يوم ليّا في لندن."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 700,
+      "text": "اسمي"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1200,
+      "text": "يوسف."
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2200,
+      "text": "مهندس"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2300,
+      "text": "من"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2800,
+      "text": "القاهره"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3600,
+      "text": "عندي"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 4300,
+      "text": "26"
+    },
+    {
+      "start_ms": 4300,
+      "end_ms": 4500,
+      "text": "سنه."
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 6200,
+      "text": "والنهارده"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6600,
+      "text": "اول"
+    },
+    {
+      "start_ms": 6600,
+      "end_ms": 6800,
+      "text": "يوم"
+    },
+    {
+      "start_ms": 6800,
+      "end_ms": 7000,
+      "text": "ليا"
+    },
+    {
+      "start_ms": 7000,
+      "end_ms": 7100,
+      "text": "في"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7500,
+      "text": "لندن."
+    }
+  ]
+}

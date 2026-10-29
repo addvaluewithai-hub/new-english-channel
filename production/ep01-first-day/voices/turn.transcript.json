@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:24:16.209Z",
+  "duration_ms": 2600,
+  "word_count": 6,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Hi, I'm Mia. What's your name?",
+  "source_text": "Hi! I'm Mia. What's your name?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Hi! I'm Mia. What's your name?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "Hi,"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1200,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1700,
+      "text": "Mia."
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2200,
+      "text": "What's"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2300,
+      "text": "your"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2600,
+      "text": "name?"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:30.148Z",
+  "duration_ms": 4200,
+  "word_count": 9,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولو عايز تسأل حد عن اسمه اسمك ايه؟ والرد",
+  "source_text": "ولو عايز تسأل حد عن اسمه، والرد:",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولو عايز تسأل حد عن اسمه، والرد:"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 400,
+      "text": "ولو"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 600,
+      "text": "عايز"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 900,
+      "text": "تسأل"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1100,
+      "text": "حد"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1200,
+      "text": "عن"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1600,
+      "text": "اسمه"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2700,
+      "text": "اسمك"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 2900,
+      "text": "ايه؟"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 4200,
+      "text": "والرد"
+    }
+  ]
+}

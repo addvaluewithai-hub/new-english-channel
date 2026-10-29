@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:30.627Z",
+  "duration_ms": 5400,
+  "word_count": 13,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "هي ما سمعتنيش ولا انا قلت حاجه غلط؟ ما انا قلت اسمي اهو.",
+  "source_text": "سوري؟! هي ما سمعتنيش؟ ولا أنا قلت حاجة غلط؟ ما أنا قلت اسمي أهو!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "سوري؟! هي ما سمعتنيش؟ ولا أنا قلت حاجة غلط؟ ما أنا قلت اسمي أهو!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 1400,
+      "end_ms": 1700,
+      "text": "هي"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 1800,
+      "text": "ما"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2300,
+      "text": "سمعتنيش"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2600,
+      "text": "ولا"
+    },
+    {
+      "start_ms": 2600,
+      "end_ms": 2800,
+      "text": "انا"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3000,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3200,
+      "text": "حاجه"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3700,
+      "text": "غلط؟"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4501,
+      "text": "ما"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4800,
+      "text": "انا"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5000,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5200,
+      "text": "اسمي"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5400,
+      "text": "اهو."
+    }
+  ]
+}

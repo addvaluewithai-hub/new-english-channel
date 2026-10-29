@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:30.230Z",
+  "duration_ms": 4400,
+  "word_count": 8,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وغالبا بنختصرها لـ وبتتقال بسرعة كانها كلمة واحدة.",
+  "source_text": "وغالبًا بنختصرها لـ: آيم، وبتتقال بسرعة كأنها كلمة واحدة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وغالبًا بنختصرها لـ: آيم، وبتتقال بسرعة كأنها كلمة واحدة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 800,
+      "text": "وغالبا"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1400,
+      "text": "بنختصرها"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1600,
+      "text": "لـ"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2800,
+      "text": "وبتتقال"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3200,
+      "text": "بسرعة"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3700,
+      "text": "كانها"
+    },
+    {
+      "start_ms": 3800,
+      "end_ms": 4000,
+      "text": "كلمة"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4400,
+      "text": "واحدة."
+    }
+  ]
+}

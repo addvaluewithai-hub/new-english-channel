@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:31.756Z",
+  "duration_ms": 4500,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولما حد يقول لك ما تقولش قول",
+  "source_text": "ولما حد يقولك: نايس تو ميت يو، ما تقولش: مي تو. قول:",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولما حد يقولك: نايس تو ميت يو، ما تقولش: مي تو. قول:"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 800,
+      "text": "حد"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1100,
+      "text": "يقول"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "لك"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3100,
+      "text": "ما"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3500,
+      "text": "تقولش"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4500,
+      "text": "قول"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:31.427Z",
+  "duration_ms": 4000,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "قلتها ب برافو عليك، واكتبها في الكومنتات.",
+  "source_text": "قلتها بـ آيم؟ برافو عليك! واكتبها في الكومنتات.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "قلتها بـ آيم؟ برافو عليك! واكتبها في الكومنتات."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "قلتها"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 700,
+      "text": "ب"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2200,
+      "text": "برافو"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2600,
+      "text": "عليك،"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3300,
+      "text": "واكتبها"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3400,
+      "text": "في"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 4000,
+      "text": "الكومنتات."
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:24:21.921Z",
+  "duration_ms": 6600,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "جاي ادرس انجليزي واشتغل هنا. وكنت فاكر ان الانجليزي بتاعي كويس لحد ما قابلت مايا.",
+  "source_text": "جاي أدرس إنجليزي وأشتغل هنا. وكنت فاكر إن الإنجليزي بتاعي كويس… لحد ما قابلت ميا.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "جاي أدرس إنجليزي وأشتغل هنا. وكنت فاكر إن الإنجليزي بتاعي كويس… لحد ما قابلت ميا."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "جاي"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 900,
+      "text": "ادرس"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1400,
+      "text": "انجليزي"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1900,
+      "text": "واشتغل"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2000,
+      "text": "هنا."
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3200,
+      "text": "وكنت"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3600,
+      "text": "فاكر"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 3800,
+      "text": "ان"
+    },
+    {
+      "start_ms": 3800,
+      "end_ms": 4200,
+      "text": "الانجليزي"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4500,
+      "text": "بتاعي"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5000,
+      "text": "كويس"
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 5900,
+      "text": "لحد"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6000,
+      "text": "ما"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6300,
+      "text": "قابلت"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6600,
+      "text": "مايا."
+    }
+  ]
+}

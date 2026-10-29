@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:37.069Z",
+  "duration_ms": 6000,
+  "word_count": 12,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "طول الطريق من المطار وانا بحضر اول جمله هقولها. هقولها بثقه وبابتسامه.",
+  "source_text": "طول الطريق من المطار وأنا بحضّر أول جملة هقولها. هقولها بثقة… وبابتسامة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "طول الطريق من المطار وأنا بحضّر أول جملة هقولها. هقولها بثقة… وبابتسامة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "طول"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 800,
+      "text": "الطريق"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 801,
+      "text": "من"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1300,
+      "text": "المطار"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1600,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2300,
+      "text": "بحضر"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2800,
+      "text": "اول"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3100,
+      "text": "جمله"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3500,
+      "text": "هقولها."
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4400,
+      "text": "هقولها"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 5000,
+      "text": "بثقه"
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 6000,
+      "text": "وبابتسامه."
+    }
+  ]
+}

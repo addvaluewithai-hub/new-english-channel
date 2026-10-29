@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:27.420Z",
+  "duration_ms": 4000,
+  "word_count": 9,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "8:00 الصبح هو انا جاي ادرس ولا جاي الجيش؟",
+  "source_text": "تمانية الصبح؟! هو أنا جاي أدرس… ولا جاي الجيش؟",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "تمانية الصبح؟! هو أنا جاي أدرس… ولا جاي الجيش؟"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "8:00"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1000,
+      "text": "الصبح"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2200,
+      "text": "هو"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2300,
+      "text": "انا"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2500,
+      "text": "جاي"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 3000,
+      "text": "ادرس"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3200,
+      "text": "ولا"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3400,
+      "text": "جاي"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 4000,
+      "text": "الجيش؟"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T14:23:30.800Z",
+  "duration_ms": 10600,
+  "word_count": 20,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "اول حاجه غلطتي. انا قلت في العربي بنقول انا يوسف من غير اي فعل. لكن في الانجليزي لازم يبقى فيه",
+  "source_text": "أول حاجة، غلطتي. أنا قلت: آي يوسف. في العربي بنقول أنا يوسف من غير أي فعل… لكن في الإنجليزي لازم يبقى فيه: آم.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "أول حاجة، غلطتي. أنا قلت: آي يوسف. في العربي بنقول أنا يوسف من غير أي فعل… لكن في الإنجليزي لازم يبقى فيه: آم."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 400,
+      "text": "اول"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 900,
+      "text": "حاجه"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1700,
+      "text": "غلطتي."
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2600,
+      "text": "انا"
+    },
+    {
+      "start_ms": 2600,
+      "end_ms": 3000,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5201,
+      "text": "في"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5700,
+      "text": "العربي"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 6200,
+      "text": "بنقول"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6500,
+      "text": "انا"
+    },
+    {
+      "start_ms": 6500,
+      "end_ms": 7000,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7200,
+      "text": "من"
+    },
+    {
+      "start_ms": 7200,
+      "end_ms": 7400,
+      "text": "غير"
+    },
+    {
+      "start_ms": 7400,
+      "end_ms": 7600,
+      "text": "اي"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 7900,
+      "text": "فعل."
+    },
+    {
+      "start_ms": 8600,
+      "end_ms": 8900,
+      "text": "لكن"
+    },
+    {
+      "start_ms": 8900,
+      "end_ms": 9000,
+      "text": "في"
+    },
+    {
+      "start_ms": 9000,
+      "end_ms": 9800,
+      "text": "الانجليزي"
+    },
+    {
+      "start_ms": 9800,
+      "end_ms": 10100,
+      "text": "لازم"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 10300,
+      "text": "يبقى"
+    },
+    {
+      "start_ms": 10300,
+      "end_ms": 10600,
+      "text": "فيه"
+    }
+  ]
+}
