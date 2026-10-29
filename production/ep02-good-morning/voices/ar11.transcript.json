@@ -4,36 +4,46 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:22.764Z",
-  "duration_ms": 1700,
-  "word_count": 3,
+  "generated_at": "2026-10-29T20:55:06.154Z",
+  "duration_ms": 2300,
+  "word_count": 5,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "وبعدها اساله هو",
-  "source_text": "وبعدها اسأله هو: آند يو؟",
+  "recognized_text": "وبعدها اساله هو اند يو؟",
+  "source_text": "وبعدها اسأله هو: And you ؟",
   "source_turns": [
     {
       "index": 0,
-      "text": "وبعدها اسأله هو: آند يو؟"
+      "text": "وبعدها اسأله هو: And you ؟"
     }
   ],
   "words": [
     {
-      "start_ms": 200,
+      "start_ms": 300,
       "end_ms": 800,
       "text": "وبعدها"
     },
     {
-      "start_ms": 1100,
-      "end_ms": 1400,
+      "start_ms": 800,
+      "end_ms": 1000,
       "text": "اساله"
     },
     {
-      "start_ms": 1400,
-      "end_ms": 1700,
+      "start_ms": 1000,
+      "end_ms": 1400,
       "text": "هو"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2200,
+      "text": "اند"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2300,
+      "text": "يو؟"
     }
   ]
 }

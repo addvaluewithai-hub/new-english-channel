@@ -4,55 +4,50 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:31.756Z",
-  "duration_ms": 4500,
-  "word_count": 7,
+  "generated_at": "2026-10-29T20:55:03.161Z",
+  "duration_ms": 4200,
+  "word_count": 6,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
   "recognized_text": "ولما حد يقول لك ما تقولش قول",
-  "source_text": "ولما حد يقولك: نايس تو ميت يو، ما تقولش: مي تو. قول:",
+  "source_text": "ولما حد يقولك: Nice to meet you ، ما تقولش: Me too . قول:",
   "source_turns": [
     {
       "index": 0,
-      "text": "ولما حد يقولك: نايس تو ميت يو، ما تقولش: مي تو. قول:"
+      "text": "ولما حد يقولك: Nice to meet you ، ما تقولش: Me too . قول:"
     }
   ],
   "words": [
     {
-      "start_ms": 300,
-      "end_ms": 500,
+      "start_ms": 200,
+      "end_ms": 400,
       "text": "ولما"
     },
     {
-      "start_ms": 500,
-      "end_ms": 800,
+      "start_ms": 400,
+      "end_ms": 600,
       "text": "حد"
     },
     {
-      "start_ms": 800,
-      "end_ms": 1100,
-      "text": "يقول"
+      "start_ms": 600,
+      "end_ms": 1300,
+      "text": "يقول لك"
     },
     {
-      "start_ms": 1100,
-      "end_ms": 1400,
-      "text": "لك"
-    },
-    {
-      "start_ms": 3000,
-      "end_ms": 3100,
+      "start_ms": 2500,
+      "end_ms": 2600,
       "text": "ما"
     },
     {
-      "start_ms": 3100,
-      "end_ms": 3500,
+      "start_ms": 2600,
+      "end_ms": 3000,
       "text": "تقولش"
     },
     {
-      "start_ms": 4400,
-      "end_ms": 4500,
+      "start_ms": 4000,
+      "end_ms": 4200,
       "text": "قول"
     }
   ]

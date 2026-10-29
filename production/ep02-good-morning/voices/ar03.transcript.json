@@ -4,90 +4,90 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:25.334Z",
-  "duration_ms": 7000,
+  "generated_at": "2026-10-29T20:55:04.194Z",
+  "duration_ms": 6600,
   "word_count": 14,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
   "recognized_text": "طول الطريق وانا بحضر تحيه الصبح عارفها سهله بس انا كنت نايم وانا بجري",
-  "source_text": "طول الطريق وأنا بحضّر تحية الصبح. عارفها: جود مورنينج! سهلة… بس أنا كنت نايم وأنا بجري.",
+  "source_text": "طول الطريق وأنا بحضّر تحية الصبح. عارفها: Good morning ! سهلة… بس أنا كنت نايم وأنا بجري.",
   "source_turns": [
     {
       "index": 0,
-      "text": "طول الطريق وأنا بحضّر تحية الصبح. عارفها: جود مورنينج! سهلة… بس أنا كنت نايم وأنا بجري."
+      "text": "طول الطريق وأنا بحضّر تحية الصبح. عارفها: Good morning ! سهلة… بس أنا كنت نايم وأنا بجري."
     }
   ],
   "words": [
     {
-      "start_ms": 300,
-      "end_ms": 500,
+      "start_ms": 200,
+      "end_ms": 400,
       "text": "طول"
     },
     {
-      "start_ms": 500,
-      "end_ms": 1000,
+      "start_ms": 400,
+      "end_ms": 800,
       "text": "الطريق"
     },
     {
-      "start_ms": 1000,
-      "end_ms": 1200,
+      "start_ms": 800,
+      "end_ms": 1000,
       "text": "وانا"
     },
     {
-      "start_ms": 1200,
-      "end_ms": 1700,
+      "start_ms": 1000,
+      "end_ms": 1300,
       "text": "بحضر"
     },
     {
-      "start_ms": 1700,
-      "end_ms": 2100,
+      "start_ms": 1300,
+      "end_ms": 1600,
       "text": "تحيه"
     },
     {
-      "start_ms": 2100,
-      "end_ms": 2600,
+      "start_ms": 1600,
+      "end_ms": 2200,
       "text": "الصبح"
     },
     {
-      "start_ms": 2800,
-      "end_ms": 3300,
+      "start_ms": 2300,
+      "end_ms": 2800,
       "text": "عارفها"
     },
     {
-      "start_ms": 4500,
-      "end_ms": 5000,
+      "start_ms": 4200,
+      "end_ms": 4400,
       "text": "سهله"
     },
     {
-      "start_ms": 5400,
-      "end_ms": 5600,
+      "start_ms": 5100,
+      "end_ms": 5300,
       "text": "بس"
     },
     {
-      "start_ms": 5600,
-      "end_ms": 5700,
+      "start_ms": 5300,
+      "end_ms": 5800,
       "text": "انا"
     },
     {
-      "start_ms": 5700,
-      "end_ms": 6100,
+      "start_ms": 5800,
+      "end_ms": 6000,
       "text": "كنت"
     },
     {
-      "start_ms": 6100,
-      "end_ms": 6500,
+      "start_ms": 6000,
+      "end_ms": 6300,
       "text": "نايم"
     },
     {
-      "start_ms": 6500,
-      "end_ms": 6600,
+      "start_ms": 6300,
+      "end_ms": 6400,
       "text": "وانا"
     },
     {
-      "start_ms": 6600,
-      "end_ms": 7000,
+      "start_ms": 6400,
+      "end_ms": 6600,
       "text": "بجري"
     }
   ]

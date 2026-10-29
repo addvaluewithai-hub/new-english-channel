@@ -4,60 +4,65 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:23.184Z",
-  "duration_ms": 4100,
-  "word_count": 8,
+  "generated_at": "2026-10-29T20:55:25.326Z",
+  "duration_ms": 4600,
+  "word_count": 9,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "ولما حد يقول لك ما تقول لوحدها. الرد الصح",
-  "source_text": "ولما حد يقولك: ثانك يو، ما تقولش: ويلكم، لوحدها. الرد الصح:",
+  "recognized_text": "ولما حد يقول لك ما تقولش لوحدها. الرد الصح",
+  "source_text": "ولما حد يقولك: Thank you ، ما تقولش: Welcome ، لوحدها. الرد الصح:",
   "source_turns": [
     {
       "index": 0,
-      "text": "ولما حد يقولك: ثانك يو، ما تقولش: ويلكم، لوحدها. الرد الصح:"
+      "text": "ولما حد يقولك: Thank you ، ما تقولش: Welcome ، لوحدها. الرد الصح:"
     }
   ],
   "words": [
     {
       "start_ms": 200,
-      "end_ms": 500,
+      "end_ms": 400,
       "text": "ولما"
     },
     {
-      "start_ms": 500,
-      "end_ms": 800,
+      "start_ms": 400,
+      "end_ms": 600,
       "text": "حد"
     },
     {
-      "start_ms": 800,
+      "start_ms": 600,
+      "end_ms": 900,
+      "text": "يقول"
+    },
+    {
+      "start_ms": 900,
       "end_ms": 1000,
-      "text": "يقول لك"
+      "text": "لك"
     },
     {
       "start_ms": 1800,
-      "end_ms": 1900,
+      "end_ms": 2000,
       "text": "ما"
     },
     {
-      "start_ms": 1900,
-      "end_ms": 2100,
-      "text": "تقول"
+      "start_ms": 2000,
+      "end_ms": 2400,
+      "text": "تقولش"
     },
     {
-      "start_ms": 2500,
-      "end_ms": 2900,
+      "start_ms": 2900,
+      "end_ms": 3300,
       "text": "لوحدها."
     },
     {
-      "start_ms": 3300,
-      "end_ms": 3600,
+      "start_ms": 4000,
+      "end_ms": 4200,
       "text": "الرد"
     },
     {
-      "start_ms": 3600,
-      "end_ms": 4100,
+      "start_ms": 4200,
+      "end_ms": 4600,
       "text": "الصح"
     }
   ]

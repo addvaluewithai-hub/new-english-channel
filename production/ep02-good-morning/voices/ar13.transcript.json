@@ -4,19 +4,19 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:25.164Z",
+  "generated_at": "2026-10-29T20:55:11.364Z",
   "duration_ms": 4600,
   "word_count": 7,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "وكلمتين من الذوق لما تطلب لما تغلط.",
-  "source_text": "وكلمتين من الذوق: بليز لما تطلب، وسوري لما تغلط.",
+  "recognized_text": "وكلمتين من الذوق. لما تطلب لما تغلط.",
+  "source_text": "وكلمتين من الذوق: Please لما تطلب، و Sorry لما تغلط.",
   "source_turns": [
     {
       "index": 0,
-      "text": "وكلمتين من الذوق: بليز لما تطلب، وسوري لما تغلط."
+      "text": "وكلمتين من الذوق: Please لما تطلب، و Sorry لما تغلط."
     }
   ],
   "words": [
@@ -33,25 +33,25 @@
     {
       "start_ms": 900,
       "end_ms": 1200,
-      "text": "الذوق"
+      "text": "الذوق."
     },
     {
-      "start_ms": 2500,
-      "end_ms": 2700,
+      "start_ms": 2300,
+      "end_ms": 2500,
       "text": "لما"
     },
     {
-      "start_ms": 2700,
-      "end_ms": 3200,
+      "start_ms": 2500,
+      "end_ms": 3100,
       "text": "تطلب"
     },
     {
       "start_ms": 4000,
-      "end_ms": 4100,
+      "end_ms": 4200,
       "text": "لما"
     },
     {
-      "start_ms": 4100,
+      "start_ms": 4200,
       "end_ms": 4600,
       "text": "تغلط."
     }

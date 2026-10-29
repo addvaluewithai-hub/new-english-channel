@@ -12,7 +12,8 @@ AR_RANGE = '؀-ۿ'
 
 
 def strip_tags(s):
-    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', s)).strip()
+    s = re.sub(r'</?(lang|phoneme)\b[^>]*>', '', s)          # pronunciation markup: the words stay, no gap added
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', s)).strip()   # event tags (<short pause>) become a gap
 
 
 def norm(w):
@@ -80,7 +81,17 @@ class Builder:
                 else:
                     out.append((ws[i], [norm(ws[i])], ti))
                     i += 1
-        return out
+        # English written directly inside Arabic (tagged for pronunciation): consecutive Latin words become one
+        # display token, so the plate shows the phrase left-to-right as a unit; each word still aligns on its own
+        merged = []
+        for disp, parts, ti in out:
+            prev = merged[-1] if merged else None
+            latin = disp[:1].isascii() and disp[:1].isalpha() or disp[:1].isdigit()
+            if prev and prev[2] == ti and latin and prev[3] and not re.search(r'[.!?…,:;]$', prev[0]):
+                merged[-1] = (prev[0] + ' ' + disp, prev[1] + parts, ti, True)
+            else:
+                merged.append((disp, parts, ti, latin))
+        return [(d.translate(str.maketrans('،؟؛', ',?;')) if lat else d, p, t) for d, p, t, lat in merged]
 
     @staticmethod
     def align(toks, words, dur):

@@ -4,24 +4,24 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:25.366Z",
-  "duration_ms": 8000,
+  "generated_at": "2026-10-29T20:55:07.795Z",
+  "duration_ms": 7600,
   "word_count": 15,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
   "recognized_text": "الصبح وبعد الظهر وبالليل. لكن مش تحيه. دي للوداع بس، وانت ماشي او رايح تنام.",
-  "source_text": "الصبح، وبعد الضهر، وبالليل. لكن جود نايت مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام.",
+  "source_text": "الصبح، وبعد الضهر، وبالليل. لكن Good night مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام.",
   "source_turns": [
     {
       "index": 0,
-      "text": "الصبح، وبعد الضهر، وبالليل. لكن جود نايت مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام."
+      "text": "الصبح، وبعد الضهر، وبالليل. لكن Good night مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام."
     }
   ],
   "words": [
     {
-      "start_ms": 100,
+      "start_ms": 200,
       "end_ms": 800,
       "text": "الصبح"
     },
@@ -32,21 +32,21 @@
     },
     {
       "start_ms": 1100,
-      "end_ms": 1700,
+      "end_ms": 1800,
       "text": "الظهر"
     },
     {
-      "start_ms": 1700,
-      "end_ms": 2300,
+      "start_ms": 1800,
+      "end_ms": 2400,
       "text": "وبالليل."
     },
     {
-      "start_ms": 2900,
-      "end_ms": 3100,
+      "start_ms": 3000,
+      "end_ms": 3400,
       "text": "لكن"
     },
     {
-      "start_ms": 3900,
+      "start_ms": 4100,
       "end_ms": 4200,
       "text": "مش"
     },
@@ -57,42 +57,42 @@
     },
     {
       "start_ms": 5200,
-      "end_ms": 5300,
+      "end_ms": 5400,
       "text": "دي"
     },
     {
-      "start_ms": 5300,
-      "end_ms": 5900,
+      "start_ms": 5400,
+      "end_ms": 5800,
       "text": "للوداع"
     },
     {
-      "start_ms": 5900,
-      "end_ms": 6500,
+      "start_ms": 5800,
+      "end_ms": 6200,
       "text": "بس،"
     },
     {
-      "start_ms": 6500,
-      "end_ms": 6700,
+      "start_ms": 6300,
+      "end_ms": 6500,
       "text": "وانت"
     },
     {
-      "start_ms": 6700,
-      "end_ms": 7200,
+      "start_ms": 6500,
+      "end_ms": 7000,
       "text": "ماشي"
     },
     {
-      "start_ms": 7200,
-      "end_ms": 7500,
+      "start_ms": 7000,
+      "end_ms": 7100,
       "text": "او"
     },
     {
-      "start_ms": 7500,
-      "end_ms": 7800,
+      "start_ms": 7100,
+      "end_ms": 7300,
       "text": "رايح"
     },
     {
-      "start_ms": 7800,
-      "end_ms": 8000,
+      "start_ms": 7300,
+      "end_ms": 7600,
       "text": "تنام."
     }
   ]

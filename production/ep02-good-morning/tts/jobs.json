@@ -28,8 +28,8 @@
   "temperature": 1
  },
  "ar03": {
-  "text": "طول الطريق وأنا بحضّر تحية الصبح. <short pause> عارفها: جود مورنينج! <short pause> سهلة… بس أنا كنت نايم وأنا بجري.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Out of breath, self-mocking.",
+  "text": "طول الطريق وأنا بحضّر تحية الصبح. <short pause> عارفها: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ɡʊd ˈmɔrnɪŋ\">Good morning</phoneme></lang>! <short pause> سهلة… بس أنا كنت نايم وأنا بجري.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Out of breath, self-mocking. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -56,8 +56,8 @@
   "temperature": 1
  },
  "ar05": {
-  "text": "أول شفطة قهوة… ورجعت بني آدم. <short pause> وخدت بالي إنها ردت بجملة مش عارفها: <short pause> يور ويلكم.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Relieved and content, then curious.",
+  "text": "أول شفطة قهوة… ورجعت بني آدم. <short pause> وخدت بالي إنها ردت بجملة مش عارفها: <short pause> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"jʊr ˈwɛlkəm\">You're welcome</phoneme></lang>.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Relieved and content, then curious. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -70,8 +70,8 @@
   "temperature": 1
  },
  "ar06": {
-  "text": "قلت: ويلكم! زي ما بنقول عفوًا… <short pause> بس طلعت ناقصة كلمة. <short pause> هحكيلكم.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Confident then sheepish, teasing.",
+  "text": "قلت: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈwɛlkəm\">Welcome</phoneme></lang>! زي ما بنقول عفوًا… <short pause> بس طلعت ناقصة كلمة. <short pause> هحكيلكم.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Confident then sheepish, teasing. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -84,8 +84,8 @@
   "temperature": 1
  },
  "ar07": {
-  "text": "وفي الآخر، قلتها صح: <short pause> جود نايت بتتقال وإنت ماشي، مش وإنت جاي. <short pause> بس الاستمارة دي… فيها سؤال وقفت قدامه.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Satisfied, then a worried cliffhanger.",
+  "text": "وفي الآخر، قلتها صح: <short pause> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ɡʊd naɪt\">Good night</phoneme></lang> بتتقال وإنت ماشي، مش وإنت جاي. <short pause> بس الاستمارة دي… فيها سؤال وقفت قدامه.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Satisfied, then a worried cliffhanger. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -112,8 +112,8 @@
   "temperature": 1
  },
  "ar09": {
-  "text": "الصبح، وبعد الضهر، وبالليل. <short pause> لكن جود نايت مش تحية… <short pause> دي للوداع بس، وإنت ماشي أو رايح تنام.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory, friendly teacher.",
+  "text": "الصبح، وبعد الضهر، وبالليل. <short pause> لكن <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ɡʊd naɪt\">Good night</phoneme></lang> مش تحية… <short pause> دي للوداع بس، وإنت ماشي أو رايح تنام.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory, friendly teacher. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -126,8 +126,8 @@
   "temperature": 1
  },
  "ar10": {
-  "text": "ولما حد يسألك: هاو آر يو؟ <short pause> ما تردش رد محفوظ. قول رد حقيقي:",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear, a little playful.",
+  "text": "ولما حد يسألك: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haʊ ɑr ju\">How are you</phoneme></lang>؟ <short pause> ما تردش رد محفوظ. قول رد حقيقي:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear, a little playful. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -140,8 +140,8 @@
   "temperature": 1
  },
  "ar11": {
-  "text": "وبعدها اسأله هو: آند يو؟",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "text": "وبعدها اسأله هو: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ænd ju\">And you</phoneme></lang>؟",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -154,8 +154,8 @@
   "temperature": 1
  },
  "ar12": {
-  "text": "ولما حد يقولك: ثانك يو، <short pause> ما تقولش: ويلكم، لوحدها. <short pause> الرد الصح:",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "text": "ولما حد يقولك: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"θæŋk ju\">Thank you</phoneme></lang>، <short pause> ما تقولش: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈwɛlkəm\">Welcome</phoneme></lang>، لوحدها. <short pause> الرد الصح:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -168,8 +168,8 @@
   "temperature": 1
  },
  "ar13": {
-  "text": "وكلمتين من الذوق: <short pause> بليز لما تطلب، <short pause> وسوري لما تغلط.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and warm.",
+  "text": "وكلمتين من الذوق: <short pause> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"pliz\">Please</phoneme></lang> لما تطلب، <short pause> و<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɑri\">Sorry</phoneme></lang> لما تغلط.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and warm. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -210,8 +210,8 @@
   "temperature": 1
  },
  "ar16": {
-  "text": "الحلقة الجاية: الاستمارة. <short pause> أرقام، وسؤال: هاو أولد آر يو؟… <short pause> وأنا قلت: آي هاف توينتي سيكس ييرز. <short pause> وطلعت غلط.",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Teaser, mysterious and funny.",
+  "text": "الحلقة الجاية: الاستمارة. <short pause> أرقام، وسؤال: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haʊ oʊld ɑr ju\">How old are you</phoneme></lang>؟… <short pause> وأنا قلت: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪ hæv ˈtwɛnti sɪks jɪrz\">I have 26 years</phoneme></lang>. <short pause> وطلعت غلط.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Teaser, mysterious and funny. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English words with a clean, natural General American pronunciation, then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [

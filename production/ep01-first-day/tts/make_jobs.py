@@ -1,6 +1,8 @@
 # Builds the TTS job list for episode 1 and dispatches it to the gemini-tts factory.
 # python3 make_jobs.py [dispatch]
-import json, subprocess, sys
+import json, os, subprocess, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'lib'))
+import pron
 
 AR_STYLE = ("Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural "
             "Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. {}")
@@ -61,7 +63,8 @@ en_multi = {
 
 jobs = {}
 for k, (text, mood) in ar.items():
-    jobs[k] = {"text": text, "style": AR_STYLE.format(mood), "voice": "Achird",
+    text = pron.tag(text)   # English inside the Arabic gets <lang>/<phoneme> markup
+    jobs[k] = {"text": text, "style": AR_STYLE.format(mood) + (pron.NOTE if pron.has_english(text) else ''), "voice": "Achird",
                "transcript": {"language_codes": ["ar-EG"], "write_vtt": True}}
 for k, (who, text, mood) in en_single.items():
     jobs[k] = {"text": text, "style": (MIA if who == "Mia" else YOU).format(mood), "voice": SPK[who],
@@ -72,12 +75,19 @@ for k, turns in en_multi.items():
 for j in jobs.values():
     j.update(routing="quality", format="wav", temperature=1)
 
+try:
+    old = json.load(open('jobs.json'))
+    for k, v in old.items():
+        jobs.setdefault(k, v)
+except FileNotFoundError:
+    pass
 json.dump(jobs, open("jobs.json", "w"), ensure_ascii=False, indent=1)
 print(len(jobs), "jobs")
 
 if "dispatch" in sys.argv:
     only = [a for a in sys.argv[2:]]
-    ver = "v1"
+    ver = sys.argv[sys.argv.index("dispatch") + 1] if len(sys.argv) > sys.argv.index("dispatch") + 1 and sys.argv[sys.argv.index("dispatch") + 1].startswith("v") else "v1"
+    only = [a for a in only if not a.startswith("v")]
     for k, req in jobs.items():
         if only and k not in only:
             continue

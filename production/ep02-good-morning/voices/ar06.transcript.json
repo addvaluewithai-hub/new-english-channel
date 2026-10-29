@@ -4,75 +4,80 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:22.592Z",
-  "duration_ms": 6000,
-  "word_count": 11,
+  "generated_at": "2026-10-29T20:55:04.287Z",
+  "duration_ms": 5200,
+  "word_count": 12,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "قلت زي ما بنقول عفوا بس طلعت ناقصة كلمة هحكي لكم",
-  "source_text": "قلت: ويلكم! زي ما بنقول عفوًا… بس طلعت ناقصة كلمة. هحكيلكم.",
+  "recognized_text": "قلت ويلكم زي ما بنقول عفوا بس طلعت ناقصه كلمه هحكي لكم",
+  "source_text": "قلت: Welcome ! زي ما بنقول عفوًا… بس طلعت ناقصة كلمة. هحكيلكم.",
   "source_turns": [
     {
       "index": 0,
-      "text": "قلت: ويلكم! زي ما بنقول عفوًا… بس طلعت ناقصة كلمة. هحكيلكم."
+      "text": "قلت: Welcome ! زي ما بنقول عفوًا… بس طلعت ناقصة كلمة. هحكيلكم."
     }
   ],
   "words": [
     {
-      "start_ms": 400,
-      "end_ms": 700,
+      "start_ms": 200,
+      "end_ms": 600,
       "text": "قلت"
     },
     {
-      "start_ms": 1300,
-      "end_ms": 1500,
+      "start_ms": 800,
+      "end_ms": 1300,
+      "text": "ويلكم"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 1800,
       "text": "زي"
     },
     {
-      "start_ms": 1500,
-      "end_ms": 1600,
+      "start_ms": 1800,
+      "end_ms": 2000,
       "text": "ما"
     },
     {
-      "start_ms": 1600,
-      "end_ms": 1900,
+      "start_ms": 2000,
+      "end_ms": 2300,
       "text": "بنقول"
     },
     {
-      "start_ms": 1900,
-      "end_ms": 2300,
+      "start_ms": 2300,
+      "end_ms": 2800,
       "text": "عفوا"
     },
     {
       "start_ms": 3100,
-      "end_ms": 3300,
+      "end_ms": 3400,
       "text": "بس"
     },
     {
-      "start_ms": 3300,
-      "end_ms": 3600,
+      "start_ms": 3400,
+      "end_ms": 3700,
       "text": "طلعت"
     },
     {
-      "start_ms": 3600,
+      "start_ms": 3700,
       "end_ms": 3900,
-      "text": "ناقصة"
+      "text": "ناقصه"
     },
     {
       "start_ms": 3900,
-      "end_ms": 4200,
-      "text": "كلمة"
+      "end_ms": 4300,
+      "text": "كلمه"
     },
     {
-      "start_ms": 5400,
-      "end_ms": 5700,
+      "start_ms": 4600,
+      "end_ms": 4800,
       "text": "هحكي"
     },
     {
-      "start_ms": 5700,
-      "end_ms": 6000,
+      "start_ms": 4800,
+      "end_ms": 5200,
       "text": "لكم"
     }
   ]

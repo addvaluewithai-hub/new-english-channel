@@ -4,121 +4,126 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:30.800Z",
-  "duration_ms": 10600,
-  "word_count": 20,
+  "generated_at": "2026-10-29T20:55:03.495Z",
+  "duration_ms": 9500,
+  "word_count": 21,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "اول حاجه غلطتي. انا قلت في العربي بنقول انا يوسف من غير اي فعل. لكن في الانجليزي لازم يبقى فيه",
-  "source_text": "أول حاجة، غلطتي. أنا قلت: آي يوسف. في العربي بنقول أنا يوسف من غير أي فعل… لكن في الإنجليزي لازم يبقى فيه: آم.",
+  "recognized_text": "اول حاجه غلطتي انا قلت في العربي بنقول انا يوسف من غير اي فعل لكن في الانجليزي لازم يبقى فيه ام",
+  "source_text": "أول حاجة، غلطتي. أنا قلت: I Youssef . في العربي بنقول أنا يوسف من غير أي فعل… لكن في الإنجليزي لازم يبقى فيه: am .",
   "source_turns": [
     {
       "index": 0,
-      "text": "أول حاجة، غلطتي. أنا قلت: آي يوسف. في العربي بنقول أنا يوسف من غير أي فعل… لكن في الإنجليزي لازم يبقى فيه: آم."
+      "text": "أول حاجة، غلطتي. أنا قلت: I Youssef . في العربي بنقول أنا يوسف من غير أي فعل… لكن في الإنجليزي لازم يبقى فيه: am ."
     }
   ],
   "words": [
     {
-      "start_ms": 100,
+      "start_ms": 200,
       "end_ms": 400,
       "text": "اول"
     },
     {
       "start_ms": 400,
-      "end_ms": 900,
+      "end_ms": 800,
       "text": "حاجه"
     },
     {
-      "start_ms": 1200,
-      "end_ms": 1700,
-      "text": "غلطتي."
+      "start_ms": 800,
+      "end_ms": 1200,
+      "text": "غلطتي"
     },
     {
-      "start_ms": 2400,
-      "end_ms": 2600,
+      "start_ms": 1600,
+      "end_ms": 1800,
       "text": "انا"
     },
     {
-      "start_ms": 2600,
-      "end_ms": 3000,
+      "start_ms": 1800,
+      "end_ms": 2200,
       "text": "قلت"
     },
     {
-      "start_ms": 5200,
-      "end_ms": 5201,
+      "start_ms": 3900,
+      "end_ms": 4000,
       "text": "في"
     },
     {
-      "start_ms": 5200,
-      "end_ms": 5700,
+      "start_ms": 4000,
+      "end_ms": 4300,
       "text": "العربي"
     },
     {
-      "start_ms": 5700,
-      "end_ms": 6200,
+      "start_ms": 4300,
+      "end_ms": 4700,
       "text": "بنقول"
     },
     {
-      "start_ms": 6300,
-      "end_ms": 6500,
+      "start_ms": 5000,
+      "end_ms": 5200,
       "text": "انا"
     },
     {
-      "start_ms": 6500,
-      "end_ms": 7000,
+      "start_ms": 5200,
+      "end_ms": 5600,
       "text": "يوسف"
     },
     {
-      "start_ms": 7100,
-      "end_ms": 7200,
+      "start_ms": 5600,
+      "end_ms": 5800,
       "text": "من"
     },
     {
-      "start_ms": 7200,
-      "end_ms": 7400,
+      "start_ms": 5800,
+      "end_ms": 6000,
       "text": "غير"
     },
     {
-      "start_ms": 7400,
-      "end_ms": 7600,
+      "start_ms": 6100,
+      "end_ms": 6200,
       "text": "اي"
     },
     {
-      "start_ms": 7600,
-      "end_ms": 7900,
-      "text": "فعل."
+      "start_ms": 6200,
+      "end_ms": 6600,
+      "text": "فعل"
     },
     {
-      "start_ms": 8600,
-      "end_ms": 8900,
+      "start_ms": 7200,
+      "end_ms": 7600,
       "text": "لكن"
     },
     {
-      "start_ms": 8900,
-      "end_ms": 9000,
+      "start_ms": 7600,
+      "end_ms": 7800,
       "text": "في"
     },
     {
-      "start_ms": 9000,
-      "end_ms": 9800,
+      "start_ms": 7800,
+      "end_ms": 8200,
       "text": "الانجليزي"
     },
     {
-      "start_ms": 9800,
-      "end_ms": 10100,
+      "start_ms": 8200,
+      "end_ms": 8500,
       "text": "لازم"
     },
     {
-      "start_ms": 10100,
-      "end_ms": 10300,
+      "start_ms": 8500,
+      "end_ms": 8600,
       "text": "يبقى"
     },
     {
-      "start_ms": 10300,
-      "end_ms": 10600,
+      "start_ms": 8600,
+      "end_ms": 9000,
       "text": "فيه"
+    },
+    {
+      "start_ms": 9200,
+      "end_ms": 9500,
+      "text": "ام"
     }
   ]
 }
