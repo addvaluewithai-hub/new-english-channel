@@ -82,7 +82,7 @@ function school(g, raw, X, Y, s, seed = 50) {
   for (const side of [-1, 1]) { g.beginPath(); g.moveTo(X + side * 204 * s, Y - 104 * s); g.lineTo(X + side * 330 * s, Y - 104 * s); g.stroke(); }
 }
 export const SCHOOL_STAGE = { x: 1220, y: 940, s: 1 };
-export const SCHOOL_STREET = { x: 3260, y: 905, s: .78 };
+export const SCHOOL_STREET = { x: 2880, y: 905, s: .78 };
 
 // ——— street, far layer (parallax .25): sky, clouds, far roofs, the clock tower ———
 export function paintFar() {

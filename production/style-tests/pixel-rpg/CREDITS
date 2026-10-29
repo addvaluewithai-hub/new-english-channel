@@ -1,0 +1,11 @@
+Day 1: London — 16-bit Pixel RPG style test
+
+Picture: all pixel art, sprites, portraits, sets and UI drawn in code for this film (index.html, *.js).
+Engine technique (indexed framebuffer, Bayer dither, pixel font, window skin, sprite rig) adapted from the
+Lemo-Opuscar library's pixel-rpg style engine; palette base ENDESGA-32 (free palette by ENDESGA) plus a few added colours.
+Voice: test_audio.wav, supplied by the production (unchanged; loudness-normalised to -14 LUFS at mux).
+Fonts (SIL Open Font License 1.1, self-hosted from Google Fonts, see fonts/ and fonts.css):
+  Baloo Bhaijaan 2 — Ek Type (Arabic diary subtitles)
+  Fredoka, Lilita One, Lalezar — loaded with the shared fonts.css, not drawn in this film
+Pixel font for English text: original, drawn in font.js.
+No music or third-party samples are used.

@@ -119,10 +119,8 @@ export function drawCase(ctx, wheel, lean, grip, seed = 300) {
   ink(ctx, [[g[0] - v[0] * 16, g[1] - v[1] * 16], [g[0] + v[0] * 16, g[1] + v[1] * 16]], 9, { seed: seed + 3, taper: false, wob: 0.1 });
   // wheels
   [[-Wd + 12], [Wd - 12]].forEach(([b], i) => shape(ctx, ellipse(...at(8, b), 10, 10, 14), { fill: PAL.ink, line: 0, grain: 0, off: [0, 0], seed: seed + 6 + i }));
-  // body
-  const body = [];
-  const corner = (a, b, a0) => { for (let i = 0; i <= 5; i++) { const q = a0 + Math.PI / 2 * i / 5; body.push(at(a + Math.sin(q) * 18, b + Math.cos(q) * 18)); } };
-  corner(H - 18, Wd - 18, 0); corner(18 + 0, Wd - 18, Math.PI / 2); corner(18, -Wd + 18, Math.PI); corner(H - 18, -Wd + 18, Math.PI * 1.5);
+  // body: a rounded rect in the case's own frame (x across, y up = -a)
+  const body = rrect(-Wd, -H, 2 * Wd, H, 18).map(([px, py]) => at(-py, px));
   const shadeP = [at(-10, Wd * 0.35), at(H + 10, Wd * 0.35), at(H + 10, Wd + 10), at(-10, Wd + 10)];
   shape(ctx, body, { fill: COL.case, line: 4, seed: seed + 8, grain: 0.3, breaks: 0.12, shade: [{ pts: shadeP, color: COL.caseD, alpha: 0.6 }] });
   // ribs + a cream luggage tag
@@ -169,7 +167,7 @@ function mouth(ctx, x, y, o) {
 }
 
 const Y_CHAIN = [[50, -492], [48, -518], [32, -546], [-6, -560], [-46, -544], [-62, -502], [-60, -458], [-44, -424], [-10, -404], [24, -406], [42, -420], [50, -440], [56, -456]];
-const Y_HEAD = [...spline(Y_CHAIN, false, 6), [70, -460], [81, -469], [79, -480], [66, -487]];
+const Y_HEAD = [...spline(Y_CHAIN, false, 6), [67, -459], [77, -467], [75, -479], [63, -486]];
 function headY(ctx, o) {
   shape(ctx, Y_HEAD, { fill: COL.ySkin, line: 4.2, seed: 66, grain: 0.18, breaks: 0.1, shade: [{ pts: [[-80, -600], [-26, -600], [-36, -470], [-30, -380], [-80, -380]], color: COL.ySkinD, alpha: 0.45 }] });
   // beard (clipped to the head): jaw band + chin, then a trimmed moustache
@@ -179,13 +177,14 @@ function headY(ctx, o) {
   ctx.restore();
   shape(ctx, spline([[20, -452], [36, -459], [56, -456], [58, -449], [38, -449], [22, -446]], true, 4), { fill: COL.yBeard, line: 0, seed: 68, grain: 0.2, off: [0, 0] });
   // hair: short black cap, sideburn in front of the ear
-  shape(ctx, spline([[-62, -468], [-68, -514], [-48, -556], [-6, -574], [38, -568], [60, -544], [60, -520], [42, -526], [14, -532], [-14, -526], [-28, -508], [-28, -482]], true, 6), { fill: COL.yHair, line: 3, seed: 65, grain: 0.3, breaks: 0.25 });
+  shape(ctx, spline([[-58, -470], [-66, -516], [-48, -554], [-8, -572], [34, -568], [56, -552], [66, -534], [56, -530], [58, -521], [44, -524], [30, -531], [10, -533], [-12, -528], [-24, -514], [-26, -490], [-34, -480], [-48, -468]], true, 6), { fill: COL.yHair, line: 3, seed: 65, grain: 0.3, breaks: 0.45 });
+  ink(ctx, spline([[-6, -560], [22, -548], [40, -540]], false, 5), 2.4, { seed: 64, color: '#4A3A33', taper: true });
   // ear
   shape(ctx, ellipse(-38, -472, 10, 15, 16), { fill: COL.ySkin, line: 3.4, seed: 69, grain: 0.1, breaks: 0.2 });
   ink(ctx, [[-40, -480], [-35, -472], [-40, -464]], 2.2, { seed: 70 });
   // eyes, mouth
   [[10, -496], [40, -498]].forEach(([x, y], i) => eye(ctx, x, y, o, i, i ? 0.78 : 1));
-  ink(ctx, [[60, -468], [66, -462]], 2.4, { seed: 71 });       // nostril tick
+  ink(ctx, [[58, -468], [63, -462]], 2.4, { seed: 71 });       // nostril tick
   mouth(ctx, 36, -438, o);
 }
 
@@ -277,17 +276,18 @@ function torso(ctx, P) {
 }
 
 function blush(ctx, P) {
-  // the cel of embarrassment: a flat red plane that rises from the jaw up the face
+  // the cel of embarrassment: a flat red plane rises from the jaw to just under the eyes, cheeks glow
   const k = clamp(P.blush), head = P.who === 'y' ? Y_HEAD : M_HEAD;
-  const top = lerp(-400, -500, k);
+  const top = lerp(-404, -474, k), o = reg(88, 0.6);
   ctx.save(); path(ctx, head); ctx.clip();
-  const o = reg(88, 0.6);
-  ctx.globalAlpha = 0.5; ctx.fillStyle = COL.blush;
-  ctx.fillRect(-120 + o[0], top + o[1], 240, 200);
+  const wave = []; for (let i = 0; i <= 12; i++) { const x = -90 + i * 15; wave.push([x + o[0], top + Math.sin(i * 1.3) * 4 + o[1]]); }
+  path(ctx, [...wave, [120, -380], [-90, -380]]); ctx.globalAlpha = 0.32; ctx.fillStyle = COL.blush; ctx.fill();
+  ctx.globalAlpha = 0.75 * k;
+  [[-4, -466, 20], [56, -470, 13]].forEach(([x, y, r]) => { path(ctx, ellipse(x + o[0] * 0.5, y + o[1] * 0.5, r, r * 0.62, 16)); ctx.fill(); });
   ctx.restore();
   if (k > 0.6) {
-    [[-6, -462], [54, -466]].forEach(([x, y], j) => {
-      for (let i = 0; i < 3; i++) ink(ctx, [[x - 10 + i * 9, y + 6], [x - 4 + i * 9, y - 6]], 2.6, { seed: 120 + i + j * 3, color: COL.blush, alpha: 0.95 });
+    [[-6, -468], [54, -472]].forEach(([x, y], j) => {
+      for (let i = 0; i < 3; i++) ink(ctx, [[x - 10 + i * 8, y + 5], [x - 5 + i * 8, y - 5]], 2.4, { seed: 120 + i + j * 3, color: '#A8382C', alpha: 0.9 });
     });
   }
 }

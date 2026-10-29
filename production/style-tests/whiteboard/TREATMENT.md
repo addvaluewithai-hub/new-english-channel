@@ -25,31 +25,33 @@ Setup (drawn, London appears, he slides proudly to the school) → turn ("I... I
 - **Navy `#1f2a44`**: structure, the world, outlines, all English lettering (Youssef's jacket is navy hatch: brief colour = ink colour).
 - **Red `#c8363a`**: accent = "what matters": his red suitcase, the bus stripe (London), the "am" correction, the blush.
 - **Amber `#d98a2b`**: warmth / Mia: the sun, her ginger ponytail, her mustard cardigan. Her teal skirt becomes a navy hatch (fourth colour not allowed).
-- Youssef: brown skin as a light navy-free stipple? No: drawn skin is white board + fine outline; beard and hair solid navy, jacket navy hatch, white T-shirt (board), jeans navy diagonal light hatch, brown shoes = navy fill, red suitcase solid red hatch. Lives on a **magnet card** (white card with a soft shadow) so he can slide/hop = walk.
-- Mia: drawn directly at the door, ponytail amber, cardigan amber hatch, skirt navy hatch, waving arm + drawn wave arcs.
+- Youssef: brown skin = light amber hatch over the face and hands; short black hair and trimmed beard = dense navy fill; navy jacket = navy hatch over a white T-shirt (bare board); jeans = light navy hatch; brown shoes = amber fill under navy outline; red suitcase = red. He lives on a **magnet card** (glossy white card, cast shadow) so he can drop in, walk (the card hops step by step), tremble, and sink with embarrassment. Faces don't lip-flap (a board can't): emotion is acted by the card and by the eraser + pen redrawing his face.
+- Mia: drawn straight into the school doorway (she belongs to the place and doesn't move): fair skin = bare board, ginger ponytail = dense amber, mustard cardigan = amber hatch, teal skirt = navy hatch (a fourth marker colour is not allowed), clipboard, a raised waving hand with drawn wave marks.
+- Ghost marks on the board are faint grammar leftovers of an earlier lesson ("I am", "you are", "he is"): the board has seen this mistake before.
 
 ## Shot list
 
 | # | t | Framing | Move | Why |
 |---|---|---|---|---|
-| 1 | 0.0–2.4 | Close: Youssef (on his card) being drawn | hold, then starts pulling back | hook: a person appears from nothing |
-| 2 | 2.4–5.4 | Wide establishing: terraces, bus, clock tower, sun | pull back (1/z dolly), three pens drawing the street | scale: "my first day in London" |
-| 3 | 5.4–7.8 | Full, tracking right | ride the pavement line the pen draws; Youssef's magnet hops along it; the school + sign "ENGLISH SCHOOL" are drawn as we arrive; Mia drawn at the door at 7.4 | the pen leads the camera to the turn |
-| 4 | 7.8–14.6 | Two-shot at the door | settle, then a slow push toward Youssef during his line | dialogue; bubbles written as spoken |
-| 5 | 14.6–17.0 | Close on Youssef + his bubble | push in (slow push into one symbol: the gap) | embarrassed beat, red caret "am" |
+| 1 | 0.0–1.7 | Close: a blank magnet card drops on the board, two pens draw Youssef on it | hold, slight push | hook: a person appears from nothing |
+| 2 | 1.7–5.0 | Wide establishing: terraces, bus, clock tower, sun | pull back (1/z dolly), three pens drawing the street | scale: "my first day in London" |
+| 3 | 5.0–7.7 | Full, tracking right | ride the pavement line the pen draws; Youssef's magnet hops along it; the school + sign "ENGLISH SCHOOL" are drawn as we arrive; Mia drawn at the door at 7.4 | the pen leads the camera to the turn |
+| 4 | 7.7–15.2 | Two-shot at the door | settle, a breath closer during his line, ease back for "Sorry?" | dialogue; bubbles written on the spoken words; "I'm Mia" and "I Youssef" side by side |
+| 5 | 15.2–17.0 | Close on Youssef's face + his bubble | fast push (motion-blurred dolly) into the gap | the board itself corrects him: red caret, "am", circled |
 
 ## Beat sheet (s)
 
-- 0.0 pen flies in; 0.1–2.3 Youssef + suitcase drawn on card (navy, then red). Title "Day 1" written top-left 0.4–1.4.
-- 0.6–2.0 VO line 1 (sub 1). 1.6 pull back starts; houses/clock tower/bus/sun drawn by 3 pens 1.6–5.0.
-- 2.5–5.0 VO line 2 (sub 2): thought bubble "English ✓" drawn by his head at "الإنجليزي" (3.6–4.4).
+- 0.0–0.35 magnet card drops; 0.38–2.05 Youssef + suitcase drawn on it (two navy pens, red, amber).
+- 0.6–2.0 VO line 1 (sub 1). 1.7 pull back starts; bus, terraces, far clock tower, sun drawn by four pens; "Day 1" written in the sky as a diary header 2.1–2.9.
+- 2.6 the card starts walking (12 hops to the school door, arrives 7.25).
+- 2.5–5.0 VO line 2 (sub 2): diary note "my English:" at "الإنجليزي", the tick "✓" lands on "كويس" (4.5–4.85).
 - 5.0–7.6 the pen draws the pavement line right; camera rides it; Youssef's card hops along (walk) and stops at 7.3.
 - 5.8–7.0 VO line 3 (sub 3, held to 7.9). School drawn 5.2–6.6, "ENGLISH SCHOOL" written 6.4–7.0, Mia drawn 6.8–7.8 (visible from 7.4).
 - 8.0–9.5 "Hi! I'm Mia." written into her bubble on the words; wave arcs drawn at 8.1.
 - 9.9–13.6 "Hello! I... I Youssef." written word by word on the talk spans; sweat drop at "I..." (11.4); his card trembles.
-- 14.5–15.5 "Sorry?" written into her new bubble; her head-tilt "?" .
-- 14.6–15.4 push into Youssef; eraser wipes his smile, pen redraws a wobbly mouth, red blush hatch, two sweat drops.
-- 15.5–16.4 red pen: caret ^ in the gap, "am" above, circled. 16.5 pen leaves; 16.5–17.0 hold, slight fade.
+- 13.7 the eraser clears her first bubble (a ghost remains); 14.4 a new bubble; "Sorry?" written 14.8–15.36; a "?" beside her head.
+- 14.6 his card sinks; 14.74 a small eraser wipes his smile, the pen redraws a wobbly mouth, worried brows, red blush, sweat drops.
+- 15.2–15.68 push into his face; 15.68–16.47 red pen: caret ^ in the gap, "am" above, circled. Hold; last 0.2 s soft fade.
 
 ## Subtitle design
 

@@ -13,9 +13,9 @@ export function win(fb, x, y, w, h) {
 export const BOX = { x: 8, y: 134, w: 304, h: 42 };
 // name tab sitting on the top edge of the box
 function nameTab(fb, name, x, col) {
-  const w = textW(name) + 12, y = BOX.y - 10;
+  const w = textW(name) + 12, y = BOX.y - 12;
   win(fb, x, y, w, 14);
-  text(fb, name, x + 6, y + 4, col, C.night);
+  text(fb, name, x + 6, y + 3, col, C.night);
 }
 // o: { name, nameCol, portrait, text, shown (chars visible), done (bool), t, slide (0..1) }
 export function dialog(fb, o) {
@@ -61,9 +61,6 @@ export function diaryBox(fb, t, slide = 1) {
   win(fb, X, Y, BOX.w, BOX.h);
   const bx = X + BOX.w - 26, by = Y + 12 + (Math.floor(t * 2) % 2 ? 0 : 0);
   fb.blit(BOOK, bx, by);
-  // quill bobbing while the diary is "being written"
-  const q = Math.floor(t * 4) % 2;
-  fb.line(bx - 4, by + 14 - q, bx + 2, by + 3 - q, C.white); fb.px(bx - 4, by + 15 - q, C.ink); fb.px(bx + 2, by + 2 - q, C.silver); fb.px(bx + 3, by + 1 - q, C.silver);
   return { right: bx - 8, Y };
 }
 // status window: name, small portrait, ENGLISH stars (stars: array of 'on'|'off'|'blink')

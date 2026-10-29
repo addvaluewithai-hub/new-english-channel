@@ -2,13 +2,13 @@
 // Character-local coordinates: origin = ground between the feet, y down; both are ~330 units tall.
 // Facing right by default (3/4 view: features shifted by `look`); pass mirror:true to face left.
 import * as T from './toon.js';
-import { P, pieEye, brow, mouth, glove, shoe, hose, ribbon, fillLocal } from './parts.js';
+import { P, pieEye, brow, mouth, glove, shoe, hose, ribbon, fillLocal, steam } from './parts.js';
 import { clamp, lerp, TAU } from '/core/lib.js';
 const { shape, stroke, ell, arc, spline, quad, rr, rect, push, pop, translate, rotate, scale, S } = T;
 
 // costume greys (cool silver-nitrate ramp)
 export const C = {
-  skinY: '#B6BABD', flush: '#4F5458', hair: P.ink, beard: '#24282B',
+  skinY: '#B6BABD', flush: '#666B6F', hair: P.ink, beard: '#34383B',
   navy: '#2B3034', navyShade: '#1B1F22', tee: P.white, jeans: '#868B8F', jeansShade: '#6F7478', yShoe: '#3B3F42',
   case: '#555A5E', caseShade: '#3F4347',
   skinM: P.white, hairM: '#8C9195', hairMShade: '#6E7377', cardi: '#C0C4C7', cardiShade: '#A2A6A9', skirt: '#4B5155', skirtShade: '#373C40',
@@ -78,9 +78,9 @@ export function youssef(p) {
   stroke([[-19, -204], [-8, -158], [-12, -98]], S.lw * .7); stroke([[21, -204], [13, -158], [11, -98]], S.lw * .7);
   stroke([[-50, -128], [-28, -126]], S.lw * .5); // pocket
   // collar (turned up when he sinks into it)
-  const cu = sink * 26;
-  shape([[-34, -200 - cu], [-14, -212 - cu * .4], [-6, -196], [-26, -182]], { fill: C.navy, lw: S.lw * .7 });
-  shape([[34, -200 - cu], [16, -212 - cu * .4], [8, -196], [28, -182]], { fill: C.navy, lw: S.lw * .7 });
+  const cu = sink * 34;
+  const collar = () => { for (const s of [-1, 1]) { const k = sink; shape([[s * lerp(40, 76, k), -200 - cu], [s * lerp(14, 52, k), -212 - cu * .7], [s * lerp(6, 46, k), -196], [s * lerp(26, 66, k), -182]], { fill: C.navy, lw: S.lw * .7 }); } };
+  if (sink < .3) collar();
   // head
   push(); translate(look * 5, 0);
   const hc = [0, hy], rx = 56, ry = 63;
@@ -91,15 +91,14 @@ export function youssef(p) {
     fill: C.skinY, shade: () => {
       if (fl > 0) { const yl = hc[1] + ry + 4 - fl * (ry * 2 + 12); fillLocal(rect(-80, yl, 160, 200), C.flush); stroke([[-80, yl], [80, yl]], S.lw * .5, { line: P.dark }); }
       // beard band: jaw + chin, leaves the mouth area clear
-      const outer = arc(hc[0], hc[1], rx + 2, ry + 2, -.1 * Math.PI, 1.1 * Math.PI, 26);
-      const inner = arc(hc[0] + fx * .5, hc[1] - 4, 40, 40, 1.1 * Math.PI, -.1 * Math.PI, 26);
+      const outer = arc(hc[0], hc[1], rx + 2, ry + 2, .02 * Math.PI, .98 * Math.PI, 26);
+      const inner = arc(hc[0] + fx * .4, hc[1] - 6, 48, 54, .98 * Math.PI, .02 * Math.PI, 26);
       fillLocal([...outer, ...inner], C.beard);
-      fillLocal(rect(-90, hc[1] - 90, 180, 0), C.beard);
     }
   });
   // hair: neat short cap with a little quiff + a glossy white tick
   const hairPts = [...arc(hc[0], hc[1] - 2, rx + 3, ry + 5, 1.07 * Math.PI, 1.93 * Math.PI, 22),
-    [hc[0] + 55, hc[1] - 10], [hc[0] + 46, hc[1] - 30], [hc[0] + 22 + fx * .3, hc[1] - 46], [hc[0] + fx * .3, hc[1] - 42], [hc[0] - 24 + fx * .3, hc[1] - 48], [hc[0] - 47, hc[1] - 30], [hc[0] - 56, hc[1] - 10]];
+    [hc[0] + 55, hc[1] - 10], [hc[0] + 46, hc[1] - 30], [hc[0] + 22 + fx * .3, hc[1] - 52], [hc[0] + fx * .3, hc[1] - 50], [hc[0] - 24 + fx * .3, hc[1] - 54], [hc[0] - 47, hc[1] - 30], [hc[0] - 56, hc[1] - 10]];
   shape(hairPts, { fill: C.hair, lw: S.lw * .8 });
   shape(spline([[hc[0] - 14 + fx, hc[1] - 64], [hc[0] + 8 + fx, hc[1] - 82], [hc[0] + 36 + fx, hc[1] - 74], [hc[0] + 26 + fx, hc[1] - 58]], true, 5), { fill: C.hair, lw: S.lw * .8 });
   stroke(arc(hc[0] - 18, hc[1] - 30, 30, 26, 1.25 * Math.PI, 1.55 * Math.PI, 8), S.lw * .9, { line: P.white, boil: .4 });
@@ -110,7 +109,7 @@ export function youssef(p) {
   const E = p.eyes || {}, ey = hc[1] - 12;
   pieEye(hc[0] + fx - 19, ey, 15, 21, { ...E, lidCol: fl > .6 ? C.flush : C.skinY, side: 1 });
   pieEye(hc[0] + fx + 19, ey, 15, 21, { ...E, lidCol: fl > .6 ? C.flush : C.skinY, side: -1 });
-  if (p.brows) { brow(hc[0] + fx - 20, ey - 32, 24, p.brows, -1); brow(hc[0] + fx + 20, ey - 32, 24, p.brows, 1); }
+  if (p.brows) { brow(hc[0] + fx - 20, ey - 27, 24, p.brows, -1); brow(hc[0] + fx + 20, ey - 27, 24, p.brows, 1); }
   shape(ell(hc[0] + fx * 1.7 + 3, hc[1] + 10, 12, 10, 16), { fill: fl > .75 ? C.flush : C.skinY, lw: S.lw * .75 });
   const M = p.mouth || { type: 'smile' };
   mouth(mx, my + 4, M.w || 34, M.type, M);
@@ -119,12 +118,15 @@ export function youssef(p) {
   if (p.steam > 0) {
     const t = p.t || 0;
     for (const side of [-1, 1]) for (let i = 0; i < 4; i++) {
-      const u = ((t * 1.7 + i * .27 + (side > 0 ? .13 : 0)) % 1), a = u * p.steam;
-      const ex = hc[0] + side * (66 + u * 70 + (i % 2) * 14), eyy = hc[1] + 4 - u * 120 - (i % 3) * 12;
-      if (a > .05) puff(ex, eyy, 7 + u * 20 * (.7 + (i % 2) * .5));
+      const u = ((t * 1.6 + i * .25 + (side > 0 ? .12 : 0)) % 1), j = (i * 3 + (side > 0 ? 2 : 0)) % 5;
+      const ex = hc[0] + side * (68 + u * (60 + j * 12)), eyy = hc[1] - 4 - u * (90 + j * 18) - j * 4;
+      T.g.globalAlpha = p.steam * (u < .8 ? 1 : (1 - u) * 5);
+      puff(ex, eyy, 6 + u * (12 + j * 2.5));
+      T.g.globalAlpha = 1;
     }
   }
   pop();
+  if (sink >= .3) collar();
   for (const [key, s] of [['armL', -1], ['armR', 1]]) if (p[key] && p[key].front) arm(key, s);
   pop();
 }

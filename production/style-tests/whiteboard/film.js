@@ -127,13 +127,12 @@ export async function build() {
   // ═════════ LONDON (pull-back): ground, bus, terraces, clock tower far away, sun, diary note
   const groundA = W.curve([[260, GY + 46], [1300, GY + 40], [2300, GY + 50], [2870, GY + 44]], { w: 10, wav: 600 });
   const groundB = W.curve([[2870, GY + 44], [3800, GY + 50], [4700, GY + 42], [5600, GY + 48], [6650, GY + 44]], { w: 10, wav: 600 });
-  D(N1, groundA, 1.9, 2.3);
   // double-decker bus (behind, on the background base)
-  const B = { x: 1300, w: 980, h: 640 };
+  const B = { x: 1220, w: 930, h: 620 };
   const bTop = BY - B.h;
   const bus = [W.roundRect(B.x, bTop, B.w, B.h - 40, 40, { w: 9 }), W.line(B.x + 10, bTop + 300, B.x + B.w - 10, bTop + 300, { w: 7 })];
-  for (let i = 0; i < 5; i++) bus.push(W.roundRect(B.x + 40 + i * 185, bTop + 60, 150, 140, 14, { w: 6 }));
-  for (let i = 0; i < 4; i++) bus.push(W.roundRect(B.x + 230 + i * 185, bTop + 350, 150, 120, 14, { w: 6 }));
+  for (let i = 0; i < 5; i++) bus.push(W.roundRect(B.x + 40 + i * 175, bTop + 60, 140, 140, 14, { w: 6 }));
+  for (let i = 0; i < 4; i++) bus.push(W.roundRect(B.x + 220 + i * 175, bTop + 350, 140, 120, 14, { w: 6 }));
   bus.push(W.roundRect(B.x + 40, bTop + 340, 140, 250, 10, { w: 6 }));                     // door
   bus.push(W.circle(B.x + 210, BY - 30, 52, { w: 8 }), W.circle(B.x + B.w - 210, BY - 30, 52, { w: 8 }));
   const busRed = [W.hatch([[B.x + 6, bTop + 214], [B.x + B.w - 6, bTop + 214], [B.x + B.w - 6, bTop + 290], [B.x + 6, bTop + 290]], { spacing: 12, w: 11, alpha: .55, angle: -.9 }),
@@ -142,7 +141,7 @@ export async function build() {
   D(R, busRed, 2.3, 2.7, { minGap: .015, maxGap: .03 });
   // terraced houses
   const houses = [];
-  const HX = [2380, 2780, 3180], HW = 400, HH = 820;
+  const HX = [2220, 2610, 3000], HW = 390, HH = 820;
   HX.forEach((x, i) => {
     const top = BY - HH;
     houses.push(W.line(x, BY, x, top, { w: 8 }), W.line(x + HW, top, x + HW, BY, { w: 8 }));
@@ -153,20 +152,21 @@ export async function build() {
   });
   D(N2, houses, 2.62, 4.15, { minGap: .015, maxGap: .04, travel: 5000 });
   // clock tower far away (smaller, thinner, lighter): rises between the roofs
-  const TWX = 3020, TWW = 120, twTop = 880, roof = BY - HH - 30;
+  const TWX = 2850, TWW = 120, twTop = 880, roof = BY - HH - 30;
   const tower = [W.line(TWX, roof, TWX, twTop + 220, { w: 6, alpha: .8 }), W.line(TWX + TWW, twTop + 220, TWX + TWW, roof - 50, { w: 6, alpha: .8 }),
     W.poly([[TWX - 14, twTop + 222], [TWX + TWW / 2, twTop], [TWX + TWW + 14, twTop + 222]], { w: 6, alpha: .8 }),
     W.circle(TWX + TWW / 2, twTop + 300, 40, { w: 5, alpha: .8 }), W.line(TWX + TWW / 2, twTop + 300, TWX + TWW / 2, twTop + 274, { w: 4 }), W.line(TWX + TWW / 2, twTop + 300, TWX + TWW / 2 + 18, twTop + 306, { w: 4 }),
     W.line(TWX - 10, twTop + 236, TWX + TWW + 10, twTop + 236, { w: 5, alpha: .8 }), W.line(TWX - 6, twTop + 380, TWX + TWW + 6, twTop + 380, { w: 5, alpha: .8 })];
-  D(N1, tower, 2.95, 3.5, { minGap: .02, maxGap: .05 });
+  D(N1, groundA, 1.83, 2.08);
+  D(N1, T('Day 1', 820, 1160, { h: 150, w: 15 }), 2.12, 2.78, { minGap: .02, maxGap: .05 });
+  D(N1, W.curve([[800, 1215], [1150, 1205], [1430, 1218]], { w: 10, over: 18 }), 2.8, 2.92);
+  D(N1, tower, 2.97, 3.5, { minGap: .02, maxGap: .05 });
   // sun (amber = warmth)
   const SUN = [3950, 1060];
   const sun = [W.circle(SUN[0], SUN[1], 95, { w: 9 })];
   for (let i = 0; i < 9; i++) { const a = i / 9 * TAU - .3; sun.push(W.line(SUN[0] + Math.cos(a) * 135, SUN[1] + Math.sin(a) * 135, SUN[0] + Math.cos(a) * 195, SUN[1] + Math.sin(a) * 195, { w: 8, bow: 0 })); }
   D(A, sun, 2.95, 3.55, { minGap: .02, maxGap: .04 });
   // diary note (the narrator's own words): "Day 1" … "my English: ✓"
-  D(N1, T('Day 1', 820, 1160, { h: 150, w: 15 }), 1.95, 2.85, { minGap: .02, maxGap: .05 });
-  D(N1, W.curve([[800, 1215], [1150, 1205], [1430, 1218]], { w: 10, over: 18 }), 2.88, 3.0);
   D(N1, T('my English:', 830, 1390, { h: 88, w: 10 }), 3.6, 4.4, { minGap: .02, maxGap: .05 });
   D(N1, T('✓', 1520, 1395, { h: 120, w: 14 }), 4.52, 4.85);
 
@@ -231,14 +231,15 @@ export async function build() {
   D(N2, [W.arc(HAND[0], HAND[1], 54, -2.75, -1.95, { w: 6 }), W.arc(HAND[0], HAND[1], 80, -2.85, -1.85, { w: 6 })], 8.25, 8.55);
 
   // Youssef's bubble (top-left of him at his stop)
-  const YB = { x: 3700, y: 1270, w: 820, h: 270 };
+  const YB = { x: 3440, y: 1400, w: 730, h: 330 };
   const YHEAD = [X1 + 0, GY + HY - 80];
-  D(N2, bubble(YB.x, YB.y, YB.w, YB.h, YB.x + 560, YHEAD[0] - 30, YHEAD[1] - 4), 9.62, 10.0);
-  const hello = T('Hello!', YB.x + 60, YB.y + 110, { h: 72, w: 10 });
-  const r2y = YB.y + 220;
-  const i1 = T('I...', YB.x + 60, r2y, { h: 72, w: 10 });
-  const i2 = T('I', YB.x + 60 + i1.width + 44, r2y, { h: 72, w: 10 });
-  const GAPX = YB.x + 60 + i1.width + 44 + i2.width;   // the gap where "am" belongs
+  D(N2, bubble(YB.x, YB.y, YB.w, YB.h, YB.x + YB.w - 120, YHEAD[0] - 75, YHEAD[1] + 30), 9.62, 10.0);
+  const hello = T('Hello!', YB.x + 50, YB.y + 102, { h: 72, w: 10 });
+  const r2y = YB.y + 290;
+  const iA = T('I', YB.x + 50, r2y, { h: 72, w: 10 }), i1 = [...iA, ...T('...', YB.x + 50 + iA.width + 16, r2y, { h: 72, w: 10 })];
+  i1.width = iA.width + 16 + 3 * 230 * 72 / 677;
+  const i2 = T('I', YB.x + 50 + i1.width + 44, r2y, { h: 72, w: 10 });
+  const GAPX = YB.x + 50 + i1.width + 44 + i2.width;   // the gap where "am" belongs
   const yous = T('Youssef.', GAPX + 96, r2y, { h: 72, w: 10 });
   D(N1, hello, 10.1, 10.54); D(N1, i1, 11.4, 11.74); D(N1, i2, 12.5, 12.68); D(N1, yous, 12.76, 13.34);
   // nervous sweat drop (drawn on the card)
@@ -246,26 +247,26 @@ export async function build() {
   D(N2, tagG([drop(64, HY - 70)], g), 11.45, 11.7);
 
   // "Sorry?" — the eraser clears Mia's bubble (a ghost of "I'm Mia" remains), a new one is drawn
-  tl.erase(W.zigzag(MB.x - 20, MB.y - 10, MB.w + 40, MB.h + 30, 4), 13.82, .5, { width: 120 });
-  tl.cue(13.82, 'eraser');
+  tl.erase(W.zigzag(MB.x - 20, MB.y - 10, MB.w + 40, MB.h + 30, 4), 13.68, .46, { width: 120 });
+  tl.cue(13.68, 'eraser');
   const SB = { x: 4950, y: 1330, w: 440, h: 180 };
   D(N2, bubble(SB.x, SB.y, SB.w, SB.h, SB.x + 130, MX - 30, GY + MH - 92), 14.38, 14.66);
-  D(N1, T('Sorry?', SB.x + 60, SB.y + 124, { h: 78, w: 10 }), 14.78, 15.38);
-  D(N2, T('?', MX + 120, GY + MH - 70, { h: 110, w: 11 }), 14.72, 14.98);
+  D(N1, T('Sorry?', SB.x + 60, SB.y + 124, { h: 78, w: 10 }), 14.8, 15.36);
+  D(N2, T('?', MX + 120, GY + MH - 70, { h: 110, w: 11 }), 14.68, 14.86);
 
   // embarrassed: eraser wipes his smile, pen redraws a wobbly mouth; red blush; sweat
   const mouthPath = [[-22, HY + 38], [22, HY + 38], [-18, HY + 44], [20, HY + 44]];
-  tl.erase(mouthPath, 15.0, .24, { width: 18, grp: g });
-  tl.cue(15.0, 'eraserSmall');
-  D(N1, tagG(W.curve([[-18, HY + 40], [-10, HY + 35], [-2, HY + 41], [6, HY + 35], [14, HY + 41], [19, HY + 37]], { w: 5, smooth: 1 }), g), 15.27, 15.45);
-  D(N1, tagG([W.line(-36, HY - 34, -12, HY - 26, { w: 7 }), W.line(12, HY - 26, 36, HY - 34, { w: 7 })], g), 15.48, 15.62);   // worried brows on top
-  D(R, tagG([W.hatch(ellPoly(-34, HY + 14, 15, 9, 12), { spacing: 6, w: 6, alpha: .7, angle: 0 }), W.hatch(ellPoly(34, HY + 14, 15, 9, 12), { spacing: 6, w: 6, alpha: .7, angle: 0 })], g), 15.3, 15.52);
-  D(N2, tagG([drop(-70, HY - 60, 1.1), drop(80, HY - 40, .9)], g), 15.35, 15.6);
+  tl.erase(mouthPath, 14.74, .18, { width: 18, grp: g });
+  tl.cue(14.74, 'eraserSmall');
+  D(N2, tagG(W.curve([[-18, HY + 40], [-10, HY + 35], [-2, HY + 41], [6, HY + 35], [14, HY + 41], [19, HY + 37]], { w: 5, smooth: 1 }), g), 14.94, 15.08);
+  D(N2, tagG([W.line(-36, HY - 34, -12, HY - 26, { w: 7 }), W.line(12, HY - 26, 36, HY - 34, { w: 7 })], g), 15.1, 15.2);   // worried brows on top
+  D(R, tagG([W.hatch(ellPoly(-34, HY + 14, 15, 9, 12), { spacing: 6, w: 6, alpha: .7, angle: 0 }), W.hatch(ellPoly(34, HY + 14, 15, 9, 12), { spacing: 6, w: 6, alpha: .7, angle: 0 })], g), 15.0, 15.22);
+  D(N2, tagG([drop(-70, HY - 60, 1.1), drop(80, HY - 40, .9)], g), 15.24, 15.42);
   // the board corrects him: a red caret in the gap and "am" above, circled
   const CY = r2y + 6;
-  D(R, W.poly([[GAPX + 24, CY + 4], [GAPX + 46, CY - 40], [GAPX + 68, CY + 4]], { w: 8, bow: 0 }), 15.62, 15.82);
-  D(R, T('am', GAPX + 6, YB.y + 140 - 10, { h: 58, w: 9 }), 15.86, 16.12);
-  D(R, ell(GAPX + 48, YB.y + 108, 62, 40, -2.6, .35, { w: 7 }), 16.14, 16.4);
+  D(R, W.poly([[GAPX + 26, CY + 4], [GAPX + 48, CY - 52], [GAPX + 70, CY + 4]], { w: 8, bow: 0 }), 15.68, 15.88);
+  D(R, T('am', GAPX + 8, YB.y + 196, { h: 56, w: 9 }), 15.93, 16.2);
+  D(R, ell(GAPX + 52, YB.y + 172, 64, 40, -2.6, .35, { w: 7 }), 16.23, 16.47);
 
   tl.end();
 
@@ -275,14 +276,14 @@ export async function build() {
     [1.7, 935, 2095, 1.08, 0, 'o'],
     [4.35, 3050, 1640, .405, 0, 'io'],            // pull back: London around him
     [5.0, 3130, 1650, .41, 0, 'l'],
-    [6.6, 4720, 1900, .62, 0, 'io'],              // ride the pavement to the school
-    [7.7, 4960, 1960, .74, 0, 'o'],               // two-shot
-    [9.85, 4950, 1965, .75, 0, 'l'],
-    [13.4, 4800, 1950, .79, 0, 'io'],             // slow push toward him while he struggles
-    [14.35, 4880, 1960, .77, 0, 'io'],            // ease back for her "Sorry?"
-    [14.95, 4880, 1960, .772, 0, 'l'],
-    [15.6, 4090, 1715, 1.26, 0, 'io'],            // push into his face and the gap
-    [17.0, 4096, 1718, 1.3, 0, 'l'],
+    [6.6, 4600, 1950, .6, 0, 'io'],               // ride the pavement to the school
+    [7.7, 4760, 2010, .70, 0, 'o'],               // two-shot
+    [9.85, 4756, 2010, .703, 0, 'l'],
+    [13.4, 4745, 2006, .712, 0, 'io'],            // a breath closer while he struggles
+    [14.3, 4760, 2010, .70, 0, 'io'],
+    [15.2, 4761, 2010, .701, 0, 'l'],
+    [15.68, 3880, 1722, 1.47, 0, 'io'],           // push into his face and the gap
+    [17.0, 3884, 1726, 1.51, 0, 'l'],
   ]);
 
   // ───────── board + objects
@@ -334,8 +335,8 @@ export async function build() {
     draw: (ctx, t) => {
       const s = subs.find(s => t >= s.t0 && t < s.t1); if (!s) return;
       const a = Math.min(1, (t - s.t0) / .12, (s.t1 - t) / .12);
-      ctx.font = '700 54px Ruqaa'; ctx.direction = 'rtl';
-      const w = ctx.measureText(s.text).width + 90, h = 88, y0 = 1046 - h;
+      ctx.font = '700 62px Ruqaa'; ctx.direction = 'rtl';
+      const w = ctx.measureText(s.text).width + 96, h = 96, y0 = 1046 - h;
       ctx.globalAlpha = a * .92; ctx.fillStyle = '#fdfcf8'; ctx.shadowColor = 'rgba(30,30,40,.18)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 4;
       ctx.beginPath(); ctx.roundRect(960 - w / 2, y0, w, h, 16); ctx.fill();
       ctx.shadowColor = 'transparent'; ctx.globalAlpha = a;
@@ -350,7 +351,7 @@ export async function build() {
   function render(ctx, t) {
     const dt = 1 / 24, a = cam.at(t), b = cam.at(Math.max(0, t - dt));
     const sp = Math.hypot((a.x - b.x) * a.z, (a.y - b.y) * a.z) + Math.abs(Math.log(a.z / b.z)) * 900;
-    const N = sp > 14 ? Math.min(6, Math.ceil(sp * .5 / 4)) : 1;
+    const N = sp > 14 ? Math.min(8, Math.ceil(sp * .5 / 5)) : 1;
     if (N === 1) board.render(ctx, t, cam);
     else {
       const ov = board.overlays; board.overlays = [];
@@ -358,8 +359,8 @@ export async function build() {
       ctx.globalAlpha = 1; board.overlays = ov;
       for (const o of ov) { ctx.save(); o.draw(ctx, t); ctx.restore(); }
     }
-    const f = clamp((t - 16.65) / .35);
-    if (f > 0) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = f * .85; ctx.fillStyle = '#f6f5f1'; ctx.fillRect(0, 0, 1920, 1080); ctx.globalAlpha = 1; }
+    const f = clamp((t - 16.78) / .22);
+    if (f > 0) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = f * .6; ctx.fillStyle = '#f6f5f1'; ctx.fillRect(0, 0, 1920, 1080); ctx.globalAlpha = 1; }
   }
   const ev = tl.ev.slice();
   ev.push({ t: 0, type: 'magnet' });

@@ -101,23 +101,23 @@ function school(fb, hx, top, gy, t, signLit) {
 }
 // distant skyline + clock tower (hazy, high-luminance blues)
 function farCity(fb, off, ty) {
-  const base = 104 + Math.round(ty * .55);
+  const base = 52 + Math.round(ty * .55);
   for (let x = 0; x < W; x++) {
-    const wx = x + off, hgt = 26 + Math.floor(hash(wx >> 4, 7) * 22) + (((wx >> 4) % 5) === 0 ? 10 : 0);
+    const wx = x + off, hgt = 10 + Math.floor(hash(wx >> 4, 7) * 12) + (((wx >> 4) % 5) === 0 ? 9 : 0);
     for (let y = base - hgt; y < base; y++) fb.px(x, y, ((wx & 15) === 0 || (y - base) % 7 === 0 && (wx & 3) === 1) ? C.steel : C.silver);
   }
   // clock tower
-  const tx = 52 - off, ty0 = base - 96;
+  const tx = 156 - off, ty0 = base - 50;
   const P = (x, y, w, h, c) => fb.rect(tx + x, ty0 + y, w, h, c);
-  P(-8, 30, 16, 66, C.silver); P(5, 30, 3, 66, C.steel);
-  for (let y = 34; y < 96; y += 6) { P(-6, y, 2, 4, C.steel); P(-1, y, 2, 4, C.steel); P(3, y, 2, 4, C.steel); }
-  P(-10, 10, 20, 20, C.silver); P(6, 10, 4, 20, C.steel); P(-11, 9, 22, 2, C.white); P(-11, 29, 22, 2, C.steel);
+  P(-8, 30, 16, 66, C.steel); P(4, 30, 4, 66, C.slate); P(-8, 30, 2, 66, C.silver);
+  for (let y = 34; y < 96; y += 6) { P(-5, y, 2, 4, C.slate); P(-1, y, 2, 4, C.slate); P(3, y, 2, 4, C.dslate); }
+  P(-10, 10, 20, 20, C.steel); P(6, 10, 4, 20, C.slate); P(-10, 10, 2, 20, C.silver); P(-11, 9, 22, 2, C.silver); P(-11, 29, 22, 2, C.slate);
   fb.disc(tx, ty0 + 20, 7, C.steel); fb.disc(tx, ty0 + 20, 6, C.white); fb.disc(tx, ty0 + 20, 1, C.amber);
   fb.line(tx, ty0 + 20, tx, ty0 + 15, C.slate); fb.line(tx, ty0 + 20, tx + 3, ty0 + 21, C.slate);
   for (let a = 0; a < 12; a++) fb.px(Math.round(tx + Math.sin(a / 6 * Math.PI) * 5), Math.round(ty0 + 20 - Math.cos(a / 6 * Math.PI) * 5), C.steel);
-  for (let y = 0; y < 10; y++) P(-8 + Math.round(y * .8), y, 16 - Math.round(y * 1.6), 1, y < 4 ? C.steel : C.silver);
-  P(-1, -14, 2, 15, C.steel); P(0, -18, 1, 4, C.steel); fb.px(tx, ty0 - 19, C.amber);
-  P(-12, 4, 2, 6, C.steel); P(10, 4, 2, 6, C.steel); fb.px(tx - 12, ty0 + 2, C.amber); fb.px(tx + 11, ty0 + 2, C.amber);
+  for (let y = 0; y < 10; y++) P(-8 + Math.round(y * .8), y, 16 - Math.round(y * 1.6), 1, y < 4 ? C.slate : C.steel);
+  P(-1, -8, 2, 9, C.slate); P(0, -11, 1, 3, C.slate); fb.px(tx, ty0 - 12, C.amber);
+  P(-12, 4, 2, 6, C.slate); P(10, 4, 2, 6, C.slate); fb.px(tx - 12, ty0 + 2, C.amber); fb.px(tx + 11, ty0 + 2, C.amber);
   return base;
 }
 // double-decker bus (faces left), x = front-left, y = road surface
@@ -168,7 +168,7 @@ export function street(fb, t, cam, tilt, busX) {
   for (let y = r0; y < r1; y++) for (let x = 0; x < W; x++) fb.px(x, y, (bayer(x, y) < .12) ? C.slate : C.dslate);
   const roff = Math.round(cam * .85);
   for (let x = 0; x < W; x++) if (((x + roff) % 24) < 12) fb.px(x, Math.round((r0 + r1) / 2), C.white);
-  if (busX !== null) bus(fb, Math.round(busX - roff), r1 - 2, t);
+  if (busX !== null) bus(fb, Math.round(busX), r1 - 2, t);
   // near pavement (Youssef's layer)
   const p0 = r1, gy2 = ST.ground + tilt;
   fb.rect(0, p0, W, 2, C.steel); fb.hline(0, W - 1, p0, C.white);
@@ -177,8 +177,8 @@ export function street(fb, t, cam, tilt, busX) {
     fb.px(x, y, slab ? C.steel : (bayer(x, y) < .08 ? C.white : C.silver));
   }
   // street furniture on the near pavement
-  for (const lx of [60, 260, 470]) { const X = lx - cam; if (X > -10 && X < W + 10) lamp(fb, X, p0 + 3); }
-  { const X = 150 - cam; if (X > -20 && X < W + 4) phoneBox(fb, X, p0 + 4); }
+  for (const lx of [60, 330, 520]) { const X = lx - cam; if (X > -10 && X < W + 10) lamp(fb, X, p0 + 3); }
+  { const X = 104 - cam; if (X > -20 && X < W + 4) phoneBox(fb, X, p0 + 4); }
   return { gy: gy2 };
 }
 
@@ -189,7 +189,6 @@ export function entrance(fb, t, open, camY = 0) {
   // wall: red brick across the whole top
   brick(fb, 0, 0, W, 104 + oy, C.clay, C.tan, C.rust, 51);
   // cornice + top band
-  fb.rect(0, 0 + oy, W, 5, C.cream); fb.hline(0, W - 1, 5 + oy, C.creamD); fb.hline(0, W - 1, 6 + oy, C.rust);
   // windows (with flower boxes)
   for (const wx of [20, 72, 228, 280]) {
     windowSash(fb, wx - 11, 22 + oy, 22, 34);
@@ -210,7 +209,7 @@ export function entrance(fb, t, open, camY = 0) {
   const dx = 160, top = 54 + oy, bot = 104 + oy;
   for (let y = top; y < bot; y++) { const hw = 21; fb.hline(dx - hw, dx + hw - 1, y, y < top + 2 ? C.white : C.cream); }
   fb.vline(dx - 21, top, bot, C.creamD); fb.vline(dx + 20, top, bot, C.creamD);
-  for (let y = 0; y < 12; y++) { const hw = Math.round(Math.sqrt(Math.max(0, 1 - ((12 - y) / 12) ** 2)) * 14); if (hw > 0) fb.hline(dx - hw, dx + hw - 1, top + 3 + y, C.ink); const h2 = Math.max(0, hw - 1); if (h2) fb.hline(dx - h2, dx + h2 - 1, top + 4 + y, bayer(dx, y) < .5 ? C.skyL : C.yellow); }
+  for (let y = 0; y < 12; y++) { const hw = Math.round(Math.sqrt(Math.max(0, 1 - ((12 - y) / 12) ** 2)) * 14); if (hw > 0) fb.hline(dx - hw, dx + hw - 1, top + 3 + y, C.ink); const h2 = Math.max(0, hw - 1); for (let x = dx - h2; x < dx + h2; x++) fb.px(x, top + 4 + y, bayer(x, y) < .3 + y / 24 ? C.amber : C.yellow); }
   for (let k = -2; k <= 2; k++) fb.line(dx, top + 15, dx + k * 5, top + 6, C.white);
   fb.hline(dx - 15, dx + 14, top + 15, C.white);
   // doorway: interior (warm) shows as the two leaves swing in

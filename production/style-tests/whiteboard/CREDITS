@@ -1,0 +1,12 @@
+Day 1 — Whiteboard Explainer style test
+
+Picture: made in code (Canvas 2D), marker engine adapted from the Lemo-Opuscar library's whiteboard style
+  (styles/whiteboard/demo/engine/wb.js, MIT licence of the library; see LICENSE in the library root).
+Voice track: test_audio.wav, supplied by the production (unchanged).
+
+Fonts
+- EMS Tech (single-line handwriting), SIL Open Font License 1.1. By Sheldon B. Michaels, SVG by Windell H. Oskay,
+  derivative of Architects Daughter by Kimberly Geswein. Licence text: fonts/OFL-ArchitectsDaughter.txt
+- Aref Ruqaa (Arabic subtitles), SIL Open Font License 1.1, by Abdullah Aref / Khaled Hosny.
+  Source: Google Fonts (https://fonts.google.com/specimen/Aref+Ruqaa), self-hosted in fonts/ruqaa-*.woff2
+- fonts/ f0–f12 (Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar; OFL) were copied with the series kit but are not used in this clip.

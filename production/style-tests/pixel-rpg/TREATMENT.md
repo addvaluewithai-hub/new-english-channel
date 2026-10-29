@@ -22,7 +22,7 @@ Mid-90s console RPG town scenes and their dialogue system (portrait boxes that t
 | A3 | 5.6–7.0 | Same, camera settles on the ENGLISH SCHOOL; Youssef stops at the door, looks up | camera locks | arrival, nerves |
 | — | 7.0 | mosaic cross (peak = cut) | transition in the medium | |
 | B1 | 7.0–14.5 | Two-shot, 3/4 top-down RPG town view: school door top-centre, Mia in doorway facing us, Youssef back view at the threshold | locked, 1-px breathing | "back view at a threshold" = first day; dialogue staging |
-| B2 | 14.5–15.4 | Same; "Sorry?" | screen shake 3-2-1 px | the hit |
+| B2 | 14.5–15.5 | Same; "Sorry?" | screen shake 2-1 px on the knock-back | the hit |
 | B3 | 15.4–17.0 | Youssef turns to face camera (sweat, blush); dialogue box with his embarrassed portrait; stat window drops ★★★★★ → ★☆☆☆☆ | lock, palette step fade at 16.5 | closer beat carried by the portrait (style's close-up) |
 
 ## Beat sheet
@@ -34,14 +34,14 @@ Mid-90s console RPG town scenes and their dialogue system (portrait boxes that t
 - 7.0 mosaic cut to two-shot. 7.4 door slides open, Mia steps out.
 - 8.0 Mia box types "Hi! I'm Mia." + wave (8.0–9.5).
 - 9.9 Youssef box "Hello! I... I Youssef." types with the pauses of the voice; cursor ▼ stops while he hesitates.
-- 14.5 Mia "Sorry?" puzzled portrait, head tilt, "?" bubble; shake.
-- 15.4 Youssef turns to us, sweat drop, blush; box: Youssef embarrassed portrait "......"; stars blink out one by one 15.6–16.4.
-- 16.5–17.0 palette step fade to black.
+- 14.55 Mia's "?" balloon + head tilt (puzzled beat); 14.9 her box opens, "Sorry?" types on the spoken word (15.0–15.25).
+- 15.25 Youssef knock-back hop + 3-2-1 px shake; 15.5 he turns to us (hand behind head, sweat, blush); status window returns top-right with his embarrassed portrait (the close-up) and ENGLISH ★★★★★ blinks down to ★☆☆☆☆ (15.8–16.4).
+- 16.55–16.95 palette step fade to black.
 
 ## Cue map / sound
 The voice track (`test_audio.wav`) is final and is the only audio: narration 0.6–7.7, dialogue per `timeline.json`. Picture events lock to it: text typing follows the `talk` spans, mouths flap only inside `talk` spans, shake on 14.5, stat drop starts after "Sorry?" ends (15.5). No score added in this test (a series would add a chip score: pulse lead + triangle bass + echo, ducked 8 dB under voice, and text blips per speaker).
 
 ## Subtitle and title design
 - English lines: the RPG dialog box in the framebuffer (bottom quarter), 32×32 portrait left, original variable-width pixel font (cap 7 px) with 1-px shadow, typing ~38 cps, ▼ blink when done, name tab above.
-- Arabic narration: same box skin ("diary" variant with a notebook icon instead of a portrait); the Arabic itself is drawn crisp in Baloo Bhaijaan 2 at 1080p (RTL, right-aligned) because no OFL pixel Arabic face reads well at this size.
+- Arabic narration: same box skin ("diary" variant with a notebook icon on the right, RTL side); the Arabic is drawn crisp in Baloo Bhaijaan 2 at 1080p (RTL, right-aligned, full line wiped in over 0.3 s) because no OFL pixel Arabic face reads well at this size. Lines timed to the diary word timings (+0.6 s): 0.7–2.75 / 2.75–5.9 / 5.9–7.9.
 - Title "DAY 1 · LONDON" in the pixel font at 2×, ink outline, row gradient.
