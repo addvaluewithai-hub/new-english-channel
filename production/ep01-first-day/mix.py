@@ -201,6 +201,7 @@ H = {   # event type -> (sound, gain, pan)
     'blink':     lambda e: (np.zeros(10), 0, 0),
     'sparkle':   lambda e: (ding() * .5, .15, .2),
     'bird':      lambda e: (chirp(), .2, .5),
+    'tap':       lambda e: (over(tick() * .6, thump(.4, 220)[:int(.06 * SR)] * .5), .3, .2),
     'suitcase_roll': lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'thought':   lambda e: (over(pop() * .6, (pop() * .4, .06)), .2, -.2),
     'cut_in':    lambda e: (whoosh(.25), .18, 0),

@@ -220,6 +220,7 @@ H = {   # event type -> (sound, gain, pan)
     'blink':     lambda e: (np.zeros(10), 0, 0),
     'sparkle':   lambda e: (ding() * .5, .15, .2),
     'bird':      lambda e: (chirp(), .2, .5),
+    'tap':       lambda e: (over(tick() * .6, thump(.4, 220)[:int(.06 * SR)] * .5), .3, .2),
     'yawn':      lambda e: (yawn_(min(1.6, e.get('dur', 1.2))), .22, -.1),
     'laugh':     lambda e: (np.zeros(10), 0, 0),              # the laugh is in Mia's voice
     'sip':       lambda e: (slurp(), .3, -.1),

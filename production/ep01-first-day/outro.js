@@ -62,7 +62,7 @@ export function buildOutro() {
   const yS = { id: 'youssef', base: { turn: .2, face: F('happy', { happy: .4, lx: .3, lid: .1 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 },
     moves: [{ t0: bSite + .35, t1: bSite + 1.4, x0: 1530, x1: 1640, y0: 800, y1: GROUND, k0: .6, k1: .85, step: .35 }], keys: [], jumps: [], blinks: [] };
   yS.keys.push({ t: bSite + .35, alpha: 1, d: .25 }, { t: bSite + .85, clip: null }, { t: bSite + 1.0, turn: .3, face: F('happy', { happy: .45, lx: .55 }), d: .5 },
-    { t: tEnter - .15, armR: POINT, lean: .03, face: F('happy', { happy: .5, lx: .6, bLy: .7, bRy: .7 }), d: .25 },
+    { t: tEnter - .15, armR: POINT, lean: .03, face: F('happy', { happy: .4, lx: .45, bLy: .65, bRy: .65 }), d: .25 },
     { t: tSolve + .3, face: F('joy', { lx: .55 }), d: .2 },
     { t: tFive + .2, armR: ARM.up, armL: ARM.up, lean: 0, face: F('joy', { lx: .3 }), d: .25 },
     { t: tLink - .2, turn: 0, armL: ARM.rest, armR: { dx: .18, dy: .2, bend: -.05, w: 0 }, face: F('happy', { happy: .45, lx: .35, ly: .35 }), d: .25 },
@@ -378,7 +378,7 @@ function linkArrow(c, t) {
   const k = back(seg(t, O.tLink - .05, O.tLink + .35), 2.2), out = seg(t, O.sOut + .1, O.sOut + .4);
   if (k <= 0 || out >= 1) return;
   const u = t - O.tLink, bounce = Math.abs(Math.sin(u * 5.5)) * 16 * Math.exp(-Math.max(0, u - 2.5) * .5);
-  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(SITE.cx, 868 - bounce); c.scale(k, k); c.globalAlpha = 1 - out;
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(SITE.cx + 40, 868 - bounce); c.scale(k, k); c.globalAlpha = 1 - out;
   c.direction = 'rtl'; c.font = `800 40px ${AR}`; c.textAlign = 'right'; c.textBaseline = 'middle';
   const label = 'اللينك في الوصف', bw = c.measureText(label).width + 60 + 76;
   rr(c, -bw / 2, -36 + 7, bw, 72, 36); c.fillStyle = rgba('#2A2742', .2); c.fill();

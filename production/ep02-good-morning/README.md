@@ -33,7 +33,7 @@ Optional query parameters: `?from=&to=` (a preview range; DUR and t become relat
 | `cues.js` | Unchanged. |
 | `story.js` | open (bedroom) → run (street) → hall + coffee (hallway) → door + bye (the school door, afternoon) + the form close-up. |
 | `recap.js` | "اللي اتعلمته النهارده" with the six episode 2 items. |
-| `outro.js` | Title card ("Good Morning?"), page wipe, "your turn", the form teaser and the end card ("How old are you?"). |
+| `outro.js` | Title card ("Good Morning?"), page wipe, "your turn", the site nudge (the phone card), the form teaser and the end card ("How old are you?"). |
 
 ## How the scenes map to the timeline
 
@@ -47,7 +47,8 @@ Optional query parameters: `?from=&to=` (a preview range; DUR and t become relat
 | bye | "Oh!" (a raised finger), the form comes out of the bag and is held out at `form`; Youssef takes it on "OK…", reads it and looks up on "thank you". Waves on the "Good night" exchange (`good_night`); Mia walks off to the right and the camera pushes toward Youssef, who nods to us on "وإنت ماشي، مش وإنت جاي" and looks down at the form on "الاستمارة". At `age_box` a cut to the close-up of the form in his two hands (Name / From / Age / Class), the `Age: ____` box lights up, and a big "?" pops over it on "سؤال". | bye `lines`, `beats.form`, `beats.good_night`, `beats.age_box`, `ar07` words |
 | recap | A page-wipe to paper; the title shrinks into a header pill; Youssef presents on the right, Mia on the left. Items: **times** — three rows with a sun / low sun / moon icon: "Good morning." (Mia), "Good afternoon." (Youssef), "Good evening." (Mia), each with its Arabic meaning. **night** — a ghosted "Good night" used as a greeting (a small sun) gets the red squiggle, an ✗ and "مش تحية" on the narration; then "Good night!" with a moon + waving hand, typeset on his line, ✓ after it, "تصبح على خير (وإنت ماشي)". **how** — "How are you?" (Mia, "عامل إيه؟" lit on the Latin token) and three real answers that stack on "رد حقيقي", each typeset on its line. **andyou** — "And you?" / "وإنت؟". **welcome** — a ghosted "Thank you" from the narration, "Welcome." with the squiggle, ✗ and "ناقصة كلمة", then "You're welcome." (Mia) ✓ "عفوًا / العفو". **polite** — "Coffee, please." / "قهوة، لو سمحت" and "Sorry!" (the ! wobbles) / "آسف!". The presenters act as in episode 1 (facepalm + scratch on a squiggle, a proud nod on the fix, a wave on the good night, a small bow on "Sorry!"); the "كرّر" cue appears in each repeat gap. | `recap[]` items, `lines` r01–r12 (per-word highlight), Latin tokens and words in `ar09`–`ar13` |
 | turn | A page-wipe back to the street (morning). Mia faces camera at the school door ("دورك!" wave), asks "Good morning! How are you?", then the "I'm ______." card with a mic, the 3-2-1 ring from `pause_start` to `pause_end`, the ✓, confetti, a clap on "برافو" and the comment icon on "واكتب". The hint under the slot reads "good · OK · tired". | `turn` line, `beats.pause_start` / `beats.pause_end`, `ar14` / `ar15` words |
-| next | The teaser: Youssef at the school door holding the form; a big card of the form pops on "الاستمارة" with the `Age` box; numbers float up on "أرقام" while he scratches his head; the "?" pops on "وسؤال"; Mia asks "How old are you?" from off screen (her bubble at the right edge, timed to the Latin token) and he answers "I have 26 years." in a bubble that gets the red squiggle and an ✗ on "غلط". End card at `end_card`: "الحلقة الجاية", "How old are you?", Youssef peeking in, the red "اشترك" pill with the bell that gets tapped. Fades to ink. | `ar16` words and Latin tokens, `beats.end_card` |
+| site | The "I'm ______." card leaves and Mia steps back into the doorway; Youssef comes out of the door as a phone-shaped card of the companion website slides up on `site_card` (the site's cream paper, header "يوسف في لندن · تمارين", progress dots, the "صلّح غلطة يوسف" exercise with Mia's "Good morning, Youssef!" as context). The exercise plays by itself: "Good night, Mia!" gets the red squiggle under "Good night", Youssef points at the card on "ادخل", a drawn hand taps the "Good morning" chip on "وحل" (the chip goes leaf), the sentence corrects to "Good morning, Mia!" with a mustard swash, a ✓ and a little confetti inside the card, and three stars fill one by one on "خمس" while Mia peeks out of the doorway and claps. On "اللينك" Youssef turns to us and points down at the mustard "اللينك في الوصف ⬇" pill that bounces under the card, bottom right, clear of the narration plate. The card slides away just before `next`. | `beats.site_card`, `ar17` words ("ادخل", "وحل", "خمس", "اللينك"), the start of `next` |
+| next | The teaser: Youssef at the school door holding the form; a big card of the form pops on "الاستمارة" with the `Age` box; numbers float up on "أرقام" while he scratches his head; the "?" pops on "وسؤال"; Mia asks "How old are you?" from off screen (her bubble at the right edge, timed to the Latin token) and he answers "I have 26 years." in a bubble that gets the red squiggle and an ✗ on "غلط". End card at `end_card`: "الحلقة الجاية", "How old are you?", Youssef peeking in, the red "اشترك" pill with the bell that gets tapped, and a teal "حل التمارين" pill with a pencil for the site. Fades to ink. | `ar16` words and Latin tokens, `beats.end_card` |
 
 ## Sound cues (`window.EV`, also in `events.json`)
 
@@ -57,7 +58,8 @@ Each entry is `{t, type, ...}`. Some entries add fields: `dur` (s) for long soun
 The episode 1 types are kept with the same meaning: `step`, `bubble`, `pop`, `thought`, `sparkle`, `sting`, `sting_shock`,
 `sting_end`, `whoosh`, `cut_in`, `cut`, `page_turn`, `door_open`, `door_close`, `bus`, `ambience_street`,
 `ambience_afternoon`, `music_intro`, `music_recap`, `music_outro`, `alarm`, `gulp`, `type`, `caret`, `squiggle`,
-`error_buzz`, `ding`, `repeat`, `mic_on`, `countdown_tick`, `confetti`, `cheer`, `click`, `bell`.
+`error_buzz`, `ding`, `repeat`, `mic_on`, `countdown_tick`, `confetti`, `cheer`, `click`, `bell` (`whoosh`, `squiggle`, `ding`,
+`confetti`, `sparkle` and `pop` also serve the site card).
 Not used this episode: `suitcase_roll`, `freeze`, `unfreeze`, `clock_spin`, `clock_tick`, `squeeze`.
 
 | type | meaning |
@@ -70,6 +72,7 @@ Not used this episode: `suitcase_roll`, `freeze`, `unfreeze`, `clock_spin`, `clo
 | `stars` | The sparkles around his head after the sip (`dur`). |
 | `ambience_hall` | A quiet school-interior bed under the hallway scenes (`dur`). |
 | `click` | Also used for the slap on the alarm clock (as well as the subscribe tap). |
+| `tap` | A soft click: the drawn hand taps the right chip in the site card. |
 | `sting_shock` | The "!" on landing out of bed, and the "?" over the Age box. |
 | `cut_in` / `cut` | The clock insert and back, the close-up on the embarrassed Youssef, the form close-up; the cuts between sets. |
 

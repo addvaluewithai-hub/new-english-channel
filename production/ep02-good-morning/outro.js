@@ -1,6 +1,7 @@
-// Episode 2 — title card, page wipe, "your turn" (Mia asks the viewer, 3-2-1 countdown), next-episode teaser (the form) and end card.
+// Episode 2 — title card, page wipe, "your turn" (Mia asks the viewer, 3-2-1 countdown), the site nudge (a phone card of the
+// companion website whose exercise plays by itself), next-episode teaser (the form) and end card.
 import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
-import { clamp, lerp, seg, ss, eo, eio, back, hash } from '/core/lib.js';
+import { clamp, lerp, seg, ss, eo, ei, eio, back, hash } from '/core/lib.js';
 import { TL, SEC, BEAT, NARR, LINE, nwT, has } from './tl.js';
 import { drawWorld, toScreen, GROUND } from './world.js';
 import { drawForm } from './bean.js';
@@ -43,6 +44,33 @@ export function buildOutro() {
     { t: p1, d: .5, x: 1650, y: 694, z: 2.66 },
   ];
   O.countdown = [0, 1, 2].map(i => p0 + i * third);
+  // ---------------- site: "solve the episode's exercises on the website" — a phone card whose exercise plays itself ----------------
+  const si = SEC('site'), bSite = BEAT('site_card', si.t1 > 0 ? si.t0 : nx.t0 - 8), NS = 'ar17';
+  const tEnter = nwT(NS, has('ادخل'), .35), tSolve = nwT(NS, has('وحل'), .45), tFive = nwT(NS, has('خمس'), .68), tLink = nwT(NS, has('اللينك'), .88);
+  const sOut = nx.t0 - .4;   // the card leaves before the teaser
+  O.bSite = bSite; O.tEnter = tEnter; O.tSolve = tSolve; O.tFive = tFive; O.tLink = tLink; O.sOut = sOut;
+  // the mini exercise, mirrored from the site's "fix Youssef's mistake" item for this episode
+  O.EX = { n: 1, context: 'Good morning, Youssef!', wrong: 'Good night, Mia!', span: 'Good night', answer: 'Good morning', chips: ['Good bye', 'Good morning', 'Good night'], right: 1 };
+  // Mia steps back into the doorway as the card comes, and peeks out to clap at the stars
+  mT.moves.push({ t0: bSite + .05, t1: bSite + .62, x0: 1530, x1: 1534, y0: GROUND, y1: 805, k0: .9, k1: .62, step: .28 },
+    { t0: tFive - .1, t1: tFive + .4, x0: 1534, x1: 1486, y0: 805, y1: 822, k0: .62, k1: .66, step: .5 });
+  K.push({ t: bSite - .05, turn: 1.0, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .4 }), d: .3 }, { t: bSite + .25, turn: 2.05, d: .35 },
+    { t: bSite + .15, clip: 1 }, { t: bSite + .22, alpha: 0, d: .4 },
+    { t: tFive - .3, turn: .15, face: F('happy', { happy: .45, lx: .4 }), d: .01 }, { t: tFive - .12, alpha: 1, d: .15 },
+    { t: tFive + .4, armL: CLAP, armR: CLAP, face: F('joy'), d: .2 }, { t: tFive + 1.7, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .5, lx: .4 }), d: .3 });
+  mT.jumps.push({ t: tFive + .45, h: .03, d: .3 }, { t: tFive + .8, h: .03, d: .3 });
+  // Youssef comes out of the door, stands beside the card and presents it
+  const yS = { id: 'youssef', base: { turn: .2, face: F('happy', { happy: .4, lx: .3, lid: .1 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 },
+    moves: [{ t0: bSite + .35, t1: bSite + 1.4, x0: 1530, x1: 1640, y0: 800, y1: GROUND, k0: .6, k1: .85, step: .35 }], keys: [], jumps: [], blinks: [] };
+  yS.keys.push({ t: bSite + .35, alpha: 1, d: .25 }, { t: bSite + .85, clip: null }, { t: bSite + 1.0, turn: .3, face: F('happy', { happy: .45, lx: .55 }), d: .5 },
+    { t: tEnter - .15, armR: POINT, lean: .03, face: F('happy', { happy: .4, lx: .45, bLy: .65, bRy: .65 }), d: .25 },
+    { t: tSolve + .3, face: F('joy', { lx: .55 }), d: .2 },
+    { t: tFive + .2, armR: ARM.up, armL: ARM.up, lean: 0, face: F('joy', { lx: .3 }), d: .25 },
+    { t: tLink - .2, turn: 0, armL: ARM.rest, armR: { dx: .18, dy: .2, bend: -.05, w: 0 }, face: F('happy', { happy: .45, lx: .35, ly: .35 }), d: .25 },
+    { t: sOut + .1, armR: ARM.rest, face: F('happy', { happy: .45 }), d: .3 });
+  yS.jumps.push({ t: tSolve + .3, h: .04, d: .34 }, { t: tFive + .25, h: .07, d: .4 });
+  yS.blinks.push(bSite + 1.0, tEnter - .15, tLink - .2);
+  O.yS = yS;
   // ---------------- next: the form, numbers, "How old are you?", "I have 26 years." (wrong) → end card ----------------
   const tFormN = nwT('ar16', has('الاستمارة'), .15), tNums = nwT('ar16', has('أرقام'), .3), tQ = nwT('ar16', has('وسؤال'), .4);
   const how = n18 ? n18.tok.find(o => /^How old/i.test(o.w)) : null, said = n18 ? n18.tok.find(o => /^I have/i.test(o.w)) : null;
@@ -73,6 +101,16 @@ export function buildOutro() {
   cue(p1 + .05, 'confetti');
   cue(tBravo, 'cheer');
   cue(tWrite, 'pop', { note: 'comment icon' });
+  cue(bSite, 'whoosh', { note: 'site card in' });
+  cue(bSite + .33, 'step', { who: 'mia' }); cue(bSite + .6, 'step', { who: 'mia' });
+  for (let i = 1; i <= 3; i++) cue(bSite + .35 + i * .35, 'step', { who: 'youssef' });
+  cue(bSite + .8, 'squiggle');
+  cue(tSolve, 'tap', { note: 'the hand taps the right chip' });
+  cue(tSolve + .3, 'ding', { note: 'the sentence is fixed' });
+  cue(tSolve + .35, 'confetti', { note: 'small, inside the card' });
+  for (let i = 0; i < 3; i++) cue(tFive + .25 + i * .28, 'sparkle', { note: `star ${i + 1}` });
+  cue(tLink, 'pop', { note: 'link-in-the-description arrow' });
+  cue(sOut, 'whoosh', { note: 'site card out' });
   cue(nx.t0, 'whoosh', { note: 'teaser' });
   cue(tFormN, 'paper', { note: 'the form card' });
   for (let i = 0; i < 6; i++) cue(tNums + i * .18, 'pop', { note: 'a number floats up' });
@@ -83,6 +121,7 @@ export function buildOutro() {
   cue(bEnd, 'sting_end', { note: 'end card' });
   cue(bEnd + 1.3, 'pop', { note: 'subscribe button' });
   cue(bEnd + 2.1, 'click'); cue(bEnd + 2.2, 'bell');
+  cue(bEnd + 1.55, 'pop', { note: 'exercises pill' });
   return O;
 }
 
@@ -161,11 +200,11 @@ export function sceneTurn(c, t) {
   card(c, t);
   return { cam };
 }
-function card(c, t) {
+function card(c, t, out = 0) {   // out: 0..1 exit (the site card takes its place)
   const t0 = O.p0 - .35, p = seg(t, t0, t0 + .45);
-  if (p <= 0) return;
-  const k = back(p, 1.9), cx = 1400, cy = 430;
-  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(cx, cy); c.scale(k, k); c.globalAlpha = clamp(p * 3);
+  if (p <= 0 || out >= 1) return;
+  const k = back(p, 1.9) * (1 - .12 * out), cx = 1400, cy = 430;
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(cx, cy); c.scale(k, k); c.globalAlpha = clamp(p * 3) * (1 - out);
   rr(c, -380, -210 + 12, 760, 420, 46); c.fillStyle = rgba('#2A2742', .16); c.fill();
   rr(c, -380, -210, 760, 420, 46); c.fillStyle = '#FFFDF8'; c.fill();
   // mic badge (pulses while waiting)
@@ -203,7 +242,7 @@ function card(c, t) {
   confetti(c, t, O.p1 + .05);
   // comment nudge
   const ck = seg(t, O.tWrite - .05, O.tWrite + .35);
-  if (ck > 0) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); const s = back(ck, 2.2); c.translate(cx + 300, cy + 240); c.scale(s, s); commentIcon(c, 0, 0, 1.1, P.navy); c.restore(); }
+  if (ck > 0) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1 - out; const s = back(ck, 2.2); c.translate(cx + 300, cy + 240); c.scale(s, s); commentIcon(c, 0, 0, 1.1, P.navy); c.restore(); }
 }
 function confetti(c, t, t0) {
   const u = t - t0; if (u < 0 || u > 2.6) return;
@@ -217,6 +256,135 @@ function confetti(c, t, t0) {
     c.fillStyle = cols[i % cols.length]; rr(c, -9, -5, 18, 10 * Math.abs(Math.cos(u * 8 + i)), 3); c.fill(); c.restore();
   }
   c.restore();
+}
+
+// ---------------- site: the companion website's exercise as a phone-shaped card that plays by itself ----------------
+// The street and the camera stay as at the end of "your turn". Mia steps back into the doorway, Youssef comes out and presents the
+// card; the exercise is keyed to the narration words (tap on "وحل", stars on "خمس", the arrow on "اللينك").
+const SITE = { cx: 1430, cy: 440, w: 480, h: 680 };
+export function sceneSite(c, t) {
+  const cam = camAt(O.camT, t);
+  drawWorld(c, cam, t, { door: 1, dof: dofOf(cam.z), clock: 9.0 });
+  drawActor(c, cam, O.mT, t, { door: 1 });
+  drawActor(c, cam, O.yS, t, { door: 1 });
+  if (t < O.bSite + .35) card(c, t, seg(t, O.bSite, O.bSite + .3));   // the "I'm ______." card leaves
+  siteCard(c, t);
+  linkArrow(c, t);
+  return { cam };
+}
+// a drawn pointing hand (finger tip at x,y)
+function handCursor(c, x, y, s = 1, a = 1) {
+  if (a <= 0) return;
+  c.save(); c.globalAlpha = a; c.translate(x, y); c.scale(s, s); c.rotate(-.35); c.translate(0, 50);
+  c.fillStyle = '#FFFDF8'; c.strokeStyle = P.ink; c.lineWidth = 5; c.lineJoin = 'round';
+  c.beginPath(); c.roundRect(-14, -50, 28, 70, 14); c.roundRect(-40, 0, 80, 64, 22); c.fill(); c.stroke();
+  c.restore();
+}
+function star(c, x, y, r, fill, stroke) {
+  c.save(); c.translate(x, y); c.beginPath();
+  for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r * .46 : r; c.lineTo(Math.cos(a) * q, Math.sin(a) * q); }
+  c.closePath(); c.lineJoin = 'round';
+  if (fill) { c.fillStyle = fill; c.fill(); }
+  if (stroke) { c.strokeStyle = stroke; c.lineWidth = 3; c.stroke(); }
+  c.restore();
+}
+function siteCard(c, t) {
+  const { bSite, sOut, tSolve, tFive, EX } = O;
+  const pin = seg(t, bSite, bSite + .6), pout = seg(t, sOut, sOut + .4);
+  if (pin <= 0 || pout >= 1) return;
+  const dy = (1 - back(pin, 1.25)) * 1000 + ei(pout) * 1000, { cx, cy, w, h } = SITE;
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(cx - w / 2, cy - h / 2 + dy);
+  // the phone: the site's cream, ruled paper, with a soft drop shadow
+  rr(c, 0, 14, w, h, 46); c.fillStyle = rgba('#2A2742', .18); c.fill();
+  rr(c, 0, 0, w, h, 46); c.fillStyle = P.cream; c.fill();
+  c.save(); rr(c, 0, 0, w, h, 46); c.clip();
+  c.fillStyle = rgba('#6F62A8', .09); for (let y = 108; y < h; y += 40) c.fillRect(0, y, w, 1.5);
+  // the site's top bar + progress dots (LTR, like the site)
+  c.fillStyle = rgba(P.ink, .12); c.fillRect(0, 66, w, 2);
+  c.direction = 'rtl'; c.font = `800 28px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.navy; c.fillText('يوسف في لندن · تمارين', w / 2, 36);
+  for (let i = 0; i < 12; i++) {
+    const x = w / 2 - 88 + i * 16, cur = i === EX.n - 1, r = cur ? 7 : 5;
+    ell(c, x, 90, r, r); c.fillStyle = i < EX.n - 1 ? P.leaf : cur ? P.mustard : '#FFFDF8'; c.fill();
+    if (i >= EX.n) { c.strokeStyle = rgba(P.ink, .3); c.lineWidth = 2; c.stroke(); }
+  }
+  // layout of the exercise card: the chips wrap like the site's, the stars row sits under them
+  const X0 = 22, X1 = w - 22, CW = X1 - X0, GAP = 10;
+  c.font = '600 24px "Fredoka"'; c.direction = 'ltr';
+  const chipW = EX.chips.map(s => c.measureText(s).width + 38), rows = [[]]; let rw = 0;
+  chipW.forEach((cw, i) => { const r = rows[rows.length - 1]; if (r.length && rw + GAP + cw > CW - 28) { rows.push([i]); rw = cw; } else { r.push(i); rw += (r.length > 1 ? GAP : 0) + cw; } });
+  const chipsY = 395, starsY = chipsY + rows.length * 52 + (rows.length - 1) * GAP + 64, cardH = starsY + 44 - 116;
+  rr(c, X0, 116 + 6, CW, cardH, 24); c.fillStyle = rgba('#6F62A8', .16); c.fill();
+  rr(c, X0, 116, CW, cardH, 24); c.fillStyle = '#FFFDF8'; c.fill();
+  // kind row: number badge + "fix Youssef's mistake"
+  ell(c, X1 - 32, 160, 20, 20); c.fillStyle = P.mustard; c.fill();
+  c.font = '400 22px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(String(EX.n), X1 - 32, 162);
+  c.direction = 'rtl'; c.font = `800 26px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.navy; c.fillText('صلّح غلطة يوسف', X1 - 64, 162);
+  // context (what Mia said), prompt
+  rr(c, X0 + 18, 190, CW - 36, 48, 14); c.fillStyle = '#DDEFF8'; c.fill();
+  c.font = `700 20px ${AR}`; c.fillStyle = P.ink; const who = 'ميا:', ww = c.measureText(who).width; c.fillText(who, X1 - 32, 216);
+  c.direction = 'ltr'; c.font = '500 22px "Fredoka"'; c.textAlign = 'right'; c.fillText(EX.context, X1 - 32 - ww - 8, 216);
+  c.direction = 'rtl'; c.font = `800 23px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.ink; c.fillText('يوسف غلط… الكلمة الصح إيه؟', X1 - 18, 274);
+  // the sentence: the wrong span with the squiggle, then the answer on a mustard swash + ✓
+  const fixed = t >= tSolve + .3, fk = seg(t, tSolve + .3, tSolve + .55), si = EX.wrong.indexOf(EX.span);
+  const pre = EX.wrong.slice(0, si), span = fixed ? EX.answer : EX.span, post = EX.wrong.slice(si + EX.span.length);
+  c.direction = 'ltr'; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  let fs = 48; c.font = `600 ${fs}px "Fredoka"`; const full = c.measureText(pre + span + post).width;
+  if (full > CW - 44) { fs = Math.floor(fs * (CW - 44) / full); c.font = `600 ${fs}px "Fredoka"`; }
+  const wPre = c.measureText(pre).width, wSpan = c.measureText(span).width, wAll = c.measureText(pre + span + post).width, sx0 = w / 2 - wAll / 2, by = 352;
+  if (fixed) { rr(c, sx0 + wPre - 6, by - fs * .78, (wSpan + 12) * eo(fk), fs * .98, 10); c.fillStyle = rgba(P.mustard, .5); c.fill(); }
+  c.fillStyle = P.ink; c.fillText(pre + span + post, sx0, by);
+  if (!fixed) squiggle(c, sx0 + wPre, sx0 + wPre + wSpan, by + 14, seg(t, bSite + .8, bSite + 1.25), 5, P.red, 4);
+  else check(c, sx0 + wAll + 32, by - 14, 16, seg(t, tSolve + .3, tSolve + .75));
+  // the chips (the right one goes leaf when tapped)
+  const press = seg(t, tSolve, tSolve + .1) * (1 - seg(t, tSolve + .12, tSolve + .3)); let hit = null;
+  rows.forEach((r, ri) => {
+    const rowW = r.reduce((a, i, k) => a + chipW[i] + (k ? GAP : 0), 0); let x = w / 2 - rowW / 2; const y = chipsY + ri * (52 + GAP) + 26;
+    for (const i of r) {
+      const cw = chipW[i], on = i === EX.right && t >= tSolve, pr = i === EX.right ? press : 0, cxx = x + cw / 2;
+      c.save(); c.translate(cxx, y); c.scale(1 - .06 * pr, 1 - .06 * pr);
+      rr(c, -cw / 2, -26 + 3, cw, 52, 26); c.fillStyle = on ? P.leaf : rgba(P.ink, .12); c.fill();
+      rr(c, -cw / 2, -26, cw, 52, 26); c.fillStyle = on ? '#DCEFD8' : '#FFFDF8'; c.fill(); c.strokeStyle = on ? P.leaf : rgba(P.ink, .12); c.lineWidth = 2; c.stroke();
+      c.font = '600 24px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(EX.chips[i], 0, 1);
+      c.restore();
+      if (i === EX.right) hit = [cxx, y];
+      x += cw + GAP;
+    }
+  });
+  // the stars row fills one by one (with a sparkle each)
+  for (let i = 0; i < 3; i++) {
+    const x = w / 2 + (i - 1) * 68, k = seg(t, tFive + .25 + i * .28, tFive + .55 + i * .28);
+    star(c, x, starsY, 22, null, rgba(P.ink, .3));
+    if (k > 0) { c.save(); c.translate(x, starsY); const s = back(k, 2.6); c.scale(s, s); star(c, 0, 0, 22, P.mustard, null); c.restore(); }
+    if (k > 0 && k < 1) for (let j = 0; j < 5; j++) { const a = j * 1.26 + i; sparkle(c, x + Math.cos(a) * (30 + 26 * k), starsY + Math.sin(a) * (30 + 26 * k), 7 * Math.sin(Math.PI * k), j % 2 ? P.mustard : P.red, a); }
+  }
+  // a little confetti out of the sentence when it is fixed
+  const u = t - (tSolve + .35);
+  if (u > 0 && u < 1.6) { const cols = [P.mustard, P.red, P.teal, P.leaf, P.navy];
+    for (let i = 0; i < 26; i++) { const h1 = hash(i * 1.37 + 9), h2 = hash(i * 2.91 + 9), h3 = hash(i * 5.17 + 9);
+      const x = w / 2 + (h1 - .5) * 120 + (h1 - .5) * 420 * u, y = by - 30 - (260 + 160 * h2) * u + 520 * u * u * (.6 + .4 * h3);
+      c.save(); c.translate(x, y); c.rotate(u * (3 + 6 * h3) + h1 * 6); c.globalAlpha = 1 - seg(u, 1.1, 1.6); c.fillStyle = cols[i % cols.length]; rr(c, -6, -3.5, 12, 7 * Math.abs(Math.cos(u * 8 + i)), 2); c.fill(); c.restore(); } }
+  c.restore();   // phone clip
+  // the hand comes up from below the card, taps the right chip and leaves
+  if (hit) {
+    const hk = seg(t, tSolve - .8, tSolve - .05), lv = seg(t, tSolve + .35, tSolve + .9);
+    if (hk > 0 && lv < 1) handCursor(c, lerp(w + 80, hit[0] + 4, eio(hk)) + lv * 90, lerp(h + 120, hit[1] + 6, eio(hk)) + press * 6 + lv * 260, .85, 1 - seg(lv, .5, 1));
+  }
+  c.restore();
+}
+// "the link is in the description": a mustard pill with a drawn down-arrow, bouncing under the card (never over the plate)
+function linkArrow(c, t) {
+  const k = back(seg(t, O.tLink - .05, O.tLink + .35), 2.2), out = seg(t, O.sOut + .1, O.sOut + .4);
+  if (k <= 0 || out >= 1) return;
+  const u = t - O.tLink, bounce = Math.abs(Math.sin(u * 5.5)) * 16 * Math.exp(-Math.max(0, u - 2.5) * .5);
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(SITE.cx + 40, 868 - bounce); c.scale(k, k); c.globalAlpha = 1 - out;
+  c.direction = 'rtl'; c.font = `800 40px ${AR}`; c.textAlign = 'right'; c.textBaseline = 'middle';
+  const label = 'اللينك في الوصف', bw = c.measureText(label).width + 60 + 76;
+  rr(c, -bw / 2, -36 + 7, bw, 72, 36); c.fillStyle = rgba('#2A2742', .2); c.fill();
+  rr(c, -bw / 2, -36, bw, 72, 36); c.fillStyle = P.mustard; c.fill();
+  c.fillStyle = P.ink; c.fillText(label, bw / 2 - 30, 5);
+  c.save(); c.translate(-bw / 2 + 46, 2 + bounce * .25); c.fillStyle = P.navy;
+  c.beginPath(); c.moveTo(-8, -24); c.lineTo(8, -24); c.lineTo(8, 0); c.lineTo(22, 0); c.lineTo(0, 24); c.lineTo(-22, 0); c.lineTo(-8, 0); c.closePath(); c.fill();
+  c.restore(); c.restore();
 }
 
 // ---------------- next episode teaser: the form in his hands, numbers floating, "How old are you?" ----------------
@@ -309,6 +477,25 @@ export function endCard(c, t) {
       c.beginPath(); c.roundRect(-14, -50, 28, 70, 14); c.roundRect(-40, 0, 80, 64, 22); c.fill(); c.stroke();
       c.restore();
     }
+  }
+  // "solve the exercises" (the companion site): a teal pill with a pencil, left of the subscribe pill
+  const k4 = back(seg(u, 1.45, 1.85), 2);
+  if (k4 > 0) {
+    c.save(); c.translate(900, 780); c.scale(k4, k4);
+    c.direction = 'rtl'; c.font = `800 60px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const label = 'حل التمارين', bw = c.measureText(label).width + 170;
+    rr(c, -bw / 2, -50 + 8, bw, 100, 50); c.fillStyle = rgba('#2A2742', .2); c.fill();
+    rr(c, -bw / 2, -50, bw, 100, 50); c.fillStyle = P.teal; c.fill();
+    c.fillStyle = P.cream; c.fillText(label, 30, 6);
+    // pencil
+    c.save(); c.translate(-bw / 2 + 58, 2); c.rotate(.78);
+    c.fillStyle = P.mustard; rr(c, -9, -30, 18, 44, 3); c.fill();
+    c.fillStyle = P.cream; c.fillRect(-9, -30, 18, 8);
+    c.fillStyle = P.red; rr(c, -9, -36, 18, 8, 3); c.fill();
+    c.fillStyle = '#F3DDB8'; c.beginPath(); c.moveTo(-9, 14); c.lineTo(9, 14); c.lineTo(0, 30); c.closePath(); c.fill();
+    c.fillStyle = P.ink; c.beginPath(); c.moveTo(-3.5, 24); c.lineTo(3.5, 24); c.lineTo(0, 30); c.closePath(); c.fill();
+    c.restore();
+    c.restore();
   }
 }
 export { O };

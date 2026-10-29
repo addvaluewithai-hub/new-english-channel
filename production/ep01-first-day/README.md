@@ -35,7 +35,7 @@ Optional query parameters:
 | `act.js` | Acting: keyed pose tracks, hop-walk, blinks, eye darts, lip sync (`VISEME`: the 8 shapes as mouth-parameter sets, tinted by the speaker's smile) and the ponytail/quiff spring. |
 | `story.js` | Sections open → street → door → retry (one continuous world), then day and bye. |
 | `recap.js` | "اللي اتعلمته النهارده": Living Letters kinetic type on cream paper. |
-| `outro.js` | Title card, page wipe, "your turn", next-episode teaser and end card. |
+| `outro.js` | Title card, page wipe, "your turn", the site nudge (the phone card), next-episode teaser and end card. |
 | `cues.js` | The `window.EV` registry. Scenes register their cues while they are built from the timeline. |
 
 ## How the scenes map to the timeline
@@ -50,7 +50,8 @@ Optional query parameters:
 | bye | Golden two-shot. Waves, then Youssef walks away. Mia calls "Class is at eight!", he whips round, and the film cuts to a close-up of "Eight?!" with a thought bubble holding a ringing alarm clock at 8:00. On "الجيش" he gives a deadpan look to camera. | bye `lines`, `beats.eight`, `ar08` words |
 | recap | A page-wipe to paper. The title shrinks into a header pill, and the presenter beans are Youssef on the right and Mia on the left. Per item: hi/hello · "I Youssef." with a red squiggle and ✗, then the "أنا يوسف" gloss, the caret, `am` typed in and ✓ · "I am" squeezing into "I'm" · "اسمك إيه؟" gloss, then Q and A · "Nice to meet you." with "Me too." (squiggle) replaced by "Nice to meet you too." · "Sorry?" with a wobbling ? · "Bye! See you!" / "Goodbye!". A drawn "كرّر" cue appears in each repeat gap. | `recap[]` items, `lines` r01–r10 (per-word highlight), Latin tokens in `ar10` / `ar11` / `ar13` |
 | turn | A page-wipe back to the street. Mia faces camera ("دورك!" wave). Her bubble, then the "I'm ______." card with a mic and a 3-2-1 ring from `pause_start` to `pause_end`, then ✓, confetti, a clap on "برافو", and a comment icon on "واكتبها". | `turn` line, `beats.pause_start` / `beats.pause_end`, `ar16` / `ar17` words |
-| next | A ringing alarm at 8:20, then Youssef running late (speed lines). Mia asks "How are you?" (her bubble is timed to the Latin token in `ar18`), and he gulps. End card: "الحلقة الجاية", "How are you?", Youssef, and a red subscribe pill with a bell that gets tapped (no platform logo). Fades to ink. | `ar18` words, `beats.end_card` |
+| site | The "I'm ______." card leaves and Mia steps back into the doorway; Youssef comes out of the door as a phone-shaped card of the companion website slides up on `site_card` (the site's cream paper, header "يوسف في لندن · تمارين", progress dots, the "صلّح غلطة يوسف" exercise with Mia's line as context). The exercise plays by itself: "I Youssef." gets the red squiggle, Youssef points at the card on "ادخل", a drawn hand taps the "I'm" chip on "وحل" (the chip goes leaf), the sentence corrects to "I'm Youssef." with a mustard swash, a ✓ and a little confetti inside the card, and three stars fill one by one on "خمس" while Mia peeks out of the doorway and claps. On "اللينك" Youssef turns to us and points down at the mustard "اللينك في الوصف ⬇" pill that bounces under the card, bottom right, clear of the narration plate. The card slides away just before `next`. | `beats.site_card`, `ar19` words ("ادخل", "وحل", "خمس", "اللينك"), the start of `next` |
+| next | A ringing alarm at 8:20, then Youssef running late (speed lines). Mia asks "How are you?" (her bubble is timed to the Latin token in `ar18`), and he gulps. End card: "الحلقة الجاية", "How are you?", Youssef, a red subscribe pill with a bell that gets tapped, and a teal "حل التمارين" pill with a pencil for the site (no platform logo). Fades to ink. | `ar18` words, `beats.end_card` |
 
 ## Sound cues (`window.EV`, also in `events.json`)
 
@@ -68,7 +69,7 @@ Each entry is `{t, type, ...}`. Some entries add fields: `dur` (s) for long soun
 | `sting` | Title card. |
 | `sting_shock` | "Eight?!" |
 | `sting_end` | End card. |
-| `whoosh` | Camera moves and transitions. |
+| `whoosh` | Camera moves and transitions; the site card in and out. |
 | `cut_in` | Cut to the close-up. |
 | `cut` | Cut on arrival (teaser). |
 | `page_turn` | Page wipe, in and out of the recap. |
@@ -98,6 +99,7 @@ Each entry is `{t, type, ...}`. Some entries add fields: `dur` (s) for long soun
 | `confetti` | The praise burst. |
 | `cheer` | "برافو". |
 | `click` | The subscribe tap. |
+| `tap` | A soft click: the drawn hand taps the right chip in the site card. |
 | `bell` | The subscribe bell. |
 
 ## Speed (4-core container, no GPU)
