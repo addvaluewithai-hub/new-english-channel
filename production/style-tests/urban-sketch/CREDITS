@@ -1,0 +1,12 @@
+First Day — style test (Urban Sketch · Pen & Wash)
+
+Picture: drawn entirely in code (Canvas 2D). Pen/wash/figure engine adapted from the
+Lemo-Opuscar library's urban-sketch style engine (see the library LICENSE).
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/, licence texts alongside):
+- Caveat — Impallari Type (speech bubbles, sign lettering)      https://github.com/google/fonts/tree/main/ofl/caveat
+- Reenie Beanie — James Grieshaber (corner note)                https://github.com/google/fonts/tree/main/ofl/reeniebeanie
+- Aref Ruqaa — Abdullah Aref (Arabic diary caption)             https://github.com/google/fonts/tree/main/ofl/arefruqaa
+(fonts/f*.woff2 + fonts.css were copied from the series folder as instructed; not used in this picture.)
+
+Audio: test_audio.wav supplied by the production (unchanged; loudness-normalised to −14 LUFS at mux).

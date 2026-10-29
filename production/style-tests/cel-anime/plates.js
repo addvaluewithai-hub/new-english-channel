@@ -10,22 +10,23 @@ export function skyGrad(g, x, y, w, h) { vgrad(g, x, y, w, h, [[0, '#1f4fb4'], [
 export function cloud(g, x, y, w, h, R, o = {}) {
   const [lc, l] = canvas(Math.ceil(w * 1.3), Math.ceil(h * 2.2));
   const ox = w * .65, oy = h * 1.6;
-  const lobes = [], n = 6 + Math.floor(R() * 5);
+  const lobes = [], n = 9 + Math.floor(R() * 6);
   for (let i = 0; i < n; i++) {
     const u = i / (n - 1), r = h * (.32 + .5 * Math.sin(u * Math.PI)) * (.8 + R() * .35);
-    lobes.push([ox + (u - .5) * w * .8 + (R() - .5) * w * .06, oy - r * .55 - Math.sin(u * Math.PI) * h * .3 + (R() - .5) * h * .12, r]);
+    lobes.push([ox + (u - .5) * w * .8 + (R() - .5) * w * .06, oy - r * .55 - Math.sin(u * Math.PI) * h * .3 + (R() - .5) * h * .12, r * (.75 + R() * .25)]);
   }
-  for (let i = 0; i < 3; i++) { const r = h * (.28 + R() * .2); lobes.push([ox + (R() - .5) * w * .4, oy - h * .75 - R() * h * .3, r]); }
+  for (let i = 0; i < 6; i++) { const r = h * (.28 + R() * .2); lobes.push([ox + (R() - .5) * w * .4, oy - h * .75 - R() * h * .3, r]); }
   const P = new Path2D(); for (const [cx, cy, r] of lobes) { P.moveTo(cx + r, cy); P.arc(cx, cy, r, 0, TAU); }
   P.rect(ox - w * .42, oy - h * .3, w * .84, h * .3);
   l.fillStyle = o.mid || '#cfd9ec'; l.fill(P);
   l.save(); l.clip(P);
-  l.fillStyle = o.lit || '#ffffff';
+  l.fillStyle = o.lit || '#fffcf4';
   for (const [cx, cy, r] of lobes) { l.beginPath(); l.arc(cx - r * .16, cy - r * .2, r * .86, 0, TAU); l.fill(); }
+  l.fillStyle = rgba('#b4c0dc', .55); for (const [cx, cy, r] of lobes) { l.beginPath(); l.arc(cx + r * .5, cy + r * .45, r * .55, 0, TAU); l.fill(); }
   const gr = l.createLinearGradient(0, oy - h * .7, 0, oy); gr.addColorStop(0, rgba(o.low || '#8d9cc0', 0)); gr.addColorStop(1, rgba(o.low || '#8d9cc0', .75));
   l.fillStyle = gr; l.fillRect(0, 0, lc.width, lc.height);
   l.restore();
-  g.save(); g.filter = 'blur(1.4px)'; g.globalAlpha = o.a ?? 1; g.drawImage(lc, x - ox, y - oy); g.restore();
+  g.save(); g.filter = 'blur(2px)'; g.globalAlpha = o.a ?? 1; g.drawImage(lc, x - ox, y - oy); g.restore();
 }
 
 // generic Victorian clock tower (not any specific landmark) in aerial haze; base at (x, y), scale k
@@ -152,6 +153,17 @@ export function house(g, e, x0, gy, s, R, o = {}) {
     };
     rail(0, dx - 34); rail(dx + dW + 34, W);
   }
+  // painted light: warm sun wash from the upper left, cooler and darker toward the top and the right edge, mottled airbrush
+  const gw = g.createLinearGradient(X(0), Y(1000), X(W), Y(0));
+  gw.addColorStop(0, rgba('#fff0d0', .10)); gw.addColorStop(.55, rgba('#fff0d0', 0)); gw.addColorStop(1, rgba('#3a3060', .10));
+  g.fillStyle = gw; g.fillRect(X(0), Y(1000), S(W), S(1000));
+  for (let i = 0; i < 18; i++) airbrush(g, X(R() * W), Y(R() * 1000), S(60 + R() * 120), S(40 + R() * 90), R() < .5 ? '#2a1a20' : '#fff4e0', .05);
+  g.fillStyle = rgba('#20182a', .16); g.fillRect(X(W - 40), Y(1000), S(40), S(1000));
+}
+// soften a painted plate (airbrushed background vs crisp cels)
+export function paint(P, px = 1) {
+  for (const [c, x] of [[P.c, P.g], [P.e, P.ex]]) { const [t, tg] = canvas(P.w, P.h); tg.drawImage(c, 0, 0); x.save(); x.filter = `blur(${px}px)`; x.globalCompositeOperation = 'copy'; x.drawImage(t, 0, 0); x.restore(); }
+  return P;
 }
 
 // pavement + kerb + road in elevation (band below gy), scale s
@@ -171,11 +183,12 @@ const S2 = (s, cm) => cm * s;
 export function craneFar() {
   const P = plate(1920, 2000), { g, ex: e } = P, R = rng(11);
   skyGrad(g, 0, 0, 1920, 2000);
-  airbrush(g, 420, 300, 520, 520, '#fff8e0', .55); airbrush(e, 420, 300, 300, 300, '#fff1c8', .55);
-  g.fillStyle = '#fffdf2'; g.beginPath(); g.arc(420, 300, 54, 0, TAU); g.fill();
-  e.fillStyle = '#fff8e0'; e.beginPath(); e.arc(420, 300, 70, 0, TAU); e.fill();
+  airbrush(g, 420, 300, 700, 700, '#f4fbff', .5, .9); airbrush(g, 420, 300, 260, 260, '#ffffff', .8, .8); airbrush(e, 420, 300, 420, 420, '#fff1c8', .7, .9);
+  g.fillStyle = '#ffffff'; g.beginPath(); g.arc(420, 300, 58, 0, TAU); g.fill();
+  e.fillStyle = '#fffbea'; e.beginPath(); e.arc(420, 300, 74, 0, TAU); e.fill();
   const CL = [[1250, 420, 760, 230], [380, 760, 620, 180], [1500, 900, 900, 220], [760, 1130, 700, 170], [200, 1250, 520, 140], [1700, 1360, 560, 150]];
   for (const [x, y, w, h] of CL) cloud(g, x, y, w, h, R);
+  for (let i = 0; i < 10; i++) cloud(g, R() * 1920, 500 + R() * 1000, 120 + R() * 160, 36 + R() * 30, R, { a: .85 });
   // distant city at the bottom, in haze
   g.save(); g.globalAlpha = 1;
   skyline(g, -40, 1980, 1640, R, '#a7bad6', 60, 220);
@@ -194,26 +207,27 @@ export function craneNear() {
   street(g, 0, 2000, gy, s, 400);
   // a tree on the pavement (painted, cel-like canopy)
   tree(g, 1660, gy + 50, 1.0, R);
-  return P;
+  return paint(P, 1);
 }
 function tree(g, x, gy, k, R) {
   g.fillStyle = '#5a4434'; g.fillRect(x - 10 * k, gy - 420 * k, 20 * k, 420 * k);
   g.fillStyle = '#3d2c22'; g.fillRect(x + 2 * k, gy - 420 * k, 8 * k, 420 * k);
-  const lobes = []; for (let i = 0; i < 14; i++) lobes.push([x + (R() - .5) * 300 * k, gy - 520 * k + (R() - .5) * 200 * k, (60 + R() * 60) * k]);
-  g.fillStyle = '#3f7a3a'; for (const [a, b, r] of lobes) { g.beginPath(); g.arc(a, b, r, 0, TAU); g.fill(); }
-  g.fillStyle = '#5fa04a'; for (const [a, b, r] of lobes) { g.beginPath(); g.arc(a - r * .2, b - r * .25, r * .8, 0, TAU); g.fill(); }
-  g.fillStyle = '#9ccc6a'; for (const [a, b, r] of lobes.slice(0, 7)) { g.beginPath(); g.arc(a - r * .35, b - r * .4, r * .4, 0, TAU); g.fill(); }
+  const lobes = []; for (let i = 0; i < 40; i++) { const a = R() * TAU, r = Math.sqrt(R()); lobes.push([x + Math.cos(a) * r * 150 * k, gy - 540 * k + Math.sin(a) * r * 110 * k, (28 + R() * 34) * k]); }
+  lobes.sort((p, q) => p[1] - q[1]);
+  g.fillStyle = '#2f5e34'; for (const [a, b, r] of lobes) { g.beginPath(); g.arc(a + r * .2, b + r * .3, r * 1.05, 0, TAU); g.fill(); }
+  g.fillStyle = '#4f8c42'; for (const [a, b, r] of lobes) { g.beginPath(); g.arc(a - r * .1, b - r * .1, r * .85, 0, TAU); g.fill(); }
+  g.fillStyle = '#86b85a'; for (const [a, b, r] of lobes) if (a < x + 40 * k && b < gy - 520 * k) { g.beginPath(); g.arc(a - r * .3, b - r * .35, r * .45, 0, TAU); g.fill(); }
 }
 
 // —— tracking plate (shot 2): terrace fronts at close scale, + far strip of sky/rooftops ——
-export const TRACK = { s: 2.6, gy: 900 };
+export const TRACK = { s: 1.5, gy: 820 };
 export function trackPlate() {
   const W = 3400, P = plate(W, 1080), { g, ex: e } = P, R = rng(23), s = TRACK.s, gy = TRACK.gy;
   skyGrad(g, 0, 0, W, 1080);
   let i = 0;
   for (let x = -200; x < W; x += 560 * s, i++) house(g, e, x, gy, s, R, { brick: (i + 1) % 4, door: (i * 5 + 1) % 6, doorLeft: i % 2 === 0 });
   street(g, 0, W, gy, s, 400);
-  return P;
+  return paint(P, .8);
 }
 // foreground layer for the tracking shot: lamp posts + railing post, transparent elsewhere
 export function trackFore() {
@@ -227,26 +241,26 @@ export function trackFore() {
 }
 
 // —— school façade (shot 3), low angle with keystone ——
+export const SCH = { W: 2400, H: 1500, gy: 1340, c: 1200 };
 export function schoolPlate() {
-  const W = 1920, H = 1400, flat = plate(W, H), { g, ex: e } = flat, R = rng(41), s = 1.0, gy = 1340;
+  const W = SCH.W, H = SCH.H, flat = plate(W, H), { g, ex: e } = flat, R = rng(41), s = 1.0, gy = SCH.gy;
   skyGrad(g, 0, 0, W, H);
-  cloud(g, 1500, 260, 700, 200, R); cloud(g, 330, 180, 520, 150, R);
-  // the school: wider red-brick building with stone dressings, built from three house bays
-  const bays = [[120, 560], [680, 560], [1240, 560]];
-  bays.forEach(([x], k) => house(g, e, x, gy, s, R, { brick: 1, door: 0, chimney: k !== 1, doorLeft: k === 2 ? false : true }));
-  // central entrance: overpaint the middle bay's ground floor with a grand door
-  const X = cm => 680 + cm * s, Y = cm => gy - cm * s;
+  cloud(g, 1800, 230, 760, 210, R); cloud(g, 560, 150, 560, 160, R); cloud(g, 1250, 90, 380, 110, R);
+  // neighbours (cream stucco terraces), then the school: three red-brick bays
+  house(g, e, -200, gy, s, R, { brick: 2, door: 3 }); house(g, e, 2040, gy, s, R, { brick: 0, door: 2, doorLeft: false });
+  [[360], [920], [1480]].forEach(([x], k) => house(g, e, x, gy, s, R, { brick: 1, door: 0, chimney: k !== 1, doorLeft: k === 2 ? false : true }));
+  const X = cm => 920 + cm * s, Y = cm => gy - cm * s;
   g.fillStyle = '#efe8d8'; g.fillRect(X(0), Y(330), 560 * s, 330 * s);
   g.fillStyle = '#c9c0b0'; for (let c = 30; c < 330; c += 30) g.fillRect(X(0), Y(c), 560 * s, 1.6);
   g.fillStyle = '#3a2a24'; g.fillRect(X(190), Y(300), 180, 300);
   g.fillStyle = '#1f4f9c'; g.fillRect(X(200), Y(290), 78, 270); g.fillRect(X(282), Y(290), 78, 270);
   g.fillStyle = '#163a74'; for (const px of [212, 294]) for (const py of [250, 150]) g.fillRect(X(px), Y(py), 54, 80);
   g.fillStyle = '#e8c45a'; g.beginPath(); g.arc(X(270), Y(150), 4, 0, TAU); g.arc(X(290), Y(150), 4, 0, TAU); g.fill();
-  g.fillStyle = '#f7f3ea'; g.fillRect(X(150), Y(330), 30, 330); g.fillRect(X(380), Y(330), 30, 330); g.fillRect(X(130), Y(372), 300, 50);
-  g.fillStyle = rgba('#4a4036', .3); g.fillRect(X(410), Y(330), 30, 300);
+  g.fillStyle = '#7fa8cc'; g.beginPath(); g.arc(X(280), Y(300), 80, Math.PI, 0); g.fill();
+  g.fillStyle = '#f7f3ea'; g.fillRect(X(150), Y(330), 30, 330); g.fillRect(X(380), Y(330), 30, 330); g.fillRect(X(130), Y(400), 300, 50);
+  g.fillStyle = rgba('#4a4036', .3); g.fillRect(X(410), Y(330), 30, 300); g.fillRect(X(130), Y(350), 300, 10);
   for (let k = 0; k < 4; k++) { g.fillStyle = k % 2 ? '#d8d2c6' : '#e4ded2'; g.fillRect(X(160 - k * 14), Y(80 - k * 20), 240 + k * 28, 20); }
-  // sign board over the entrance (painted, gold letters on bottle green)
-  const sx = 960, sy = Y(470);
+  const sx = X(280), sy = Y(500);
   g.fillStyle = '#123a2c'; g.fillRect(sx - 330, sy - 52, 660, 104);
   g.strokeStyle = '#d9b24a'; g.lineWidth = 5; g.strokeRect(sx - 318, sy - 40, 636, 80);
   g.fillStyle = rgba('#000', .25); g.fillRect(sx - 330, sy + 52, 660, 12);
@@ -256,17 +270,17 @@ export function schoolPlate() {
   g.fillStyle = tg; g.fillText('ENGLISH SCHOOL', sx, sy + 3);
   e.font = 'italic 900 64px Kanit'; e.textAlign = 'center'; e.textBaseline = 'middle'; e.fillStyle = rgba('#ffd870', .22); e.fillText('ENGLISH SCHOOL', sx, sy + 3);
   street(g, 0, W, gy, s, 200);
-  // keystone (low angle): narrower towards the top, drawn in 4px strips
-  const out = plate(W, H);
+  paint(flat, 1);
+  // keystone (low angle): verticals converge upward; drawn in 4 px strips
+  const out = plate(1920, H);
   for (const [src, dst] of [[flat.c, out.g], [flat.e, out.ex]]) {
-    for (let y = 0; y < H; y += 4) {
-      const k = .78 + .22 * (y / H), w = W * k / .96, x = (W - w) / 2;
-      dst.drawImage(src, 0, y, W, 4, x, y, w, 4);
-    }
+    for (let y = 0; y < H; y += 4) { const k = kRow(y); dst.drawImage(src, 0, y, W, 4, 960 - SCH.c * k, y, W * k, 4); }
   }
-  out.sign = { x: sx, y: sy };
+  out.sign = { x: 960 + (sx - SCH.c) * kRow(sy), y: sy, w: 660 * kRow(sy) };
   return out;
 }
+export const kRow = y => .8 + .2 * (y / SCH.H);
+export const schX = (fx, fy) => 960 + (fx - SCH.c) * kRow(fy);
 
 // —— door plate (two-shot bg): open blue door into a warm hall on the right, brick + big sash window on the left ——
 export function doorPlate() {
@@ -286,8 +300,8 @@ export function doorPlate() {
   g.fillStyle = '#f7f3ea'; g.fillRect(wx, wy + wh * .5 - 8, ww, 16); g.fillRect(wx + ww / 2 - 6, wy, 12, wh); g.fillRect(wx + ww / 4 - 4, wy, 8, wh); g.fillRect(wx + ww * .75 - 4, wy, 8, wh);
   g.fillStyle = rgba('#1a2030', .3); g.fillRect(wx, wy, ww, 26); g.fillRect(wx, wy, 20, wh);
   // pot plant on the sill
-  g.fillStyle = '#c46a3e'; g.fillRect(wx + ww * .7, wy + wh - 90, 110, 90);
-  g.fillStyle = '#3f7a3a'; for (let i = 0; i < 9; i++) { g.beginPath(); g.ellipse(wx + ww * .7 + 55 + (R() - .5) * 120, wy + wh - 110 - R() * 80, 34, 16, R() * 3, 0, TAU); g.fill(); }
+  g.fillStyle = '#c46a3e'; g.fillRect(wx + ww * .05, wy + wh - 90, 110, 90);
+  g.fillStyle = '#3f7a3a'; for (let i = 0; i < 9; i++) { g.beginPath(); g.ellipse(wx + ww * .05 + 55 + (R() - .5) * 120, wy + wh - 110 - R() * 80, 34, 16, R() * 3, 0, TAU); g.fill(); }
   g.fillStyle = '#f7f3ea'; g.fillRect(wx - 40, wy + wh, ww + 80, 34);
   // stucco pilaster + doorway on the right
   const dx = X(260), dw = X(130), dTop = Y(300);
@@ -315,7 +329,7 @@ export function doorPlate() {
   // ground: step + pavement
   g.fillStyle = '#e4ded2'; g.fillRect(dx - 160, Y(26), dw + 320, 26 * s); g.fillStyle = rgba('#5a5048', .35); g.fillRect(dx - 160, Y(2), dw + 320, 10);
   g.fillStyle = '#c4beb2'; g.fillRect(0, Y(0), W, H);
-  return P;
+  return paint(P, .8);
 }
 
 // pre-blurred copy (depth of field for close-ups)

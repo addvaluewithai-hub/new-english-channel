@@ -23,10 +23,10 @@ const INK_DONE = Math.max(...page.strokes.map(s => s.t0 + s.du)) + .02;
 
 // ---------------- looks ----------------
 const LOOK = {
-  youssef: { skin: hex('#a26a48'), top: hex('#2c3b62'), inner: hex('#f6f3ec'), bottom: hex('#5d7fae'), pants: 1, hair: hex('#1c1817'), shoe: hex('#7a4a2a'), sleeve: 'long', torso: [.078, .086, .108], hairVol: .97 },
-  mia: { skin: hex('#f2cdb2'), top: hex('#d9a32c'), inner: hex('#f7f3ea'), innerW: [.012, .016, .024, .032], skirt: hex('#2e8f8a'), legs: hex('#eec7ab'), hair: hex('#b5532b'), shoe: hex('#5b3a2a'), sleeve: 'long', torso: [.074, .064, .09], flare: .13 },
-  pA: { skin: hex('#e8c0a0'), top: hex('#7a9a7a'), bottom: hex('#4a4a55'), pants: 1, hair: hex('#5a4030'), sleeve: 'long', hairLong: 1 },
-  pB: { skin: hex('#c48a6a'), top: hex('#b05a48'), bottom: hex('#3b3f4a'), pants: 1, hair: hex('#2a2220'), sleeve: 'long' },
+  youssef: { skin: hex('#a26a48'), top: hex('#2c3b62'), inner: hex('#f6f3ec'), bottom: hex('#5d7fae'), pants: 1, hair: hex('#1c1817'), shoe: hex('#7a4a2a'), sleeve: 'long', torso: [.078, .086, .108], hairVol: .97, headR: .078 },
+  mia: { skin: hex('#f2cdb2'), top: hex('#d9a32c'), inner: hex('#f7f3ea'), innerW: [.012, .016, .024, .032], skirt: hex('#2e8f8a'), legs: hex('#eec7ab'), hair: hex('#b5532b'), shoe: hex('#5b3a2a'), sleeve: 'long', torso: [.074, .064, .09], flare: .13, headR: .077 },
+  pA: { skin: hex('#e8c0a0'), top: hex('#7a9a7a'), bottom: hex('#4a4a55'), pants: 1, hair: hex('#5a4030'), sleeve: 'long', hairLong: 1, headR: .07 },
+  pB: { skin: hex('#c48a6a'), top: hex('#b05a48'), bottom: hex('#3b3f4a'), pants: 1, hair: hex('#2a2220'), sleeve: 'long', headR: .07 },
 };
 const RED = hex('#c43a32'), BUSRED = hex('#c9473d');
 
@@ -46,7 +46,7 @@ function youssef(t) {
   // body heading: looks around (toward the tower) → turns to walk right → faces Mia
   let yaw = Math.PI + .35;
   yaw = lerp(yaw, 2.02, ss(seg(t, 2.25, 2.95)));
-  yaw = lerp(yaw, 2.3, ss(seg(t, 7.3, 8.0)));
+  yaw = lerp(yaw, 2.6, ss(seg(t, 7.3, 8.0)));
   // base pose: stand ↔ walk
   const sw = Math.sin(ph);
   let p = { hipY: .52 + .012 * Math.abs(Math.cos(ph)) * vk, lean: .03 + .06 * vk, legL: .4 * sw * vk, kneeL: (.08 + .5 * Math.max(0, Math.cos(ph))) * vk, legR: -.4 * sw * vk, kneeR: (.08 + .5 * Math.max(0, -Math.cos(ph))) * vk, twist: .06 * sw * vk,
@@ -59,7 +59,7 @@ function youssef(t) {
   // head: looks up at the clock tower, then around; up at the sign; at the door
   p.headYaw = .45 * (1 - ss(seg(t, 1.7, 2.3))) - .25 * ss(seg(t, 1.9, 2.3)) * (1 - ss(seg(t, 2.4, 2.8)));
   p.nod = -.32 * (1 - ss(seg(t, 1.6, 2.2))) - .38 * ss(seg(t, 5.85, 6.25)) * (1 - ss(seg(t, 6.75, 7.2)));
-  p.nod += -.2 * ss(seg(t, 7.45, 7.8));                       // looks up at Mia on the steps
+  p.nod += -.2 * ss(seg(t, 7.45, 7.8)); p.headYaw += -.18 * ss(seg(t, 7.3, 8.0));                       // looks up at Mia on the steps
   p.hipY += .02 * Math.sin(Math.PI * seg(t, 6.15, 6.45));     // little excited hop at the sign
   // settle after stopping (follow-through)
   p.lean += .06 * Math.sin(Math.PI * seg(t, 7.6, 8.1));
@@ -70,7 +70,7 @@ function youssef(t) {
   // "I..." hand to chest, head drops (hesitation); "I Youssef" two pats
   const chest = ss(seg(t, 11.2, 11.45)) * (1 - ss(seg(t, 13.5, 13.85)));
   const pat = .03 * Math.max(0, Math.sin((t - 12.5) * 15)) * (t > 12.5 && t < 13.35 ? 1 : 0);
-  hl = lerpV(hl, V(-.02, .69, .13 + pat), chest); if (chest > .01) elL = V(-1, -.5, 0);
+  hl = lerpV(hl, V(.03, .73, .16 + pat), chest); if (chest > .01) elL = V(-1, -.5, 0);
   const hes = ss(seg(t, 11.3, 11.6)) * (1 - ss(seg(t, 12.3, 12.55)));
   p.nod += .26 * hes; p.headSide = -.1 * hes;
   p.nod += -.06 * Math.sin(Math.PI * seg(t, 12.5, 13.4));
@@ -132,7 +132,7 @@ src.push({ x: 1260, y: 650, t: 1.0, v: 1500, R: 3300, sy: 1.6, mask: (px, py) =>
 src.push({ x: DOOR.cx, y: 2030, t: 7.42, v: 1500, R: 1800, sy: .9 });
 const GW = 640, GH = 360, CELL = W / GW;
 const arr = arrivalField(W, H, GW, GH, src, { amp: 220 });
-const JIT = new Float32Array(GW * GH); for (let i = 0; i < JIT.length; i++) JIT[i] = (hsh(i * .37) - .5) * .12;
+const JIT = new Float32Array(GW * GH); 
 let ARR_MAX = 0, ARR_MIN = 1e9; for (const v of arr) { if (v < 900) ARR_MAX = Math.max(ARR_MAX, v); ARR_MIN = Math.min(ARR_MIN, v); }
 const arrAt = (x, y) => sampleField(arr, W, H, GW, GH, x, y);
 const [maskC, mctx] = (() => { const c = document.createElement('canvas'); c.width = GW; c.height = GH; return [c, c.getContext('2d')]; })();
@@ -142,7 +142,7 @@ function buildMasks(t) {
   let anyFront = false; const m = mIm.data, f = fIm.data;
   for (let i = 0; i < GW * GH; i++) {
     const dt = t - (arr[i] + JIT[i]); const rev = dt <= 0 ? 0 : dt >= .16 ? 1 : ss(dt / .16);
-    const fr = rev * Math.exp(-Math.pow((dt - .09) / .1, 2)) + .25 * rev * Math.exp(-Math.max(0, dt) / .5);
+    const fr = rev * Math.exp(-Math.pow((dt - .09) / .09, 2));
     m[i * 4 + 3] = rev * 255; m[i * 4] = m[i * 4 + 1] = m[i * 4 + 2] = 255;
     const fv = clamp(fr) * 255; f[i * 4 + 3] = fv; f[i * 4] = f[i * 4 + 1] = f[i * 4 + 2] = 255; if (fv > 10) anyFront = true;
   }
@@ -153,11 +153,11 @@ function buildMasks(t) {
 const followT = t => { const y = youssef(t); return [y.place.x + 190, 2075]; };
 const SPR = []; { const t0 = 2.0; let p = followT(t0), v = [0, 0]; const dt = 1 / 240, k = 14, d = 2 * Math.sqrt(k); for (let t = t0; t <= 9; t += dt) { const g = followT(t); for (let j = 0; j < 2; j++) { const a = k * (g[j] - p[j]) - d * v[j]; v[j] += a * dt; p[j] += v[j] * dt; } SPR.push([p[0], p[1]]); } }
 const spring = t => SPR[clamp(Math.round((t - 2.0) * 240), 0, SPR.length - 1)];
-const TWO = [3660, 2108, 1.72], TWO2 = [3612, 2112, 1.92], CLOSE = [3555, 2088, 3.05], CLOSE2 = [3548, 2090, 3.25];
+const TWO = [3660, 2078, 1.5], TWO2 = [3628, 2084, 1.62], CLOSE = [3518, 2090, 3.45], CLOSE2 = [3516, 2088, 3.65];
 const T_PUNCH = 15.1;
 function camera(t) {
   let c;
-  const A = [2560, 1470, .42], B = [2120, 1760, .6];
+  const A = [2560, 1690, .36], B = [2150, 1880, .55];
   const a = A.map((v, i) => lerp(v, B[i], eio(seg(t, 0, 3.0))));
   if (t < 2.6) c = a;
   else {
@@ -227,11 +227,12 @@ function face(head, ex, o = {}) {
   const vis = phi => Math.cos(a + phi);
   const lw = Math.max(.9, r * .07), prims = [];
   const st = (pts, w = lw, op = {}) => prims.push({ k: 'ink', st: penStroke(pts, { w, wob: w * .25, over: 0, seed: 900 + bo * 13 + prims.length, smooth: pts.length > 2, ...op }), alpha: op.alpha ?? 1 });
-  if (o.beard) {
-    const out = [], inn = [];
-    for (let i = 0; i <= 12; i++) { const phi = -1.25 + i / 12 * 2.5; if (vis(phi) < -.05) continue; out.push(P(phi, .3 + .66 * Math.pow(Math.cos(phi * .9), 1.4))); inn.unshift(P(phi * .85, Math.abs(phi) > .5 ? .34 + .1 * (1.2 - Math.abs(phi)) : .44)); }
-    if (out.length > 2) { const poly = [...out, ...inn]; prims.push({ k: 'wash', poly, col: mix3(o.beard, [120, 90, 70], .15), a: .62, seed: 40 + bo, j: r * .05, layers: 2, edge: .3 });
-      for (let k = 0; k < 9; k++) { const phi = -1 + k * .25; if (vis(phi) < .2) continue; const p = P(phi, .55 + .3 * Math.cos(phi) + .05 * hsh(k + bo)); st([p, [p[0] + r * .03, p[1] + r * .09]], lw * .6, { alpha: .6 }); } }
+  if (o.beard) {   // short trimmed beard along the jaw + moustache
+    const out = [], inn = [], bc = mix3(o.beard, [150, 110, 85], .2);
+    for (let i = 0; i <= 14; i++) { const phi = -1.2 + i / 14 * 2.4; if (vis(phi) < -.02) continue; const vo = .28 + .68 * Math.pow(Math.cos(phi * .85), 1.2); out.push(P(phi, vo)); inn.unshift(P(phi * .97, Math.max(vo - .14, lerp(.68, vo - .14, clamp(Math.abs(phi) / .8))))); }
+    if (out.length > 2) prims.push({ k: 'wash', poly: [...out, ...inn], col: bc, a: .55, seed: 40 + bo, j: r * .03, layers: 2, edge: .35 });
+    if (vis(0) > .1) { const mu = [P(-.3, .5), P(0, .46), P(.32, .5), P(.3, .535), P(0, .51), P(-.28, .54)].filter((_, i) => true); prims.push({ k: 'wash', poly: mu, col: bc, a: .6, seed: 41 + bo, j: r * .01, layers: 1, edge: .3 }); }
+    for (let k = 0; k < 7; k++) { const phi = -.9 + k * .3; if (vis(phi) < .2) continue; const p = P(phi, .3 + .68 * Math.pow(Math.cos(phi * .85), 1.2) - .05); st([p, [p[0] + r * .02, p[1] - r * .07]], lw * .55, { alpha: .55 }); }
   }
   if (o.blush > 0) for (const s of [-1, 1]) { const phi = s * .62; if (vis(phi) < .1) continue; const p = P(phi, .33); prims.push({ k: 'wash', poly: rough(ellipse(p[0], p[1], r * .22 * Math.max(.3, vis(phi)), r * .13, 14), r * .03, 30 + s), col: hex('#df5868'), a: .55 * o.blush, seed: 31 + s, j: r * .03, edge: .2 });
     if (o.blush > .6) for (let k = 0; k < 3; k++) { const q = [p[0] - r * .12 + k * r * .09, p[1] - r * .02]; st([q, [q[0] - r * .05, q[1] + r * .1]], lw * .6, { alpha: .8 }); } }
@@ -345,10 +346,10 @@ function busWind(t) {
 // ---------------- speech bubbles ----------------
 const L = TL.lines;
 const BUB = [
-  { id: 'mia1', text: L[0].text, cx: 4105, cy: 1832, w: 330, h: 104, tail: [3962, 1918], t0: L[0].t0 - .05, t1: 10.7, col: hex('#e7c36a'), write: [[8.12, 9.25, 1]] },
-  { id: 'you1', text: L[1].text, cx: 3385, cy: 1915, w: 480, h: 104, tail: [3452, 2028], t0: L[1].t0 - .05, t1: 15.25, col: hex('#9fb0d3'),
+  { id: 'mia1', text: L[0].text, cx: 4100, cy: 1852, w: 310, h: 98, tail: [3958, 1938], t0: L[0].t0 - .05, t1: 10.7, col: hex('#e7c36a'), write: [[8.18, 8.55, 4 / 12], [8.72, 9.2, 1]] },
+  { id: 'you1', text: L[1].text, cx: 3290, cy: 1880, w: 480, h: 100, tail: [3418, 1992], t0: L[1].t0 - .05, t1: 15.25, col: hex('#9fb0d3'),
     write: [[10.08, 10.5, 6 / 21], [11.38, 11.72, 10 / 21], [12.48, 13.3, 1]] },
-  { id: 'mia2', text: L[2].text, cx: 3735, cy: 1990, w: 210, h: 92, tail: [3860, 1972], t0: L[2].t0, t1: 99, col: hex('#e7c36a'), write: [[14.95, 15.3, 1]] },
+  { id: 'mia2', text: L[2].text, cx: 3672, cy: 2008, w: 150, h: 68, fs: 30, tail: [3800, 1984], t0: L[2].t0 + .3, t1: 99, col: hex('#e7c36a'), write: [[14.98, 15.3, 1]] },
 ];
 const BFONT = 44;
 function bubbleShape(b) {
@@ -372,7 +373,10 @@ function drawBubbles(t) {
     drawPrims(ctx, [{ k: 'knock', poly: sh.poly, a: .93 * app }, { k: 'wash', poly: sh.poly, col: b.col, a: .26 * app, seed: 3 + i, j: 3, layers: 2, edge: .35, dx: 3, dy: 2 }], {});
     drawPen(ctx, penStroke(sh.outline, { w: 2.6, wob: .8, seed: 40 + i + boilOf(t) * 0, over: 6, smooth: true }), app, INK, .95);
     const f = writtenFrac(b, t);
-    if (f > 0) { ctx.font = `700 ${BFONT}px Caveat`; const tw = ctx.measureText(b.text).width; handwrite(ctx, b.text, b.cx - tw / 2, b.cy + BFONT * .33, BFONT, f * (tw + BFONT * 1.0) / (tw + BFONT) , { font: 'Caveat', weight: 700, col: INK, alpha: .97 }); }
+    if (f > 0) { const fs = b.fs ?? BFONT; ctx.font = `700 ${fs}px Caveat`; const tw = ctx.measureText(b.text).width, x0 = b.cx - tw / 2;
+      const n = f * b.text.length, k = Math.floor(n), wPre = ctx.measureText(b.text.slice(0, k)).width, wNext = k < b.text.length ? ctx.measureText(b.text.slice(0, k + 1)).width : wPre;
+      const wr = f >= 1 ? tw + fs : wPre + (wNext - wPre) * ss((n - k) * 1.6 - .3);
+      ctx.save(); ctx.beginPath(); ctx.rect(x0 - fs * .3, b.cy - fs * 1.3, wr + fs * .3, fs * 2.4); ctx.clip(); ctx.fillStyle = rgba(INK, .97); ctx.fillText(b.text, x0, b.cy + fs * .33); ctx.restore(); }
     ctx.restore();
   });
 }
@@ -454,7 +458,7 @@ window.render = t => {
         tctx.setTransform(1, 0, 0, 1, 0, 0); tctx.globalCompositeOperation = 'source-over'; tctx.clearRect(0, 0, 1920, 1080);
         drawColour(tctx, M, cam, dm);
         tctx.globalCompositeOperation = 'destination-in'; tctx.imageSmoothingEnabled = true; drawLayer(tctx, M, cam, MASKL, pass ? frontC : maskC);
-        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = pass ? .6 : 1; ctx.drawImage(tmpC, 0, 0); ctx.globalAlpha = 1;
+        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = pass ? .35 : 1; ctx.drawImage(tmpC, 0, 0); ctx.globalAlpha = 1;
       }
     }
   }

@@ -53,3 +53,13 @@ The voice track is final and fixed; no music/foley added for this style test (a 
 - Arabic narration: handwritten in Ruq'ah (Aref Ruqaa, the everyday Egyptian handwriting), dark sepia ink, written on right-to-left in the lower page margin, ≥ 1.8 s per line.
 - English lines: hand-lettered speech bubbles (Caveat 700) in ink with a loose pen outline and a pale wash tint of the speaker's colour (Mia mustard, Youssef navy-blue), written on left-to-right.
 - Corner note: Reenie Beanie.
+
+## Build notes (after the demo study)
+
+- Engine: copied from the style demo (`engine.js`: pen strokes, washes, foliage, figure rig) with three additions: separate skirt colour, an open-jacket/cardigan shirt strip, a bigger-head option (`headR`) for readable acting, and a fast one-path pen for bulk strokes.
+- No WebGL: the page is baked once into Canvas 2D layers (paper, watercolour, ink) at 1× for the whole 5120×2880 page and at 2.5× for the school area (two-shot and close-up stay sharp). Colour arrival is a 640×360 field turned into an alpha mask every frame, plus a soft wet-front pass. The opening sketch is played back stroke by stroke from the stroke list, then the baked ink takes over.
+- Native moves used: *line before colour* (the page sketches itself in about 1.4 s), *colour as arrival* (the red bus paints the street as it passes; the school stays line-only until Mia opens the door), *the one coloured thing* (the red suitcase is the first colour on the page).
+- Faces: the style leaves faces blank. For dialogue and lip-flaps I added a few pen marks (dot eyes, brows, a mouth that opens on `talk` spans, the beard as a wash). The embarrassment is a pink wash blooming on his cheeks, ink sweat drops and heat squiggles.
+- Arabic caption: Ruq'ah handwriting written right to left on a torn paper strip in the lower margin. It is anchored to the screen, not the page, so a line never pans out of frame mid-sentence. This is a deliberate exception to "text moves with the camera".
+- English lines are written into the bubbles in sync with the spoken words (Youssef's "Hello! / I... / I Youssef." appears word group by word group).
+- Sound is out of scope here (fixed voice track). A full episode would add pen hiss, street ambience and a jazz-waltz bed.

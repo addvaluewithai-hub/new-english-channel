@@ -28,7 +28,8 @@ const ramp = (t, keys) => { if (t <= keys[0][0]) return keys[0][1]; for (let i =
 const FLAP = { mia: ['wide', 'talk', 'oh', 'talk'], youssef: ['talk', 'wide', 'oh', 'talk'] };
 function mouthAt(who, t, rest) {
   const tq = q8(t);
-  for (const [a, b, w] of TL.talk) if (w === who && tq >= a - .02 && tq < b) return FLAP[who][Math.floor((tq - a) * 8 + .01) % 4];
+  const F = who === 'mia' && t > 14 ? ['talk', 'oh', 'talk', 'oh'] : FLAP[who];
+  for (const [a, b, w] of TL.talk) if (w === who && tq >= a - .02 && tq < b) return F[Math.floor((tq - a) * 8 + .01) % 4];
   return rest;
 }
 const blinkAt = (t, list) => list.some(b => t >= b && t < b + .125);
@@ -125,27 +126,29 @@ S.track = (t, lt) => {
 
 // 3 — the school, low angle, slow push; light sweep across the sign; the door opens and Mia steps out
 S.school = (t, lt) => {
-  const k = 1 + .05 * eio(seg(lt, 0, 1.4)), y = -300 + 30 * lt;
-  g.save(); e.save();
-  for (const c of [g, e]) { c.translate(960, 540); c.scale(k, k); c.translate(-960, -540); }
+  const k = 1 + .05 * eio(seg(lt, 0, 1.4)), y = -420 + 24 * lt;
+  for (const c of [g, e, L]) { c.save(); c.translate(960, 540); c.scale(k, k); c.translate(-960, -540); }
   plateDraw(A.school, 0, y);
   // sign light sweep (emissive band across the letters) + star glint
-  const sw = seg(lt, .15, 1.0), sgx = A.school.sign.x - 380 + sw * 760, sgy = A.school.sign.y + y;
-  if (sw > 0 && sw < 1) { e.save(); e.beginPath(); e.rect(A.school.sign.x * .96 + 20 - 330, sgy - 52, 660 * .97, 104); e.clip(); e.fillStyle = rgba('#fff4c0', .9); e.beginPath(); e.moveTo(sgx - 30, sgy - 60); e.lineTo(sgx + 10, sgy - 60); e.lineTo(sgx - 20, sgy + 60); e.lineTo(sgx - 60, sgy + 60); e.fill(); e.restore(); }
-  if (lt > .95 && lt < 1.3) star(e, A.school.sign.x + 300, sgy - 30, 70 * Math.sin(seg(lt, .95, 1.3) * Math.PI));
-  // the doorway: opens at 7.2 (beat mia_appears 7.4)
-  const open = seg(t, 7.18, 7.34);
-  const dX = 680 + 200, dY = 1340 - 290 + y, dw = 160 * 1.0, dh = 270;
-  const kx = .78 + .22 * ((1340 - 290) / 1400); const cx = 960 + (dX - 960) * kx / .96, cw = dw * kx / .96;
+  const SG = A.school.sign, sw = seg(lt, .15, 1.0), sgx = SG.x - SG.w * .58 + sw * SG.w * 1.16, sgy = SG.y + y;
+  if (sw > 0 && sw < 1) { e.save(); e.beginPath(); e.rect(SG.x - SG.w / 2, sgy - 50, SG.w, 100); e.clip(); e.fillStyle = rgba('#fff4c0', .9); e.beginPath(); e.moveTo(sgx - 30, sgy - 60); e.lineTo(sgx + 10, sgy - 60); e.lineTo(sgx - 20, sgy + 60); e.lineTo(sgx - 60, sgy + 60); e.fill(); e.restore(); }
+  if (lt > .95 && lt < 1.3) star(e, SG.x + SG.w * .44, sgy - 30, 70 * Math.sin(seg(lt, .95, 1.3) * Math.PI));
+  // the doorway: both leaves swing open at 7.2; Mia steps out at mia_appears (7.4)
+  const open = eo(seg(q12(t), 7.17, 7.34));
+  const fy0 = PL.SCH.gy - 290, fy1 = PL.SCH.gy - 20, x0 = PL.schX(920 + 200, fy0), x1 = PL.schX(920 + 360, fy0), dY = fy0 + y, dh = fy1 - fy0;
   if (open > 0) {
-    g.fillStyle = '#e2bf8c'; g.fillRect(cx, dY, cw * open, dh);
-    g.fillStyle = '#c99a68'; g.fillRect(cx, dY + dh * .62, cw * open, dh * .38);
+    const cw = x1 - x0, mid = (x0 + x1) / 2;
+    g.fillStyle = '#e8c896'; g.fillRect(x0, dY, cw, dh); g.fillStyle = '#c99a68'; g.fillRect(x0, dY + dh * .62, cw, dh * .38);
+    g.fillStyle = rgba('#fff4d8', .9); g.fillRect(mid - 18, dY + 30, 36, 60); e.fillStyle = rgba('#ffe8b0', .4); e.fillRect(mid - 18, dY + 30, 36, 60);
+    const lw = cw / 2 * (1 - open * .82);
+    g.fillStyle = '#1f4f9c'; g.fillRect(x0, dY, lw, dh); g.fillRect(x1 - lw, dY, lw, dh);
+    g.fillStyle = '#163a74'; g.fillRect(x0 + lw - 6, dY, 6, dh); g.fillRect(x1 - lw, dY, 6, dh);
     if (t >= 7.34) {
-      const st = seg(t, 7.34, 7.6), mk = .118 + .012 * st;
-      fig(L, cx + cw * .52, dY + dh + 8 * st, mk, { who: 'm', P: PM, mirror: true, legs: { n: [.1 * (1 - st), .1], f: [-.08, .08] }, arms: { n: [-.1, .2, 'rest'], f: [.2, .3, 'rest'] }, headO: { expr: 'smile' } });
+      const st = q12(seg(t, 7.34, 7.6) * 1), mk = .118 + .014 * st;
+      fig(L, mid, dY + dh + 10 * st, mk, { who: 'm', P: PM, mirror: true, legs: { n: [.12 * (1 - st), .14 * (1 - st)], f: [-.08, .08] }, arms: { n: [-.1, .2, 'rest'], f: [.2 + .9 * st, .3 + .6 * st, 'open'] }, headO: { expr: 'smile' } });
     }
   }
-  g.restore(); e.restore();
+  for (const c of [g, e, L]) c.restore();
 };
 function star(ctx, x, y, r) {
   if (r <= 1) return;
@@ -196,7 +199,7 @@ S.two = (t, lt) => {
 
 // 5 — Mia, medium close-up: "Sorry?"
 S.mia = (t, lt) => {
-  plateDraw(A.doorBlur, -1500, -560, 1.5);
+  plateDraw(A.doorBlur, -1320, -560, 1.5);
   const tq = q12(t), tilt = -.12 - .08 * eo(seg(tq, 14.45, 14.8));
   const D = { who: 'm', P: PM, mirror: true, legs: { n: [0, 0], f: [0, 0] }, arms: { n: [-.05, .2, 'rest'], f: [.1, .3, 'rest'] }, tilt,
     headO: { expr: 'puzzled', mouth: mouthAt('mia', t, 'oh'), open: blinkAt(t, [14.62]) ? 0 : undefined, look: [.2, .05], ph: tq * .5 } };

@@ -432,7 +432,7 @@ export function figure(look, pose, place, o = {}) {
     const hd = nrm3(sub3(ha, el)), hc = add3(ha, sc3(hd, .022));
     parts.push({ z: pr(hc)[2] - .003, hand: true, c: pr(hc), c2: pr(add3(ha, sc3(hd, .045))), r: .021 * S, col: look.skin });
     const shortsEnd = add3(sc3(hp, .35), sc3(kn, .65)), shin = seg(kn, an, 4);
-    if (look.dress || look.skirt) addTube([...seg(hp, kn, 3), ...shin.slice(1)], [.05, .042, .032, .036, .027, .02], look.legs ?? look.skin, 0);
+    if (look.dress || look.skirt) addTube([add3(sc3(hp, .22), sc3(kn, .78)), ...shin], [.038, .034, .036, .027, .02], look.legs ?? look.skin, 0);
     else if (look.pants) addTube([hp, kn, an], [.058, .044, .036], look.bottom, 0);
     else { addTube([shortsEnd, ...shin], [.04, .035, .039, .03, .022], look.skin, 0); addTube([hp, shortsEnd], [.058, .05], look.bottom, 1); }
     addTube([an, j['to' + s]], [.026, .02], look.shoe ?? [80, 70, 64], -.5);
@@ -446,9 +446,9 @@ export function figure(look, pose, place, o = {}) {
     parts.push({ z: Math.min(pr(w)[2], pr(hem)[2]) - .006, poly: hull, col: look.skirt ?? look.top });
   }
   // head + hair (one unit: fill the whole head in hair colour first, then erase the face according to heading)
-  const hc = pr(add3(j.neck, sc3(nrm3(sub3(j.head, j.neck)), .1)));
+  const HR = look.headR ?? .063, hc = pr(add3(j.neck, sc3(nrm3(sub3(j.head, j.neck)), .1 + (HR - .063) * 1.1)));
   const fwd = ry(V(Math.sin(j.headYaw), 0, Math.cos(j.headYaw)), yaw);
-  parts.push({ z: hc[2] - .004 - (fwd[2] > 0 ? .01 : 0), head: true, c: hc, r: .063 * S, fwd });
+  parts.push({ z: hc[2] - .004 - (fwd[2] > 0 ? .01 : 0), head: true, c: hc, r: HR * S, fwd });
   if (look.hairLong) {   // long hair: spreads from the crown to the shoulders, then gathers into the ends; wind blows right to left (hairBlow)
     const hb = pose.hairBlow ?? 0, hz = -.05, hd = j.head, nk = j.neck;
     const q = (x, y, z) => pr(add3(V(0, 0, 0), V(x, y, z)));
@@ -536,7 +536,7 @@ export function figure(look, pose, place, o = {}) {
       if (p.opt.straps) for (const s of ['L', 'R']) { const top = pr(midBack), sh2 = P('sh' + s); prims.push({ k: 'ink', st: penStroke([[lerp(top[0], sh2[0], .55), top[1] + p.rad[2] * .1], [lerp(top[0], sh2[0], .8), sh2[1] + lw]], { w: lw * .8, wob: .3, seed: sd + 50 + (s === 'L' ? 0 : 1), over: 0 }) }); }
     }
   }
-  prims.head = { c: hc, r: .063 * S, fwd, yaw };
+  prims.head = { c: hc, r: HR * S, fwd, yaw };
   prims.hand = { L: P('haL'), R: P('haR') };
   return prims;
 }

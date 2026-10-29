@@ -112,20 +112,21 @@ export function buildLayers(o = {}) {
   }
   for (let x = 4700; x < 5000; x += 160) { const top = 980 + R() * 120; hazeW(rect(x, top, x + 150, 1250), C.stone, .24); pen([[x, top + 30], [x, top], [x + 150, top]], { w: 1.2, smooth: false, alpha: .7 }, .2); }
   { // clock tower (generic Victorian), haze-mixed
-    const tx = 1260, col = C.lime, sw = 1.5;
-    hazeW(rect(tx - 72, 640, tx + 72, 1180), col, .42); hazeW(rect(tx + 25, 640, tx + 72, 1180), shade(col), .2);
-    hazeW(rect(tx - 86, 520, tx + 86, 640), col, .45);
-    hazeW(rect(tx - 70, 430, tx + 70, 520), col, .42);
-    hazeW([[tx - 70, 430], [tx, 230], [tx + 70, 430]], C.slate, .5);
-    reserve(cx, ellipse(tx, 580, 46, 46, 24), .7, 0);
-    wash(cx, ellipse(tx, 580, 46, 46, 24), hex('#efe6c8'), { a: .3, j: 1, edge: .3, seed: 9 });
-    for (const [a, b, c2, d] of [[tx - 72, 1180, tx - 72, 640], [tx + 72, 1180, tx + 72, 640], [tx - 86, 640, tx + 86, 640], [tx - 86, 520, tx + 86, 520], [tx - 86, 640, tx - 86, 520], [tx + 86, 640, tx + 86, 520], [tx - 70, 520, tx - 70, 430], [tx + 70, 520, tx + 70, 430], [tx - 78, 430, tx + 78, 430]]) line(a, b, c2, d, { w: sw, gap: .5 }, .15);
-    pen([[tx - 70, 430], [tx, 228], [tx + 70, 430]], { w: sw, smooth: false }, .15);
-    pen(ellipse(tx, 580, 46, 46, 22).concat([[tx + 46, 580]]), { w: sw, smooth: true }, .15);
-    line(tx, 580, tx + 4, 552, { w: sw }, .2); line(tx, 580, tx + 24, 588, { w: sw }, .2);
-    for (const dx of [-40, 0, 40]) pen([[dx + tx - 14, 512], [dx + tx - 14, 470], [dx + tx, 452], [dx + tx + 14, 470], [dx + tx + 14, 512]], { w: 1.2, smooth: false }, .15);
-    for (const dx of [-86, 86]) pen([[tx + dx - 8, 520], [tx + dx, 470], [tx + dx + 8, 520]], { w: 1.2, smooth: false }, .15);
-    for (let y = 700; y < 1160; y += 70) line(tx - 50, y, tx - 50, y + 40, { w: 1, alpha: .7 }, .2), line(tx + 50, y, tx + 50, y + 40, { w: 1, alpha: .7 }, .2);
+    const tx = 1260, col = C.lime, sw = 1.5, CS = 650, BF = 560, SP = 330;   // clock stage top, belfry top, spire tip
+    hazeW(rect(tx - 66, 770, tx + 66, 1180), col, .42); hazeW(rect(tx + 22, 770, tx + 66, 1180), shade(col), .2);
+    hazeW(rect(tx - 80, CS, tx + 80, 770), col, .45);
+    hazeW(rect(tx - 64, BF, tx + 64, CS), col, .42);
+    hazeW([[tx - 64, BF], [tx, SP], [tx + 64, BF]], C.slate, .5);
+    reserve(cx, ellipse(tx, 710, 44, 44, 24), .7, 0);
+    wash(cx, ellipse(tx, 710, 44, 44, 24), hex('#efe6c8'), { a: .3, j: 1, edge: .3, seed: 9 });
+    for (const [a, b, c2, d] of [[tx - 66, 1180, tx - 66, 770], [tx + 66, 1180, tx + 66, 770], [tx - 80, 770, tx + 80, 770], [tx - 80, CS, tx + 80, CS], [tx - 80, 770, tx - 80, CS], [tx + 80, 770, tx + 80, CS], [tx - 64, CS, tx - 64, BF], [tx + 64, CS, tx + 64, BF], [tx - 72, BF, tx + 72, BF]]) line(a, b, c2, d, { w: sw, gap: .5 }, .15);
+    pen([[tx - 64, BF], [tx, SP - 2], [tx + 64, BF]], { w: sw, smooth: false }, .15);
+    line(tx, SP, tx, SP - 40, { w: 1.2 }, .15);
+    pen(ellipse(tx, 710, 44, 44, 22).concat([[tx + 44, 710]]), { w: sw, smooth: true }, .15);
+    line(tx, 710, tx + 4, 683, { w: sw }, .2); line(tx, 710, tx + 23, 718, { w: sw }, .2);
+    for (const dx of [-34, 0, 34]) pen([[dx + tx - 12, CS - 8], [dx + tx - 12, BF + 34], [dx + tx, BF + 18], [dx + tx + 12, BF + 34], [dx + tx + 12, CS - 8]], { w: 1.2, smooth: false }, .15);
+    for (const dx of [-80, 80]) pen([[tx + dx - 8, CS], [tx + dx, CS - 46], [tx + dx + 8, CS]], { w: 1.2, smooth: false }, .15);
+    for (let y = 820; y < 1160; y += 70) line(tx - 46, y, tx - 46, y + 40, { w: 1, alpha: .7 }, .2), line(tx + 46, y, tx + 46, y + 40, { w: 1, alpha: .7 }, .2);
   }
 
   // ================= TERRACED HOUSES =================
@@ -135,6 +136,7 @@ export function buildLayers(o = {}) {
     const x0 = 150 + i * 500, x1 = x0 + 500, col = facades[i], EAVE = 1240 + (i % 2) * 12;
     // colour
     wash(cx, rect(x0, EAVE, x1, GROUND), col, { a: col === C.stucco ? .3 : .5, j: 4, layers: 2, edge: .3, dx: 3, dy: 2, seed: 50 + i });
+    for (let k = 0; k < 10; k++) { const x = x0 + 30 + R() * 440, y = EAVE + 60 + R() * 900, rx = 50 + R() * 120; wash(cx, ellipse(x, y, rx, rx * (.5 + R() * .4), 16, R()), R() < .5 ? mix3(col, [150, 80, 60], .3) : mix3(col, VIOLET, .3), { a: .06 + R() * .07, j: rx * .2, layers: 2, edge: .2, seed: 120 + i * 20 + k, freq: .01 }); }
     wash(cx, [[x0 - 12, EAVE], [x0 + 44, 1112], [x1 - 44, 1112], [x1 + 12, EAVE]], C.slate, { a: .5, j: 3, edge: .35, seed: 60 + i });
     wash(cx, rect(x1 - 46, 1020, x1 + 46, 1150), C.brickR, { a: .5, j: 2, edge: .3, seed: 70 + i });
     wash(cx, rect(x1 + 6, 1020, x1 + 46, 1150), shade(C.brickR), { a: .3, j: 2, edge: 0, seed: 71 + i });
@@ -185,6 +187,9 @@ export function buildLayers(o = {}) {
     wash(cx, [[S.x0 - 20, S.top], [S.x0 + 40, S.top - 110], [gx0, S.top - 110], [gx0, S.top]], C.slate, { a: .5, j: 3, edge: .3, seed: 303 });
     wash(cx, [[gx1 + 30, S.top], [gx1 + 30, S.top - 110], [S.x1 - 40, S.top - 110], [S.x1 + 20, S.top]], C.slate, { a: .5, j: 3, edge: .3, seed: 304 });
     wash(cx, rect(S.x0, 2140, S.x1, GROUND), C.plinth, { a: .4, j: 3, edge: .3, seed: 305 });
+    // watercolour variation on the wall: blotches, a warm glaze low, a cooler one high
+    for (let k = 0; k < 46; k++) { const x = S.x0 + 40 + R() * (S.x1 - S.x0 - 80), y = 880 + R() * 1250, rx = 60 + R() * 170; wash(cx, ellipse(x, y, rx, rx * (.45 + R() * .4), 18, R()), R() < .5 ? mix3(col, C.brickR, .35) : mix3(col, VIOLET, .25), { a: .07 + R() * .08, j: rx * .2, layers: 2, edge: .2, seed: 360 + k, freq: .01 }); }
+    for (let k = 0; k < 16; k++) { const x = S.x0 + 30 + R() * (S.x1 - S.x0 - 60), y = 900 + R() * 1200, ww = 50 + R() * 70; if (Math.abs(x - DOOR.cx) < 180 && y > 1700) continue; for (let r = 0; r < 3 + (R() * 3 | 0); r++) { const yy = y + r * 34, o = (r % 2) * 30; line(x + o, yy, x + o + ww, yy + (R() - .5) * 3, { w: 1.1, alpha: .5, over: 2, gap: 0 }); if (R() < .6) line(x + o + ww * .5, yy, x + o + ww * .5 + 1, yy + 34, { w: 1, alpha: .45, over: 1, gap: 0 }); } }
     for (let y = 1290; y < 2140; y += 280) wash(cx, rect(S.x0, y, S.x1, y + 26), hex('#c98f6e'), { a: .4, j: 2, edge: .25, seed: 306 + y });
     // ink: outline, cornice, gable, roof
     line(S.x0, GROUND, S.x0, S.top, { w: 2.4 }); line(S.x1, GROUND, S.x1 + 2, S.top, { w: 2.4 });
