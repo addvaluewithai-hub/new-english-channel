@@ -8,7 +8,7 @@ const TL = {
 };
 
 // ---------- camera: one continuous move over one painted sheet ----------
-const camX = monotone([[0, 1950], [1.6, 2010], [4, 2400], [6.6, 2880], [7.4, 3000], [8.4, 3090], [14.75, 3094], [15.95, 2958], [17, 2952]]);
+const camX = monotone([[0, 1950], [1.6, 2010], [4, 2400], [6.6, 2880], [7.4, 3000], [8.4, 3090], [14.75, 3094], [15.95, 2930], [17, 2924]]);
 const camY = monotone([[0, 482], [4, 500], [7, 512], [8.4, 505], [14.75, 505], [15.95, 517], [17, 514]]);
 const camZ = monotone([[0, .7], [2.5, .77], [5.5, .9], [7.0, 1.0], [8.4, 1.45], [14.75, 1.5], [15.95, 3.1], [17, 3.22]]);
 const cam = t => ({ cx: camX(t), cy: camY(t), z: camZ(t) });
@@ -71,7 +71,7 @@ function youssefPose(t) {
   const breath = Math.sin(t * 2.1) * 1.2 * (1 - wk);
   return {
     legN, legF, lean: .05 * wk + .03 * ss(seg(t, 9.9, 10.2)) * (1 - ss(seg(t, 10.8, 11.2))) - .025 * ss(seg(t, 14.7, 15.2)), bob: breath, shUp,
-    armN: { target: tgt, bend: -1, open: open || flat, spread: flat ? -.2 : 0 }, armF: { target: hand, bend: 1 }, case: cs,
+    armN: { target: tgt, bend: -1, open: open || flat, spread: flat ? -.2 : 0 }, armF: { target: hand, bend: -1 }, case: cs,
     tilt: Y_TI(t) + wk * .025 * Math.sin(ph * 2),
     face: { smile: Y_SM(t), brow: Y_BR(t), worry: Y_WO(t), lx: Y_LX(t), ly: Y_LY(t), blink: blinkAt(t, [2.2, 4.6, 8.7, 12.0, 14.25, 16.55]), open: mouthOpen(t, 'youssef'), grim: t > 14.85 ? 1 : 0, blush: ss(seg(t, 14.7, 15.6)), sweat: ss(seg(t, 15.3, 15.7)), sweatSlide: ss(seg(t, 15.6, 17.2)) },
   };
@@ -144,7 +144,7 @@ function drawNotes(t, c) {
     ctx.font = NOTE_FONT;
     const full = 'Hello! I... I Youssef.', wf = s => ctx.measureText(s).width / ctx.measureText(full).width;
     const rev = monotone([[9.95, 0], [10.55, wf('Hello!')], [11.35, wf('Hello!')], [11.8, wf('Hello! I...')], [12.45, wf('Hello! I...')], [12.85, wf('Hello! I... I')], [12.9, wf('Hello! I... I')], [13.45, 1]]);
-    const fw = ctx.measureText(full).width, x = lerp(ym[0] + 70 - fw, 830, kz), y = lerp(250, 190, kz);
+    const fw = ctx.measureText(full).width, x = lerp(ym[0] + 70 - fw, 1010, kz), y = lerp(250, 190, kz);
     const a = ss(seg(t, 9.85, 10.05));
     const w = note('you1', full, x, y, rev(t), a, ym[0] + 24, ym[1] + 2, seg(t, 9.9, 10.3), { lx: lerp(x + fw - 30, x + 30, kz), ly: y + 30, bend: lerp(-12, 25, kz), seed: 12 });
     // the diary's red pen: the missing word
@@ -250,7 +250,7 @@ function render(t) {
   // Mia paints herself into the doorway
   if (t > 7.25) { setCam(c); const G = figure({ kind: 'm' }, miaPose(t), 5000); LAST.mm = figPt(MIA_X, MIA_Y, -1, MIA_S, ...G.mouth); drawCharacter(ctx, MIA_X, MIA_Y, -1, MIA_S, G, eio(seg(t, 7.3, 8.15))); }
   // Youssef
-  { setCam(c); const G = figure({ kind: 'y' }, youssefPose(t), 3000); LAST.ym = figPt(YX(t), GY, 1, 1, ...G.mouth); drawCharacter(ctx, YX(t), GY, 1, 1, G, ss(seg(t, .15, 1.2))); }
+  { setCam(c); const G = figure({ kind: 'y' }, youssefPose(t), 3000); LAST.ym = figPt(YX(t), GY, 1, 1, ...G.mouth); drawCharacter(ctx, YX(t), GY, 1, 1, G, ss(seg(t, .5, 1.45))); }
   setCam(c); drawObjs(FRONT_OBJ, t, c);
   drawBus(t, c);
   ctx.setTransform(1, 0, 0, 1, 0, 0);

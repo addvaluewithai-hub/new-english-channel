@@ -60,8 +60,8 @@ function headStrokes(D, F, M, seed) {
   part(seed + 2, () => {
     if (y) {
       // short black hair: a cap wash + a few brush marks for texture
-      const cap = [...arc(0, 0, RX * 1.05, RY * 1.05, 172, 312, 16), [22, -31], [13, -34], [4, -32], [-4, -26], [-7, -12], [-8, 2], [-14, 4], [-24, 6]];
-      wa(cap, C.yHair, .82, { jit: 1.4, edge: .15 });
+      const cap = [...arc(0, 0, RX * 1.05, RY * 1.05, 172, 312, 16), [22, -31], [13, -34], [4, -32], [-4, -26], [-7, -12], [-8, 4], [-15, 11], [-27, 13]];
+      wa(cap, C.yHair, .82, { jit: 1.4, edge: 0 });
       for (const [a0, a1] of [[195, 300], [210, 290], [180, 250]]) st(arc(0, 0, RX * .97, RY * .97, a0, a1, 10), 8, '#4a3c33', { prof: 'brush', nb: 5, a: .5, rib: .2, ko: false });
       wa(arc(-9, 4, 6, 9, 0, 360, 14), mixc(C.ySkin, C.ySkin2, .4), .85, { jit: .5, ko: false });
       st(qcurve(-10, 0, -8, 9, 3, 4), 2, darker(C.ySkin2), { prof: 'even', nb: 0, a: .55, ko: false });
