@@ -35,6 +35,9 @@ h1 { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 5vw, 
 .verdict p { margin: 0; max-width: 75ch; }
 .verdict ol { margin: 0; padding-inline-start: 22px; display: grid; gap: 4px; }
 
+h2.group { font-family: var(--display); font-size: 24px; font-weight: 800; margin: 8px 0 14px; text-wrap: balance; }
+.grid + h2.group { margin-top: 40px; }
+code { font-family: var(--mono); font-size: .92em; background: var(--bus-soft); color: var(--bus); padding: 0 5px; border-radius: 4px; direction: ltr; unicode-bidi: isolate; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
@@ -65,8 +68,8 @@ footer { margin-top: 36px; color: var(--muted); font-size: 14px; max-width: 75ch
 
 <div class="wrap" dir="rtl" lang="ar">
   <header>
-    <div class="eyebrow">CASTING · 9 SCREEN TESTS</div>
-    <h1>نفس المشهد بـ9 أشكال: اختار وش المسلسل</h1>
+    <div class="eyebrow">CASTING · 13 SCREEN TESTS</div>
+    <h1>نفس المشهد بـ13 شكل: اختار وش المسلسل</h1>
     <p class="lede">كل التجارب فيها نفس الصوت ونفس التوقيت بالظبط، يعني الفرق الوحيد هو الشكل. يوسف بيحكي أول يوم ليه في لندن، وبيقابل ميا، وبيقع في أول غلطة.</p>
     <div class="scene">
       <span>يوسف بيحكي بالمصري<b>0:00</b></span>
@@ -78,14 +81,63 @@ footer { margin-top: 36px; color: var(--muted); font-size: 14px; max-width: 75ch
 
   <section class="verdict" aria-labelledby="v">
     <h2 id="v">ترشيحي</h2>
-    <p>في مسلسل طويل مبني على مواقف وغلطات، أهم 3 حاجات: إن الوشوش تعبّر كويس، وإن الإنجليزي يتقري بسهولة، وإن الحلقة تتعمل بسرعة. الـ3 دول أقوى حاجة في المعادلة دي:</p>
+    <p>إنت عايز شكل بسيط تفاصيله قليلة ونتيجته مضمونة، وفي نفس الوقت الوش يعبّر كويس والإنجليزي يتقري بسهولة. الـ3 دول أقوى حاجة في المعادلة دي:</p>
     <ol>
-      <li><b>Sitcom Toon:</b> أحسن توازن. تمثيل كوميدي واضح، وفقاعات كلام بأسماء الشخصيات، وأسرع رندر.</li>
-      <li><b>80s Cel Anime:</b> أقوى ستايل في العاطفة وردود الفعل، والشباب العربي بيحب الأنمي.</li>
-      <li><b>16-bit Pixel RPG:</b> فكرة مختلفة تمامًا: يوسف بيلعب لعبة اسمها "الإنجليزي"، وفيها نجوم مهارة وكلمات بيجمعها.</li>
+      <li><b>ناس الفول (Bean People):</b> أبسط شكل ومع كده بيعبّر كويس جدًا، ونضيف ومستحيل يبوظ، وكمان أسرع رندر.</li>
+      <li><b>الحروف العايشة (Living Letters):</b> مفيش حد عامله، والدرس نفسه بيبان قدامك: الكلمة الناقصة بتبقى مكان فاضي، و<code>am</code> شخصية.</li>
+      <li><b>Sitcom Toon:</b> لو حابب شخصيات بشرية أكتر، ده أحسن توازن بين الكوميديا والقراءة.</li>
     </ol>
+    <p>وفي حاجة ممكن نضيفها على أي ستايل منهم: نجوم المهارة بتاعة الـRPG، أو علامة الـspell-check الحمرا اللي في "موبايل يوسف".</p>
   </section>
 
+  <h2 class="group">4 ستايلات بسيطة، معمولة مخصوص للقناة</h2>
+  <div class="grid">
+    <article class="card pick">
+      <video controls preload="none" playsinline poster="posters/bean-people.jpg" src="clips/bean-people.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>ناس الفول<small>Bean People</small></h3><span class="tag">مرشّح</span></div>
+        <p class="idea">الشخصيات كبسولات ملونة بعيون نقط، في عالم ألوانه مسطحة ومتظبطة.</p>
+        <ul class="pros"><li>التعبير واضح حتى على شاشة الموبايل، رغم إن التفاصيل قليلة</li><li>كل كلمة في الفقاعة بتغمق وهي بتتقال</li><li>أي شخصية جديدة = لون وإكسسوار</li></ul>
+        <ul class="cons"><li>مفيش إيدين بتفاصيل، فالحركات بسيطة</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.1 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●●○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card pick">
+      <video controls preload="none" playsinline poster="posters/living-letters.jpg" src="clips/living-letters.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>الحروف العايشة<small>Living Letters</small></h3><span class="tag">مرشّح</span></div>
+        <p class="idea">يوسف حرف Y وميا حرف M، ولندن مبنية من كلمة LONDON، والأتوبيس هو كلمة BUS.</p>
+        <ul class="pros"><li>القواعد بتبان بالعين: الكلمة الناقصة مكان فاضي، و<code>am</code> شخصية بنفسجي</li><li>ستايل مفيش حد عامله</li><li>أخف رندر في الـ13</li></ul>
+        <ul class="cons"><li>مفيش إيدين، فالإيماءات محدودة</li><li>ممكن يبان طفولي شوية لجمهور كبير</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.07 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/chat-story.jpg" src="clips/chat-story.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>موبايل يوسف<small>Chat Story</small></h3></div>
+        <p class="idea">القصة بتتحكي على موبايل يوسف: يومياته وصوره، وبعدين وضع "Face-to-face" وفيه صورتين وفقاعات الكلام بينهم.</p>
+        <ul class="pros"><li>أكبر وأوضح خط إنجليزي في الـ13</li><li>علامة الـspell-check الحمرا تنفع تبقى علامة الغلطة في كل حلقة</li><li>أسرع حلقة في التنفيذ</li></ul>
+        <ul class="cons"><li>الحركة بتظهر من خلال الموبايل، مش في مشاهد حقيقية</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.11 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/silhouettes.jpg" src="clips/silhouettes.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>ظلال على ألوان<small>Silhouettes</small></h3></div>
+        <p class="idea">لندن وقت الغروب، والشخصيات ظلال من غير ملامح، والشنطة الحمرا هي اللون الوحيد اللي بيلمع.</p>
+        <ul class="pros"><li>أكتر ستايل سينمائي وراقي</li><li>الإنجليزي بخط أنيق، وكل كلمة بتنور وهي بتتقال</li><li>مفيش مزامنة شفايف أصلًا</li></ul>
+        <ul class="cons"><li>الشخصيات من الجنب بس</li><li>اللقطات القريبة أقل تعبيرًا</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.14 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+  </div>
+
+  <h2 class="group">الـ9 ستايلات الأولانيين</h2>
   <div class="grid">
     <article class="card pick">
       <video controls preload="none" playsinline poster="posters/sitcom-toon.jpg" src="clips/sitcom-toon.mp4"></video>
@@ -98,10 +150,10 @@ footer { margin-top: 36px; color: var(--muted); font-size: 14px; max-width: 75ch
       </div>
     </article>
 
-    <article class="card pick">
+    <article class="card">
       <video controls preload="none" playsinline poster="posters/cel-anime.jpg" src="clips/cel-anime.mp4"></video>
       <div class="body">
-        <div class="head"><h3>أنمي الثمانينات<small>80s Cel Anime</small></h3><span class="tag">مرشّح</span></div>
+        <div class="head"><h3>أنمي الثمانينات<small>80s Cel Anime</small></h3></div>
         <p class="idea">أنمي تلفزيون زمان: ضل ونور قاطع، وخلفيات مرسومة، وردود فعل أنمي.</p>
         <ul class="pros"><li>أقوى ستايل في العاطفة: نقطة العرق، والكسوف، ولقطة الصدمة</li><li>الترجمة في شريط ثابت عليه اسم المتكلم، فبتتقري بسهولة</li><li>جمهور الأنمي العربي كبير</li></ul>
         <ul class="cons"><li>الوشوش بتظهر كويس في اللقطات القريبة بس</li><li>من أتقل الستايلات الـ2D في الرندر</li></ul>
@@ -109,10 +161,10 @@ footer { margin-top: 36px; color: var(--muted); font-size: 14px; max-width: 75ch
       </div>
     </article>
 
-    <article class="card pick">
+    <article class="card">
       <video controls preload="none" playsinline poster="posters/pixel-rpg.jpg" src="clips/pixel-rpg.mp4"></video>
       <div class="body">
-        <div class="head"><h3>لعبة بيكسل<small>16-bit Pixel RPG</small></h3><span class="tag">مرشّح</span></div>
+        <div class="head"><h3>لعبة بيكسل<small>16-bit Pixel RPG</small></h3></div>
         <p class="idea">حياة يوسف كأنها لعبة: "DAY 1 / LONDON"، وصندوق حوار، ومهارة الإنجليزي بالنجوم.</p>
         <ul class="pros"><li>صندوق الحوار بيشتغل كترجمة جاهزة، وفيه صورة المتكلم</li><li>أفكار تتكرر في كل حلقة: نجوم مهارة، وكلمات يجمعها، ومستوى يعلى</li><li>أخف وأسرع رندر</li></ul>
         <ul class="cons"><li>الوشوش صغيرة، والتعبير كله في صورة البورتريه</li><li>الخط العربي مش بكسل</li></ul>
