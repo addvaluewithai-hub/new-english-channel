@@ -1,0 +1,193 @@
+<title>ستايلات يوسف في لندن</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a casting wall of nine screen tests, three across on desktop, one on phones; a verdict strip on top */
+:root {
+  --bg: #eef1f5; --surface: #ffffff; --ink: #18202b; --muted: #5b6676; --line: #d6dce5;
+  --bus: #c8352a; --bus-soft: #fbe7e4; --pick: #1f6f5c; --pick-soft: #e2f2ec;
+  --display: "Baloo Bhaijaan 2", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --body: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12161c; --surface: #1b2129; --ink: #e9edf3; --muted: #9aa5b5; --line: #2d3540;
+  --bus: #ef5a4c; --bus-soft: #3a1f1d; --pick: #5fc9a8; --pick-soft: #18322b; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12161c; --surface: #1b2129; --ink: #e9edf3; --muted: #9aa5b5; --line: #2d3540;
+  --bus: #ef5a4c; --bus-soft: #3a1f1d; --pick: #5fc9a8; --pick-soft: #18322b; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.7; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 40px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 10px; margin-bottom: 28px; }
+.eyebrow { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; color: var(--bus); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 5vw, 48px); line-height: 1.2; margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 62ch; margin: 0; }
+.scene { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.scene span { font-size: 14px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.scene span b { font-family: var(--mono); font-weight: 500; color: var(--bus); margin-inline-start: 6px; direction: ltr; unicode-bidi: isolate; }
+
+.verdict { display: grid; gap: 10px; background: var(--pick-soft); border: 1px solid color-mix(in srgb, var(--pick) 35%, transparent);
+  border-radius: 14px; padding: 18px 20px; margin-bottom: 32px; }
+.verdict h2 { font-family: var(--display); font-size: 22px; margin: 0; color: var(--pick); }
+.verdict p { margin: 0; max-width: 75ch; }
+.verdict ol { margin: 0; padding-inline-start: 22px; display: grid; gap: 4px; }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+@media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.card.pick { border-color: var(--pick); box-shadow: 0 0 0 1px var(--pick); }
+.card video { display: block; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.body { padding: 14px 16px 18px; display: grid; gap: 10px; }
+.head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.num { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+h3 { font-family: var(--display); font-size: 21px; font-weight: 800; margin: 0; line-height: 1.3; }
+h3 small { display: block; font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--muted); direction: ltr; text-align: right; }
+.tag { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--pick-soft); color: var(--pick); white-space: nowrap; }
+.tag.base { background: var(--bus-soft); color: var(--bus); }
+.idea { margin: 0; font-size: 15px; }
+.pros, .cons { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 14.5px; }
+.pros li::before, .cons li::before { font-family: var(--mono); margin-inline-end: 8px; }
+.pros li::before { content: "+"; color: var(--pick); }
+.cons li::before { content: "−"; color: var(--bus); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px dashed var(--line); padding-top: 10px; }
+.stat { display: grid; gap: 0; }
+.stat span { font-size: 12px; color: var(--muted); }
+.stat b { font-family: var(--mono); font-weight: 500; font-size: 14px; font-variant-numeric: tabular-nums; }
+.dots { letter-spacing: 2px; color: var(--bus); }
+footer { margin-top: 36px; color: var(--muted); font-size: 14px; max-width: 75ch; }
+:focus-visible { outline: 2px solid var(--bus); outline-offset: 2px; }
+</style>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header>
+    <div class="eyebrow">CASTING · 9 SCREEN TESTS</div>
+    <h1>نفس المشهد بـ9 أشكال: اختار وش المسلسل</h1>
+    <p class="lede">كل التجارب فيها نفس الصوت ونفس التوقيت بالظبط، يعني الفرق الوحيد هو الشكل. يوسف بيحكي أول يوم ليه في لندن، وبيقابل ميا، وبيقع في أول غلطة.</p>
+    <div class="scene">
+      <span>يوسف بيحكي بالمصري<b>0:00</b></span>
+      <span>Hi! I'm Mia.<b>0:08</b></span>
+      <span>Hello! I... I Youssef.<b>0:10</b></span>
+      <span>Sorry?<b>0:14</b></span>
+    </div>
+  </header>
+
+  <section class="verdict" aria-labelledby="v">
+    <h2 id="v">ترشيحي</h2>
+    <p>في مسلسل طويل مبني على مواقف وغلطات، أهم 3 حاجات: إن الوشوش تعبّر كويس، وإن الإنجليزي يتقري بسهولة، وإن الحلقة تتعمل بسرعة. الـ3 دول أقوى حاجة في المعادلة دي:</p>
+    <ol>
+      <li><b>Sitcom Toon:</b> أحسن توازن. تمثيل كوميدي واضح، وفقاعات كلام بأسماء الشخصيات، وأسرع رندر.</li>
+      <li><b>80s Cel Anime:</b> أقوى ستايل في العاطفة وردود الفعل، والشباب العربي بيحب الأنمي.</li>
+      <li><b>16-bit Pixel RPG:</b> فكرة مختلفة تمامًا: يوسف بيلعب لعبة اسمها "الإنجليزي"، وفيها نجوم مهارة وكلمات بيجمعها.</li>
+    </ol>
+  </section>
+
+  <div class="grid">
+    <article class="card pick">
+      <video controls preload="none" playsinline poster="posters/sitcom-toon.jpg" src="clips/sitcom-toon.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>سيتكوم كارتون<small>Sitcom Toon</small></h3><span class="tag">مرشّح</span></div>
+        <p class="idea">كارتون كوميدي للكبار: خطوط واضحة، وعيون كبيرة، وكل ردود الفعل مبالغ فيها.</p>
+        <ul class="pros"><li>أحسن تعبير بالوش، حتى لو الصورة صغيرة</li><li>فقاعات فيها اسم المتكلم، والكلام بيتكتب مع الصوت</li><li>الشخصيات والأماكن ينفع تتعاد في كل حلقة</li></ul>
+        <ul class="cons"><li>كل مكان جديد لازم يترسم من الأول</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.15 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●●○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card pick">
+      <video controls preload="none" playsinline poster="posters/cel-anime.jpg" src="clips/cel-anime.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>أنمي الثمانينات<small>80s Cel Anime</small></h3><span class="tag">مرشّح</span></div>
+        <p class="idea">أنمي تلفزيون زمان: ضل ونور قاطع، وخلفيات مرسومة، وردود فعل أنمي.</p>
+        <ul class="pros"><li>أقوى ستايل في العاطفة: نقطة العرق، والكسوف، ولقطة الصدمة</li><li>الترجمة في شريط ثابت عليه اسم المتكلم، فبتتقري بسهولة</li><li>جمهور الأنمي العربي كبير</li></ul>
+        <ul class="cons"><li>الوشوش بتظهر كويس في اللقطات القريبة بس</li><li>من أتقل الستايلات الـ2D في الرندر</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>~1 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●●●</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●○</b></div></div>
+      </div>
+    </article>
+
+    <article class="card pick">
+      <video controls preload="none" playsinline poster="posters/pixel-rpg.jpg" src="clips/pixel-rpg.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>لعبة بيكسل<small>16-bit Pixel RPG</small></h3><span class="tag">مرشّح</span></div>
+        <p class="idea">حياة يوسف كأنها لعبة: "DAY 1 / LONDON"، وصندوق حوار، ومهارة الإنجليزي بالنجوم.</p>
+        <ul class="pros"><li>صندوق الحوار بيشتغل كترجمة جاهزة، وفيه صورة المتكلم</li><li>أفكار تتكرر في كل حلقة: نجوم مهارة، وكلمات يجمعها، ومستوى يعلى</li><li>أخف وأسرع رندر</li></ul>
+        <ul class="cons"><li>الوشوش صغيرة، والتعبير كله في صورة البورتريه</li><li>الخط العربي مش بكسل</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.15 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/paper-popup.jpg" src="clips/paper-popup.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>كتاب الورق<small>Paper Pop-up</small></h3><span class="tag base">الدرس الأول</span></div>
+        <p class="idea">كتاب حقيقي على مكتب، الشخصيات والأماكن ورق بيقوم من الصفحة.</p>
+        <ul class="pros"><li>شكل ساحر ومش متكرر، وليه هوية واضحة</li><li>الكروت الورق بتشرح العبارات بشكل جميل</li></ul>
+        <ul class="cons"><li>3D تقيل: الحلقة بتاخد 40 دقيقة على GitHub</li><li>الوشوش صغيرة في اللقطات الواسعة</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>~4.5 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●○</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/midcentury-toon.jpg" src="clips/midcentury-toon.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>كارتون الخمسينات<small>Mid-century Cartoon</small></h3></div>
+        <p class="idea">رسوم مسطحة أنيقة، والخلفية بتتحول لأشعة شمس مرجانية في لحظة الكسوف.</p>
+        <ul class="pros"><li>الكلام والعربي بيتقروا بسهولة جدًا في صناديقهم</li><li>شكل ريترو راقي ومختلف</li></ul>
+        <ul class="cons"><li>الحركة محدودة عن قصد، فمفيش كوميديا جسدية</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.3 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/watercolor.jpg" src="clips/watercolor.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>ألوان مية<small>Watercolor</small></h3></div>
+        <p class="idea">صفحة من يوميات يوسف بترسم نفسها، والكلام مكتوب بخط اليد.</p>
+        <ul class="pros"><li>دافي وهادي، ومناسب لراوي بيحكي يومياته</li><li>التصحيح بالقلم الأحمر (^am) طبيعي جدًا في الشكل ده</li></ul>
+        <ul class="cons"><li>مش مناسب للكوميديا الكبيرة أو الأكشن</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.2 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●○</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/urban-sketch.jpg" src="clips/urban-sketch.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>كراسة رسم<small>Urban Sketch</small></h3></div>
+        <p class="idea">رسم بالقلم والألوان، والشارع بيتلوّن والأتوبيس معدّي.</p>
+        <ul class="pros"><li>إحساس بالمكان والسفر قوي جدًا</li><li>الحكي بالعربي مكتوب بخط رقعة جميل</li></ul>
+        <ul class="cons"><li>الوشوش بسيطة، والتعبير معتمد على وقفة الجسم</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.7 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●○○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●○</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/whiteboard.jpg" src="clips/whiteboard.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>سبورة بيضا<small>Whiteboard</small></h3></div>
+        <p class="idea">ماركر بيرسم كل حاجة على السبورة، وبيصلّح الغلطة بإيده.</p>
+        <ul class="pros"><li>الكلام بيتكتب في نفس لحظة النطق</li><li>التصحيح بالماركر الأحمر جزء من الرسمة نفسها</li></ul>
+        <ul class="cons"><li>الشفايف مش بتتحرك مع الكلام</li><li>3 ألوان بس</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>~1 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●○○○</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●●</b></div></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <video controls preload="none" playsinline poster="posters/rubber-hose.jpg" src="clips/rubber-hose.mp4"></video>
+      <div class="body">
+        <div class="head"><h3>كارتون الثلاثينات<small>1930s Rubber Hose</small></h3></div>
+        <p class="idea">أبيض وأسود بخدوش الفيلم القديم، والإيدين بتتمط والأشكال بتتنطط.</p>
+        <ul class="pros"><li>أقوى كوميديا جسدية في الـ9: الإيد بتتمد لحد ما تعدّي الشارع</li><li>هوية مميزة جدًا</li></ul>
+        <ul class="cons"><li>من غير ألوان، فالشنطة الحمرا بقت رمادي</li><li>الطابع القديم هيفضل لاصق في المسلسل كله</li></ul>
+        <div class="stats"><div class="stat"><span>الرندر</span><b>0.25 ث/فريم</b></div><div class="stat"><span>التمثيل</span><b class="dots">●●●●●</b></div><div class="stat"><span>قراءة الإنجليزي</span><b class="dots">●●●●○</b></div></div>
+      </div>
+    </article>
+  </div>
+
+  <footer>
+    كل التجارب اتعملت بالكود من غير أي فيديو متولّد بالذكاء الاصطناعي، والشخصيات معمولة بالكود عشان تتعاد في كل حلقة. الستايلات الـ2D كلها بترندر حلقة كاملة (3–4 دقايق) في دقايق على GitHub. اختار ستايل، أو قولي تخلط بين اتنين (مثلًا شكل الأنمي مع شريط مهارة الـRPG)، وأبدأ في الحلقة الأولى.
+  </footer>
+</div>
