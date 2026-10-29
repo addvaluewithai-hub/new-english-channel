@@ -171,6 +171,7 @@ canvas.bean { display: block; width: 120px; height: 140px; }
 .hero .wrap { display: grid; grid-template-columns: 1fr; gap: 8px; position: relative; z-index: 1; }
 .hero h1 { font-family: var(--display); font-weight: 400; font-size: 46px; color: var(--navy); text-align: center; letter-spacing: .01em; }
 .hero .sub { text-align: center; font-size: 18px; color: var(--ink); font-weight: 700; }
+.hero .sub .sub-en { white-space: nowrap; }
 .hero .sub .en { color: var(--rust); white-space: nowrap; }
 .hero .beans { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin-top: 10px; direction: ltr; }
 .hero .beans canvas.bean { width: 150px; height: 180px; }
