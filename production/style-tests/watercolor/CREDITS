@@ -1,0 +1,15 @@
+Youssef's Diary, Day 1: Watercolor Brush style test
+
+Picture: drawn entirely in code (Canvas2D brush-stroke and wash engine adapted from the
+Lemo-Opuscar "watercolor" style, MIT licence; see the library's LICENSE).
+Voice track: audio/test_audio.wav, supplied by the production (unchanged).
+
+Fonts (SIL Open Font License 1.1, from github.com/google/fonts; licence texts in fonts/OFL-*.txt):
+- Caveat (Impallari Type): hand-written English notes
+- Cormorant Garamond (Christian Thalmann): "London" header, "ENGLISH SCHOOL" sign
+- IBM Plex Mono (IBM): "DAY 01" label
+- Amiri (Khaled Hosny): Arabic diary subtitle
+- Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar (fonts-ar.css, copied from the series' a1-u1-l01 project; OFL): loaded, not drawn
+
+Paper texture: generated procedurally (paper.py).
+No third-party images, footage, music or samples.

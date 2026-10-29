@@ -19,24 +19,24 @@ Travel-sketchbook watercolours and field-journal plates. **Learn:** generous pap
 ## Shot list (one continuous camera)
 | # | t | Framing | Move | Why |
 |---|---|---|---|---|
-| 1 | 0.0–7.2 | Wide street panorama: clock tower far, terraces, a bus passing | Long lateral dolly to the right as the street paints in ahead of the camera | Journey and arrival; shows London as he sees it |
-| 2 | 7.2–8.0 | Wide to full at the school | Dolly eases to a stop and pushes in a little; Mia paints in, stroke by stroke, in the doorway | The world stops moving at the meeting |
-| 3 | 8.0–14.4 | Two-shot, medium-full (Mia left at the door, Youssef right) | Locked sheet with a slow drift | Study the exchange; the notes stay readable |
-| 4 | 14.4–17.0 | Medium close on Youssef | Slow push in, then mist erase at the edges | The observer leans in on the embarrassment |
+| 1 | 0.0–7.0 | Wide street panorama: clock tower far, terraces, a bus passing | Long lateral dolly to the right as the street paints in ahead of the camera | Journey and arrival; shows London as he sees it |
+| 2 | 7.0–8.4 | Wide to full at the school | Dolly eases to a stop and pushes in; Mia paints in, stroke by stroke, in the doorway | The world stops moving at the meeting |
+| 3 | 8.4–14.75 | Two-shot, medium-full (Youssef left, Mia right in the doorway) | Locked sheet with a slow drift | Study the exchange; the notes stay readable |
+| 4 | 14.75–17.0 | Medium close on Youssef | Slow push in, then mist erase at the edges | The observer leans in on the embarrassment |
 
 ## Beat sheet
 - 0.0: paper; the brush-edge wipe starts painting the street. 0.6–7.7: diary subtitle lines (Arabic, RTL, bottom).
-- 1.0: a hand note "Day 1 · London" is written top left. 2–6: a red bus crosses the street.
+- 1.0: a journal header ("DAY 01", "London") is written top left. 1.2–3.6: a red double-decker crosses in the foreground and briefly hides him.
 - 3–7: Youssef walks right, pulling the red suitcase (the accent colour).
 - 7.4: Mia paints in at the door. 8.0: "Hi! I'm Mia." note with a leader line; she waves.
-- 9.9: "Hello! I... I Youssef." Youssef talks nervously, scratching his neck.
-- 14.5: "Sorry?" Mia tilts her head with a brow raised. 14.6: Youssef blushes (a rose wash) and a sweat drop paints in.
-- 15.9: a vermilion caret with "am" is written into his note. 16.5–17: mist from the edges.
+- 9.9: "Hello! I... I Youssef." He gives a small wave, then a hand to his chest on each "I..." and an open hand on "Youssef". His note is written word by word as he says it.
+- 14.5: "Sorry?" Mia tilts her head with a brow raised and turns a palm up. 14.7: Youssef blushes (a rose wash), rubs his neck, and a sweat drop paints in. 14.8–15.9: the push in on him.
+- 15.2–15.7: the diary's red pen puts a vermilion caret with "am" into his note. 16.15–17: paper mist closes in from the edges and leaves him in a vignette.
 
 ## Cue map / sound
-The voice track is supplied and finished; no music or foley is added, so the audio is left exactly as delivered. Picture cues lock to `timeline.json`: lines, talk spans and beats.
+The voice track is supplied and finished, so no music or foley is added and the audio is used exactly as delivered (only mastered to −14 LUFS in the mux). In a full episode, the style's palette would be fingerpicked guitar or felt piano, a paper-brush rustle for each painting-in, pencil scratch for the notes, and a street bed with a bus pass-by. Picture cues lock to `timeline.json`: lines, talk spans and beats.
 
 ## Subtitles and titles
-- Arabic diary subtitle: "Baloo Bhaijaan 2", centred at the bottom on the paper with no box, ink at about 82 % over a paper-coloured halo, RTL.
+- Arabic diary subtitle: Amiri Bold 56 px (an elegant Naskh to match the style's serif), centred at the bottom on lifted paper with no box, ink at 90 % over a paper-coloured halo, RTL.
 - English dialogue: hand-written journal notes (Caveat) with pen leader lines to the speaker, revealed left to right like writing. This is the style's own "specimen + note" device in place of speech bubbles.
-- Small labels in mono ("DAY 1 · LONDON").
+- Journal header: "DAY 01" in IBM Plex Mono with wide tracking, and "London" in Cormorant Garamond italic with a blue brush underline. The school sign is in Cormorant caps.

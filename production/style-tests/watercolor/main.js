@@ -14,7 +14,7 @@ const camZ = monotone([[0, .7], [2.5, .77], [5.5, .9], [7.0, 1.0], [8.4, 1.45], 
 const cam = t => ({ cx: camX(t), cy: camY(t), z: camZ(t) });
 const W2S = (c, wx, wy) => [960 + (wx - c.cx) * c.z, 540 + (wy - c.cy) * c.z];
 const setCam = (c, par = 1) => { const zl = 1 + (c.z - 1) * par, cy = lerp(482, c.cy, par); ctx.setTransform(zl, 0, 0, zl, 960 - c.cx * par * zl, 540 - cy * zl); };
-const FRONT = t => t < 1.75 ? lerp(-280, 2060, eio(seg(t, .05, 1.75))) : 2060;
+const FRONT = t => t < 1.55 ? lerp(-280, 2060, eio(seg(t, -.3, 1.55))) : 2060;
 
 // ---------- performance: poses as functions of t ----------
 const k = keys => monotone(keys);
@@ -148,11 +148,11 @@ function drawNotes(t, c) {
     const a = ss(seg(t, 9.85, 10.05));
     const w = note('you1', full, x, y, rev(t), a, ym[0] + 24, ym[1] + 2, seg(t, 9.9, 10.3), { lx: lerp(x + fw - 30, x + 30, kz), ly: y + 30, bend: lerp(-12, 25, kz), seed: 12 });
     // the diary's red pen: the missing word
-    const cp = seg(t, 15.75, 16.15);
+    const cp = seg(t, 15.2, 15.6);
     if (cp > 0 && w) {
       ctx.save(); ctx.font = NOTE_FONT; const cx = x + ctx.measureText('Hello! I... I').width + ctx.measureText(' ').width * .5;
-      withSeed(31, () => drawS(ctx, mk([[cx - 12, y + 26], [cx, y + 6], [cx + 12, y + 26]], 5, '#cf4a2c', { prof: 'even', nb: 0, a: .95 }), eo(seg(t, 15.75, 15.95))));
-      const wa = eo(seg(t, 15.92, 16.25));
+      withSeed(31, () => drawS(ctx, mk([[cx - 12, y + 26], [cx, y + 6], [cx + 12, y + 26]], 5, '#cf4a2c', { prof: 'even', nb: 0, a: .95 }), eo(seg(t, 15.2, 15.4))));
+      const wa = eo(seg(t, 15.32, 15.7));
       ctx.font = '700 54px Caveat'; const aw = ctx.measureText('am').width;
       ctx.beginPath(); ctx.rect(cx - aw / 2 - 6, y - 140, (aw + 12) * wa, 90); ctx.clip();
       ctx.fillStyle = 'rgba(207,74,44,.95)'; ctx.textAlign = 'center'; ctx.shadowColor = rgba(PAPER, .95); ctx.shadowBlur = 12; ctx.fillText('am', cx, y - 62); ctx.shadowBlur = 0; ctx.fillText('am', cx, y - 62);
@@ -211,7 +211,7 @@ function drawObjs(list, t, c) {
   }
 }
 function drawBus(t, c) {
-  const fx = 3700 - 1250 * (t - 1.1); if (t < 1.1 || t > 4.2) return;
+  const fx = 3350 - 1600 * (t - 1.2); if (t < 1.2 || t > 3.8) return;
   setCam(c); ctx.save(); ctx.translate(fx, 960); ctx.scale(1.22, 1.22);
   PAPER_PAT.setTransform(ctx.getTransform().invertSelf());
   ctx.beginPath(); polyPath(ctx, BUS.body); ctx.fillStyle = PAPER_PAT; ctx.fill();
