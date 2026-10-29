@@ -1,0 +1,9 @@
+"Youssef's Phone" — chat-story style test
+Picture: original code (Canvas2D), all UI, avatars and the street illustration drawn procedurally. No logos, no third-party app designs.
+Rendered with the lemo-opuscar core tools (core/render/video.mjs, mux.sh — local copy mux_local.sh with one relaxed length check).
+Voice track: production/style-tests/audio/test_audio.wav (project's own, unchanged).
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/):
+- Inter — The Inter Project Authors — https://github.com/google/fonts/tree/main/ofl/inter (fonts/Inter-OFL.txt)
+- IBM Plex Sans Arabic — IBM Corp. — https://github.com/google/fonts/tree/main/ofl/ibmplexsansarabic (fonts/IBMPlexSansArabic-OFL.txt)
+- Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar (f0–f12.woff2, fonts.css) — copied from the series kit; OFL, not used in this test's picture.
