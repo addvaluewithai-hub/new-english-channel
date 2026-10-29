@@ -1,0 +1,100 @@
+name: Render film
+
+# Splits one film across many runners (each renders every Nth chunk), then joins, mixes and masters it.
+# Run: gh workflow run render.yml -f film=production/a1-u1-l01 -f name=lesson-01-hello-im-youssef
+on:
+  workflow_dispatch:
+    inputs:
+      film: { description: "Film folder (has index.html, mix.py)", required: true, type: string }
+      name: { description: "Output file name (no extension)", required: true, type: string }
+      shards: { description: "Parallel runners", required: false, default: "20", type: string }
+      quality: { description: "Page query string", required: false, default: "res=1&taps=32", type: string }
+      chunk_sec: { description: "Chunk length in seconds", required: false, default: "4", type: string }
+
+permissions:
+  contents: write
+
+env:
+  LIB: ${{ github.workspace }}/lib
+  LIB_REPO: lemomo-ai/lemo-opuscar
+  LIB_SHA: 413a6bd6d78ebd3bdd5abaec9538a26867f890df
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.p.outputs.shards }}
+    steps:
+      - id: p
+        run: echo "shards=$(python3 -c "import json;print(json.dumps(list(range(int('${{ inputs.shards }}')))))")" >> "$GITHUB_OUTPUT"
+
+  render:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Library
+        run: |
+          git clone --filter=blob:none https://github.com/$LIB_REPO "$LIB" && git -C "$LIB" checkout -q $LIB_SHA
+          cd "$LIB" && npm ci --no-audit --no-fund --loglevel=error && sh tools/fetch.sh hdri
+          node node_modules/playwright-core/cli.js install --with-deps chromium-headless-shell
+          sudo apt-get install -y -qq ffmpeg > /dev/null
+      - name: Render my chunks
+        env:
+          SHARD: ${{ matrix.shard }}
+          NSHARDS: ${{ inputs.shards }}
+          JOIN: "0"
+        run: cd "$LIB" && node "$GITHUB_WORKSPACE/${{ inputs.film }}/render_chunks.mjs" "$GITHUB_WORKSPACE/${{ inputs.film }}" 2 '${{ inputs.quality }}' ${{ inputs.chunk_sec }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chunks-${{ matrix.shard }}
+          path: ${{ inputs.film }}/out/chunks/c_*.mp4
+          retention-days: 2
+
+  assemble:
+    needs: render
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Library
+        run: |
+          git clone --filter=blob:none https://github.com/$LIB_REPO "$LIB" && git -C "$LIB" checkout -q $LIB_SHA
+          cd "$LIB" && npm ci --no-audit --no-fund --loglevel=error && sh tools/fetch.sh hdri
+          node node_modules/playwright-core/cli.js install --with-deps chromium-headless-shell
+          sudo apt-get install -y -qq ffmpeg > /dev/null
+          python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: chunks-*
+          merge-multiple: true
+          path: ${{ inputs.film }}/out/chunks
+      - name: Join, mix, master
+        run: |
+          F="$GITHUB_WORKSPACE/${{ inputs.film }}"
+          cd "$F/out/chunks" && ls c_*.mp4 | sort | sed "s/.*/file '&'/" > list.txt && ffmpeg -y -loglevel error -f concat -safe 0 -i list.txt -c copy ../video.mp4
+          cd "$LIB"
+          node core/render/events.mjs "$F" --q '${{ inputs.quality }}'
+          .venv/bin/python "$F/mix.py"
+          sh core/render/mux.sh "$F/out/video.mp4" "$F/out/mix.wav" "$F/out/${{ inputs.name }}.mp4" 24 1
+          if [ -f "$F/make_srt.py" ]; then .venv/bin/python "$F/make_srt.py" && cp "$F"/*.srt "$F/out/" || true; fi
+          ffprobe -v error -show_entries format=duration,size -of compact "$F/out/${{ inputs.name }}.mp4"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.name }}
+          path: |
+            ${{ inputs.film }}/out/${{ inputs.name }}.mp4
+            ${{ inputs.film }}/out/*.srt
+          retention-days: 14
+      - name: Publish as a release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="render-${{ inputs.name }}-${{ github.run_number }}"
+          gh release create "$TAG" --title "$TAG" --notes "Rendered from ${{ inputs.film }} @ ${{ github.sha }}" --prerelease \
+            "${{ inputs.film }}/out/${{ inputs.name }}.mp4" ${{ inputs.film }}/out/*.srt

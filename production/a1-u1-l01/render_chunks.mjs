@@ -1,12 +1,15 @@
 // Resumable render: the film is cut into chunks of CH seconds, each saved as out/chunks/c_NNNN.mp4 as soon as it is done.
 // A restart skips finished chunks.   node render_chunks.mjs <film dir> [workers=2] [q] [chunkSec=8] [from=0] [to=all]
+// SHARD=k NSHARDS=n renders only chunks with index % n == k (one machine of a GitHub Actions matrix); JOIN=0 skips the final join.
 import fs from 'fs'; import path from 'path'; import { spawn, execFileSync } from 'child_process';
-import { openDemo, closeServer } from '/home/user/ref/lemo-opuscar/core/render/page.mjs';
+const LIB = process.env.LIB || '/home/user/ref/lemo-opuscar';
+const { openDemo, closeServer } = await import(LIB + '/core/render/page.mjs');
 const [dir, WK = '2', Q = 'res=0.75&taps=32', CH = '8', FROM = '0', TO = ''] = process.argv.slice(2);
 const FPS = 24, out = path.join(dir, 'out', 'chunks'); fs.mkdirSync(out, { recursive: true });
 const probe = await openDemo(dir, { q: Q }); const DUR = await probe.page.evaluate(() => window.DUR); await probe.browser.close();
 const TOTAL = Math.round(DUR * FPS), per = Math.round(+CH * FPS), NCH = Math.ceil(TOTAL / per);
-const todo = [...Array(NCH).keys()].filter(i => i >= +FROM && (TO === '' || i < +TO) && !fs.existsSync(path.join(out, `c_${String(i).padStart(4, '0')}.mp4`)));
+const NS = +(process.env.NSHARDS || 1), SK = +(process.env.SHARD || 0);
+const todo = [...Array(NCH).keys()].filter(i => i % NS === SK && i >= +FROM && (TO === '' || i < +TO) && !fs.existsSync(path.join(out, `c_${String(i).padStart(4, '0')}.mp4`)));
 console.log(`chunks ${NCH}, to render ${todo.length}`);
 const t0 = Date.now(); let done = 0;
 await Promise.all([...Array(+WK)].map(async (_, w) => {
@@ -29,7 +32,7 @@ await Promise.all([...Array(+WK)].map(async (_, w) => {
 }));
 // join when every chunk exists
 const all = [...Array(NCH).keys()].map(i => `c_${String(i).padStart(4, '0')}.mp4`);
-if (all.every(n => fs.existsSync(path.join(out, n)))) {
+if (process.env.JOIN !== '0' && all.every(n => fs.existsSync(path.join(out, n)))) {
   fs.writeFileSync(path.join(out, 'list.txt'), all.map(n => `file '${n}'`).join('\n'));
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'list.txt', '-c', 'copy', '../video.mp4'], { cwd: out, stdio: 'inherit' });
   console.log('ALL DONE → out/video.mp4');
