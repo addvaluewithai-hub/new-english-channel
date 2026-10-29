@@ -55,8 +55,8 @@ function youssefBase() {
       f.px(x, y, t === 3 ? C.dslate : t === 2 ? C.night : C.ink);
     }
   }
-  for (const [x, y] of [[9, 2], [10, 1], [11, 1], [14, 0], [15, 0], [16, 1], [19, 1], [20, 1], [21, 2], [12, 2], [13, 1]]) f.px(x, y, C.night);
-  f.px(14, 1, C.dslate); f.px(19, 2, C.dslate); f.px(12, 3, C.dslate); f.px(13, 3, C.dslate); f.px(17, 3, C.dslate);
+  for (const [x, y] of [[12, 2], [13, 2], [14, 2], [15, 2], [16, 2], [17, 2], [18, 2], [11, 3], [19, 3], [14, 1], [15, 1], [16, 1]]) f.px(x, y, C.night);
+  f.px(13, 3, C.dslate); f.px(14, 3, C.dslate); f.px(15, 2, C.dslate); f.px(17, 4, C.dslate);
   // trimmed beard: along the jaw and chin, with a moustache
   for (let y = 15; y < 26; y++) for (let x = 7; x < 28; x++) {
     if (!inFace(x, y)) continue;
@@ -141,8 +141,8 @@ export function portraitM(expr = 'smile', mouth = 0, blink = false) {
   if (expr === 'puzzled') {
     P([[12, 10], [13, 9], [14, 9], [15, 10]], C.rust);         // near brow raised high
     P([[20, 12], [21, 12], [22, 11]], C.rust);                // far brow low
-    if (mouth) P([[20, 20], [21, 20], [20, 21], [21, 21]], C.crimson), P([[19, 20], [19, 21], [22, 20], [22, 21], [20, 22], [21, 22], [20, 19], [21, 19]], C.dbrown);
-    else P([[20, 20], [21, 20]], C.crimson), P([[19, 20], [22, 21]], C.dbrown);
+    if (mouth) P([[20, 20], [21, 20], [20, 21], [21, 21]], C.crimson);
+    else P([[20, 20], [21, 20]], C.crimson), P([[22, 21]], C.dbrown);
   } else {
     P([[12, 11], [13, 11], [14, 11], [15, 12]], C.rust); P([[20, 11], [21, 11], [22, 12]], C.rust);
     if (mouth) { P([[18, 20], [19, 21], [20, 21], [21, 21], [22, 20]], C.dbrown); P([[19, 20], [20, 20], [21, 20]], C.white); if (mouth > 1) P([[19, 22], [20, 22], [21, 22]], C.crimson), P([[19, 21], [20, 21], [21, 21]], C.crimson); }

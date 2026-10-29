@@ -254,7 +254,7 @@ export class Timeline {
   }
   // eraser sweeping a zig-zag over the box [x,y,w,h] (or custom path) from t to t+dur
   erase(path, t, dur, o = {}) {
-    const E = { path: new Stroke(path.flat ? path.flat() : path, { jitter: 0, w: 1, smooth: 2 }), t0: t, t1: t + dur, width: o.width ?? 150, strength: o.strength ?? .9, id: this.erasers.length };
+    const E = { path: new Stroke(path.flat ? path.flat() : path, { jitter: 0, w: 1, smooth: 2 }), t0: t, t1: t + dur, width: o.width ?? 150, strength: o.strength ?? .9, id: this.erasers.length, grp: o.grp || null };
     this.erasers.push(E); this.ev.push({ t: +t.toFixed(3), type: 'erase', dur: +dur.toFixed(3), len: Math.round(E.path.len) });
     return t + dur;
   }
@@ -267,25 +267,26 @@ export function zigzag(x, y, w, h, n = 5, dir = 1) { // eraser path covering a b
 }
 
 // pen pose at t: {x,y,lift(0..1),on(bool),vis}
+export const gmap = (s, p, t) => s.grp ? s.grp.toWorld(p, t) : p;
 export function penPose(pen, t, cam) {
   const S = pen.segs, parkAt = tt => cam.toWorld(pen.park[0], pen.park[1], tt);
   if (!S.length) return null;
   let i = S.findIndex(s => s.t1 >= t);
-  if (i >= 0 && t >= S[i].t0) { const s = S[i].s, p = s.at(s.prog(t) * s.len); return { x: p[0], y: p[1], lift: 0, on: true }; }
+  if (i >= 0 && t >= S[i].t0) { const s = S[i].s, p = gmap(s, s.at(s.prog(t) * s.len), t); return { x: p[0], y: p[1], lift: 0, on: true }; }
   const a = i < 0 ? S[S.length - 1] : (i > 0 ? S[i - 1] : null), b = i < 0 ? null : S[i];
   const IN = .42, OUT = .38;
   const gap = a && b ? b.t0 - a.t1 : 1e9;
   if (a && b && gap < .75) {                        // hop between strokes
-    const u = clamp((t - a.t1) / gap), e = u * u * (3 - 2 * u), [ax, ay] = a.s.end, [bx, by] = b.s.start;
+    const u = clamp((t - a.t1) / gap), e = u * u * (3 - 2 * u), [ax, ay] = gmap(a.s, a.s.end, t), [bx, by] = gmap(b.s, b.s.start, t);
     const hop = Math.min(1, Math.hypot(bx - ax, by - ay) / 220 + .25);
     return { x: lerp(ax, bx, e), y: lerp(ay, by, e), lift: Math.sin(Math.PI * u) * hop, on: false };
   }
   if (a && t - a.t1 < OUT) {                        // leave toward park
-    const u = (t - a.t1) / OUT, e = u * u, [ax, ay] = a.s.end, [px, py] = parkAt(t);
+    const u = (t - a.t1) / OUT, e = u * u, [ax, ay] = gmap(a.s, a.s.end, t), [px, py] = parkAt(t);
     return { x: lerp(ax, px, e), y: lerp(ay, py, e), lift: Math.min(1, u * 3), on: false };
   }
   if (b && b.t0 - t < IN) {                         // come in from park
-    const u = 1 - (b.t0 - t) / IN, e = 1 - (1 - u) * (1 - u) * (1 - u), [bx, by] = b.s.start, [px, py] = parkAt(t);
+    const u = 1 - (b.t0 - t) / IN, e = 1 - (1 - u) * (1 - u) * (1 - u), [bx, by] = gmap(b.s, b.s.start, t), [px, py] = parkAt(t);
     return { x: lerp(px, bx, e), y: lerp(py, by, e), lift: Math.min(1, (1 - u) * 2.2), on: false };
   }
   return null;                                      // parked off-frame
@@ -366,7 +367,7 @@ export class Board {
     const E = this.tl.erasers; let ep = 0;
     const flushErasers = upto => {
       while (ep < upto) {
-        const e = E[ep++]; if (t <= e.t0) continue;
+        const e = E[ep++]; if (t <= e.t0 || e.grp) continue;
         const L = e.path.len * clamp((t - e.t0) / (e.t1 - e.t0));
         ig.save(); ig.globalCompositeOperation = 'destination-out'; ig.globalAlpha = e.strength; ig.lineCap = 'round'; ig.lineJoin = 'round';
         ig.lineWidth = e.width; ig.beginPath(); const p = e.path.pts; ig.moveTo(p[0], p[1]);
@@ -375,7 +376,7 @@ export class Board {
       }
     };
     for (const s of this.tl.strokes) {
-      if (s.t0 >= t) continue;
+      if (s.t0 >= t || s.grp) continue;
       if (s.epoch > ep) flushErasers(s.epoch);
       const b = s.box; if (b[2] < vx0 || b[0] > vx1 || b[3] < vy0 || b[1] > vy1) continue;
       if (s.hide && s.hide(t)) continue;
@@ -405,6 +406,39 @@ export class Board {
     for (const o of this.objs) { ctx.save(); o.draw(ctx, t, c, cam); ctx.restore(); }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     for (const o of this.overlays) { ctx.save(); o.draw(ctx, t, c, cam); ctx.restore(); }
+  }
+  // ink that lives on a moving magnet card: same marker look, own layer, clipped to the card, drawn over the card face
+  renderGroup(ctx, t, c, grp, clipPath) {
+    if (!this.ig2) { this.ink2 = new OffscreenCanvas(1920, 1080); this.ig2 = this.ink2.getContext('2d'); }
+    const ig = this.ig2; ig.setTransform(1, 0, 0, 1, 0, 0); ig.clearRect(0, 0, 1920, 1080); applyCam(ig, c);
+    const P = grp.pose(t); ig.translate(P.x, P.y - P.up); ig.rotate(P.rot); if (P.sc) ig.scale(P.sc, P.sc);
+    ig.save(); clipPath(ig); ig.clip();
+    const E = this.tl.erasers; let ep = 0;
+    const flush = upto => {
+      while (ep < upto) {
+        const e = E[ep++]; if (t <= e.t0 || e.grp !== grp) continue;
+        const L = e.path.len * clamp((t - e.t0) / (e.t1 - e.t0));
+        ig.save(); ig.globalCompositeOperation = 'destination-out'; ig.globalAlpha = e.strength; ig.lineCap = 'round'; ig.lineJoin = 'round';
+        ig.lineWidth = e.width; ig.beginPath(); const p = e.path.pts; ig.moveTo(p[0], p[1]);
+        for (let i = 1; i < e.path.cum.length && e.path.cum[i] <= L; i++) ig.lineTo(p[2 * i], p[2 * i + 1]);
+        const q = e.path.at(L); ig.lineTo(q[0], q[1]); ig.stroke(); ig.restore();
+      }
+    };
+    for (const s of this.tl.strokes) {
+      if (s.t0 >= t || s.grp !== grp) continue;
+      if (s.epoch > ep) flush(s.epoch);
+      const L = s.prog(t) * s.len;
+      ig.globalAlpha = s.alpha; ig.fillStyle = s.color || INK.black; ig.beginPath(); ribbon(ig, s, L, 1); ig.fill();
+      if (s.len > 30) { ig.globalAlpha = .3; ig.beginPath(); const [x, y] = s.at(s.w * .5); ig.arc(x, y, s.w * .33, 0, TAU); ig.fill(); }
+    }
+    flush(E.length);
+    ig.restore(); ig.globalAlpha = 1;
+    if (c.z > .3) {
+      ig.save(); ig.globalCompositeOperation = 'destination-out'; const np = ig.createPattern(this.nt, 'repeat');
+      np.setTransform(new DOMMatrix().scale(.9)); ig.fillStyle = np; ig.globalAlpha = clamp((c.z - .3) * 2) * .9;
+      ig.fillRect(-600, -900, 1200, 1100); ig.restore();
+    }
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = 'multiply'; ctx.drawImage(this.ink2, 0, 0); ctx.restore();
   }
   frame(ctx, c) {                                   // aluminium frame + tray + wall shadow (wide shots)
     const W = this.W, H = this.H, f = 70;
