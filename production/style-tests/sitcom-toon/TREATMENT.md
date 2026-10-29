@@ -36,3 +36,9 @@ Sky: two flat bands of pale cornflower blue. Brick terraces: warm terracotta + c
 
 ## Sound
 Not in scope: the finished voice track is used unchanged (no music/foley added).
+
+## As built (after the look pass)
+- Shots: 0–3.5 crane-down from sky + clock tower over the rooftops to the street, a red double-decker wipes past and reveals Youssef, then push-in · 3.5–6.9 tracking walk, ending in a pull-back + tilt up to the ENGLISH SCHOOL sign · 6.9–14.45 two-shot at the school steps (door bursts open 7.4, Mia pops out with squash/stretch), slow push-in under his line · 14.45 hard cut to Mia close-up ("Sorry?") · 15.5 hard cut to Youssef reaction close-up (frozen grin, blush, sweat, gulp, nervous jitter), slow push-in, fade 16.5–17.
+- English lines: speech bubbles with boiling outlines and a speaker tab; Youssef's bubble fills in word by word in sync with his hesitation, so "I... I Youssef." (the missing "am") stays readable on screen until the cut.
+- Lip-flaps: RMS + spectral centroid of the finished track at 24 Hz (lips.py), assigned to whoever owns the line, sampled on twos.
+- Grain: none (flat vector style).

@@ -1,0 +1,16 @@
+First Day — Sitcom Toon style test
+
+Picture: drawn entirely in code (Canvas 2D). Vector engine toon.js copied from the
+Lemo-Opuscar library's scifi-toon style (line boil, constant screen-space line width,
+flat hard-edged shading) — library licence: see $LIB/LICENSE.
+Characters (Youssef, Mia), street, school, bus: original drawings made for this test.
+Visual grammar inspired by adult-swim-era sitcom cartoons (grammar only; no characters,
+designs, names or logos taken).
+
+Fonts (self-hosted, SIL Open Font License 1.1, via Google Fonts):
+- Baloo Bhaijaan 2 — Ek Type (Arabic subtitles, English speech bubbles)
+- Lilita One — Juan Montoreano (school sign, bus blind)
+- Fredoka, Lalezar — included in fonts.css from the series kit, not drawn in this clip
+
+Audio: the series' own finished voice track (../audio/test_audio.wav), used unchanged,
+only loudness-normalised to -14 LUFS by the mux step. No music or sound effects added.
