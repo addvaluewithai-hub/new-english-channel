@@ -80,7 +80,6 @@ S.crane = (t) => {
   plateDraw(A.near, dx - 40, nearY);
   // foreground lamp post (fastest layer)
   const fy = 1240 - 1900 * u + 1900;
-  lampPost(g, 150 + dx * 1.6, fy - 1900 * (1 - u) * 0 , 1.25);
   // hero on the far pavement
   const gy = PL.CRANE.gy + nearY + 70;
   const walkT = Math.max(0, t - 3.45);
@@ -95,10 +94,8 @@ S.crane = (t) => {
   const bt = seg(t, 1.55, 3.55), bx = 2050 - 3300 * bt;
   if (bt > 0 && bt < 1) {
     L.save(); L.translate(bx, PL.CRANE.gy + nearY + 210); bus(L, 1.02, -t * 9); L.restore();
-    L.save(); L.strokeStyle = rgba('#ffffff', .55); L.lineWidth = 3; const R = rng(Math.floor(t * 24));
-    for (let i = 0; i < 7; i++) { const yy = PL.CRANE.gy + nearY + 210 - 40 - R() * 400, xx = bx + 1000 + R() * 200; L.beginPath(); L.moveTo(xx, yy); L.lineTo(xx + 200 + R() * 300, yy); L.stroke(); }
-    L.restore();
   }
+  lampPost(L, 150 + dx * 1.6, fy, 1.25);   // foreground layer, in front of the bus
 };
 function lampPost(ctx, x, base, k) {
   ctx.save(); ctx.translate(x, base); ctx.scale(k, k);

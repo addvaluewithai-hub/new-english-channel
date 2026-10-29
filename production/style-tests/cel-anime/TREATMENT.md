@@ -41,3 +41,9 @@ Fixed voice track supplied; no score or foley added in this test (picture only).
 
 ## Subtitles
 On the tape, composited inside the CRT pass. Arabic narration: Baloo Bhaijaan 2 (800), cream-yellow with thick dark-brown outline, RTL, split into 2 lines of ≥ 1.8 s. English dialogue: Barlow Semi Condensed 600 ~56 px cream-yellow for Youssef, a second colour (pale cyan) for Mia, each with a small boxed speaker tag.
+
+## As built (notes after production)
+- Screen direction kept left→right: Youssef walks right, so in the two-shot he stands on the LEFT facing right and Mia on the step on the RIGHT, mirrored to face him; Mia's MCU faces left, Youssef's CU faces right (shot/reverse-shot).
+- Shot 1 crane 0–4.1 s (far plate 0.6× vs near plate, foreground lamp post fastest; the bus crosses on ones and reveals tiny Youssef); shot 2 side-track 4.1–6.2; shot 3 low-angle school with keystone, gold sign light-sweep + star glint, doors open at 7.2 and Mia steps out at 7.34; shot 4 two-shot 7.6–14.45 (push-in from 12.9); shot 5 Mia MCU 14.45–15.55; shot 6 two-frame impact frame (black silhouette over radial lines) + 5 frames of tape tracking noise, then the held CU with light bands, sliding sweat drop and blush; fade 16.45–17.0. CRT power-on 0–0.45 s.
+- Characters: one head function per character (3/4 view + mirror) and one body rig; expressions = presets (brows, lids, iris size, mouth set); lip flaps from timeline.json `talk` spans at 8 fps; characters on twos, blinks/flaps on threes.
+- Mux: core/render/mux.sh refused the supplied WAV (its decoded-length check stops ~2.9 s short because of loudnorm's look-ahead in this ffmpeg build), so the same command it runs (two-pass loudnorm −14 LUFS/−1.2 dBTP, noise c0s=2, x264 CRF 19, AAC 256k) was run by hand; result −14.0 LUFS, peak −1.2 dB, 17.000 s.
