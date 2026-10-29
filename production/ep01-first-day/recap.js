@@ -44,7 +44,7 @@ export function buildRecap() {
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).flatMap(n => n.tok.map(o => [o.t0, o.t1]));
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Mia left facing right: armL) ----
   const hiT = it('hi').t0, sorryT = it('sorry').t0;
-  const YK = 1.6, MK_ = 1.5, YX = 1715, MX = 222;
+  const YK = 1.6, MK_ = 1.5, YX = 1690, MX = 285;
   R.YX = YX; R.MX = MX;
   const yRest = F('happy', { lx: -.5, happy: .35 }), mRest = F('happy', { lx: .5, happy: .35 });
   const yR = { id: 'youssef', talkExtra: narrSpans, base: { turn: -.3, face: yRest, armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1, sq: 1, lean: 0 },
@@ -60,8 +60,8 @@ export function buildRecap() {
   // every model line: the speaker turns to us with an open hand and talks (lip sync from talk); the other looks over and nods
   for (const l of recapLines) {
     const ys = l.who === 'youssef', [SK, LK] = ys ? [K, MK] : [MK, K];
-    SK.push({ t: l.t0 - .3, turn: ys ? -.1 : .1, face: F('happy', { lx: 0, ly: 0, happy: .45, bLy: .6, bRy: .6 }), [ys ? 'armR' : 'armL']: OPEN, d: .25 },
-      { t: l.t1 + .35, turn: ys ? -.3 : .3, face: ys ? yRest : mRest, [ys ? 'armR' : 'armL']: ARM.rest, d: .3 });
+    SK.push({ t: l.t0 - .3, turn: ys ? -.1 : .1, face: F('happy', { lx: 0, ly: 0, happy: .45, bLy: .6, bRy: .6 }), [ys ? 'armL' : 'armR']: OPEN, d: .25 },
+      { t: l.t1 + .35, turn: ys ? -.3 : .3, face: ys ? yRest : mRest, [ys ? 'armL' : 'armR']: ARM.rest, d: .3 });
     LK.push({ t: l.t0 - .15, face: F('happy', { lx: ys ? .75 : -.75, ly: -.05, happy: .55 }), d: .25 }, { t: l.t1 + .5, face: ys ? mRest : yRest, d: .3 });
     nod(LK, l.t1 - .05);
   }
@@ -91,7 +91,7 @@ export function buildRecap() {
   MK.push({ t: R.tEar - .1, armL: CUP, lean: .03, face: F('puzzled', { lx: .4 }), d: .3 }, { t: (r08 ? r08.t0 : sorryT + 3) - .35, armL: ARM.rest, lean: 0, d: .3 });
   // repeat gaps: Youssef turns to us with an open hand ("your turn"), Mia smiles at us
   for (const g of R.gaps) {
-    K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armR: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armR: ARM.rest, face: yRest, d: .3 });
+    K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
     MK.push({ t: g.t0 + .1, face: F('happy', { lx: 0, ly: 0, happy: .6 }), d: .3 }, { t: g.t1 - .1, face: mRest, d: .3 });
   }
   K.sort((p, q) => p.t - q.t); MK.sort((p, q) => p.t - q.t);
@@ -131,13 +131,13 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
     if (g > 0) { rr(c, lx, ry, rx0 - lx, 9, 4.5); c.fillStyle = rgba(col, .18 * g); c.fill(); }
     if (k > 0) { const rx = x + Math.max(...vis.map(o => o.x + o.ww)) + 12; rr(c, lx, ry, (rx - lx) * k, 9, 4.5); c.fillStyle = rgba(col, .85); c.fill(); }
     const ta = Math.max(k, .45 * g);
-    if (ta > 0) { c.globalAlpha = alpha * ta; c.save(); c.font = '400 26px "Lilita One"'; c.letterSpacing = '2px'; const tw = c.measureText(S.name).width + 31; c.restore(); nameTab(c, S, lx - tw - 14, ry - 15, 26); c.globalAlpha = alpha; }
+    if (ta > 0) { c.globalAlpha = alpha * ta; tabAt(c, S, lx, ry); c.globalAlpha = alpha; }
   }
   // Arabic meaning, muted, under the line
   if (mean) {
     const ma = Math.max(g, shown.length ? 1 : 0);
     if (ma > 0) {
-      c.save(); c.globalAlpha = alpha * ma; c.direction = 'rtl'; c.font = `700 46px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.save(); c.globalAlpha = alpha * ma; c.direction = 'rtl'; c.font = `700 50px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
       const mwid = c.measureText(mean).width;
       if (meanHi > 0) { rr(c, x - mwid / 2 - 22, ry + 30, mwid + 44, 60, 30); c.fillStyle = rgba(P.mustard, .35 * meanHi); c.fill(); }
       c.fillStyle = rgba(P.ink, .58 + .3 * meanHi); c.fillText(mean, x, ry + 62); c.restore();
@@ -173,8 +173,13 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
   c.restore();
   return { out, W, x, y, size };
 }
+// speaker tab at the rail's left end; when that would reach the presenter bean, it tucks under the start of the rail
+function tabAt(c, S, lx, ry) {
+  c.save(); c.font = '400 26px "Lilita One"'; c.letterSpacing = '2px'; const tw = c.measureText(S.name).width + 31; c.restore();
+  if (lx - tw - 14 >= 470) nameTab(c, S, lx - tw - 14, ry - 15, 26); else nameTab(c, S, lx, ry + 16, 26);
+}
 const fromLine = (id, stagger = 0) => { const l = LINE(id); return l ? l.tok.map((o, i) => ({ w: o.w, t: o.t0 - .06 + i * stagger, s0: o.t0, s1: o.t1 })) : []; };
-const fit = (items, size, maxW = 960) => { const { W } = layoutRow(items, size); return W > maxW ? size * maxW / W : size; };
+const fit = (items, size, maxW = 920) => { const { W } = layoutRow(items, size); return W > maxW ? size * maxW / W : size; };
 const wordX = (row, i) => row.x + row.out[i].x;
 
 // ---- the paper set ----
@@ -252,7 +257,7 @@ function gloss(c, txt, x, y, a) {
   c.fillStyle = P.navy; c.fillText(txt, 0, 4); c.restore();
 }
 // ---- items (each card comes in ghosted as soon as its item starts, while the Arabic explains) ----
-const CX = 965, Y1 = 385, Y2 = 645, YS = 470;
+const CX = 985, Y1 = 385, Y2 = 645, YS = 470;
 const ITEM = {
   hi(c, t, a, it) {
     drawRow(c, t, fromLine('r01'), { x: CX, y: Y1, size: 140, who: 'mia', alpha: a, ghost: it.t0, mean: 'أهلًا' });
@@ -301,8 +306,8 @@ const ITEM = {
     const ry = y + size * .26;
     rr(c, x0 - 12, ry, W + 24, 9, 4.5); c.fillStyle = rgba(P.navy, .85); c.fill();
     c.save(); c.font = '400 26px "Lilita One"'; c.letterSpacing = '2px'; const tw = c.measureText('YOUSSEF').width + 31; c.restore();
-    nameTab(c, SPEAKER.youssef, x0 - 12 - tw - 14, ry - 15, 26);
-    c.save(); c.direction = 'rtl'; c.font = `700 46px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba(P.ink, .58); c.fillText('أنا يوسف', CX, ry + 62); c.restore();
+    tabAt(c, SPEAKER.youssef, x0 - 12, ry);
+    c.save(); c.direction = 'rtl'; c.font = `700 50px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba(P.ink, .58); c.fillText('أنا يوسف', CX, ry + 62); c.restore();
     c.font = FONT(size); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
     // "one word" pill behind I'm
     const one = eo(seg(t, R.tOne - .1, R.tOne + .3));
@@ -356,9 +361,9 @@ const ITEM = {
     if (t > R.tQul) {
       const r07 = LINE('r07'), sp = r07 ? r07.tok : [];
       const right = ['Nice', 'to', 'meet', 'you', 'too.'].map((w, i) => ({ w, t: R.tQul + .15 + i * .07, s0: sp[i]?.t0, s1: sp[i]?.t1, mark: i === 4 ? eo(seg(t, R.tQul + .7, R.tQul + 1.1)) : 0 }));
-      const size = fit(right, 130);
-      const row = drawRow(c, t, right, { x: CX, y: Y2, size, who: 'youssef', alpha: a, mean: 'وأنا كمان اتشرفت بيك' });
-      if (row) check(c, row.x + row.W / 2 + 60, Y2 - 45, 32, seg(t, R.tQul + .45, R.tQul + .8));
+      const size = fit(right, 130, 840), x = CX - 30;
+      const row = drawRow(c, t, right, { x, y: Y2, size, who: 'youssef', alpha: a, mean: 'وأنا كمان اتشرفت بيك' });
+      if (row) check(c, row.x + row.W / 2 + 48, Y2 - 45, 30, seg(t, R.tQul + .45, R.tQul + .8));
     }
   },
   sorry(c, t, a, it) {

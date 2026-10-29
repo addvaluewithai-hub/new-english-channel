@@ -63,8 +63,8 @@ def tokens(k):
             for ar, lat in LATIN:
                 n = len(ar.split())
                 if [norm(x) for x in ws[i:i + n]] == [norm(x) for x in ar.split()]:
-                    tail = re.sub(r'^[\w؀-ۿ]+', '', ws[i + n - 1])  # keep trailing punctuation
-                    out.append((lat + tail, [norm(x) for x in ws[i:i + n]], ti))
+                    tail = re.sub(r'^[\w\u0621-\u064A]+', '', ws[i + n - 1])  # keep trailing punctuation
+                    out.append((lat + tail.translate(str.maketrans('،؟؛', ',?;')), [norm(x) for x in ws[i:i + n]], ti))
                     i += n
                     break
             else:
