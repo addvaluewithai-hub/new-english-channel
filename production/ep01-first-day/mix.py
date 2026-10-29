@@ -109,8 +109,6 @@ for i, (m, d) in enumerate([(50, .22), (49, .22), (48, 1.0)]):                  
 sting(rc[0] + .2, (77, 81, 84), .4, .09)                                          # recap title
 block(rc[0] + 1.6, rc[1], fade_in=1.0, mel=False, strum=False, perc=True, lvl=.5)   # recap: bass + brushes only
 block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)
-for k in range(int(BT['pause_end'] - BT['pause_start'])):                           # a soft clock in the silence
-    add(mus, brush(.05, .12) + shaker(.05, .05), BT['pause_start'] + .5 + k, 1, 0)
 sting(BT['pause_end'] + .2, (72, 76, 79, 84), .45)                                  # praise
 block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.85, fade_out=1.0)                # theme out
 for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .4), DUR - 2.4 + dt, 1, 0)
@@ -118,6 +116,12 @@ mus *= (1 - .7 * speech)[:, None]
 
 # ---------------- foley (from the page's events) ----------------
 fx = np.zeros((N, 2))
+def over(*parts):
+    """Sum sounds of different lengths: over(x, (y, delay), ...)"""
+    parts = [(p, 0) if isinstance(p, np.ndarray) else p for p in parts]
+    out = np.zeros(max(len(p) + int(d * SR) for p, d in parts))
+    for p, d in parts: out[int(d * SR):int(d * SR) + len(p)] += p
+    return out
 def tick(): return norm(hp(noise(.03), 3000) * env_exp(.03, .003) + np.sin(2 * np.pi * 2600 * t_(.03)) * env_exp(.03, .005))
 def alarm(d=1.6):
     tt = t_(d); x = np.sign(np.sin(2 * np.pi * 2300 * tt)) * (np.sin(2 * np.pi * 14 * tt) > 0)
@@ -135,55 +139,90 @@ def squiggle(d=.5):
 def freeze_hit():
     d = .5; tt = t_(d)
     return norm(lp(noise(d), 2500) * env_exp(d, .03) + np.sin(2 * np.pi * 180 * tt * (1 - .5 * tt)) * env_exp(d, .12))
-def caret(): return norm(pop() * .6 + np.pad(tick(), (0, len(pop()) - len(tick()))) * .5)
+def caret(): return norm(over(pop() * .6, tick() * .5))
 def write_(d=.6):
     tt = t_(d); return bp(noise(d), 2500, 7000) * (.6 + .4 * np.sin(2 * np.pi * 11 * tt)) * np.sin(np.pi * tt / d) * .4
-def squeeze(): return norm(whoosh(.25) + pop() * .5)
+def squeeze(): return norm(over(whoosh(.25), pop() * .5))
 def chirp():
     d = .25; tt = t_(d); f = 3800 + 1200 * np.sin(2 * np.pi * 18 * tt)
     return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.pi * tt / d) ** 2 * .3
 
+def gulp():
+    d = .28; tt = t_(d); f = 420 * (1 - .55 * tt / d)
+    return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.pi * tt / d) ** 1.5 * .8
+def buzz(d=.35):
+    tt = t_(d); x = np.sign(np.sin(2 * np.pi * 110 * tt)) * .5 + np.sign(np.sin(2 * np.pi * 113 * tt)) * .5
+    return lp(x, 1400) * np.minimum(1, np.minimum(tt / .01, (d - tt) / .04)) * .5
+def ratchet(d):
+    x = np.zeros(int(d * SR)); t = 0.
+    while t < d - .05:
+        a = int(t * SR); k = tick()[:len(x) - a]; x[a:a + len(k)] += k * .6; t += .045 + .1 * (t / d) ** 2
+    return x
+def page_turn(d=.7):
+    tt = t_(d); return norm(bp(noise(d), 500, 6000) * np.sin(np.pi * tt / d) ** 2 * (.6 + .4 * np.sin(2 * np.pi * 4 * tt))) * .7
+def confetti(d=1.2):
+    x = np.zeros(int(d * SR))
+    for i in range(10):
+        a = int(rng.random() * (d - .2) * SR); p = pop() * (.3 + .4 * rng.random()); x[a:a + len(p)] += p[:len(x) - a]
+    return x + bp(noise(d), 3000, 9000) * env_exp(d, .4) * .15
+def chime2(): return over(glock(84, .5, .5), (glock(88, .7, .5), .12))
+
 H = {   # event type -> (sound, gain, pan)
-    'door':      lambda e: (norm(creak() + np.pad(creak(), (int(.2 * SR), 0))[:len(creak())] * .7), .4, .15),
+    'door':      lambda e: (norm(over(creak(), (creak() * .7, .2))), .4, .15),
     'door_close':lambda e: (thump(1, 90), .45, .15),
     'pop':       lambda e: (pop(), .25, float(rng.uniform(-.3, .3))),
     'bubble':    lambda e: (pop(), .2, float(rng.uniform(-.3, .3))),
-    'whoosh':    lambda e: (whoosh(e.get('d', .4)), .3, 0),
-    'wipe':      lambda e: (whoosh(e.get('d', .6)), .35, 0),
-    'squiggle':  lambda e: (squiggle(e.get('d', .5)), .35, 0),
+    'whoosh':    lambda e: (whoosh(e.get('dur', .4)), .3, 0),
+    'wipe':      lambda e: (whoosh(e.get('dur', .6)), .35, 0),
+    'squiggle':  lambda e: (squiggle(e.get('dur', .5)), .35, 0),
     'ding':      lambda e: (ding(), .22, .1),
     'correct':   lambda e: (ding(), .22, .1),
     'clock_tick':lambda e: (tick(), .25, .1),
     'tick':      lambda e: (tick(), .25, .1),
-    'alarm':     lambda e: (alarm(e.get('d', 1.6)), .18, .2),
+    'alarm':     lambda e: (alarm(e.get('dur', 1.6)), .18, .2),
     'step':      lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
     'footstep':  lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
     'footsteps': lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
     'land':      lambda e: (thump(.5, 120), .12, 0),
-    'bus':       lambda e: (bus(e.get('d', 4.0)), .3, -.3),
-    'suitcase':  lambda e: (wheels(e.get('d', 2.0)), .15, .1),
-    'wheels':    lambda e: (wheels(e.get('d', 2.0)), .15, .1),
+    'bus':       lambda e: (bus(e.get('dur', 4.0)), .3, -.3),
+    'suitcase':  lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
+    'wheels':    lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'freeze':    lambda e: (freeze_hit(), .35, 0),
     'caret':     lambda e: (caret(), .3, 0),
     'insert':    lambda e: (caret(), .3, 0),
     'squeeze':   lambda e: (squeeze(), .3, 0),
     'merge':     lambda e: (squeeze(), .3, 0),
-    'write':     lambda e: (write_(e.get('d', .6)), .25, 0),
+    'write':     lambda e: (write_(e.get('dur', .6)), .25, 0),
     'type':      lambda e: (tick(), .15, 0),
     'sweat':     lambda e: (pop() * .5, .15, 0),
     'blink':     lambda e: (np.zeros(10), 0, 0),
     'sparkle':   lambda e: (ding() * .5, .15, .2),
     'bird':      lambda e: (chirp(), .2, .5),
+    'suitcase_roll': lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
+    'thought':   lambda e: (over(pop() * .6, (pop() * .4, .06)), .2, -.2),
+    'cut_in':    lambda e: (whoosh(.25), .18, 0),
+    'cut':       lambda e: (np.zeros(10), 0, 0),
+    'page_turn': lambda e: (page_turn(), .4, 0),
+    'door_open': lambda e: (norm(over(creak(), (creak() * .7, .2))), .4, .15),
+    'unfreeze':  lambda e: (whoosh(.3)[::-1].copy(), .2, 0),
+    'clock_spin':lambda e: (ratchet(e.get('dur', 4.0)), .2, .1),
+    'error_buzz':lambda e: (buzz(), .18, 0),
+    'repeat':    lambda e: (chime2(), .15, 0),
+    'mic_on':    lambda e: (tick(), .3, 0),
+    'countdown_tick': lambda e: (over(tick(), glock(79, .3, .3)), .35, 0),
+    'confetti':  lambda e: (confetti(), .3, 0),
+    'cheer':     lambda e: (ding() * .4, .15, -.2),
+    'gulp':      lambda e: (gulp(), .4, 0),
+    'click':     lambda e: (tick(), .3, .2),
+    'bell':      lambda e: (ding(), .2, .2),
 }
-MUSICAL = {'sting', 'chime', 'title', 'praise', 'countdown', 'mic', 'end', 'subscribe'}   # covered by the score
+MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon'}   # covered by the score
 unknown = {}
 for e in EV:
     k = e['type']
     if k in H:
         x, g, p = H[k](e)
         if g: add(fx, x, e['t'], g, p)
-    elif k == 'countdown':
-        add(fx, tick(), e['t'], .3, 0)
     elif k not in MUSICAL:
         unknown[k] = unknown.get(k, 0) + 1
 if unknown: print('unhandled event types:', unknown)
@@ -193,7 +232,7 @@ amb = np.zeros((N, 2))
 def street(a, b, lvl=1.0):
     d = b - a; tt = t_(d)
     x = lp(brown(d), 250) * .03 + bp(noise(d), 200, 1500) * .008 * (.8 + .2 * np.sin(2 * np.pi * .09 * tt))
-    e = np.minimum(1, np.minimum(tt / .8, (d - tt) / .8)); add(amb, x * e * lvl, a, 1, -.1)
+    e = np.minimum(1, np.minimum(tt / .8, (d - tt) / .8)); add(amb, x * e * lvl * 1.8, a, 1, -.1)
     t = a + 1.5
     while t < b - 1:
         if rng.random() < .5: add(amb, chirp(), t, .12 * lvl, float(rng.uniform(-.7, .7)))
@@ -204,6 +243,11 @@ street(by[0] - .3, by[1] + .3, .9)
 room = lp(brown(DUR + 1), 300)[:N] * .01; amb += room[:, None]
 
 mix = vox + mus * .5 + fx * .9 + amb
+if os.environ.get('STEMS'):   # level check: rms per section of each stem
+    for s_ in T['sections']:
+        a, b = int(s_['t0'] * SR), int(s_['t1'] * SR)
+        db = lambda x: round(20 * np.log10(np.sqrt(np.mean(x[a:b] ** 2)) + 1e-9), 1)
+        print(f"{s_['id']:7s} vox {db(vox)} mus {db(mus * .5)} fx {db(fx * .9)} amb {db(amb)}")
 mix = np.stack([limit(mix[:, c], .6) for c in range(2)], 1)
 mix = norm(mix, .89)[:int(DUR * SR)]
 os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
