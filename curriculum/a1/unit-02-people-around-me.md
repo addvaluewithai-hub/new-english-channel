@@ -1,7 +1,7 @@
 # A1 · الوحدة 2 — الناس اللي حواليا | People Around Me
 
 > **الحالة:** ✍️ مسودة، مستنية مراجعة صاحب القناة
-> **الإطار:** لندن. يوسف بقى يعرف ميا وتوم، ودلوقتي بيحكي عن عيلته اللي في القاهرة وعن الناس اللي حواليه.
+> **الإطار:** نيويورك. يوسف بقى يعرف سارة وتوم، ودلوقتي بيحكي عن عيلته اللي في القاهرة وعن الناس اللي حواليه.
 
 **في آخر الوحدة الطالب هيقدر:** يتكلم عن عيلته، ويوصف شكل حد ويعرف شخص من وصفه،
 ويقول بيحب إيه وما بيحبش إيه، ويحكي عن شخص تالت (ساكن فين، بيشتغل إيه، بيحب إيه)، ويقول يقدر يعمل إيه وما يقدرش يعمل إيه.
@@ -28,18 +28,18 @@
 
 **الهدف:** يقول عنده كام أخ وأخت، ويعرّف أفراد عيلته من صورة، ويسأل غيره عن عيلته.
 
-**الموقف:** يوسف بيوري ميا صورة عيلته على الموبايل.
+**الموقف:** يوسف بيوري سارة صورة عيلته على الموبايل.
 
 ```
-Mia:     Is that your family?
+Sara:     Is that your family?
 Youssef: Yes! This is my father, and this is my mother.
-Mia:     And who's that?
+Sara:     And who's that?
 Youssef: That's my sister, Nour. And these are my brothers, Ali and Omar.
-Mia:     Wow, a big family! Do you have any children?
+Sara:     Wow, a big family! Do you have any children?
 Youssef: No, I don't. I'm not married. Do you have brothers or sisters?
-Mia:     I have one brother. His name is Jack.
+Sara:     I have one brother. His name is Jack.
 Youssef: And what's your mother's name?
-Mia:     Helen.
+Sara:     Helen.
 ```
 
 **اللغة المستهدفة**
@@ -67,13 +67,13 @@ Mia:     Helen.
 
 **الهدف:** يوصف شكل حد بشكل بسيط، ويعرف شخص من وصف بيسمعه.
 
-**الموقف:** يوسف هيقابل توم في محطة القطر لأول مرة لوحده، وميا بتوصفهوله على التليفون.
+**الموقف:** يوسف هيقابل توم في محطة القطر لأول مرة لوحده، وسارة بتوصفهوله على التليفون.
 
 ```
 Youssef: What does Tom look like?
-Mia:     He's tall. He has short black hair and brown eyes.
+Sara:     He's tall. He has short black hair and brown eyes.
 Youssef: Does he have a beard?
-Mia:     No, he doesn't. Oh, and he has glasses.
+Sara:     No, he doesn't. Oh, and he has glasses.
 Youssef: Tall, short black hair, glasses… I can see him! Thanks!
 ```
 
@@ -102,14 +102,14 @@ Youssef: Tall, short black hair, glasses… I can see him! Thanks!
 **الهدف:** يقول بيحب إيه وما بيحبش إيه وهواياته، ويسأل غيره.
 **ده أول درس رسمي للمضارع البسيط** مع `I / you`.
 
-**الموقف:** ميا ويوسف بيختاروا يعملوا إيه في الويك إند.
+**الموقف:** سارة ويوسف بيختاروا يعملوا إيه في الويك إند.
 
 ```
-Mia:     Do you like football?
+Sara:     Do you like football?
 Youssef: Yes, I do! I love football. I play every Friday.
-Mia:     I don't like football. I really like music.
+Sara:     I don't like football. I really like music.
 Youssef: Do you play the guitar?
-Mia:     Yes, I do. And I love singing. What's your favourite hobby?
+Sara:     Yes, I do. And I love singing. What's your favourite hobby?
 Youssef: Cooking! I really enjoy cooking.
 ```
 
@@ -138,14 +138,14 @@ Youssef: Cooking! I really enjoy cooking.
 **الهدف:** يحكي عن شخص تالت (ساكن فين، بيشتغل إيه، بيحب إيه) ويسأل عنه.
 **نفس المضارع البسيط، بس مع** `he / she` **والـ**`-s`.
 
-**الموقف:** ميا بتسأل يوسف عن أخته نور.
+**الموقف:** سارة بتسأل يوسف عن أخته نور.
 
 ```
-Mia:     Tell me about your sister.
+Sara:     Tell me about your sister.
 Youssef: Nour? She's twenty-two. She lives in Cairo with my parents.
-Mia:     Does she work?
+Sara:     Does she work?
 Youssef: Yes, she does. She works in a bank. But she doesn't like her job!
-Mia:     Oh no. What does she like?
+Sara:     Oh no. What does she like?
 Youssef: She loves drawing. She draws every day.
 ```
 
@@ -173,14 +173,14 @@ Youssef: She loves drawing. She draws every day.
 
 **الهدف:** يقول يقدر يعمل إيه وما يقدرش يعمل إيه، ويسأل غيره.
 
-**الموقف:** المدرسة عاملة team كورة وحفلة مواهب، وميا بتسأل الطلبة.
+**الموقف:** المدرسة عاملة team كورة وحفلة مواهب، وسارة بتسأل الطلبة.
 
 ```
-Mia:     Can you play football, Youssef?
+Sara:     Can you play football, Youssef?
 Youssef: Yes, I can! I'm good at football.
-Mia:     Great! Can you sing?
+Sara:     Great! Can you sing?
 Youssef: No, I can't. I can't sing at all! But I can cook.
-Mia:     Can you cook Egyptian food?
+Sara:     Can you cook Egyptian food?
 Youssef: Yes! I can make koshari.
 ```
 
@@ -203,7 +203,7 @@ Youssef: Yes! I can make koshari.
 
 ## ⭐ حلقة المراجعة — A video call with Cairo | مكالمة فيديو مع القاهرة
 
-**مفيش لغة جديدة.** يوسف بيكلم عيلته فيديو وبيعرّفهم على ميا.
+**مفيش لغة جديدة.** يوسف بيكلم عيلته فيديو وبيعرّفهم على سارة.
 1. **مين ده؟** المشاهد بيسمع وصف ويختار الشخص الصح من 4 صور.
 2. **وقّف وجاوب:** "Do you have any brothers? What do you like? What can you do?"
 3. **اكتشف الغلطة:** `She like football`، `a man tall`، `I can to swim`، `My father name is…`
@@ -231,6 +231,6 @@ Youssef: Yes! I can make koshari.
 
 ## ❓ قرارات مستنياك
 
-1. ✅ **اتقرر: أمريكي.** الأساس `I have` و`cell phone` و`apartment`، والبريطاني (`I've got`، `mobile`، `flat`) بنذكره للتعرّف بس. ميا مدرّسة أمريكية بتشتغل في لندن.
+1. ✅ **اتقرر: أمريكي.** الأساس `I have` و`cell phone` و`apartment`، والبريطاني (`I've got`، `mobile`، `flat`) بنذكره للتعرّف بس. سارة مدرّسة أمريكية بتشتغل في نيويورك.
 2. **boyfriend / girlfriend:** موجودين في الليستة. نعلّمهم للتعرّف بس ومنحطهمش في قصة يوسف، ولا نشيلهم خالص من A1؟ أنا شايف التعرّف بس، لأنهم هيقابلوهم في أي فيلم.
 3. **الأكل المصري في القصة (الكشري):** نخلي القصة فيها لمسات مصرية/عربية زي كده؟ أنا شايف إنها بتقرّب المشاهد جدًا.
