@@ -1,0 +1,12 @@
+Silhouettes on Colour — style test credits
+
+Picture: procedural Canvas2D code written for this test (no stock images, no generated imagery).
+Voice: test_audio.wav supplied by the production (unchanged; loudness-normalised to -14 LUFS at mux).
+
+Fonts (SIL Open Font License 1.1, self-hosted from Google Fonts):
+- DM Serif Display — Colophon Foundry, Frank Grießhammer
+- Josefin Sans — Santiago Orozco (Typemade)
+- Reem Kufi — Khaled Hosny, Santiago Orozco
+- Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar — copied with the series font kit (fonts.css), not used on screen
+
+Tools: lemo-opuscar core render tools (headless Chromium frame capture, ffmpeg mux/loudnorm).
