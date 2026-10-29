@@ -182,8 +182,10 @@ class Builder:
         T['sections'][-1]['t1'] = round(self.t, 3)
         T['dur'] = round(self.t, 3)
         T['talk'].sort()
+        import lipsync
+        lipsync.build(T, self.V)
         json.dump(T, open(os.path.join(self.here, 'timeline.json'), 'w'), ensure_ascii=False, indent=1)
-        print(f"dur {T['dur']:.2f}s  estimated: {T['estimated'] or 'none'}")
+        print(f"dur {T['dur']:.2f}s  estimated: {T['estimated'] or 'none'}  mouth segments: {len(T['mouth'])} + {len(T['mouth_nar'])} narration")
         for s in T['sections']:
             print(f"  {s['id']:7s} {s['t0']:7.2f} {s['t1']:7.2f}")
         return T
