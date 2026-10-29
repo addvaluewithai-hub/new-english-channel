@@ -1,7 +1,7 @@
 // index.html — hero, today's review, streak, unit progress and the episode cards.
 import { h, $, starsHTML, esc } from './ui.js';
 import { mountAll } from './bean-widget.js';
-import { streak, dueCount, episodeState, deckSize, nextDue } from './store.js';
+import { streak, dueCount, episodeState, deckSize, nextDue, reviewDoneToday } from './store.js';
 
 const beans = mountAll();
 setTimeout(() => { beans.forEach(b => b.react(b.who === 'mia' ? 'wave' : 'happy')); }, 900);
@@ -16,7 +16,7 @@ async function main() {
   const rvTitle = $('#review-title'), rvSub = $('#review-sub'), rvBtn = $('#review-btn');
   if (due > 0) { rvTitle.innerHTML = `مراجعة النهارده: <bdi>${due}</bdi> ${due === 1 ? 'عبارة' : due <= 10 ? 'عبارات' : 'عبارة'}`; rvSub.textContent = 'دقيقتين بس… عشان الجمل تثبت 💪'; }
   else if (size === 0) { rvTitle.textContent = 'مفيش مراجعة لسه'; rvSub.textContent = 'ابدأ أول حلقة، والجمل هتدخل المراجعة لوحدها.'; rvBtn.classList.add('hidden'); }
-  else { const nd = nextDue(); const days = nd ? Math.max(1, Math.ceil((nd - Date.now()) / 864e5)) : 1; rvTitle.textContent = 'خلصت مراجعة النهارده ✓'; rvSub.innerHTML = `المراجعة الجاية ${days === 1 ? 'بكرة' : `بعد <bdi>${days}</bdi> أيام`}. كمّل حلقة جديدة!`; rvBtn.classList.add('hidden'); }
+  else { const nd = nextDue(); const days = nd ? Math.max(1, Math.ceil((nd - Date.now()) / 864e5)) : 1; const when = days === 1 ? 'بكرة' : `بعد <bdi>${days}</bdi> أيام`; rvTitle.textContent = reviewDoneToday() ? 'خلصت مراجعة النهارده ✓' : 'مفيش مراجعة النهارده ✓'; rvSub.innerHTML = `الجمل اللي اتعلمتها هترجع لك ${when} عشان تثبت. كمّل حلقة جديدة!`; rvBtn.textContent = 'راجع براحتك'; rvBtn.className = 'btn ghost'; rvBtn.href = 'review.html?all=1'; }
 
   const unit = data.units[0], eps = data.episodes.filter(e => e.unit === unit.id);
   const live = eps.filter(e => e.status === 'live');

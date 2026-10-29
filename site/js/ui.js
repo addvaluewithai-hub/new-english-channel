@@ -12,6 +12,8 @@ export function h(tag, attrs = {}, ...kids) {
   for (const c of kids.flat()) if (c != null && c !== false) el.append(c.nodeType ? c : document.createTextNode(String(c)));
   return el;
 }
+// wrap Latin runs (English inside an Arabic line) in an LTR span so punctuation does not flip
+export const mix = s => esc(s).replace(/[A-Za-z][A-Za-z0-9'’,…!? .-]*[A-Za-z0-9.!?…]|[A-Za-z]/g, m => `<span class="en" dir="ltr">${m}</span>`);
 export const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 export const sleep = ms => new Promise(r => setTimeout(r, ms));

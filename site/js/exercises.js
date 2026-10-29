@@ -1,6 +1,6 @@
 // The five exercise types. Each takes (root, item, ctx) and resolves { correct } where `correct` = right on the first try.
 // ctx: { stage(who, {bubble, expr}), bubble(html), react(name), talk(sec), feedback(kind, {head, why, cont}) → Promise }
-import { h, esc, shuffle, play, playButton, sleep, REDUCED } from './ui.js';
+import { h, esc, mix, shuffle, play, playButton, sleep, REDUCED } from './ui.js';
 
 const T = {
   listen: 'اسمع واختار', fix: 'صلّح غلطة يوسف', order: 'رتّب الكلمات', gap: 'كمّل الجملة', speak: 'قولها بصوت عالي',
@@ -9,6 +9,7 @@ const T = {
 export const KIND = T;
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const enHTML = s => `<span class="en" dir="ltr">${esc(s)}</span>`;
+const exHTML = a => `<span class="en" dir="ltr">${a.map(esc).join(' · ')}</span>`;
 export const normWords = s => s.toLowerCase().replace(/[’']/g, "'").replace(/[^a-z' ]+/g, ' ').trim().split(/\s+/).filter(Boolean);
 
 function kind(name, n) { return h('div', { class: 'kind' }, h('span', { class: 'n' }, n), T[name]); }
@@ -33,7 +34,7 @@ async function listen(root, item, ctx) {
         if (o === item.answer) {
           done = true; b.classList.add('correct'); chips.querySelectorAll('.chip').forEach(c => c.disabled = true);
           ctx.bubble(esc(ph.en)); ctx.react(ph.who === 'mia' ? 'clap' : 'happy');
-          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(ph.en)} = ${esc(ph.ar)}` + (item.explain ? `<br>${esc(item.explain)}` : '') });
+          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(ph.en)} = ${esc(ph.ar)}` + (item.explain ? `<br>${mix(item.explain)}` : '') });
           res({ correct: tries === 1 });
         } else {
           b.classList.add('wrong'); b.disabled = true; ctx.react('oops');
@@ -59,11 +60,12 @@ function sentenceHTML(text, span, cls) {
 }
 async function fix(root, item, ctx) {
   const ph = item.phrase;
-  ctx.stage('youssef', { bubble: sentenceHTML(item.wrong, item.span, 'bad'), expr: 'nervous' });
+  const mark = item.mark || item.span;
+  ctx.stage('youssef', { bubble: sentenceHTML(item.wrong, mark, 'bad'), expr: 'nervous' });
   setTimeout(() => ctx.react('embarrassed'), 300);
-  const sent = h('div', { class: 'sentence', html: sentenceHTML(item.wrong, item.span, 'bad') });
+  const sent = h('div', { class: 'sentence', html: sentenceHTML(item.wrong, mark, 'bad') });
   const chips = h('div', { class: 'chips', role: 'group', 'aria-label': 'التصليحات' });
-  root.append(kind('fix', item.n), item.context ? h('div', { class: 'context' }, item.context) : null,
+  root.append(kind('fix', item.n), item.context ? h('div', { class: 'context', html: mix(item.context) }) : null,
     h('p', { class: 'prompt' }, 'يوسف غلط… الكلمة الصح إيه؟'), sent, chips);
   let tries = 0, done = false;
   return new Promise(res => {
@@ -77,7 +79,7 @@ async function fix(root, item, ctx) {
           const html = sentenceHTML(fixed, item.answer, 'fixed');
           sent.innerHTML = html + ' <span style="color:var(--leaf)">✓</span>'; ctx.bubble(sentenceHTML(fixed, item.answer, 'hi'));
           ctx.react('happy'); if (ph.audio) play(ph.audio, { onstart: d => ctx.talk(d) });
-          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(fixed)} = ${esc(ph.ar)}<br>${esc(item.explain || '')}` });
+          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(fixed)} = ${esc(ph.ar)}<br>${mix(item.explain || '')}` });
           res({ correct: tries === 1 });
         } else {
           b.classList.add('wrong'); b.disabled = true; ctx.react('oops');
@@ -151,12 +153,12 @@ async function gap(root, item, ctx) {
         if (c === item.answer) {
           done = true; b.classList.add('correct'); chips.querySelectorAll('.chip').forEach(x => x.disabled = true);
           ctx.react(ph.who === 'mia' ? 'clap' : 'happy'); if (ph.audio) play(ph.audio, { onstart: d => ctx.talk(d) });
-          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(item.text.replace('___', c))} = ${esc(ph.ar)}` + (item.explain ? `<br>${esc(item.explain)}` : '') });
+          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(item.text.replace('___', c))} = ${esc(ph.ar)}` + (item.explain ? `<br>${mix(item.explain)}` : '') });
           res({ correct: tries === 1 });
         } else {
           b.classList.add('wrong'); b.disabled = true; ctx.react('oops');
           setTimeout(() => { if (!done) { sent.innerHTML = gapHTML(''); ctx.bubble(gapHTML('')); } }, 700);
-          ctx.feedback('bad', { head: pick(T.bad), why: item.explain && tries >= 2 ? esc(item.explain) : '' });
+          ctx.feedback('bad', { head: pick(T.bad), why: item.explain && tries >= 2 ? mix(item.explain) : '' });
         }
       });
       chips.append(b);
@@ -172,7 +174,7 @@ async function speak(root, item, ctx) {
   const box = h('div', { style: 'text-align:center' });
   root.append(kind('speak', item.n), h('p', { class: 'prompt' }, 'ميا بتسألك… رد عليها بصوت عالي!'), box);
   const hintEl = h('div', { class: 'sentence', style: 'color:var(--navy)' }, item.hint);
-  const ex = h('p', { class: 'hint', html: 'مثلًا: ' + item.examples.map(enHTML).join(' · ') });
+  const ex = h('p', { class: 'hint', html: 'مثلًا: ' + exHTML(item.examples) });
   const ask = playButton(asks.audio, 'اسمع ميا', { onplay: d => ctx.talk(d) });
   const start = h('button', { class: 'btn teal big', type: 'button' }, 'جاهز؟ يلا 3، 2، 1');
   box.append(h('div', { style: 'margin:6px 0 10px' }, ask), hintEl, ex, h('div', { style: 'margin-top:14px' }, start));
@@ -220,14 +222,14 @@ async function speak(root, item, ctx) {
       box.append(q, acts);
       yes.addEventListener('click', async () => {
         acts.remove(); q.remove(); ctx.react('clap');
-        await ctx.feedback('ok', { head: 'برافو عليك! 🎉', why: `ردود حقيقية: ${item.examples.map(enHTML).join(' · ')}` });
+        await ctx.feedback('ok', { head: 'برافو عليك! 🎉', why: `ردود حقيقية: ${exHTML(item.examples)}` });
         res({ correct: true });
       });
       no.addEventListener('click', async () => {
         if (ph.audio) await play(ph.audio, { onstart: d => { ctx.stage('youssef', { bubble: esc(ph.en), expr: 'happy' }); ctx.talk(d); } });
         ctx.stage('mia', { bubble: esc(asks.en), expr: 'happy' });
         no.textContent = 'كمّل من غير ما أقولها';
-        no.onclick = async () => { acts.remove(); q.remove(); await ctx.feedback('ok', { head: 'ماشي… جرّبها المرة الجاية', why: `قول: ${item.examples.map(enHTML).join(' · ')}` }); res({ correct: false }); };
+        no.onclick = async () => { acts.remove(); q.remove(); await ctx.feedback('ok', { head: 'ماشي… جرّبها المرة الجاية', why: `قول: ${exHTML(item.examples)}` }); res({ correct: false }); };
       });
     });
   });
@@ -246,7 +248,7 @@ export function normalise(ep, item, n) {
     const sentence = join ? `${ph.en} ${join.en}` : ph.en;
     return { ...item, phrase: ph, words: sentence.split(' '), ar: join ? `${ph.ar} ${join.ar}` : ph.ar, n };
   }
-  if (item.type === 'listen') { const ph = P.get(item.phrase); return { ...item, phrase: ph, answer: item.mode === 'ar' ? item.options[0] : item.options[0], n }; }
+  if (item.type === 'listen') { const ph = P.get(item.phrase); return { ...item, phrase: ph, answer: item.options[0], n }; }
   if (item.type === 'speak') return { ...item, phrase: P.get(item.phrase), asks: P.get(item.asks), n };
   return { ...item, phrase: P.get(item.phrase), n };
 }
