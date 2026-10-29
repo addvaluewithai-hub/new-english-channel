@@ -39,11 +39,19 @@ export function layer(i, w, h) {
 // and a thin rim light on the lit side, both computed from the layer's own silhouette. Consistent for every object.
 // o: { sx, sy: shade shift (px, toward lower-right), soft (px), shadeA, hx, hy, hiA, occl (bottom occlusion 0..1) }
 export function formed(ctx, box, draw, o) {
-  const x0 = Math.floor(box.x), y0 = Math.floor(box.y), w = Math.ceil(box.w) + 2, h = Math.ceil(box.h) + 2;
-  if (w < 2 || h < 2) return;
+  // the layer is rendered at screen resolution whatever ctx's current transform is (crisp when the camera zooms)
+  const m = ctx.getTransform(), sc = Math.sqrt(Math.abs(m.a * m.d - m.b * m.c));
+  const cs = [[box.x, box.y], [box.x + box.w, box.y], [box.x, box.y + box.h], [box.x + box.w, box.y + box.h]].map(([x, y]) => [m.a * x + m.c * y + m.e, m.b * x + m.d * y + m.f]);
+  const CW = ctx.canvas.width, CH = ctx.canvas.height, pad = 64;
+  const x0 = Math.floor(Math.max(-pad, Math.min(...cs.map(q => q[0])))), y0 = Math.floor(Math.max(-pad, Math.min(...cs.map(q => q[1]))));
+  const x1 = Math.ceil(Math.min(CW + pad, Math.max(...cs.map(q => q[0])))), y1 = Math.ceil(Math.min(CH + pad, Math.max(...cs.map(q => q[1]))));
+  const w = x1 - x0 + 2, h = y1 - y0 + 2;
+  if (w < 4 || h < 4) return;
+  const Y = y => m.d * y + m.f - y0;   // local y → layer y (no rotation in practice)
+  o = { ...o, sx: o.sx * sc, sy: o.sy * sc, soft: o.soft * sc, hx: (o.hx || 0) * sc, hy: (o.hy || 0) * sc };
   const L = layer(0, w, h), T = layer(1, w, h), l = L.getContext('2d'), t = T.getContext('2d');
   l.setTransform(1, 0, 0, 1, 0, 0); l.globalCompositeOperation = 'source-over'; l.globalAlpha = 1; l.clearRect(0, 0, w, h);
-  l.translate(-x0, -y0); draw(l); l.setTransform(1, 0, 0, 1, 0, 0);
+  l.setTransform(m.a, m.b, m.c, m.d, m.e - x0, m.f - y0); draw(l); l.setTransform(1, 0, 0, 1, 0, 0);
   const pass = (fill, dx, dy, blur, alpha, op) => {
     t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.filter = 'none';
     t.clearRect(0, 0, w, h); t.fillStyle = fill; t.fillRect(0, 0, w, h);
@@ -56,15 +64,15 @@ export function formed(ctx, box, draw, o) {
   pass(o.shade || SHADE, -o.sx, -o.sy, o.soft, o.shadeA ?? .5, 'multiply');
   // bottom occlusion (soft vertical gradient)
   if (o.occl) {
-    const g = t.createLinearGradient(0, o.oy0 - y0, 0, o.oy1 - y0); g.addColorStop(0, rgba(o.shade || SHADE, 0)); g.addColorStop(1, rgba(o.shade || SHADE, 1));
+    const g = t.createLinearGradient(0, Y(o.oy0), 0, Y(o.oy1)); g.addColorStop(0, rgba(o.shade || SHADE, 0)); g.addColorStop(1, rgba(o.shade || SHADE, 1));
     pass(g, 0, 0, 0, o.occl, 'multiply');
   }
   // rim light: silhouette minus itself shifted away from the light, faded toward the bottom
   if (o.hiA) {
-    const g = t.createLinearGradient(0, (o.hy0 ?? 0) - y0, 0, (o.hy1 ?? h) - y0); g.addColorStop(0, '#FFFBF0'); g.addColorStop(1, 'rgba(255,251,240,0)');
+    const g = t.createLinearGradient(0, o.hy0 != null ? Y(o.hy0) : 0, 0, o.hy1 != null ? Y(o.hy1) : h); g.addColorStop(0, '#FFFBF0'); g.addColorStop(1, 'rgba(255,251,240,0)');
     pass(g, o.hx, o.hy, o.soft * .5, o.hiA, 'screen');
   }
-  ctx.drawImage(L, 0, 0, w, h, x0, y0, w, h);
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(L, 0, 0, w, h, x0, y0, w, h); ctx.restore();
 }
 
 // ---- shapes ----

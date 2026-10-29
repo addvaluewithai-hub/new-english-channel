@@ -1,0 +1,9 @@
+Bean People v2 — style test (Phase 1: model sheets + style frames)
+
+Picture: drawn entirely in code (Canvas 2D): kit.js, bean.js, world.js, ui.js, main.js. Original designs; no third-party images.
+Render tooling: Lemo-Opuscar library (core/render/still.mjs, core/lib.js easing helpers), used unmodified.
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/ via the series font kit fonts.css):
+- Fredoka (English dialogue, labels) — github.com/google/fonts/tree/main/ofl/fredoka
+- Lilita One (sign, name tabs) — github.com/google/fonts/tree/main/ofl/lilitaone
+- Baloo Bhaijaan 2 (Arabic narration) — github.com/google/fonts/tree/main/ofl/baloobhaijaan2
