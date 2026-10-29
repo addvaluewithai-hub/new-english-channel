@@ -127,9 +127,9 @@ Sara:     No! Thirty! Three-zero!  (بيضحكوا)
 Sara:     Where are you from, Youssef?
 Youssef: I'm from Egypt.
 Sara:     Oh, nice! Where in Egypt?
-Youssef: Cairo. Are you from London?
-Sara:     No, I'm not. I'm from New York, but I live in London now.
-Youssef: Me too! I live in London now.
+Youssef: Cairo. Are you from New York?
+Sara:     Yes, I am! I'm from Brooklyn. And you live in New York now?
+Youssef: Yes! I live in Queens now.
 ```
 
 **اللغة المستهدفة**
