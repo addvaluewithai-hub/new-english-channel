@@ -152,7 +152,7 @@ def city(a, b):
 city(T['rise0'], T['turn1'][0] + 1); city(T['rise3'], T['close'][1])
 
 mix = vox * 1.0 + mus * .55 + fx * .9 + amb
-mix = np.stack([limit(mix[:, c], .95) for c in range(2)], 1)
+mix = np.stack([limit(mix[:, c], .6) for c in range(2)], 1)
 mix = norm(mix, .89)[:int(DUR * SR)]
 os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
 sf.write(os.path.join(HERE, 'out', 'mix.wav'), mix.astype(np.float32), SR)
