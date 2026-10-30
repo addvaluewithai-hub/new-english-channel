@@ -57,9 +57,9 @@ b.beat('door_open', b.T['narration'][-1]['t0'] + 1.2)
 b.section('recap')
 b.beat('recap_title')
 b.hold(2.0)
-b.recap([('ar07', .4, 'count'), ('r01', 'R', 'count'),
-         ('ar08', .4, 'teen'), ('r02', 'R', 'teen'),
-         ('ar09', .4, 'ty'), ('r03', 'R', 'ty'),
+b.recap([('ar07', .4, 'count'), ('r01', .6, 'count'),
+         ('ar08', .4, 'teen'), ('r02', .6, 'teen'),
+         ('ar09', .4, 'ty'), ('r03', .6, 'ty'),
          ('ar10', .4, 'stress'), ('r04', 'R', 'stress'),
          ('ar11', .4, 'age'), ('r05', .4, 'age'), ('r06', .5, 'age'), ('r07', 'R', 'age'),
          ('ar12', 1.2, 'wrong'),

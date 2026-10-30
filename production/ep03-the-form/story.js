@@ -85,7 +85,7 @@ const penIn = (c, id, h, k, rot = .5) => { drawPen(c, h[0] - .01 * 270 * k, h[1]
 // poses used in this episode (A3 arms; see act.js for the shared set)
 const HOLDF = { dx: -.1, dy: .02, w: 0, bend: 55, elv: [1, .6], flex: 1, front: true };    // the form at chest height
 const LOOKF = { dx: -.14, dy: -.02, w: 0, bend: 60, elv: [1, .5], flex: 1, front: true };  // lifted a little to read it
-const GIVE = { ...REACH, dx: .2 };                                                           // the form held out across the counter
+const GIVE = { ...REACH, dx: .2, dy: .05 };                                                  // the form held out across the counter (low: the sheet stays under the mouths)
 const WRITE = { dx: -.13, dy: .04, w: 0, bend: 55, elv: [1, .8], flex: 1, front: true };    // Mrs. Lopez: a hand on the counter top (with the pen)
 const PENUP = { dx: -.1, dy: -.03, w: 0, bend: 60, elv: [1, .6], flex: 1, front: true };    // the pen raised, ready
 const ME = { dx: -.2, dy: -.05, w: 0, bend: 45, elv: [.2, 1], flex: .8, front: true };      // "Me?": a hand to her own chest (above the counter)
@@ -286,12 +286,12 @@ export function buildStory() {
     { t: bFreeze, d: 0, x: 1236, y: 700, z: 3.3 },
     { t: bUn, d: 0, x: 1290, y: 672, z: 1.85 },
     { t: bSaraIn + .2, d: 1.4, ...THREE },
-    { t: n4 ? n4.t0 : F1.t1 + .5, d: Math.max(1, (n4 ? n4.t1 - n4.t0 : 3)), x: 1222, y: 690, z: 2.35 },
+    { t: n4 ? n4.t0 : F1.t1 + .5, d: Math.max(1, (n4 ? n4.t1 - n4.t0 : 3)), x: 1222, y: 690, z: 2.1 },
     { t: sx.t0, d: 0, ...THREE },
     { t: X3.t0 - .2, d: .25, x: 1240, y: 672, z: 1.7 },
     { t: X4.t0 + .3, d: 1.2, ...THREE },
-    { t: tGo, d: 2.6, x: 620, y: 600, z: 1.42 },
-    { t: tOpen + .2, d: Math.max(1.5, rm.t1 - tOpen), x: 470, y: 590, z: 1.55 },
+    { t: tGo, d: 2.6, x: 620, y: 565, z: 1.36 },
+    { t: tOpen + .2, d: Math.max(1.5, rm.t1 - tOpen), x: 480, y: 548, z: 1.42 },
   ];
   // ================= sound cues =================
   cue(op.t0 + .3, 'ambience_street', { dur: dk.t0 - .5, note: 'New York morning street bed' });
@@ -362,7 +362,7 @@ function deskShot(c, t, cam, freeze = false) {
   drawReception(c, cam, t, { dof, clock: Math.min(8, mins), door });
   const R = {};
   // Mrs. Lopez behind the counter (her pen; the form in her far hand between `take` and `down`)
-  const lHasForm = t >= S.formAt.take && t < S.formAt.down, penOn = t >= S.tIns0 - 3.2 && t < S.tIns1 + .2 || t < S.dk.t0 + 1.4;
+  const lHasForm = t >= S.formAt.take && t < S.formAt.down + .25, penOn = true;   // the held sheet sinks behind the counter as the one on top fades in; the pen never leaves her hand
   R.l = drawActor(c, cam, S.lD, t, { front: (h, k) => {
     if (penOn && !h[1][2]) penIn(c, 'lopez', h[1], k, .55);
     if (lHasForm && !h[0][2]) formHeld(c, 'lopez', h[0], k, 1);
@@ -387,7 +387,7 @@ function deskShot(c, t, cam, freeze = false) {
   if (freeze) return R;
   const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null, lh = head(R.l, 'lopez', 1.14);
   // number tags: "16?!" over Youssef, "60" over Mrs. Lopez
-  if (yh) { const k = seg(t, S.tSixteen, S.tSixteen + .35) * (1 - seg(t, S.n5 ? S.n5.t0 - .4 : 1e9, S.n5 ? S.n5.t0 - .1 : 1e9)); if (k > 0) numTag(c, yh[0] - 30 * R.y.Z, yh[1] - 150 * R.y.Z, '16?!', P.red, k, R.y.Z, t - S.tSixteen); }
+  if (yh) { const k = seg(t, S.tSixteen, S.tSixteen + .35) * (1 - seg(t, S.tSixty2 - .1, S.tSixty2 + .2)); if (k > 0) numTag(c, yh[0] + 120 * R.y.Z, yh[1] - 110 * R.y.Z, '16?!', P.red, k, R.y.Z, t - S.tSixteen); }
   if (lh) { const k = seg(t, S.tSixty2, S.tSixty2 + .35) * (1 - seg(t, S.n5 ? S.n5.t0 - .4 : 1e9, S.n5 ? S.n5.t0 - .1 : 1e9)); if (k > 0) numTag(c, lh[0] + 20 * R.l.Z, lh[1] - 150 * R.l.Z, '60', P.teal, k, R.l.Z, 0, seg(t, S.tSixZero, S.tSixZero + .3) > 0 ? '6 · 0' : null); }
   // ar05: the two stress cards (six·TEEN beside Youssef, SIX·ty beside Mrs. Lopez); a dot lands on the stressed part on the second mention
   if (S.n5 && t > S.t16 - .2 && t < S.n5.t1 + .6) {
@@ -423,7 +423,7 @@ function numTag(c, x, y, txt, col, k, Z, wob = 0, sub = null) {
   rr(c, -w / 2, -78 + 10, w, 156, 40); c.fillStyle = rgba('#1E1B33', .2); c.fill();
   rr(c, -w / 2, -78, w, 156, 40); c.fillStyle = '#FFFDF8'; c.fill(); c.strokeStyle = col; c.lineWidth = 8; c.stroke();
   c.fillStyle = col; c.fillText(txt, 0, 6);
-  if (sub) { c.font = '600 54px "Fredoka"'; c.fillStyle = P.ink; c.fillText(sub, 0, 120); }
+  if (sub) { c.font = '600 54px "Fredoka"'; const sw = c.measureText(sub).width + 44; rr(c, -sw / 2, 90, sw, 66, 33); c.fillStyle = P.teal; c.fill(); c.fillStyle = P.cream; c.fillText(sub, 0, 126); }
   c.restore();
 }
 // a stress card: syllables side by side, the stressed one big and coloured with a dot above it (the dot drops in with `dot`)

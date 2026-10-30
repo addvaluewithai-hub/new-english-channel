@@ -11,6 +11,8 @@ import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle } fr
 import { cue } from './cues.js';
 
 const PAPER = '#FBF1E1', RULE = rgba(P.ink, .045), GROUND_Y = 900;
+// the text column between the presenters (Sara x ≈ 395 ± 190 with her arms, Youssef x ≈ 1580 ± 200): rows, tabs, glosses and marks stay inside
+const COL = { x0: 560, x1: 1400 }, COLW = 740;   // rows above the presenters' heads (y < 430) may use 900 px
 const FONT = s => `600 ${s}px "Fredoka"`;
 const AR = '"Baloo Bhaijaan 2"';
 const CAM = { x: 960, y: 540, z: 1 };
@@ -44,7 +46,7 @@ export function buildRecap() {
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Sara left facing right: armL) ----
   const hiT = it('count').t0;
-  const YK = 1.6, MK_ = 1.5, YX = 1580, MX = 395;   // 110 px in from the frame edges, clear of the text column (rows fit to 820 px) and the plate
+  const YK = 1.4, MK_ = 1.32, YX = 1580, MX = 395;   // 110 px in from the frame edges, clear of the text column (rows fit to 820 px) and the plate
   const OUTR = A => { const lim = (1880 - 27 - .34 * 300 * YK - YX) / (300 * YK) - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
   R.YX = YX; R.MX = MX;
   const yRest = F('happy', { lx: -.5, happy: .35 }), mRest = F('happy', { lx: .5, happy: .35 });
@@ -117,8 +119,11 @@ function layoutRow(items, size) {
   const W = x - sp; out.forEach(o => o.x -= W / 2); return { out, W };
 }
 // opts: ghost (time the card appears, upcoming words at 25 % ink), mean (Arabic meaning under the line), meanHi (0..1 accent)
-function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost = null, mean = null, meanHi = 0, meanSize = 50, meanCol = null }) {
+function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost = null, mean = null, meanHi = 0, meanSize = 50, meanCol = null, maxW = null }) {
   if (alpha <= 0) return null;
+  if (maxW == null) maxW = y < 430 ? 900 : COLW;
+  { const W0 = layoutRow(items, size).W; if (W0 > maxW) size *= maxW / W0; }   // every row fits the text column (clear of both presenters)
+  const spw = mw(' ', size) * 1.05;
   const { out, W } = layoutRow(items, size);
   const S = SPEAKER[who], col = who === 'mia' ? RUST : P.navy;
   const g = ghost != null ? seg(t, ghost, ghost + .3) : 0;
@@ -133,14 +138,16 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
     const ta = Math.max(k, .45 * g);
     if (ta > 0) { c.globalAlpha = alpha * ta; tabAt(c, S, lx, ry); c.globalAlpha = alpha; }
   }
-  // Arabic meaning, muted, under the line
+  // Arabic meaning, muted, under the line (shifted right past a tucked name tab so the two never overlap)
+  const tabEnd = rail ? tabAt(c, S, x + Math.min(...out.map(o => o.x)) - 12, ry, false) : null;
   if (mean) {
     const ma = Math.max(g, shown.length ? 1 : 0);
     if (ma > 0) {
       c.save(); c.globalAlpha = alpha * ma; c.direction = 'rtl'; c.font = `700 ${meanSize}px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
-      const mwid = c.measureText(mean).width, my = ry + 12 + meanSize;
-      if (meanHi > 0) { rr(c, x - mwid / 2 - 22, my - meanSize * .62, mwid + 44, meanSize * 1.24, meanSize * .62); c.fillStyle = rgba(P.mustard, .35 * meanHi); c.fill(); }
-      c.fillStyle = meanCol || rgba(P.ink, .58 + .3 * meanHi); c.fillText(mean, x, my); c.restore();
+      const mwid = c.measureText(mean).width; let my = ry + 12 + meanSize, mx = x;
+      if (tabEnd != null && x - mwid / 2 - 22 < tabEnd) { mx = Math.min(tabEnd + mwid / 2 + 22, COL.x1 - mwid / 2); if (mx - mwid / 2 < tabEnd + 8) { mx = x; my += 40; } }
+      if (meanHi > 0) { rr(c, mx - mwid / 2 - 22, my - meanSize * .62, mwid + 44, meanSize * 1.24, meanSize * .62); c.fillStyle = rgba(P.mustard, .35 * meanHi); c.fill(); }
+      c.fillStyle = meanCol || rgba(P.ink, .58 + .3 * meanHi); c.fillText(mean, mx, my); c.restore();
     }
   }
   for (const o of out) {
@@ -154,7 +161,7 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
     }
     const p = o.typed ? 1 : seg(t, o.t, o.t + .3), q = o.typed ? 1 : t - o.t - .3;
     const sq = q > 0 ? 1 - .16 * Math.exp(-q * 9) * Math.cos(q * 26) : lerp(1.15, 1, p);
-    const pop = ghost != null && !o.typed ? (1 + .14 * Math.sin(Math.PI * p)) : 1;   // ghosted words pop in place; others rise from the line
+    const pop = ghost != null && !o.typed ? (1 + Math.min(.14, .6 * spw / Math.max(1, o.ww)) * Math.sin(Math.PI * p)) : 1;   // capped so a long word never grows into its neighbour's space   // ghosted words pop in place; others rise from the line
     const wx = x + o.x + o.ww / 2, wy = y + (ghost != null ? 0 : (1 - eo(p)) * 70);
     c.save(); c.globalAlpha = alpha * (ghost != null ? lerp(.22, 1, seg(p, 0, .3)) : seg(p, 0, .35)) * (o.alpha ?? 1); c.translate(wx + (o.dx || 0), wy);
     const cur = o.s0 != null && t >= o.s0 && t < o.s1 + .12;
@@ -162,11 +169,11 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
     if (o.mark) { rr(c, -o.ww / 2 - 4, size * .1, (o.ww + 8) * o.mark, 10, 5); c.fillStyle = P.mustard; c.fill(); }
     c.scale(pop * (o.sx ?? 1) / Math.sqrt(sq), pop * sq);
     c.fillStyle = o.col || P.ink; c.textAlign = 'center';
-    if (o.wob) {   // "Sorry?": the ? wobbles (Living Letters)
-      const body = o.w.slice(0, -1), qw = mw('?', size), bw = mw(body, size);
+    if (o.wob && /[?!؟]$/.test(o.w)) {   // "Sorry?" / "Sorry!": the final mark wobbles (Living Letters) — the word keeps its own mark
+      const mk = o.w.slice(-1), body = o.w.slice(0, -1), qw = mw(mk, size), bw = mw(body, size);
       c.fillText(body, -qw / 2, 0);
       const k = t - o.t - .25, ang = k > 0 ? Math.sin(k * 8) * .3 * Math.exp(-k * .9) + .1 : 0;
-      c.save(); c.translate(bw / 2 - qw / 2 + qw / 2, -size * .02); c.rotate(ang); c.fillText('?', 0, 0); c.restore();
+      c.save(); c.translate(bw / 2, -size * .02); c.rotate(ang); c.fillText(mk, 0, 0); c.restore();
     } else c.fillText(o.w, 0, 0);
     c.restore();
   }
@@ -174,12 +181,14 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
   return { out, W, x, y, size };
 }
 // speaker tab at the rail's left end; when that would reach the presenter bean, it tucks under the start of the rail
-function tabAt(c, S, lx, ry) {
+function tabAt(c, S, lx, ry, draw = true) {
   c.save(); c.font = '400 26px "Lilita One"'; c.letterSpacing = '2px'; const tw = c.measureText(S.name).width + 31; c.restore();
-  if (lx - tw - 14 >= 560) nameTab(c, S, lx - tw - 14, ry - 15, 26); else nameTab(c, S, lx, ry + 16, 26);
+  const left = lx - tw - 14 >= COL.x0;
+  if (draw) { if (left) nameTab(c, S, lx - tw - 14, ry - 15, 26); else nameTab(c, S, lx, ry + 16, 26); }
+  return left ? null : lx + tw + 22;   // the x the gloss must start after when the tab is tucked under the rail
 }
 const fromLine = (id, stagger = 0) => { const l = LINE(id); return l ? l.tok.map((o, i) => ({ w: o.w, t: o.t0 - .06 + i * stagger, s0: o.t0, s1: o.t1 })) : []; };
-const fit = (items, size, maxW = 820) => { const { W } = layoutRow(items, size); return W > maxW ? size * maxW / W : size; };
+const fit = (items, size, maxW = COLW) => { const { W } = layoutRow(items, size); return W > maxW ? size * maxW / W : size; };
 const wordX = (row, i) => row.x + row.out[i].x;
 
 // ---- the paper set ----
@@ -256,7 +265,7 @@ function gloss(c, txt, x, y, a) {
   c.fillStyle = P.navy; c.fillText(txt, 0, 4); c.restore();
 }
 // ---- items (each card comes in ghosted as soon as its item starts, while the Arabic explains) ----
-const CX = 1000, CUEY = { count: 822, teen: 822, ty: 822, stress: 836, age: 150, wrong: 822, order: 822 };
+const CX = 985, CUEY = { count: 822, teen: 822, ty: 822, stress: 836, age: 150, wrong: 822, order: 822 };
 const ghostRow = (words, who) => words.map(w => ({ w, t: 1e9 }));   // a row that stays ghosted
 // a number card: the digits big, the word under them (a part of the word can be coloured: hi = [start, col]); k = pop, cur = being said
 function numCard(c, x, y, w, h, num, word, { k = 1, ghost = 0, cur = 0, hi = null, mute = 0 } = {}) {
@@ -366,7 +375,7 @@ const ITEM = {
     const rows = [{ w: ['I', 'have', '26', 'years.'], t: R.tW1, y: 290, pill: 'ترجمة حرفية', fix: "I'm 26." }, { w: ["I'm", '26', 'years.'], t: R.tW2, y: 600, pill: 'ناقصة كلمة', fix: "I'm 26 years old." }];
     rows.forEach((r, i) => {
       const ra = a * seg(t, r.t - .05, r.t + .25); if (ra <= 0) return;
-      const row = drawRow(c, t, r.w.map((w, j) => ({ w, t: r.t - .05 + j * .07 })), { x: CX, y: r.y, size: 110, who: 'youssef', alpha: ra });
+      const row = drawRow(c, t, r.w.map((w, j) => ({ w, t: r.t - .05 + j * .07 })), { x: CX - 30, y: r.y, size: 110, who: 'youssef', alpha: ra, maxW: COLW - 150 });   // room for the ✗
       if (!row) return;
       c.save(); c.globalAlpha = ra;
       const x0 = i === 0 ? wordX(row, 0) - 6 : wordX(row, 2) - 6, x1 = row.x + row.W / 2 - mw('.', 110) + 6;
@@ -377,9 +386,9 @@ const ITEM = {
       // the fix (leaf, with a ✓) under it, when the narration says "old"
       const fk = seg(t, R.tOld + .3 + i * .25, R.tOld + .6 + i * .25);
       if (fk > 0) {
-        c.globalAlpha = ra * fk; c.font = FONT(84); c.textAlign = 'center'; c.textBaseline = 'alphabetic';
-        const fw = c.measureText(r.fix).width, fx = CX - 90, fy = r.y + 175;
-        c.fillStyle = P.leaf; c.fillText('→', fx - fw / 2 - 70, fy);
+        c.globalAlpha = ra * fk; c.font = FONT(72); c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+        const fw = c.measureText(r.fix).width, fx = Math.max(COL.x0 + 80 + fw / 2, CX - 40), fy = r.y + 175;
+        c.fillStyle = P.leaf; c.fillText('→', fx - fw / 2 - 52, fy);
         rr(c, fx - fw / 2 - 12, fy - 66, (fw + 24) * eo(fk), 80, 18); c.fillStyle = rgba(P.leaf, .18); c.fill();
         c.fillStyle = dark(P.leaf, .35); c.fillText(r.fix, fx, fy);
         check(c, fx + fw / 2 + 50, fy - 28, 28, seg(t, R.tOld + .5 + i * .25, R.tOld + .85 + i * .25));

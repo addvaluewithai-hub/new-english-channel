@@ -83,7 +83,7 @@ async function fix(root, item, ctx) {
           res({ correct: tries === 1 });
         } else {
           b.classList.add('wrong'); b.disabled = true; ctx.react('oops');
-          ctx.feedback('bad', { head: pick(T.bad), why: item.span ? `الغلط في «${enHTML(item.span)}»` : '' });
+          ctx.feedback('bad', { head: pick(T.bad), why: item.span ? `الغلط في «${enHTML(item.span.length <= 2 && item.mark ? item.mark : item.span)}»` : ''   /* a lone "I" reads like an alef inside Arabic */ });
         }
       });
       chips.append(b);

@@ -16,7 +16,7 @@ const H = { youssef: 300, mia: 276, ana: 266 };
 const SEAT = 22;   // a seated student sinks this far behind the desk
 const X = { mia: 470, ana: CLASS.desks.ana, youssef: CLASS.desks.youssef };
 const WIDE = { x: 960, y: 548, z: 1.04 };
-const SARA = { x: 700, y: 560, z: 1.5 }, ANA1 = { x: 1180, y: 520, z: 1.4 }, YOU1 = { x: 1250, y: 520, z: 1.4 }, PAIR = { x: 1262, y: 610, z: 1.72 };
+const SARA = { x: 700, y: 560, z: 1.5 }, ANA1 = { x: 1180, y: 520, z: 1.4 }, YOU1 = { x: 1200, y: 520, z: 1.4 }, PAIR = { x: 1262, y: 750, z: 1.85 };
 let S = null;
 
 // ---- camera: keys fold like poses; z eases in log space; d = 0 is a cut ----
@@ -273,14 +273,14 @@ export function buildStory() {
     { t: it.t0, d: 0, ...SARA }, { t: it.t0 + .1, d: 2, x: 705, y: 560, z: 1.55 },
     { t: bAnaUp - .25, d: 0, ...ANA1 }, { t: bAnaUp, d: Math.max(1, bAnaDown - bAnaUp), x: 1170, y: 524, z: 1.48 },
     { t: I2 ? I2.t0 - .1 : bAnaDown, d: 0, ...WIDE },
-    { t: bYouUp - .3, d: 0, ...YOU1 }, { t: bYouUp, d: Math.max(1, bFreeze - bYouUp), x: 1270, y: 540, z: 1.62 },
+    { t: bYouUp - .3, d: 0, ...YOU1 }, { t: bYouUp, d: Math.max(1, bFreeze - bYouUp), x: 1225, y: 536, z: 1.5 },
     // after the freeze: Sara at the board for the fix; Youssef's "Oh! Sorry."; the wide for "Where in Egypt?"; Youssef for "Cairo!"
     { t: bUn, d: 0, ...SARA }, { t: bUn + .05, d: 2.5, x: 712, y: 540, z: 1.58 },
     { t: F1 ? F1.t0 - .2 : bUn + 3, d: 0, ...PAIR },
     { t: F2 ? F2.t0 - .2 : bUn + 6, d: 0, ...WIDE },
     { t: F3 ? F3.t0 - .25 : bCairo - .25, d: 0, ...YOU1 },
-    { t: n4 ? n4.t0 : bCairo + 1, d: Math.max(1, (n4 ? n4.t1 : bCairo + 6) - (n4 ? n4.t0 : bCairo + 1)), x: 1400, y: 640, z: 2.2 },
-    { t: F4 ? F4.t0 - .45 : fx.t1 - 8, d: 0, ...PAIR }, { t: F4 ? F4.t0 - .4 : fx.t1 - 8, d: 4, x: 1262, y: 616, z: 1.82 },
+    { t: n4 ? n4.t0 : bCairo + 1, d: Math.max(1, (n4 ? n4.t1 : bCairo + 6) - (n4 ? n4.t0 : bCairo + 1)), x: 1400, y: 705, z: 2.2 },
+    { t: F4 ? F4.t0 - .45 : fx.t1 - 8, d: 0, ...PAIR }, { t: F4 ? F4.t0 - .4 : fx.t1 - 8, d: 4, x: 1262, y: 752, z: 1.95 },
     { t: F7 ? F7.t0 - .3 : fx.t1 - 3, d: 0, ...WIDE },
     { t: hk.t0, d: 0, ...SARA }, { t: hk.t0 + .1, d: 3, x: 700, y: 566, z: 1.62 },
     { t: bStuck, d: 0, x: 1360, y: 690, z: 2.5 }, { t: bStuck + .05, d: Math.max(1, rc.t0 - bStuck), x: 1400, y: 690, z: 3.0 },

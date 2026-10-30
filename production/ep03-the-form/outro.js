@@ -66,7 +66,7 @@ export function buildOutro() {
   yS.blinks.push(bSite + 1.0, tEnter - .15, tLink - .2);
   // Sara, small, peeks in from the right edge of the frame for the stars and claps
   const sS = { id: 'mia', base: { turn: -.42, face: F('happy', { happy: .45, lx: -.6, ly: -.2 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
-    moves: [{ t0: tFive - .3, t1: tFive + .25, x0: 2150, x1: 1730, y0: 905, y1: 905, k0: .82, k1: .82, step: .28 }], keys: [], jumps: [], blinks: [] };
+    moves: [{ t0: tFive - .3, t1: tFive + .25, x0: 2150, x1: 1790, y0: 905, y1: 905, k0: .78, k1: .78, step: .28 }], keys: [], jumps: [], blinks: [] };
   sS.keys.push({ t: tFive + .4, armL: CLAP, armR: CLAP, face: F('joy'), d: .2 }, { t: tFive + 1.7, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .5, lx: -.6, ly: -.2 }), d: .3 });
   sS.jumps.push({ t: tFive + .45, h: .03, d: .3 }, { t: tFive + .8, h: .03, d: .3 });
   sS.blinks.push(tFive + .4);
@@ -260,7 +260,7 @@ function confetti(c, t, t0) {
 // exercise, playing by itself) fills the frame; Youssef hops in small on the left and points at it; Sara peeks in from the
 // right to clap at the stars; the mustard bar "حل تمارين الحلقة · اللينك في الوصف ⬇" pops under the card on "اللينك".
 // Same beats as before (squiggle → tap → fix → stars → the link), keyed to the narration words.
-const CTA = { cx: 1040, cy: 420, w: 1000, h: 740, barY: 858 };
+const CTA = { cx: 1050, cy: 412, w: 1180, h: 780, barY: 858 };
 const SCREEN = { x: 960, y: 540, z: 1 };
 export function sceneSite(c, t) {
   const cam = camAt(O.camT, t), k = eio(seg(t, O.bSite, O.bSite + .5)), d0 = dofOf(cam.z);
@@ -301,56 +301,56 @@ function bigCard(c, t) {
   rr(c, 0, 18, w, h, 48); c.fillStyle = rgba('#2A2742', .28); c.fill();
   rr(c, 0, 0, w, h, 48); c.fillStyle = P.cream; c.fill();
   c.save(); rr(c, 0, 0, w, h, 48); c.clip();
-  c.fillStyle = rgba('#6F62A8', .09); for (let y = 150; y < h; y += 48) c.fillRect(0, y, w, 2);
+  c.fillStyle = rgba('#6F62A8', .09); for (let y = 140; y < h; y += 48) c.fillRect(0, y, w, 2);
   // the site's top bar + progress dots
-  c.fillStyle = rgba(P.ink, .12); c.fillRect(0, 100, w, 2);
-  c.direction = 'rtl'; c.font = `800 44px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.navy; c.fillText('يوسف في نيويورك · تمارين', w / 2, 52);
+  c.fillStyle = rgba(P.ink, .12); c.fillRect(0, 92, w, 2);
+  c.direction = 'rtl'; c.font = `800 48px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.navy; c.fillText('يوسف في نيويورك · تمارين', w / 2, 48);
   for (let i = 0; i < 12; i++) {
     const x = w / 2 - 143 + i * 26, cur = i === EX.n - 1, r = cur ? 11 : 8;
-    ell(c, x, 132, r, r); c.fillStyle = i < EX.n - 1 ? P.leaf : cur ? P.mustard : '#FFFDF8'; c.fill();
+    ell(c, x, 120, r, r); c.fillStyle = i < EX.n - 1 ? P.leaf : cur ? P.mustard : '#FFFDF8'; c.fill();
     if (i >= EX.n) { c.strokeStyle = rgba(P.ink, .3); c.lineWidth = 2.5; c.stroke(); }
   }
   // the exercise card
-  const X0 = 34, X1 = w - 34, CW = X1 - X0, top = 168, cardH = h - top - 34;
+  const X0 = 34, X1 = w - 34, CW = X1 - X0, top = 150, cardH = h - top - 30;
   rr(c, X0, top + 8, CW, cardH, 30); c.fillStyle = rgba('#6F62A8', .16); c.fill();
   rr(c, X0, top, CW, cardH, 30); c.fillStyle = '#FFFDF8'; c.fill();
-  ell(c, X1 - 50, top + 56, 30, 30); c.fillStyle = P.mustard; c.fill();
-  c.font = '400 34px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(String(EX.n), X1 - 50, top + 59);
-  c.direction = 'rtl'; c.font = `800 42px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.navy; c.fillText('صلّح غلطة يوسف', X1 - 98, top + 58);
+  ell(c, X1 - 54, top + 54, 34, 34); c.fillStyle = P.mustard; c.fill();
+  c.font = '400 40px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(String(EX.n), X1 - 54, top + 58);
+  c.direction = 'rtl'; c.font = `800 48px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.navy; c.fillText('صلّح غلطة يوسف', X1 - 106, top + 56);
   // context (what Sara said) + the prompt
-  rr(c, X0 + 26, top + 104, CW - 52, 72, 20); c.fillStyle = '#DDEFF8'; c.fill();
-  c.font = `700 32px ${AR}`; c.fillStyle = P.ink; const who = O.EX.who || 'سارة:', ww = c.measureText(who).width; c.fillText(who, X1 - 48, top + 142);
-  c.direction = 'ltr'; c.font = '500 34px "Fredoka"'; c.textAlign = 'right'; c.fillText(EX.context, X1 - 48 - ww - 12, top + 142);
-  c.direction = 'rtl'; c.font = `800 36px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.ink; c.fillText('يوسف غلط… الكلمة الصح إيه؟', X1 - 26, top + 226);
+  rr(c, X0 + 26, top + 98, CW - 52, 88, 24); c.fillStyle = '#DDEFF8'; c.fill();
+  c.font = `700 44px ${AR}`; c.fillStyle = P.ink; const who = O.EX.who || 'سارة:', ww = c.measureText(who).width; c.fillText(who, X1 - 52, top + 144);
+  c.direction = 'ltr'; c.font = '500 46px "Fredoka"'; c.textAlign = 'right'; c.fillText(EX.context, X1 - 52 - ww - 14, top + 144);
+  c.direction = 'rtl'; c.font = `800 46px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.ink; c.fillText('يوسف غلط… الكلمة الصح إيه؟', X1 - 30, top + 236);
   // the sentence: the wrong span with the squiggle, then the answer on a mustard swash + ✓
   const fixed = t >= tSolve + .3, fk = seg(t, tSolve + .3, tSolve + .55), si = EX.wrong.indexOf(EX.span);
   const pre = EX.wrong.slice(0, si), span = fixed ? EX.answer : EX.span, post = EX.wrong.slice(si + EX.span.length);
   c.direction = 'ltr'; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
-  let fs = 84; c.font = `600 ${fs}px "Fredoka"`; const full = c.measureText(pre + span + post).width;
-  if (full > CW - 120) { fs = Math.floor(fs * (CW - 120) / full); c.font = `600 ${fs}px "Fredoka"`; }
-  const wPre = c.measureText(pre).width, wSpan = c.measureText(span).width, wAll = c.measureText(pre + span + post).width, sx0 = w / 2 - wAll / 2, by = top + 322;
+  let fs = 110; c.font = `600 ${fs}px "Fredoka"`; const full = Math.max(c.measureText(EX.wrong).width, c.measureText(pre + EX.answer + post).width);
+  if (full > CW - 150) { fs = Math.floor(fs * (CW - 150) / full); c.font = `600 ${fs}px "Fredoka"`; }   // one size for the wrong and the fixed sentence
+  const wPre = c.measureText(pre).width, wSpan = c.measureText(span).width, wAll = c.measureText(pre + span + post).width, sx0 = w / 2 - wAll / 2, by = top + 358;
   if (fixed) { rr(c, sx0 + wPre - 8, by - fs * .78, (wSpan + 16) * eo(fk), fs * .98, 14); c.fillStyle = rgba(P.mustard, .5); c.fill(); }
   c.fillStyle = P.ink; c.fillText(pre + span + post, sx0, by);
-  if (!fixed) squiggle(c, sx0 + wPre, sx0 + wPre + wSpan, by + 20, seg(t, bSite + .8, bSite + 1.25), 8, P.red, 7);
-  else check(c, sx0 + wAll + 48, by - 24, 26, seg(t, tSolve + .3, tSolve + .75));
+  if (!fixed) squiggle(c, sx0 + wPre, sx0 + wPre + wSpan, by + 22, seg(t, bSite + .8, bSite + 1.25), 9, P.red, 8);
+  else check(c, sx0 + wAll + 52, by - 30, 30, seg(t, tSolve + .3, tSolve + .75));
   // the chips (the right one goes leaf when tapped) + the ✓ on it
-  c.font = '600 36px "Fredoka"'; const GAP = 18, chipW = EX.chips.map(s => c.measureText(s).width + 64), rowW = chipW.reduce((a, b) => a + b, 0) + GAP * 2;
+  c.font = '600 48px "Fredoka"'; const GAP = 20, chipW = EX.chips.map(s => c.measureText(s).width + 70), rowW = chipW.reduce((a, b) => a + b, 0) + GAP * 2;
   const press = seg(t, tSolve, tSolve + .1) * (1 - seg(t, tSolve + .12, tSolve + .3)); let hit = null;
-  let x = w / 2 - rowW / 2; const cyy = top + 412;
+  let x = w / 2 - rowW / 2; const cyy = top + 462;
   EX.chips.forEach((s, i) => {
     const cw = chipW[i], on = i === EX.right && t >= tSolve, pr = i === EX.right ? press : 0, cxx = x + cw / 2;
     c.save(); c.translate(cxx, cyy); c.scale(1 - .06 * pr, 1 - .06 * pr);
-    rr(c, -cw / 2, -36 + 5, cw, 72, 36); c.fillStyle = on ? P.leaf : rgba(P.ink, .12); c.fill();
-    rr(c, -cw / 2, -36, cw, 72, 36); c.fillStyle = on ? '#DCEFD8' : '#FFFDF8'; c.fill(); c.strokeStyle = on ? P.leaf : rgba(P.ink, .14); c.lineWidth = 3; c.stroke();
-    c.font = '600 36px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(s, 0, 1);
-    if (on) check(c, cw / 2 - 4, -34, 24, seg(t, tSolve + .1, tSolve + .45));
+    rr(c, -cw / 2, -42 + 5, cw, 84, 42); c.fillStyle = on ? P.leaf : rgba(P.ink, .12); c.fill();
+    rr(c, -cw / 2, -42, cw, 84, 42); c.fillStyle = on ? '#DCEFD8' : '#FFFDF8'; c.fill(); c.strokeStyle = on ? P.leaf : rgba(P.ink, .14); c.lineWidth = 3; c.stroke();
+    c.font = '600 48px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(s, 0, 1);
+    if (on) check(c, cw / 2 - 4, -40, 26, seg(t, tSolve + .1, tSolve + .45));
     c.restore();
     if (i === EX.right) hit = [cxx, cyy];
     x += cw + GAP;
   });
   // the stars row fills one by one (with a sparkle each)
   for (let i = 0; i < 3; i++) {
-    const sx = w / 2 + (i - 1) * 104, sy = top + 498, k = seg(t, tFive + .25 + i * .28, tFive + .55 + i * .28);
+    const sx = w / 2 + (i - 1) * 108, sy = top + 556, k = seg(t, tFive + .25 + i * .28, tFive + .55 + i * .28);
     star(c, sx, sy, 34, null, rgba(P.ink, .3));
     if (k > 0) { c.save(); c.translate(sx, sy); const s = back(k, 2.6); c.scale(s, s); star(c, 0, 0, 34, P.mustard, null); c.restore(); }
     if (k > 0 && k < 1) for (let j = 0; j < 5; j++) { const a = j * 1.26 + i; sparkle(c, sx + Math.cos(a) * (46 + 40 * k), sy + Math.sin(a) * (46 + 40 * k), 11 * Math.sin(Math.PI * k), j % 2 ? P.mustard : P.red, a); }

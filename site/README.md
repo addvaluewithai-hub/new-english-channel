@@ -15,21 +15,39 @@ site/
   review.html         today's review session (~2 min, mixed types across episodes); ?all=1 reviews the whole deck
   css/site.css        palette tokens (from production/style-tests/bean-people-v2/STYLE.md), type, components
   fonts/              Fredoka, Lilita One, Baloo Bhaijaan 2, Lalezar (copied from the episode) + fonts.css
-  audio/epNN/rNN.mp3  the episodes' model phrases (48 kbps mono mp3 made from production/epNN/voices/rNN.wav)
+  audio/epNN/rNN.mp3  the episodes' model phrases (48 kbps mono mp3 made from production/epNN/voices/rNN.wav);
+                      turn.mp3 = the episode's "your turn" question (used by the speak item's `ask`)
   data/episodes.json  the series, units and the episode list (titles, status live|soon, colour, YouTube link)
   data/epNN.json      one episode: phrases, Youssef's mistakes, the exercise items
-  js/engine/          the show's drawing code, unchanged apart from local imports: lib.js, kit.js, bean.js, act.js
-  js/bean-widget.js   draws a bean on any <canvas> with the show's idle loop + reactions
+  js/engine/          the show's drawing code (see below): lib.js, kit.js, bean.js, act.js + tl.js (the site's timeline stand-in)
+  js/bean-widget.js   draws a bean on any <canvas> with the show's idle loop, smoothed A3 arms, lip sync + reactions
   js/store.js         localStorage (guarded): streak days, episode results, the SM-2-like review deck
   js/exercises.js     the five exercise types + `normalise()` (episode JSON → runnable items)
   js/session.js       the shared runner: top bar, progress dots, bean stage, feedback bar
   js/ep.js, js/home.js, js/review.js   the three pages
-  js/ui.js            small helpers: DOM, audio, confetti, toast, share
+  js/ui.js            small helpers: DOM, audio, confetti, toast, share; SPEAKERS (tab name + Arabic name per character)
 ```
 
-The beans are the same `bean.js` the episodes are rendered with (same `CAST`, `EXPR` presets, form pass), so the site
-draws exactly the show's characters. `bean-widget.js` adds the idle loop from the episodes (breathing, seeded blinks,
-eye darts) and a few reactions (`happy`, `embarrassed`, `clap`, `yawn`, `wave`, `oops`, `think`). Reduced motion is respected.
+The beans are the episodes' own drawing code (design v3, "A3" arms: one smooth curve with a soft elbow, shoulder cap, taper,
+cuff, bigger hand with a thumb), so the site draws exactly the show's characters:
+
+| site file | copied from | changes |
+|---|---|---|
+| `engine/kit.js` | `production/ep02-good-morning/kit.js` | import path `/core/lib.js` → `./lib.js` |
+| `engine/bean.js` | `production/ep02-good-morning/bean.js` | import path; plus the later cast merged in: `lopez` (Mrs. Lopez, from ep03's bean.js) and `ana` (from ep04's) |
+| `engine/act.js` | `production/ep03-the-form/act.js` (= ep02's + lopez's dart seed) | import paths (`./lib.js`, `./tl.js`) |
+| `engine/tl.js` | site-only | `mouthAt()` verbatim from the episodes' tl.js, reading a synthetic viseme track the widget writes per clip |
+| `engine/lib.js` | the render library's `core/lib.js` (the helpers the engine imports) | — |
+
+Youssef and Sara render pixel-identical to the episode engine, and Mrs. Lopez / Ana to theirs (checked pose by pose). The
+internal id of Sara stays `mia` (as in the episodes); everything shown says Sara. When the episodes' engine changes again,
+re-copy these files and redo only the import paths (and the cast merge if a new episode adds a character).
+
+`bean-widget.js` drives a bean like the episodes do: keyed tracks folded with `fold`, arms time-smoothed with `smoothArms`
+(so every gesture eases in and out), the ponytail / quiff springs (`springAt`), seeded blinks and eye darts, breathing, and
+lip sync through the episodes' viseme shapes (`lipsync`): `talk(sec)` writes a plausible viseme track for a clip of `sec`
+seconds. Reactions: `happy`, `embarrassed`, `clap`, `yawn`, `wave`, `oops`, `think`, `surprised`. Beans are framed against
+Youssef's height, so Sara stands a head shorter, as in the show. Reduced motion is respected.
 
 ## Exercise types
 
@@ -39,7 +57,7 @@ eye darts) and a few reactions (`happy`, `embarrassed`, `clap`, `yawn`, `wave`, 
 | `fix` | صلّح غلطة يوسف | the wrong sentence with a red squiggle; tap the right chip; Youssef gets embarrassed, then happy |
 | `order` | رتّب الكلمات | word tiles to put in order (optional `extra` distractor tiles, optional `join` of two phrases) |
 | `gap` | كمّل الجملة | one gap, 3 chips |
-| `speak` | قولها بصوت عالي | Mia asks (her clip), a 3-2-1 ring, then "قلتها؟" self-check; with `webkitSpeechRecognition` the mic listens and matches `keywords` |
+| `speak` | قولها بصوت عالي | the `asks` phrase's speaker asks (optional `ask: {en, audio}` = the episode's own "your turn" line and clip), a 3-2-1 ring, then "قلتها؟" self-check; with `webkitSpeechRecognition` the mic listens and matches `keywords` |
 
 Scoring: an item counts when it is right on the first try. Stars: ≥ 90 % → 3, ≥ 60 % → 2, else 1.
 
@@ -53,13 +71,22 @@ and falls back to memory when storage is blocked.
 
 ## Adding an episode
 
-1. Convert the model clips: `ffmpeg -i rNN.wav -ac 1 -ar 32000 -b:a 48k site/audio/ep03/rNN.mp3`.
-2. Write `data/ep03.json` (copy `ep02.json`): `phrases` (id, en, ar, who, audio), `mistakes` (wrong, span to replace,
-   optional `mark` for the squiggle, chips, answer, explain) and ~12 `items`. In a `listen` item the first option is the
-   correct one (options are shuffled on screen).
-3. In `data/episodes.json` set the episode's `status` to `live`, add the `youtube` link, blurb and colour.
+`episodes.json` already lists episodes 3 and 4 (titles, colour, blurb, YouTube placeholder) with `"status": "soon"`, and the
+site already knows their new characters (`who: "lopez"` = Mrs. Lopez, tab MRS. LOPEZ; `who: "ana"` = Ana, tab ANA). So when
+their data arrives:
 
-Nothing else changes: the home page, the review deck and the end screen read the JSON.
+1. Drop in `data/ep03.json` and the clips in `audio/ep03/` (same for ep04).
+2. In `data/episodes.json` set the episode's `status` to `"live"` (and, once the video is up, replace the `youtube` link).
+
+That's all: the home card, the exercises (`ep.html?id=ep03` works even before the flip, for a preview), the review deck and the
+end screen read the JSON. A phrase's `who` picks the bean and the bubble tab (`youssef`, `mia` = Sara, `lopez`, `ana`); the speak
+prompt uses that character's Arabic name.
+
+Writing an episode file from scratch: convert the model clips (`ffmpeg -i rNN.wav -ac 1 -ar 32000 -b:a 48k audio/epNN/rNN.mp3`,
+plus `turn.wav` → `turn.mp3`), then copy `ep02.json`: `phrases` (id, en, ar, who, audio — the `en` text exactly as the clip says
+it), `mistakes` (wrong, span to replace, optional `mark` for the squiggle, chips, answer, explain) and ~12 `items`. In a `listen`
+item the first option is the correct one (options are shuffled on screen); a `gap` item may carry its own `ar` when it gaps a
+longer line than its phrase; a `speak` item may carry `ask: {en, audio}` for the episode's "your turn" line.
 
 ## Run locally
 

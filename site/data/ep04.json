@@ -1,0 +1,45 @@
+{
+  "id": "ep04", "n": 4, "title": "Where Are You From?", "titleAr": "إنت منين؟",
+  "intro": "يوسف قال I am live in Queens قدام الكلاس كله… لأن I'm بقت في كل جملة. تعالى نصلّحها.",
+  "phrases": [
+    { "id": "wayf",     "en": "Where are you from?",     "ar": "إنت منين؟",              "who": "mia",     "audio": "audio/ep04/r01.mp3" },
+    { "id": "imfrom",   "en": "I'm from Egypt.",         "ar": "أنا من مصر.",            "who": "youssef", "audio": "audio/ep04/r02.mp3" },
+    { "id": "wdyl",     "en": "Where do you live?",      "ar": "إنت ساكن فين؟",          "who": "mia",     "audio": "audio/ep04/r03.mp3" },
+    { "id": "ilive",    "en": "I live in Queens.",       "ar": "أنا ساكن في كوينز.",     "who": "youssef", "audio": "audio/ep04/r04.mp3" },
+    { "id": "ayfny",    "en": "Are you from New York?",  "ar": "إنتي من نيويورك؟",       "who": "youssef", "audio": "audio/ep04/r05.mp3" },
+    { "id": "yes",      "en": "Yes, I am.",              "ar": "أيوه.",                  "who": "mia",     "audio": "audio/ep04/r06.mp3" },
+    { "id": "ayfm",     "en": "Are you from Madrid?",    "ar": "إنتي من مدريد؟",         "who": "youssef", "audio": "audio/ep04/r07.mp3" },
+    { "id": "no",       "en": "No, I'm not.",            "ar": "لأ.",                    "who": "mia",     "audio": "audio/ep04/r08.mp3" },
+    { "id": "liveny",   "en": "I live in New York.",     "ar": "أنا ساكنة في نيويورك.",  "who": "mia",     "audio": "audio/ep04/r09.mp3" },
+    { "id": "egyptian", "en": "Egypt. Egyptian.",        "ar": "مصر · مصري",             "who": "youssef", "audio": "audio/ep04/r10.mp3" },
+    { "id": "spanish",  "en": "Spain. Spanish.",         "ar": "إسبانيا · إسباني",       "who": "mia",     "audio": "audio/ep04/r11.mp3" },
+    { "id": "american", "en": "America. American.",      "ar": "أمريكا · أمريكي",        "who": "mia",     "audio": "audio/ep04/r12.mp3" },
+    { "id": "imegy",    "en": "I'm Egyptian.",           "ar": "أنا مصري.",              "who": "youssef", "audio": null }
+  ],
+  "mistakes": [
+    { "id": "m-live", "phrase": "ilive", "context": "سارة: Where do you live?", "wrong": "I am live in Queens.", "span": "am live", "mark": "am", "chips": ["live", "am live", "is live"], "answer": "live",
+      "explain": "live فعل… والفعل مش محتاج am. قول: I live in Queens." },
+    { "id": "m-from", "phrase": "imfrom", "context": "سارة: Where are you from?", "wrong": "I from Egypt.", "span": "I from", "chips": ["I'm from", "I from", "Me from"], "answer": "I'm from",
+      "explain": "«أنا من مصر» محتاجة am: I'm from Egypt. (I'm = I am)" },
+    { "id": "m-at", "phrase": "liveny", "context": "سارة: Where do you live?", "wrong": "I live at Cairo.", "span": "at", "chips": ["in", "at", "on"], "answer": "in",
+      "explain": "المدينة والبلد بياخدوا in: in Cairo، in New York." },
+    { "id": "m-nat", "phrase": "imegy", "context": "آنا: I'm Spanish. And you?", "wrong": "I'm Egypt.", "span": "Egypt", "chips": ["Egyptian", "Egypt", "egyptian"], "answer": "Egyptian",
+      "explain": "Egypt = البلد، Egyptian = الجنسية (مصري)… والاتنين بحرف كبير." }
+  ],
+  "items": [
+    { "type": "listen", "phrase": "wayf", "mode": "ar", "options": ["إنت منين؟", "إنت ساكن فين؟", "إنت عامل إيه؟"] },
+    { "type": "fix", "mistake": "m-live" },
+    { "type": "listen", "phrase": "ilive", "mode": "en", "options": ["I live in Queens.", "I am live in Queens.", "I live at Queens."], "explain": "مع live مفيش am: I live in Queens." },
+    { "type": "order", "phrase": "imfrom" },
+    { "type": "fix", "mistake": "m-from" },
+    { "type": "gap", "phrase": "liveny", "text": "I live ___ New York.", "chips": ["in", "at", "on"], "answer": "in", "explain": "المدينة بتاخد in: I live in New York." },
+    { "type": "listen", "phrase": "no", "mode": "ar", "options": ["لأ.", "أيوه.", "مش عارف."], "explain": "Are you from…? الرد: Yes, I am. أو No, I'm not." },
+    { "type": "order", "phrase": "ayfm", "join": "no" },
+    { "type": "fix", "mistake": "m-at" },
+    { "type": "gap", "phrase": "imegy", "text": "I'm from Egypt. I'm ___.", "chips": ["Egyptian", "Egypt", "Egyptish"], "answer": "Egyptian", "explain": "البلد Egypt، والجنسية Egyptian (مصري)." },
+    { "type": "fix", "mistake": "m-nat" },
+    { "type": "speak", "phrase": "imfrom", "asks": "wayf", "ask": { "en": "Hi! Where are you from?", "audio": "audio/ep04/turn.mp3" }, "hint": "I'm from ______.",
+      "keywords": ["from", "egypt", "saudi", "arabia", "jordan", "morocco", "iraq", "syria", "lebanon", "algeria", "tunisia", "libya", "sudan", "yemen", "kuwait", "qatar", "emirates", "oman", "bahrain", "palestine"],
+      "examples": ["I'm from Egypt.", "I'm from Jordan.", "I'm from Morocco."] }
+  ]
+}

@@ -550,9 +550,6 @@ function bun(l, sp, p, G) {
   l.beginPath(); l.ellipse(bx - .015 * H, by - .015 * H, .055 * H, .035 * H, -.2, PI * 1.1, PI * 1.6); l.stroke();
   l.strokeStyle = dark(sp.hair, .25); l.lineWidth = .008 * H;
   for (const a of [-.5, .4]) { l.beginPath(); l.ellipse(bx, by, .08 * H, .06 * H, a, PI * 1.05, PI * 1.45); l.stroke(); }
-  // a red pencil through the bun (the receptionist's tell)
-  l.save(); l.translate(bx, by); l.rotate(-.5 + Math.sin(th) * .2); rr(l, -.13 * H, -.012 * H, .26 * H, .024 * H, .01 * H); l.fillStyle = P.red; l.fill();
-  l.fillStyle = '#F3DDB8'; l.beginPath(); l.moveTo(.13 * H, -.012 * H); l.lineTo(.16 * H, 0); l.lineTo(.13 * H, .012 * H); l.closePath(); l.fill(); l.restore();
 }
 function waves(l, sp, p, G) {
   const H = G.H, th = G.th;
@@ -866,7 +863,7 @@ export function handPos(sp, p) {
 // a cardboard carrier with n takeaway cups, centred on (x, y)
 export function drawTray(ctx, x, y, k, n = 2, o = {}) {
   const u = 300 * k, gap = .15 * u;
-  for (let i = 0; i < n; i++) drawCup(ctx, x + (i - (n - 1) / 2) * gap, y - .02 * u, k, o);
+  for (let i = 0; i < n; i++) if (i >= n - (o.cups ?? n)) drawCup(ctx, x + (i - (n - 1) / 2) * gap, y - .02 * u, k, o);   // o.cups: cups still in the carrier (the slot nearest x − is emptied first)
   ctx.save(); ctx.translate(x, y);
   const w = gap * n + .02 * u;
   rr(ctx, -w / 2, -.02 * u, w, .07 * u, .02 * u); ctx.fillStyle = mix(P.mustard, P.cream, .5); ctx.fill();

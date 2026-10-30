@@ -686,21 +686,22 @@ function receptionStatic(c) {
   c.fillStyle = P.navy; ell(c, cx, cy, r + 8, r + 8); c.fill(); c.fillStyle = P.mustard; ell(c, cx, cy, r + 1, r + 1); c.fill(); c.fillStyle = '#FFFBF4'; ell(c, cx, cy, r - 6, r - 6); c.fill();
   c.fillStyle = P.ink; for (let i = 0; i < 12; i++) { const a = i / 12 * 2 * PI; c.save(); c.translate(cx + Math.sin(a) * (r - 16), cy - Math.cos(a) * (r - 16)); c.rotate(a); rr(c, -2.5, -(i % 3 ? 4 : 7), 5, i % 3 ? 8 : 14, 2.5); c.fill(); c.restore(); }
   // the RECEPTION sign
-  const sx = 1640;
-  c.fillStyle = rgba('#3B2F6B', .18); rr(c, sx - 246, 318, 500, 86, 14); c.fill();
-  c.fillStyle = P.navy; rr(c, sx - 250, 310, 500, 86, 14); c.fill();
-  c.strokeStyle = P.mustard; c.lineWidth = 4; rr(c, sx - 238, 320, 476, 66, 9); c.stroke();
-  c.fillStyle = P.cream; c.font = '400 50px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.letterSpacing = '6px'; c.fillText('RECEPTION', sx + 3, 355); c.letterSpacing = '0px';
+  const sx = 1560, sy = 446;   // low enough to stay whole in the two-shot and the three-shot
+  c.fillStyle = rgba('#3B2F6B', .18); rr(c, sx - 226, sy + 8, 460, 74, 14); c.fill();
+  c.fillStyle = P.navy; rr(c, sx - 230, sy, 460, 74, 14); c.fill();
+  c.strokeStyle = P.mustard; c.lineWidth = 4; rr(c, sx - 219, sy + 9, 438, 56, 9); c.stroke();
+  c.fillStyle = P.cream; c.font = '400 44px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.letterSpacing = '6px'; c.fillText('RECEPTION', sx + 3, sy + 39); c.letterSpacing = '0px';
   c.textBaseline = 'alphabetic';
   // a shelf behind the counter: binders, a small plant, a framed photo
-  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(1560, 568, 420, 10);
-  c.fillStyle = '#C98B5E'; rr(c, 1550, 556, 420, 14, 4); c.fill();
-  [[1580, 70, P.red], [1608, 84, P.navy], [1636, 76, P.teal], [1664, 88, P.mustard], [1692, 72, mix(P.leaf, P.cream, .2)]].forEach(([bx, bh, col]) => {
-    c.fillStyle = col; rr(c, bx, 556 - bh, 24, bh, 4); c.fill(); c.fillStyle = rgba('#FFFFFF', .5); c.fillRect(bx + 6, 556 - bh + 12, 12, 18);
+  const shy = 618;   // the shelf, right of her head and under the sign
+  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(1650, shy + 12, 400, 10);
+  c.fillStyle = '#C98B5E'; rr(c, 1640, shy, 400, 14, 4); c.fill();
+  [[1660, 62, P.red], [1686, 74, P.navy], [1712, 66, P.teal], [1738, 76, P.mustard], [1764, 60, mix(P.leaf, P.cream, .2)]].forEach(([bx, bh, col]) => {
+    c.fillStyle = col; rr(c, bx, shy - bh, 22, bh, 4); c.fill(); c.fillStyle = rgba('#FFFFFF', .5); c.fillRect(bx + 5, shy - bh + 10, 12, 16);
   });
-  c.fillStyle = P.navy; rr(c, 1760, 476, 74, 80, 6); c.fill(); c.fillStyle = mix(P.sky, P.cream, .35); c.fillRect(1768, 484, 58, 50);
-  c.fillStyle = mix(P.mustard, P.cream, .2); ell(c, 1797, 509, 12, 12); c.fill();
-  c.fillStyle = P.teal; rr(c, 1880, 520, 52, 36, 6); c.fill(); c.fillStyle = P.leaf; for (const [lx, ly, lr] of [[1892, 506, 16], [1918, 500, 18], [1906, 488, 15]]) { ell(c, lx, ly, lr, lr * .8); c.fill(); }
+  c.fillStyle = P.navy; rr(c, 1820, shy - 74, 66, 74, 6); c.fill(); c.fillStyle = mix(P.sky, P.cream, .35); c.fillRect(1827, shy - 67, 52, 46);
+  c.fillStyle = mix(P.mustard, P.cream, .2); ell(c, 1853, shy - 44, 11, 11); c.fill();
+  c.fillStyle = P.teal; rr(c, 1930, shy - 34, 50, 34, 6); c.fill(); c.fillStyle = P.leaf; for (const [lx, ly, lr] of [[1942, shy - 48, 15], [1966, shy - 54, 17], [1954, shy - 66, 14]]) { ell(c, lx, ly, lr, lr * .8); c.fill(); }
   // a small poster between the window and the clock (generic skyline, no text)
   c.fillStyle = rgba('#3B2F6B', .12); rr(c, 1100, 500, 150, 116, 8); c.fill();
   c.fillStyle = P.navy; rr(c, 1094, 492, 150, 116, 8); c.fill(); c.fillStyle = '#FBF1E1'; c.fillRect(1106, 504, 126, 92);

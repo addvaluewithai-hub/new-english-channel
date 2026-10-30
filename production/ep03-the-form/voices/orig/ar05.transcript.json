@@ -4,116 +4,76 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:39.296Z",
-  "duration_ms": 11800,
-  "word_count": 19,
+  "generated_at": "2026-10-30T18:40:16.316Z",
+  "duration_ms": 6400,
+  "word_count": 11,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "قريبين قوي من بعض. الفرق في الضغطه الضغطه في الاخر في الاول. وهي فرحت قوي ان اديتها 16 سنه.",
-  "source_text": "sixteen و sixty … قريبين أوي من بعض. الفرق في الضغطة: sixteen ، الضغطة في الآخر… sixty ، في الأول. وهي فرحت أوي إني اديتها ستاشر سنة!",
+  "recognized_text": "قريبين قوي من بعض. وهي فرحت قوي ان اديتها 16 سنة.",
+  "source_text": "sixteen و sixty … قريبين أوي من بعض! وهي فرحت أوي إني اديتها ستاشر سنة!",
   "source_turns": [
     {
       "index": 0,
-      "text": "sixteen و sixty … قريبين أوي من بعض. الفرق في الضغطة: sixteen ، الضغطة في الآخر… sixty ، في الأول. وهي فرحت أوي إني اديتها ستاشر سنة!"
+      "text": "sixteen و sixty … قريبين أوي من بعض! وهي فرحت أوي إني اديتها ستاشر سنة!"
     }
   ],
   "words": [
     {
-      "start_ms": 2700,
-      "end_ms": 3200,
+      "start_ms": 2600,
+      "end_ms": 3000,
       "text": "قريبين"
     },
     {
-      "start_ms": 3300,
-      "end_ms": 3600,
+      "start_ms": 3000,
+      "end_ms": 3200,
       "text": "قوي"
     },
     {
-      "start_ms": 3600,
-      "end_ms": 3700,
+      "start_ms": 3200,
+      "end_ms": 3400,
       "text": "من"
     },
     {
-      "start_ms": 3700,
-      "end_ms": 4100,
+      "start_ms": 3400,
+      "end_ms": 3800,
       "text": "بعض."
     },
     {
-      "start_ms": 4600,
-      "end_ms": 5000,
-      "text": "الفرق"
-    },
-    {
-      "start_ms": 5000,
-      "end_ms": 5001,
-      "text": "في"
-    },
-    {
-      "start_ms": 5000,
-      "end_ms": 5600,
-      "text": "الضغطه"
-    },
-    {
-      "start_ms": 6800,
-      "end_ms": 7100,
-      "text": "الضغطه"
-    },
-    {
-      "start_ms": 7100,
-      "end_ms": 7200,
-      "text": "في"
-    },
-    {
-      "start_ms": 7200,
-      "end_ms": 7500,
-      "text": "الاخر"
-    },
-    {
-      "start_ms": 9000,
-      "end_ms": 9100,
-      "text": "في"
-    },
-    {
-      "start_ms": 9100,
-      "end_ms": 9600,
-      "text": "الاول."
-    },
-    {
-      "start_ms": 10000,
-      "end_ms": 10200,
+      "start_ms": 4400,
+      "end_ms": 4700,
       "text": "وهي"
     },
     {
-      "start_ms": 10200,
-      "end_ms": 10600,
+      "start_ms": 4700,
+      "end_ms": 5100,
       "text": "فرحت"
     },
     {
-      "start_ms": 10600,
-      "end_ms": 10800,
+      "start_ms": 5100,
+      "end_ms": 5300,
       "text": "قوي"
     },
     {
-      "start_ms": 10800,
-      "end_ms": 10900,
+      "start_ms": 5300,
+      "end_ms": 5400,
       "text": "ان"
     },
     {
-      "start_ms": 10900,
-      "end_ms": 11200,
+      "start_ms": 5400,
+      "end_ms": 5700,
       "text": "اديتها"
     },
     {
-      "start_ms": 11200,
-      "end_ms": 11600,
+      "start_ms": 5700,
+      "end_ms": 6100,
       "text": "16"
     },
     {
-      "start_ms": 11600,
-      "end_ms": 11800,
-      "text": "سنه."
+      "start_ms": 6100,
+      "end_ms": 6400,
+      "text": "سنة."
     }
   ]
 }
