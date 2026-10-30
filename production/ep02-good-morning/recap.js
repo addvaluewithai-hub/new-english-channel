@@ -304,7 +304,7 @@ const ITEM = {
     // the right use: typeset on his line, moon + waving hand, ✓
     const okA = a * seg(t, R.tFarewell - .05, R.tFarewell + .25);
     if (okA > 0) {
-      const row = drawRow(c, t, fromLine('r04'), { x: CX + 20, y: 660, size: 130, who: 'youssef', alpha: okA, ghost: R.tFarewell, mean: 'تصبح على خير (وإنت ماشي)', meanSize: 44 });
+      const row = drawRow(c, t, fromLine('r04'), { x: CX - 10, y: 660, size: 130, who: 'youssef', alpha: okA, ghost: R.tFarewell, mean: 'تصبح على خير (وإنت ماشي)', meanSize: 44, maxW: COLW - 140 });   // room for the ✓ inside the column
       if (row) {
         c.save(); c.globalAlpha = okA;
         const ik = back(seg(t, R.tFarewell + .1, R.tFarewell + .5), 2);

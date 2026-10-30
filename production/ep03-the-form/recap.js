@@ -267,9 +267,9 @@ function numCard(c, x, y, w, h, num, word, { k = 1, ghost = 0, cur = 0, hi = nul
   rr(c, -w / 2, -h / 2 + 8, w, h, 22); c.fillStyle = rgba('#2A2742', .12); c.fill();
   rr(c, -w / 2, -h / 2, w, h, 22); c.fillStyle = cur > 0 ? mix('#FFFDF8', P.mustard, .35 * cur) : '#FFFDF8'; c.fill();
   c.strokeStyle = cur > 0 ? rgba(P.mustard, cur) : rgba(P.ink, .1); c.lineWidth = 4; c.stroke();
-  c.font = '400 84px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillStyle = P.navy; c.fillText(num, 0, h * .12);
+  c.font = `400 ${num.length > 2 ? 78 : 96}px "Lilita One"`; c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillStyle = P.navy; c.fillText(num, 0, h * .14);
   // the word, fitted to the card, with an optional coloured ending (-teen / -ty)
-  let fs = 30; c.font = `600 ${fs}px "Fredoka"`; let ww = c.measureText(word).width; if (ww > w - 16) { fs = fs * (w - 16) / ww; c.font = `600 ${fs}px "Fredoka"`; ww = c.measureText(word).width; }
+  let fs = 34; c.font = `600 ${fs}px "Fredoka"`; let ww = c.measureText(word).width; if (ww > w - 16) { fs = fs * (w - 16) / ww; c.font = `600 ${fs}px "Fredoka"`; ww = c.measureText(word).width; }
   const by = h * .38;
   if (hi) {
     const [i0, col] = hi, A = word.slice(0, i0), B = word.slice(i0), wa = c.measureText(A).width;
@@ -281,7 +281,7 @@ function numCard(c, x, y, w, h, num, word, { k = 1, ghost = 0, cur = 0, hi = nul
 }
 // a grid of number cards keyed to a counting line: map[i] = the token that says card i (or -1: shown muted from the start)
 function countGrid(c, t, a, it, nums, words, lineId, map, { hiFrom = null, hiCol = P.red, hiT = 1e9, rows = [5, 5] } = {}) {
-  const l = LINE(lineId), W = 140, Hc = 178, G = 18, ys = [360, 586];
+  const l = LINE(lineId), W = 150, Hc = 208, G = 18, ys = [370, 640];
   let n = 0;
   rows.forEach((cnt, r) => {
     const rowW = cnt * W + (cnt - 1) * G;
@@ -354,16 +354,16 @@ const ITEM = {
   age(c, t, a, it) {
     const q = fromLine('r05'), r05 = LINE('r05');
     const hi = seg(t, R.tHowOld - .1, R.tHowOld + .2) * (1 - seg(t, (r05 ? r05.t0 : R.tHowOld + 3) - .3, r05 ? r05.t0 : R.tHowOld + 3));
-    drawRow(c, t, q, { x: CX, y: 290, size: 104, who: 'mia', alpha: a, ghost: it.t0, mean: 'عندك كام سنة؟', meanHi: hi, meanSize: 44 });
+    drawRow(c, t, q, { x: CX - 20, y: 280, size: fit(q, 104, 740), who: 'mia', alpha: a, ghost: it.t0, mean: 'عندك كام سنة؟', meanHi: hi, meanSize: 44 });
     const s = seg(t, R.tSay - .1, R.tSay + .2);
     [['r06', 'عندي 26 سنة.'], ['r07', 'عندي 26 سنة. (نفس المعنى)']].forEach(([id, mean], i) => {
-      const items = fromLine(id), size = fit(items, 110, 800);
-      drawRow(c, t, items.map(o => ({ ...o, mark: /^I'm$/.test(o.w) ? eo(s) * (1 - seg(t, (LINE(id) ? LINE(id).t0 : 1e9) - .2, LINE(id) ? LINE(id).t0 : 1e9)) : 0 })), { x: CX, y: 500 + i * 200, size, who: 'youssef', alpha: a, ghost: it.t0 + .2, mean, meanSize: 40 });
+      const items = fromLine(id), size = fit(items, 110, 720);
+      drawRow(c, t, items.map(o => ({ ...o, mark: /^I'm$/.test(o.w) ? eo(s) * (1 - seg(t, (LINE(id) ? LINE(id).t0 : 1e9) - .2, LINE(id) ? LINE(id).t0 : 1e9)) : 0 })), { x: CX - 20, y: 500 + i * 200, size, who: 'youssef', alpha: a, ghost: it.t0 + .2, mean, meanSize: 40 });
     });
   },
   // the two mistakes, squiggled, each with its fix in leaf green
   wrong(c, t, a, it) {
-    const rows = [{ w: ['I', 'have', '26', 'years.'], t: R.tW1, y: 330, pill: 'ترجمة حرفية', fix: "I'm 26." }, { w: ["I'm", '26', 'years.'], t: R.tW2, y: 620, pill: 'ناقصة كلمة', fix: "I'm 26 years old." }];
+    const rows = [{ w: ['I', 'have', '26', 'years.'], t: R.tW1, y: 290, pill: 'ترجمة حرفية', fix: "I'm 26." }, { w: ["I'm", '26', 'years.'], t: R.tW2, y: 600, pill: 'ناقصة كلمة', fix: "I'm 26 years old." }];
     rows.forEach((r, i) => {
       const ra = a * seg(t, r.t - .05, r.t + .25); if (ra <= 0) return;
       const row = drawRow(c, t, r.w.map((w, j) => ({ w, t: r.t - .05 + j * .07 })), { x: CX, y: r.y, size: 110, who: 'youssef', alpha: ra });
@@ -378,7 +378,7 @@ const ITEM = {
       const fk = seg(t, R.tOld + .3 + i * .25, R.tOld + .6 + i * .25);
       if (fk > 0) {
         c.globalAlpha = ra * fk; c.font = FONT(84); c.textAlign = 'center'; c.textBaseline = 'alphabetic';
-        const fw = c.measureText(r.fix).width, fx = CX - 120, fy = r.y + 165;
+        const fw = c.measureText(r.fix).width, fx = CX - 90, fy = r.y + 175;
         c.fillStyle = P.leaf; c.fillText('→', fx - fw / 2 - 70, fy);
         rr(c, fx - fw / 2 - 12, fy - 66, (fw + 24) * eo(fk), 80, 18); c.fillStyle = rgba(P.leaf, .18); c.fill();
         c.fillStyle = dark(P.leaf, .35); c.fillText(r.fix, fx, fy);

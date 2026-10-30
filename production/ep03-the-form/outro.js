@@ -84,7 +84,7 @@ export function buildOutro() {
     { t: tMixed - .2, turn: 0, face: F('embarrassed', { lx: 0, ly: .2 }), armL: ARM.scratch, d: .25 });
   yN.jumps.push({ t: tMate - .05, h: .035, d: .32 }); yN.blinks.push(tFirst - .1, tMate - .1, tMixed - .2);
   O.yN = yN;
-  O.camN = [{ t: nx.t0 - 1, x: 560, y: 590, z: 1.45 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 520, y: 600, z: 1.6 }];
+  O.camN = [{ t: nx.t0 - 1, x: 600, y: 560, z: 1.38 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 560, y: 545, z: 1.45 }];
   // ---------------- cues ----------------
   cue(bT, 'sting', { note: 'title card' });
   cue(bT + .1, 'pop'); cue(bT + .45, 'pop'); cue(bT + .8, 'pop');
