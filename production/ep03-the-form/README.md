@@ -38,3 +38,11 @@ narration ≤ .45 s, dialogue ≤ .55 s) and moves the transcript word times; un
 `mix.py` = ep02's mixer with the episode's score plan (calm theme for the walk, a light strum at the desk, the comic reed on the
 freeze, Sara's chime, an up-run on "Sixteen?!", a sting on the laugh, the theme to Room 4) and one new cue type, `chatter`
 (the class behind the door). Standard levels (MUSIC .15 with a 90 % duck, FX .4 with a 60 % duck).
+
+## Sync (QA pass 5)
+- `timeline.py` compares numbers as digits on both sides (`tlkit.norm` wrapped locally: "Twenty," ≡ "20,"), so the counting lines and
+  the dialogue anchor on every number (r03 had no anchor at all and was spread ~2.5 s late).
+- `tts/addwords.py` puts the English inside the Arabic narration on the clock: Whisper's times for those words (on Gemini's clock,
+  the first word at the voice onset) are inserted into the transcripts (`"src": "whisper"`), so the plate, the six·TEEN / SIX·ty
+  cards and the recap marks land on the spoken words. Run order: `tighten.py` → `addwords.py` → `timeline.py`.
+- Every placed clip cross-correlates with `out/mix.wav` within 5 ms.

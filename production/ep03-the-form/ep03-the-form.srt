@@ -27,7 +27,7 @@ Youssef: I have 26 years.
 Mrs. Lopez: You… have… 26 years?
 
 8
-00:00:35,755 --> 00:00:46,020
+00:00:35,157 --> 00:00:46,020
 I have 26 years… يعني: عندي ستة وعشرين سنة. ترجمتها من العربي كلمة كلمة… وهي بصّتلي كإني شايل السنين دي في شنطتي!
 
 9
@@ -63,7 +63,7 @@ Youssef: Sixteen?!
 Mrs. Lopez: Sixteen? Oh, thank you! No. Sixty! Six-zero!
 
 17
-00:01:25,288 --> 00:01:30,890
+00:01:24,363 --> 00:01:30,890
 sixteen و sixty… قريبين أوي من بعض! وهي فرحت أوي إني اديتها ستاشر سنة!
 
 18
@@ -87,7 +87,7 @@ Youssef: Now?! OK!
 Sara: One, two, three, four, five, six, seven, eight, nine, ten.
 
 23
-00:01:58,280 --> 00:02:02,030
+00:01:58,280 --> 00:02:02,250
 ومن تلتاشر لتسعتاشر… كلهم آخرهم -teen.
 
 24
@@ -99,7 +99,7 @@ Youssef: Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.
 والعشرات آخرها -ty.
 
 26
-00:02:16,347 --> 00:02:21,589
+00:02:13,810 --> 00:02:21,260
 Sara: Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred.
 
 27
@@ -127,7 +127,7 @@ Youssef: I'm 26.
 Youssef: I'm 26 years old.
 
 33
-00:02:49,300 --> 00:02:55,225
+00:02:49,300 --> 00:02:55,230
 لكن ما تقولش: I have 26 years… ولا: I'm 26 years, من غير old.
 
 34

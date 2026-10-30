@@ -129,7 +129,7 @@ export function buildStory() {
   S.camO = [
     { t: -1, f: tt => ({ x: Math.max(240, yx(tt - .35) + 280), y: 575, z: 1.05 }) },
     { t: tW1 - 1.6, d: 2.0, x: 1330, y: 566, z: 1.22 },
-    { t: bTitle - .6, d: .9, x: 1390, y: 705, z: 1.3 },   // the school's sign leaves the frame above the title card (its pill never sits on it)
+    { t: bTitle - 1.2, d: 1.4, x: 720, y: 700, z: 1.3 },   // the title card's own frame: the school's sign and clock leave it, Youssef stands at the right, clear of the type
   ];
 
   // ================= desk: the reception — the form, "How old are you?", "I have 26 years." → freeze =================
@@ -391,7 +391,7 @@ function deskShot(c, t, cam, freeze = false) {
   for (const [C, n] of order) {
     if (n === 'm') {
       if (t < S.bSaraIn) continue;
-      const cl = t >= S.tIn0 + .5 ? doorRect(cam) : null;   // masked only once she is inside the frame of the door
+      const cl = t >= S.tIn0 + .2 ? doorRect(cam, seg(t, S.tIn0 + .2, S.tIn0 + .65)) : null;   // masked once she stands inside the door's frame; the threshold line rises with her step
       R.m = drawActor(c, cam, C, t, { clip: cl, behind: (h, k) => { if (h[0][2]) bagIn(c, 'mia', h[0], k); }, front: (h, k) => { if (!h[0][2]) bagIn(c, 'mia', h[0], k); } });
     } else R.y = drawActor(c, cam, C, t, { front: (h, k) => {
       if (!yHas) return;
@@ -429,10 +429,10 @@ function deskShot(c, t, cam, freeze = false) {
   return { cam, R };
 }
 // the doorway of Room 4 in screen space (Sara walks in through it)
-function doorRect(cam) {
+function doorRect(cam, k = 1) {
   // the opening behind the open leaf (≈ 22 px of the leaf stays at the left jamb) and above the threshold: once she is inside the
   // room her feet and bag stop at the threshold and she walks out of view behind the leaf
-  const [x0, y0] = toScreen(cam, 1, ROOM4.x - ROOM4.w / 2 + 22, ROOM4.top - 80), [x1, y1] = toScreen(cam, 1, ROOM4.x + ROOM4.w / 2, ROOM4.bottom + 4);
+  const [x0, y0] = toScreen(cam, 1, ROOM4.x - ROOM4.w / 2 + 22, ROOM4.top - 80), [x1, y1] = toScreen(cam, 1, ROOM4.x + ROOM4.w / 2, ROOM4.bottom + 4 + 160 * (1 - ss(k)));
   return [x0, y0, x1, y1];
 }
 // a popping number tag (Fredoka on a cream pill), wobbling when it is a question
