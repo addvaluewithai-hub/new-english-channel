@@ -100,4 +100,5 @@ Not used this episode: `suitcase_roll`, `freeze`, `unfreeze`, `clock_spin`, `clo
   the mustard bar "حل تمارين الحلقة · اللينك في الوصف ⬇" on "اللينك". Cue names unchanged (`whoosh`, `squiggle`, `tap`, `ding`,
   `confetti`, `sparkle`, `pop`).
 - The end card follows `frame_endcard.jpg`: the series title on top, "الحلقة الجاية", the question, the big teal "حل التمارين" and red "اشترك" pills.
+- Owner review fixes: the sip hand target sits under the mouth with the cup tilted ~20° (`SIPPOSE`, `cupIn` rot); the form is held by its top corner at chest height with the sheet hanging below-left of the hand (`formHeld`, `HOLDF`, `LOOKF`); the recap presenters stand 110 px further in (`YX` 1580, `MX` 395, rows fit to 820 px) and Youssef's outer-arm poses are clamped so the hand never passes x = 1880 (`OUTR`).
 - Check stills: `stills/contact_sheet_v3.jpg` (every 4.6 s), `stills/v3/` (key moments); ep02 `out/preview_v3.mp4` (hall → coffee, 540p).

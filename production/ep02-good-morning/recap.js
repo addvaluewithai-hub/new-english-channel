@@ -229,7 +229,7 @@ function titleCard(c, t) {
   c.direction = 'rtl'; c.textBaseline = 'middle'; c.textAlign = 'center';
   // big title, centre
   if (m < 1) {
-    const s = back(p, 2) * (1 - m * .5), x = lerp(960, 1500, m), y = lerp(440, 90, m);
+    const s = back(p, 2) * (1 - m * .5), x = lerp(900, 1500, m), y = lerp(440, 90, m);   // the big title sits a little left of centre, clear of Youssef (now 110 px in from the edge)
     c.globalAlpha = 1 - m;
     c.translate(x, y); c.scale(s, s);
     c.font = `800 120px ${AR}`; const w = c.measureText(txt).width;
