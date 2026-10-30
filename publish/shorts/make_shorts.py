@@ -15,7 +15,7 @@ SHORTS = {
    series='<b>يوسف في نيويورك</b> · الحلقة 1', pill='الحلقة كاملة على القناة'),
  'short_ep02': dict(
    ep='ep02-good-morning',
-   segs=[(26.6, 50.2), (121.0, 129.5)],                          # Good… night, then the "Good night is a goodbye" recap card
+   segs=[(26.6, 50.2), (122.3, 129.5)],                          # Good… night, then the "Good night is a goodbye" recap card
    tag='الساعة 8 الصبح 😴', hook='قالها <em class="en">Good night</em><br>بدل <em class="en">Good morning</em>!',
    series='<b>يوسف في نيويورك</b> · الحلقة 2', pill='الحلقة كاملة على القناة'),
 }
