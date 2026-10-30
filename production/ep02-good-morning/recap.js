@@ -45,7 +45,10 @@ export function buildRecap() {
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Sara left facing right: armL) ----
   const hiT = it('times').t0;
-  const YK = 1.6, MK_ = 1.5, YX = 1690, MX = 285;
+  const YK = 1.6, MK_ = 1.5, YX = 1580, MX = 395;   // 110 px in from the frame edges, clear of the text column (rows fit to 820 px) and the plate
+  // Youssef's outer arm (armR: screen-right, he faces left) must never leave the frame: a pose whose hand would pass x = 1880 is
+  // pulled in (hand x ≈ YX + shoulder .34 H + dx H + the wave swing + the hand radius, H = 300 · YK)
+  const OUTR = A => { const lim = (1880 - 27 - .34 * 300 * YK - YX) / (300 * YK) - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
   R.YX = YX; R.MX = MX;
   const yRest = F('happy', { lx: -.5, happy: .35 }), mRest = F('happy', { lx: .5, happy: .35 });
   const yR = { id: 'youssef', talkExtra: narrSpans, base: { turn: -.3, face: yRest, armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1, sq: 1, lean: 0 },
@@ -90,6 +93,7 @@ export function buildRecap() {
     K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
     MK.push({ t: g.t0 + .1, face: F('happy', { lx: 0, ly: 0, happy: .6 }), d: .3 }, { t: g.t1 - .1, face: mRest, d: .3 });
   }
+  for (const k of K) if (k.armR) k.armR = OUTR(k.armR);
   K.sort((p, q) => p.t - q.t); MK.sort((p, q) => p.t - q.t);
   R.yR = yR; R.mR = mR;
   // ---- cues ----
@@ -174,10 +178,10 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
 // speaker tab at the rail's left end; when that would reach the presenter bean, it tucks under the start of the rail
 function tabAt(c, S, lx, ry) {
   c.save(); c.font = '400 26px "Lilita One"'; c.letterSpacing = '2px'; const tw = c.measureText(S.name).width + 31; c.restore();
-  if (lx - tw - 14 >= 470) nameTab(c, S, lx - tw - 14, ry - 15, 26); else nameTab(c, S, lx, ry + 16, 26);
+  if (lx - tw - 14 >= 560) nameTab(c, S, lx - tw - 14, ry - 15, 26); else nameTab(c, S, lx, ry + 16, 26);
 }
 const fromLine = (id, stagger = 0) => { const l = LINE(id); return l ? l.tok.map((o, i) => ({ w: o.w, t: o.t0 - .06 + i * stagger, s0: o.t0, s1: o.t1 })) : []; };
-const fit = (items, size, maxW = 920) => { const { W } = layoutRow(items, size); return W > maxW ? size * maxW / W : size; };
+const fit = (items, size, maxW = 820) => { const { W } = layoutRow(items, size); return W > maxW ? size * maxW / W : size; };
 const wordX = (row, i) => row.x + row.out[i].x;
 
 // ---- the paper set ----
@@ -334,7 +338,7 @@ const ITEM = {
     }
     const okA = a * seg(t, R.tRight - .05, R.tRight + .25);
     if (okA > 0) {
-      const r10i = fromLine('r10'), r10s = fit(r10i, 124, 820);
+      const r10i = fromLine('r10'), r10s = fit(r10i, 124, 800);
       const row2 = drawRow(c, t, r10i, { x: CX - 30, y: 700, size: r10s, who: 'mia', alpha: okA, ghost: R.tRight, mean: 'عفوًا / العفو', meanSize: 44 });
       if (row2 && r10) check(c, row2.x + row2.W / 2 + 56, 700 - r10s * .55, 32, seg(t, r10.t1 + .1, r10.t1 + .45));
     }

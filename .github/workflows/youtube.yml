@@ -1,0 +1,35 @@
+name: Upload to YouTube
+
+# Uploads a rendered episode with its metadata, Arabic captions and thumbnail.
+# Run: gh workflow run youtube.yml -f ep=ep01 -f release=render-ep01-first-day-14 -f privacy=unlisted
+on:
+  workflow_dispatch:
+    inputs:
+      ep: { description: "Episode id (publish/<ep>.md)", required: true, type: string }
+      release: { description: "Release tag holding the rendered mp4 + srt", required: true, type: string }
+      privacy: { description: "private | unlisted | public", required: false, default: "private", type: string }
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q google-api-python-client google-auth google-auth-oauthlib
+      - name: Download the render
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          mkdir -p dl && cd dl && gh release download "${{ inputs.release }}" -R "${{ github.repository }}" -p '*.mp4' -p '*.srt'
+          ls -la
+      - name: Upload
+        id: up
+        env:
+          YT_TOKEN_JSON: ${{ secrets.YT_TOKEN_JSON }}
+        run: |
+          V=$(ls dl/*.mp4 | head -1); S=$(ls dl/*.srt 2>/dev/null | head -1)
+          python publish/yt_upload.py "${{ inputs.ep }}" "$V" "${S:-none}" "publish/thumb_${{ inputs.ep }}.jpg" "${{ inputs.privacy }}"
+      - run: echo "Uploaded ${{ steps.up.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"

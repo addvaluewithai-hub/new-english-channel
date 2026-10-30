@@ -95,10 +95,12 @@ function drawCase(c, cam, C, t, st) {
 const head = (st, id, f = 1.08) => st && st.sx != null ? [st.sx, st.sy - H[id] * st.k * st.Z * f] : null;
 // held props (drawn at a hand, then the hand again over them)
 const hand = (c, id, h, k, grip = false) => drawHand(c, CAST[id], h[0], h[1], H[id] * k, { dir: h[3], grip });
-const cupIn = (c, id, h, k, t, steam = 1) => { drawCup(c, h[0], h[1] - .02 * 300 * k, k, { steam, t }); hand(c, id, h, k, true); };
+const cupIn = (c, id, h, k, t, steam = 1, rot = 0) => { drawCup(c, h[0], h[1] - .02 * 300 * k, k, { steam, t, rot }); hand(c, id, h, k, true); };
 const trayIn = (c, id, h, k, t, n, side = -1) => { drawTray(c, h[0] + side * (n > 1 ? .09 : .02) * 300 * k, h[1] - .01 * 300 * k, k, n, { steam: .8, t }); hand(c, id, h, k, true); };
 const bagIn = (c, id, h, k) => { drawBag(c, h[0], h[1], k); };
 const formIn = (c, id, h, k, side = -1, rot = -.12) => { drawForm(c, h[0] + side * .07 * 300 * k, h[1] - .06 * 300 * k, .24 * 300 * k, .3 * 300 * k, { rot: rot * side * -1, age: .3 }); hand(c, id, h, k); };
+// the form held by its top corner: the sheet hangs below and to the camera-left of the hand, tilted so it reads (chest height, the face stays clear)
+const formHeld = (c, id, h, k) => { drawForm(c, h[0] - .09 * 300 * k, h[1] + .1 * 300 * k, .24 * 300 * k, .3 * 300 * k, { rot: -.15, age: .3 }); hand(c, id, h, k); };
 
 // ======================================================================================================================
 export function buildStory() {
@@ -183,7 +185,10 @@ export function buildStory() {
     moves: [{ t0: hl.t0 + .05, t1: Math.min(H0.t0 - .15, hl.t0 + 1.05), x0: 1935, x1: 1545, k0: .9, k1: .9, step: .33 }], keys: [] };
   const YK = yH.keys, MK = mH.keys;
   const OFFER = { ...REACH, dx: .2 }, TAKE = { ...REACH, dx: .12 }, HOLD = ARM.hold;   // the tray / the cup in the hand on the other character's side, held in front (they stand close: short reaches)
-  const MOUTH = { dx: -.3, dy: -.12, w: 0, bend: 55, elv: [1, .2], flex: 1 }, SIPPOSE = { dx: -.3, dy: -.15, w: 0, bend: 60, elv: [1, .2], flex: 1, front: true }, HANDMOUTH = { dx: -.3, dy: -.14, w: 0, bend: 55, elv: [1, .2], flex: 1 };
+  const MOUTH = { dx: -.3, dy: -.12, w: 0, bend: 55, elv: [1, .2], flex: 1 }, HANDMOUTH = { dx: -.3, dy: -.14, w: 0, bend: 55, elv: [1, .2], flex: 1 };
+  // the sip: the hand stays at shoulder height right under the mouth (the mouth sits at ≈ .548 H, the shoulder at .43 H), so the cup's rim
+  // meets the lower face just below the mouth line and nothing covers the eyes; the cup tilts ≈ 20° toward the mouth (see cupIn's rot)
+  const SIPPOSE = { dx: -.13, dy: .02, w: 0, bend: 60, elv: [1, .7], flex: 1, front: true };
   // Youssef: catches his breath, tries a smile; the yawn; "Good… night."; snaps awake, blushes; "Oh! Sorry! Good morning!" with a bow
   const sleepy = F('neutral', { eye: .5, lid: .3, bLy: .25, bRy: .25, bLr: .2, bRr: .2, mw: .085, ms: .2, blush: .45, lx: .4, ly: .1 });
   const yawnF = F('neutral', { eye: .1, bLy: .95, bRy: .95, bLr: .35, bRr: .35, mw: .09, mo: .125, ms: -.1, mt: 0, blush: .45, lx: 0, ly: 0 });
@@ -291,7 +296,8 @@ export function buildStory() {
     { t: tLeave0 - .1, turn: .4, d: .4 }, { t: tLeave0 + .35, turn: 1.05, face: F('happy', { lx: .5, happy: .4 }), d: .5 });
   mD.moves.push({ t0: tLeave0, t1: tLeave1, x0: 1640, x1: 2180, k0: .9, k1: .9, step: .42 });
   mD.blinks.push(tOutM + .3, D2.t0 - .2, B0.t0 - .15, bForm - .05, B2.t0 - .35, tLeave0 - .1);
-  const HOLDF = { dx: -.14, dy: -.02, w: 0, bend: 60, elv: [1, .6], flex: 1, front: true }, LOOKF = { dx: -.16, dy: -.1, w: 0, bend: 65, elv: [1, .4], flex: 1, front: true };   // the form held in front, read / raised to look at
+  // the form in his hand: the hand stays at chest height (≈ .41–.45 H) and the sheet hangs below and to the camera-left of it (formHeld), so it never covers the face
+  const HOLDF = { dx: -.1, dy: .02, w: 0, bend: 55, elv: [1, .6], flex: 1, front: true }, LOOKF = { dx: -.14, dy: -.02, w: 0, bend: 60, elv: [1, .5], flex: 1, front: true };
   DK.push({ t: D0.t1 - .2, face: F('happy', { happy: .55, lx: .55, mw: .12 }), d: .3 },
     // "Welcome!": chest out, proud, eyes shut with pride
     { t: bWelcome - .2, armR: ARM.rest, armL: ARM.chest, sq: 1.06, lean: -.035, face: F('joy', { bLy: .85, bRy: .85, mw: .12, mo: .05, lx: .5 }), d: .25 },
@@ -461,7 +467,7 @@ export function sceneHall(c, t) {
   const yHas = t >= S.tTake, mN = t >= S.tTake ? 1 : 2;
   for (const [C, n] of order) {
     if (n === 'm') R.m = drawActor(c, cam, C, t, { front: (h, k) => { if (!h[0][2]) trayIn(c, 'mia', h[0], k, t, mN, 1); } });
-    else R.y = drawActor(c, cam, C, t, { front: (h, k) => { if (yHas && !h[1][2]) cupIn(c, 'youssef', h[1], k, t, t < S.bSip + 6 ? 1 : .5); } });
+    else R.y = drawActor(c, cam, C, t, { front: (h, k) => { if (yHas && !h[1][2]) cupIn(c, 'youssef', h[1], k, t, t < S.bSip + 6 ? 1 : .5, -.35 * ss(seg(t, S.bSip - .35, S.bSip - .05)) * (1 - ss(seg(t, S.bSip + .5, S.bSip + .75)))); } });
   }
   const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
   // stars after the first sip: a ring of sparkles orbiting his head
@@ -508,7 +514,7 @@ export function sceneDoor(c, t) {
   const mForm = t >= S.formAt.out && t < S.formAt.take, yForm = t >= S.formAt.take;
   for (const [C, n] of order) {
     if (n === 'm') R.m = drawActor(c, cam, C, t, { door, behind: (h, k) => { if (h[1][2]) bagIn(c, 'mia', h[1], k); }, front: (h, k) => { if (!h[1][2]) bagIn(c, 'mia', h[1], k); if (mForm && !h[0][2]) formIn(c, 'mia', h[0], k, -1); } });
-    else R.y = drawActor(c, cam, C, t, { door, front: (h, k) => { if (yForm && !h[1][2]) formIn(c, 'youssef', h[1], k, 1); } });
+    else R.y = drawActor(c, cam, C, t, { door, front: (h, k) => { if (yForm && !h[1][2]) formHeld(c, 'youssef', h[1], k); } });
   }
   grade(c, tod);
   const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
