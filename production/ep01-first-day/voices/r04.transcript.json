@@ -4,8 +4,8 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:51.468Z",
-  "duration_ms": 1000,
+  "generated_at": "2026-10-30T03:50:48.965Z",
+  "duration_ms": 1100,
   "word_count": 2,
   "diarization": false,
   "language_codes": [
@@ -21,13 +21,13 @@
   ],
   "words": [
     {
-      "start_ms": 300,
-      "end_ms": 400,
+      "start_ms": 400,
+      "end_ms": 600,
       "text": "I'm"
     },
     {
-      "start_ms": 400,
-      "end_ms": 1000,
+      "start_ms": 600,
+      "end_ms": 1100,
       "text": "Yusef."
     }
   ]

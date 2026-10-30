@@ -4,8 +4,8 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:53.574Z",
-  "duration_ms": 1000,
+  "generated_at": "2026-10-30T03:50:37.595Z",
+  "duration_ms": 1400,
   "word_count": 2,
   "diarization": false,
   "language_codes": [
@@ -22,12 +22,12 @@
   "words": [
     {
       "start_ms": 300,
-      "end_ms": 500,
+      "end_ms": 800,
       "text": "Coffee,"
     },
     {
-      "start_ms": 500,
-      "end_ms": 1000,
+      "start_ms": 800,
+      "end_ms": 1400,
       "text": "please."
     }
   ]

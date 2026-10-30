@@ -1,6 +1,6 @@
 {
   "id": "ep01", "n": 1, "title": "First Day", "titleAr": "أول يوم",
-  "intro": "يوسف قال «I Youssef» وميا ما فهمتش. تعالى نثبّت الجمل الصح.",
+  "intro": "يوسف قال «I Youssef» وسارة ما فهمتش. تعالى نثبّت الجمل الصح.",
   "phrases": [
     { "id": "hi",        "en": "Hi!",                    "ar": "أهلًا!",                    "who": "mia",     "audio": "audio/ep01/r01.mp3" },
     { "id": "hello",     "en": "Hello!",                 "ar": "أهلًا! / مرحبًا!",          "who": "youssef", "audio": "audio/ep01/r02.mp3" },
@@ -15,11 +15,11 @@
     { "id": "goodbye",   "en": "Goodbye!",               "ar": "مع السلامة!",               "who": "youssef", "audio": "audio/ep01/r10.mp3" }
   ],
   "mistakes": [
-    { "id": "m-im",     "phrase": "im",     "context": "ميا: Hi! I'm Mia.", "wrong": "I Youssef.", "span": "I", "mark": "I Youssef", "chips": ["I'm", "Me", "My"], "answer": "I'm",
+    { "id": "m-im",     "phrase": "im",     "context": "سارة: Hi! I'm Sara.", "wrong": "I Youssef.", "span": "I", "mark": "I Youssef", "chips": ["I'm", "Me", "My"], "answer": "I'm",
       "explain": "في العربي بنقول «أنا يوسف» من غير فعل… لكن في الإنجليزي لازم am: I'm = I am." },
-    { "id": "m-myname", "phrase": "myname", "context": "ميا: What's your name?", "wrong": "My name Youssef.", "span": "name", "mark": "name Youssef", "chips": ["name is", "name am", "name are"], "answer": "name is",
+    { "id": "m-myname", "phrase": "myname", "context": "سارة: What's your name?", "wrong": "My name Youssef.", "span": "name", "mark": "name Youssef", "chips": ["name is", "name am", "name are"], "answer": "name is",
       "explain": "«اسمي يوسف» في الإنجليزي محتاجة is: My name is Youssef." },
-    { "id": "m-metoo",  "phrase": "nice2",  "context": "ميا: Nice to meet you, Youssef.", "wrong": "Me too.", "span": "Me too.", "chips": ["Nice to meet you too.", "Me too, Mia.", "You too me."], "answer": "Nice to meet you too.",
+    { "id": "m-metoo",  "phrase": "nice2",  "context": "سارة: Nice to meet you, Youssef.", "wrong": "Me too.", "span": "Me too.", "chips": ["Nice to meet you too.", "Me too, Sara.", "You too me."], "answer": "Nice to meet you too.",
       "explain": "«Me too» مش رد على Nice to meet you. الرد الصح: Nice to meet you too." }
   ],
   "items": [

@@ -4,7 +4,7 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:53.353Z",
+  "generated_at": "2026-10-30T03:50:10.757Z",
   "duration_ms": 900,
   "word_count": 1,
   "diarization": false,

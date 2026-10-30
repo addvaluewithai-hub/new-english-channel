@@ -28,7 +28,7 @@ export function buildShell(app, { back = './', title = '', meta = '' } = {}) {
     beans, dots, meta: metaEl, card, main, stageEl: stage,
     stage(w, { bubble: html, expr } = {}) {
       who = w; cY.classList.toggle('hidden', w !== 'youssef'); cM.classList.toggle('hidden', w !== 'mia');
-      bubble.querySelector('.tab').textContent = w === 'mia' ? 'MIA' : 'YOUSSEF'; bubble.querySelector('.tab').classList.toggle('mia', w === 'mia');
+      bubble.querySelector('.tab').textContent = w === 'mia' ? 'SARA' : 'YOUSSEF'; bubble.querySelector('.tab').classList.toggle('mia', w === 'mia');
       if (html != null) bubble.querySelector('.txt').innerHTML = html;
       if (expr) beans[w].set(expr);
     },

@@ -4,55 +4,55 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:32.169Z",
-  "duration_ms": 3400,
+  "generated_at": "2026-10-30T03:50:04.863Z",
+  "duration_ms": 4000,
   "word_count": 7,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "دورك. مايا بتسالك ردي عليها بصوت عالي.",
-  "source_text": "دورك! ميا بتسألك… رد عليها بصوت عالي.",
+  "recognized_text": "دورك. ساره بتسالك رد عليها بصوت عالي.",
+  "source_text": "دورك! سارة بتسألك… رد عليها بصوت عالي.",
   "source_turns": [
     {
       "index": 0,
-      "text": "دورك! ميا بتسألك… رد عليها بصوت عالي."
+      "text": "دورك! سارة بتسألك… رد عليها بصوت عالي."
     }
   ],
   "words": [
     {
       "start_ms": 200,
-      "end_ms": 600,
+      "end_ms": 800,
       "text": "دورك."
     },
     {
-      "start_ms": 1600,
-      "end_ms": 1800,
-      "text": "مايا"
+      "start_ms": 1900,
+      "end_ms": 2100,
+      "text": "ساره"
     },
     {
-      "start_ms": 1800,
-      "end_ms": 2400,
+      "start_ms": 2100,
+      "end_ms": 2800,
       "text": "بتسالك"
     },
     {
-      "start_ms": 2500,
-      "end_ms": 2800,
-      "text": "ردي"
+      "start_ms": 3100,
+      "end_ms": 3300,
+      "text": "رد"
     },
     {
-      "start_ms": 2800,
-      "end_ms": 3000,
+      "start_ms": 3300,
+      "end_ms": 3500,
       "text": "عليها"
     },
     {
-      "start_ms": 3000,
-      "end_ms": 3200,
+      "start_ms": 3500,
+      "end_ms": 3700,
       "text": "بصوت"
     },
     {
-      "start_ms": 3200,
-      "end_ms": 3400,
+      "start_ms": 3700,
+      "end_ms": 4000,
       "text": "عالي."
     }
   ]

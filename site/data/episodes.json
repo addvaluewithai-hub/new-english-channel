@@ -1,13 +1,13 @@
 {
-  "series": { "title": "يوسف في لندن", "titleEn": "Youssef in London", "tagline": "حلقة… وتمرين… ومراجعة. كده الإنجليزي بيثبت." },
+  "series": { "title": "يوسف في نيويورك", "titleEn": "Youssef in New York", "tagline": "حلقة… وتمرين… ومراجعة. كده الإنجليزي بيثبت." },
   "units": [
     { "id": "a1-u1", "level": "A1", "n": 1, "title": "أول تعارف", "titleEn": "First Contact", "episodes": ["ep01", "ep02", "ep03", "ep04", "ep05", "ep06", "ep07", "ep08"] }
   ],
   "episodes": [
     { "id": "ep01", "n": 1, "unit": "a1-u1", "title": "First Day", "titleAr": "أول يوم", "status": "live", "colour": "#9BD3EC",
-      "youtube": "https://www.youtube.com/watch?v=REPLACE_EP01", "blurb": "يوسف بيقابل ميا على باب المدرسة… وبيقول اسمه غلط.", "bean": "youssef", "expr": "nervous", "minutes": 4 },
+      "youtube": "https://www.youtube.com/watch?v=REPLACE_EP01", "blurb": "يوسف بيقابل سارة على باب المدرسة… وبيقول اسمه غلط.", "bean": "youssef", "expr": "nervous", "minutes": 4 },
     { "id": "ep02", "n": 2, "unit": "a1-u1", "title": "Good Morning?", "titleAr": "صباح الخير؟", "status": "live", "colour": "#F5B63E",
-      "youtube": "https://www.youtube.com/watch?v=REPLACE_EP02", "blurb": "يوسف صحي متأخر… وقال لميا تصبحي على خير الساعة 8 الصبح.", "bean": "mia", "expr": "happy", "minutes": 4 },
+      "youtube": "https://www.youtube.com/watch?v=REPLACE_EP02", "blurb": "يوسف صحي متأخر… وقال لسارة تصبحي على خير الساعة 8 الصبح.", "bean": "mia", "expr": "happy", "minutes": 4 },
     { "id": "ep03", "n": 3, "unit": "a1-u1", "title": "How old are you?", "titleAr": "عندك كام سنة؟", "status": "soon", "colour": "#1E9D93" },
     { "id": "ep04", "n": 4, "unit": "a1-u1", "title": "Where are you from?", "titleAr": "إنت منين؟", "status": "soon", "colour": "#69B464" },
     { "id": "ep05", "n": 5, "unit": "a1-u1", "title": "What do you do?", "titleAr": "بتشتغل إيه؟", "status": "soon", "colour": "#E8483A" },

@@ -4,96 +4,96 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:24:21.921Z",
-  "duration_ms": 6600,
+  "generated_at": "2026-10-30T03:50:22.146Z",
+  "duration_ms": 7200,
   "word_count": 15,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "جاي ادرس انجليزي واشتغل هنا. وكنت فاكر ان الانجليزي بتاعي كويس لحد ما قابلت مايا.",
-  "source_text": "جاي أدرس إنجليزي وأشتغل هنا. وكنت فاكر إن الإنجليزي بتاعي كويس… لحد ما قابلت ميا.",
+  "recognized_text": "جاي ادرس انجليزي واشتغل هنا. وكنت فاكر ان الانجليزي بتاعي كويس. لحد ما قابلت ساره.",
+  "source_text": "جاي أدرس إنجليزي وأشتغل هنا. وكنت فاكر إن الإنجليزي بتاعي كويس… لحد ما قابلت سارة.",
   "source_turns": [
     {
       "index": 0,
-      "text": "جاي أدرس إنجليزي وأشتغل هنا. وكنت فاكر إن الإنجليزي بتاعي كويس… لحد ما قابلت ميا."
+      "text": "جاي أدرس إنجليزي وأشتغل هنا. وكنت فاكر إن الإنجليزي بتاعي كويس… لحد ما قابلت سارة."
     }
   ],
   "words": [
     {
-      "start_ms": 400,
-      "end_ms": 700,
+      "start_ms": 300,
+      "end_ms": 500,
       "text": "جاي"
     },
     {
-      "start_ms": 700,
-      "end_ms": 900,
+      "start_ms": 500,
+      "end_ms": 800,
       "text": "ادرس"
     },
     {
-      "start_ms": 900,
-      "end_ms": 1400,
+      "start_ms": 800,
+      "end_ms": 1300,
       "text": "انجليزي"
     },
     {
-      "start_ms": 1400,
-      "end_ms": 1900,
+      "start_ms": 1800,
+      "end_ms": 2100,
       "text": "واشتغل"
     },
     {
-      "start_ms": 1900,
-      "end_ms": 2000,
+      "start_ms": 2100,
+      "end_ms": 2300,
       "text": "هنا."
-    },
-    {
-      "start_ms": 2900,
-      "end_ms": 3200,
-      "text": "وكنت"
-    },
-    {
-      "start_ms": 3200,
-      "end_ms": 3600,
-      "text": "فاكر"
     },
     {
       "start_ms": 3600,
       "end_ms": 3800,
-      "text": "ان"
+      "text": "وكنت"
     },
     {
       "start_ms": 3800,
-      "end_ms": 4200,
+      "end_ms": 4000,
+      "text": "فاكر"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4100,
+      "text": "ان"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4500,
       "text": "الانجليزي"
     },
     {
-      "start_ms": 4200,
-      "end_ms": 4500,
+      "start_ms": 4500,
+      "end_ms": 4800,
       "text": "بتاعي"
     },
     {
-      "start_ms": 4500,
-      "end_ms": 5000,
-      "text": "كويس"
+      "start_ms": 4800,
+      "end_ms": 5400,
+      "text": "كويس."
     },
     {
-      "start_ms": 5600,
-      "end_ms": 5900,
+      "start_ms": 6100,
+      "end_ms": 6500,
       "text": "لحد"
     },
     {
-      "start_ms": 5900,
-      "end_ms": 6000,
+      "start_ms": 6500,
+      "end_ms": 6600,
       "text": "ما"
     },
     {
-      "start_ms": 6000,
-      "end_ms": 6300,
+      "start_ms": 6600,
+      "end_ms": 6900,
       "text": "قابلت"
     },
     {
-      "start_ms": 6300,
-      "end_ms": 6600,
-      "text": "مايا."
+      "start_ms": 6900,
+      "end_ms": 7200,
+      "text": "ساره."
     }
   ]
 }

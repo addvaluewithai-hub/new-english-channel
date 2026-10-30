@@ -4,8 +4,8 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T20:55:08.700Z",
-  "duration_ms": 10200,
+  "generated_at": "2026-10-30T03:50:26.864Z",
+  "duration_ms": 11800,
   "word_count": 9,
   "diarization": false,
   "language_codes": [
@@ -27,42 +27,42 @@
     },
     {
       "start_ms": 700,
-      "end_ms": 1400,
+      "end_ms": 1100,
       "text": "الجايه"
     },
     {
-      "start_ms": 1500,
-      "end_ms": 2300,
+      "start_ms": 1800,
+      "end_ms": 2400,
       "text": "الاستماره"
     },
     {
-      "start_ms": 3000,
-      "end_ms": 3800,
+      "start_ms": 3400,
+      "end_ms": 4200,
       "text": "ارقام"
     },
     {
-      "start_ms": 3800,
-      "end_ms": 4500,
+      "start_ms": 4500,
+      "end_ms": 5200,
       "text": "وسؤال"
     },
     {
-      "start_ms": 6300,
-      "end_ms": 6400,
+      "start_ms": 7800,
+      "end_ms": 8000,
       "text": "وانا"
     },
     {
-      "start_ms": 6400,
-      "end_ms": 6900,
+      "start_ms": 8000,
+      "end_ms": 8300,
       "text": "قلت"
     },
     {
-      "start_ms": 9500,
-      "end_ms": 9800,
+      "start_ms": 11200,
+      "end_ms": 11500,
       "text": "وطلعت"
     },
     {
-      "start_ms": 9800,
-      "end_ms": 10200,
+      "start_ms": 11500,
+      "end_ms": 11800,
       "text": "غلط."
     }
   ]

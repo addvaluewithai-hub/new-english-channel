@@ -4,8 +4,8 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:45.850Z",
-  "duration_ms": 1200,
+  "generated_at": "2026-10-30T03:50:34.166Z",
+  "duration_ms": 1000,
   "word_count": 2,
   "diarization": false,
   "language_codes": [
@@ -22,12 +22,12 @@
   "words": [
     {
       "start_ms": 400,
-      "end_ms": 700,
+      "end_ms": 500,
       "text": "Not"
     },
     {
-      "start_ms": 700,
-      "end_ms": 1200,
+      "start_ms": 500,
+      "end_ms": 1000,
       "text": "bad."
     }
   ]

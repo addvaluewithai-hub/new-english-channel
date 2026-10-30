@@ -4,96 +4,96 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T20:55:05.346Z",
-  "duration_ms": 8600,
+  "generated_at": "2026-10-30T03:51:02.571Z",
+  "duration_ms": 9000,
   "word_count": 15,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "الحلقه الجايه صحيت متاخر واول ما شفت مايا سالتني وانا رديت رد عمري ما هنساه.",
-  "source_text": "الحلقة الجاية: صحيت متأخر، وأول ما شفت ميا سألتني: How are you ؟… وأنا رديت رد عمري ما هنساه.",
+  "recognized_text": "الحلقه الجايه صحيت متاخر واول ما شفت ساره سالتني وانا رديت رد عمري ما هنساها",
+  "source_text": "الحلقة الجاية: صحيت متأخر، وأول ما شفت سارة سألتني: How are you ؟… وأنا رديت رد عمري ما هنساه.",
   "source_turns": [
     {
       "index": 0,
-      "text": "الحلقة الجاية: صحيت متأخر، وأول ما شفت ميا سألتني: How are you ؟… وأنا رديت رد عمري ما هنساه."
+      "text": "الحلقة الجاية: صحيت متأخر، وأول ما شفت سارة سألتني: How are you ؟… وأنا رديت رد عمري ما هنساه."
     }
   ],
   "words": [
     {
-      "start_ms": 100,
+      "start_ms": 200,
       "end_ms": 500,
       "text": "الحلقه"
     },
     {
       "start_ms": 500,
-      "end_ms": 1100,
+      "end_ms": 900,
       "text": "الجايه"
     },
     {
-      "start_ms": 1700,
-      "end_ms": 2100,
+      "start_ms": 2200,
+      "end_ms": 2400,
       "text": "صحيت"
     },
     {
-      "start_ms": 2100,
+      "start_ms": 2400,
       "end_ms": 3000,
       "text": "متاخر"
     },
     {
-      "start_ms": 3100,
-      "end_ms": 3500,
+      "start_ms": 3900,
+      "end_ms": 4200,
       "text": "واول"
     },
     {
-      "start_ms": 3500,
-      "end_ms": 3600,
+      "start_ms": 4200,
+      "end_ms": 4201,
       "text": "ما"
-    },
-    {
-      "start_ms": 3600,
-      "end_ms": 3800,
-      "text": "شفت"
-    },
-    {
-      "start_ms": 3800,
-      "end_ms": 4200,
-      "text": "مايا"
     },
     {
       "start_ms": 4200,
-      "end_ms": 4600,
+      "end_ms": 4400,
+      "text": "شفت"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4800,
+      "text": "ساره"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5200,
       "text": "سالتني"
     },
     {
-      "start_ms": 6600,
-      "end_ms": 6900,
+      "start_ms": 7200,
+      "end_ms": 7400,
       "text": "وانا"
     },
     {
-      "start_ms": 6900,
-      "end_ms": 7200,
+      "start_ms": 7400,
+      "end_ms": 7800,
       "text": "رديت"
     },
     {
-      "start_ms": 7200,
-      "end_ms": 7600,
+      "start_ms": 7800,
+      "end_ms": 8100,
       "text": "رد"
     },
     {
-      "start_ms": 7700,
-      "end_ms": 8200,
+      "start_ms": 8100,
+      "end_ms": 8500,
       "text": "عمري"
     },
     {
-      "start_ms": 8200,
-      "end_ms": 8300,
+      "start_ms": 8500,
+      "end_ms": 8600,
       "text": "ما"
     },
     {
-      "start_ms": 8300,
-      "end_ms": 8600,
-      "text": "هنساه."
+      "start_ms": 8600,
+      "end_ms": 9000,
+      "text": "هنساها"
     }
   ]
 }

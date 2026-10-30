@@ -4,20 +4,20 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-28T20:58:59.921Z",
+  "generated_at": "2026-10-30T03:50:12.660Z",
   "duration_ms": 6600,
   "word_count": 8,
   "diarization": true,
   "language_codes": [
     "en-US"
   ],
-  "recognized_text": "Hi, I'm Mia. Hello, I I Yusef. Sorry?",
-  "source_text": "Hi! I'm Mia. Hello! I... I Youssef. Sorry?",
+  "recognized_text": "Hi, I'm Sarah. Hello. I I Yousef. Sorry?",
+  "source_text": "Hi! I'm Sara. Hello! I... I Youssef. Sorry?",
   "source_turns": [
     {
       "index": 0,
-      "speaker": "Mia",
-      "text": "Hi! I'm Mia."
+      "speaker": "Sara",
+      "text": "Hi! I'm Sara."
     },
     {
       "index": 1,
@@ -26,55 +26,55 @@
     },
     {
       "index": 2,
-      "speaker": "Mia",
+      "speaker": "Sara",
       "text": "Sorry?"
     }
   ],
   "words": [
     {
       "start_ms": 300,
-      "end_ms": 700,
+      "end_ms": 900,
       "text": "Hi,",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 800,
-      "end_ms": 900,
+      "start_ms": 1100,
+      "end_ms": 1200,
       "text": "I'm",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 900,
-      "end_ms": 1300,
-      "text": "Mia.",
+      "start_ms": 1200,
+      "end_ms": 1800,
+      "text": "Sarah.",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 2000,
-      "end_ms": 2400,
-      "text": "Hello,",
+      "start_ms": 2400,
+      "end_ms": 2800,
+      "text": "Hello.",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 3300,
-      "end_ms": 3600,
+      "start_ms": 3600,
+      "end_ms": 4000,
       "text": "I",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 4400,
-      "end_ms": 4700,
-      "text": "I",
-      "speaker": "spk:1"
-    },
-    {
-      "start_ms": 4700,
+      "start_ms": 5000,
       "end_ms": 5200,
-      "text": "Yusef.",
+      "text": "I",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 6300,
+      "start_ms": 5200,
+      "end_ms": 5500,
+      "text": "Yousef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 6100,
       "end_ms": 6600,
       "text": "Sorry?",
       "speaker": "spk:0"

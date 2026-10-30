@@ -17,11 +17,11 @@
     { "id": "sorry",  "en": "Sorry!",                  "ar": "آسف!",                           "who": "youssef", "audio": "audio/ep02/r12.mp3" }
   ],
   "mistakes": [
-    { "id": "m-gn", "phrase": "gm", "context": "الساعة 8 الصبح. ميا: Good morning, Youssef!", "wrong": "Good night, Mia!", "span": "Good night", "chips": ["Good morning", "Good night", "Good bye"], "answer": "Good morning",
+    { "id": "m-gn", "phrase": "gm", "context": "الساعة 8 الصبح. سارة: Good morning, Youssef!", "wrong": "Good night, Sara!", "span": "Good night", "chips": ["Good morning", "Good night", "Good bye"], "answer": "Good morning",
       "explain": "Good night مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام. الصبح: Good morning." },
-    { "id": "m-welcome", "phrase": "yw", "context": "ميا: Thank you, Youssef!", "wrong": "Welcome!", "span": "Welcome!", "chips": ["You're welcome.", "Welcome you.", "Thank you too."], "answer": "You're welcome.",
+    { "id": "m-welcome", "phrase": "yw", "context": "سارة: Thank you, Youssef!", "wrong": "Welcome!", "span": "Welcome!", "chips": ["You're welcome.", "Welcome you.", "Thank you too."], "answer": "You're welcome.",
       "explain": "Welcome لوحدها معناها «أهلًا وسهلًا». الرد على Thank you: You're welcome." },
-    { "id": "m-ge", "phrase": "ge", "context": "الساعة 8 بالليل، يوسف داخل وبيقابل ميا.", "wrong": "Good night, Mia!", "span": "Good night", "chips": ["Good evening", "Good night", "Good afternoon"], "answer": "Good evening",
+    { "id": "m-ge", "phrase": "ge", "context": "الساعة 8 بالليل، يوسف داخل وبيقابل سارة.", "wrong": "Good night, Sara!", "span": "Good night", "chips": ["Good evening", "Good night", "Good afternoon"], "answer": "Good evening",
       "explain": "بالليل وإنت جاي: Good evening. Good night وإنت ماشي بس." }
   ],
   "items": [

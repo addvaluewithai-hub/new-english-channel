@@ -4,29 +4,29 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:57.755Z",
-  "duration_ms": 8100,
+  "generated_at": "2026-10-30T03:50:58.113Z",
+  "duration_ms": 7200,
   "word_count": 13,
   "diarization": true,
   "language_codes": [
     "en-US"
   ],
-  "recognized_text": "Bye, Yusuf. See you tomorrow. Goodbye, Mia. See you. Classes at eight. Eight?",
-  "source_text": "Bye, Youssef! See you tomorrow! Goodbye, Mia! See you! Class is at eight! Eight?!",
+  "recognized_text": "Bye, Yousef. See you tomorrow. Goodbye, Sarah. See you. Classes at eight. Eight?",
+  "source_text": "Bye, Youssef! See you tomorrow! Goodbye, Sara! See you! Class is at eight! Eight?!",
   "source_turns": [
     {
       "index": 0,
-      "speaker": "Mia",
+      "speaker": "Sara",
       "text": "Bye, Youssef! See you tomorrow!"
     },
     {
       "index": 1,
       "speaker": "Youssef",
-      "text": "Goodbye, Mia! See you!"
+      "text": "Goodbye, Sara! See you!"
     },
     {
       "index": 2,
-      "speaker": "Mia",
+      "speaker": "Sara",
       "text": "Class is at eight!"
     },
     {
@@ -38,54 +38,54 @@
   "words": [
     {
       "start_ms": 200,
-      "end_ms": 400,
+      "end_ms": 300,
       "text": "Bye,",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 400,
-      "end_ms": 1200,
-      "text": "Yusuf.",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 1300,
-      "end_ms": 1400,
-      "text": "See",
+      "start_ms": 300,
+      "end_ms": 1100,
+      "text": "Yousef.",
       "speaker": "spk:0"
     },
     {
       "start_ms": 1400,
-      "end_ms": 1401,
+      "end_ms": 1500,
+      "text": "See",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1600,
       "text": "you",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 1400,
-      "end_ms": 1900,
+      "start_ms": 1600,
+      "end_ms": 2100,
       "text": "tomorrow.",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 2800,
-      "end_ms": 3100,
+      "start_ms": 2900,
+      "end_ms": 3300,
       "text": "Goodbye,",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 3100,
-      "end_ms": 3700,
-      "text": "Mia.",
+      "start_ms": 3300,
+      "end_ms": 3900,
+      "text": "Sarah.",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 3900,
-      "end_ms": 4100,
+      "start_ms": 4000,
+      "end_ms": 4200,
       "text": "See",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 4100,
+      "start_ms": 4200,
       "end_ms": 4400,
       "text": "you.",
       "speaker": "spk:1"
@@ -109,8 +109,8 @@
       "speaker": "spk:0"
     },
     {
-      "start_ms": 7900,
-      "end_ms": 8100,
+      "start_ms": 6600,
+      "end_ms": 7200,
       "text": "Eight?",
       "speaker": "spk:1"
     }

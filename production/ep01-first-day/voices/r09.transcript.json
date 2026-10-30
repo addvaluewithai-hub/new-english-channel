@@ -4,14 +4,14 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:52.517Z",
+  "generated_at": "2026-10-30T03:50:14.164Z",
   "duration_ms": 1400,
   "word_count": 3,
   "diarization": false,
   "language_codes": [
     "en-US"
   ],
-  "recognized_text": "Bye, see you.",
+  "recognized_text": "Bye. See you.",
   "source_text": "Bye! See you!",
   "source_turns": [
     {
@@ -21,17 +21,17 @@
   ],
   "words": [
     {
-      "start_ms": 200,
-      "end_ms": 800,
-      "text": "Bye,"
+      "start_ms": 300,
+      "end_ms": 900,
+      "text": "Bye."
     },
     {
-      "start_ms": 800,
-      "end_ms": 1200,
-      "text": "see"
+      "start_ms": 900,
+      "end_ms": 1100,
+      "text": "See"
     },
     {
-      "start_ms": 1200,
+      "start_ms": 1100,
       "end_ms": 1400,
       "text": "you."
     }

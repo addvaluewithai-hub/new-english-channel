@@ -4,14 +4,14 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:24:21.506Z",
-  "duration_ms": 1000,
+  "generated_at": "2026-10-30T03:50:10.778Z",
+  "duration_ms": 700,
   "word_count": 1,
   "diarization": false,
   "language_codes": [
     "en-US"
   ],
-  "recognized_text": "Sorry?",
+  "recognized_text": "Sorry.",
   "source_text": "Sorry?",
   "source_turns": [
     {
@@ -21,9 +21,9 @@
   ],
   "words": [
     {
-      "start_ms": 400,
-      "end_ms": 1000,
-      "text": "Sorry?"
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "Sorry."
     }
   ]
 }

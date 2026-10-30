@@ -4,8 +4,8 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:47.939Z",
-  "duration_ms": 2600,
+  "generated_at": "2026-10-30T03:51:16.940Z",
+  "duration_ms": 2100,
   "word_count": 5,
   "diarization": false,
   "language_codes": [
@@ -21,28 +21,28 @@
   ],
   "words": [
     {
-      "start_ms": 300,
-      "end_ms": 400,
+      "start_ms": 200,
+      "end_ms": 500,
       "text": "Good"
     },
     {
-      "start_ms": 400,
+      "start_ms": 500,
       "end_ms": 1200,
       "text": "morning."
     },
     {
-      "start_ms": 1700,
-      "end_ms": 2000,
+      "start_ms": 1400,
+      "end_ms": 1600,
       "text": "How"
     },
     {
-      "start_ms": 2000,
-      "end_ms": 2300,
+      "start_ms": 1600,
+      "end_ms": 1800,
       "text": "are"
     },
     {
-      "start_ms": 2300,
-      "end_ms": 2600,
+      "start_ms": 1800,
+      "end_ms": 2100,
       "text": "you?"
     }
   ]

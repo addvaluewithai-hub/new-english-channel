@@ -1,4 +1,4 @@
-# يوسف في لندن — الموقع المصاحب (companion site)
+# يوسف في نيويورك — الموقع المصاحب (companion site)
 
 Static site, no backend, vanilla HTML/CSS/JS (ES modules). After each YouTube episode the viewer comes here to do that
 episode's exercises; every phrase they answer feeds a spaced-repetition review deck kept in `localStorage`.

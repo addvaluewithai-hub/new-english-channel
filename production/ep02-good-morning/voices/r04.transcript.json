@@ -4,7 +4,7 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T16:36:43.346Z",
+  "generated_at": "2026-10-30T03:50:29.353Z",
   "duration_ms": 1100,
   "word_count": 2,
   "diarization": false,
@@ -21,12 +21,12 @@
   ],
   "words": [
     {
-      "start_ms": 400,
-      "end_ms": 500,
+      "start_ms": 300,
+      "end_ms": 400,
       "text": "Good"
     },
     {
-      "start_ms": 500,
+      "start_ms": 400,
       "end_ms": 1100,
       "text": "night."
     }

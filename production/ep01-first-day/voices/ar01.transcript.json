@@ -4,91 +4,91 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-29T14:23:57.889Z",
-  "duration_ms": 7500,
+  "generated_at": "2026-10-30T03:50:07.399Z",
+  "duration_ms": 9200,
   "word_count": 14,
   "diarization": false,
   "language_codes": [
     "ar-EG"
   ],
-  "recognized_text": "اسمي يوسف. مهندس من القاهره عندي 26 سنه. والنهارده اول يوم ليا في لندن.",
-  "source_text": "اسمي يوسف. مهندس من القاهرة، عندي ستة وعشرين سنة… والنهارده أول يوم ليّا في لندن.",
+  "recognized_text": "اسمي يوسف. مهندس من القاهره. عندي 26 سنه. والنهارده اول يوم ليا في نيويورك.",
+  "source_text": "اسمي يوسف. مهندس من القاهرة، عندي ستة وعشرين سنة… والنهارده أول يوم ليّا في نيويورك.",
   "source_turns": [
     {
       "index": 0,
-      "text": "اسمي يوسف. مهندس من القاهرة، عندي ستة وعشرين سنة… والنهارده أول يوم ليّا في لندن."
+      "text": "اسمي يوسف. مهندس من القاهرة، عندي ستة وعشرين سنة… والنهارده أول يوم ليّا في نيويورك."
     }
   ],
   "words": [
     {
-      "start_ms": 200,
-      "end_ms": 700,
+      "start_ms": 100,
+      "end_ms": 400,
       "text": "اسمي"
     },
     {
-      "start_ms": 700,
-      "end_ms": 1200,
+      "start_ms": 400,
+      "end_ms": 900,
       "text": "يوسف."
     },
     {
       "start_ms": 1800,
-      "end_ms": 2200,
+      "end_ms": 2300,
       "text": "مهندس"
     },
     {
-      "start_ms": 2200,
-      "end_ms": 2300,
+      "start_ms": 2300,
+      "end_ms": 2400,
       "text": "من"
     },
     {
-      "start_ms": 2300,
-      "end_ms": 2800,
-      "text": "القاهره"
+      "start_ms": 2400,
+      "end_ms": 2900,
+      "text": "القاهره."
     },
     {
-      "start_ms": 3300,
-      "end_ms": 3600,
+      "start_ms": 3700,
+      "end_ms": 4000,
       "text": "عندي"
     },
     {
-      "start_ms": 3600,
-      "end_ms": 4300,
+      "start_ms": 4000,
+      "end_ms": 4600,
       "text": "26"
     },
     {
-      "start_ms": 4300,
-      "end_ms": 4500,
+      "start_ms": 4600,
+      "end_ms": 5000,
       "text": "سنه."
     },
     {
-      "start_ms": 5600,
-      "end_ms": 6200,
+      "start_ms": 5900,
+      "end_ms": 6600,
       "text": "والنهارده"
     },
     {
-      "start_ms": 6300,
-      "end_ms": 6600,
+      "start_ms": 7500,
+      "end_ms": 7900,
       "text": "اول"
     },
     {
-      "start_ms": 6600,
-      "end_ms": 6800,
+      "start_ms": 7900,
+      "end_ms": 8200,
       "text": "يوم"
     },
     {
-      "start_ms": 6800,
-      "end_ms": 7000,
+      "start_ms": 8200,
+      "end_ms": 8400,
       "text": "ليا"
     },
     {
-      "start_ms": 7000,
-      "end_ms": 7100,
+      "start_ms": 8400,
+      "end_ms": 8500,
       "text": "في"
     },
     {
-      "start_ms": 7100,
-      "end_ms": 7500,
-      "text": "لندن."
+      "start_ms": 8500,
+      "end_ms": 9200,
+      "text": "نيويورك."
     }
   ]
 }
