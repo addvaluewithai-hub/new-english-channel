@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:13.701Z",
+  "duration_ms": 5200,
+  "word_count": 10,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "قلتها؟ برافو. واكتب في الكومنتات انت منين وساكن فين بالانجليزي.",
+  "source_text": "قلتها؟ برافو! واكتب في الكومنتات: إنت منين، وساكن فين… بالإنجليزي.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "قلتها؟ برافو! واكتب في الكومنتات: إنت منين، وساكن فين… بالإنجليزي."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "قلتها؟"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "برافو."
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2400,
+      "text": "واكتب"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2500,
+      "text": "في"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 3000,
+      "text": "الكومنتات"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3200,
+      "text": "انت"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3600,
+      "text": "منين"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 4100,
+      "text": "وساكن"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4500,
+      "text": "فين"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5200,
+      "text": "بالانجليزي."
+    }
+  ]
+}

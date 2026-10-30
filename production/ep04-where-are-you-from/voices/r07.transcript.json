@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:47.656Z",
+  "duration_ms": 1800,
+  "word_count": 4,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Are you from Madrid?",
+  "source_text": "Are you from Madrid?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Are you from Madrid?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 400,
+      "text": "Are"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 600,
+      "text": "you"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1200,
+      "text": "from"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1800,
+      "text": "Madrid?"
+    }
+  ]
+}

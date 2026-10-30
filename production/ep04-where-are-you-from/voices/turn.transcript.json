@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:36.453Z",
+  "duration_ms": 2600,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Hi. Where are you from?",
+  "source_text": "Hi! Where are you from?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Hi! Where are you from?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 900,
+      "text": "Hi."
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1700,
+      "text": "Where"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 1800,
+      "text": "are"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2100,
+      "text": "you"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2600,
+      "text": "from?"
+    }
+  ]
+}

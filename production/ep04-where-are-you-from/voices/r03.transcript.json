@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:14.097Z",
+  "duration_ms": 1100,
+  "word_count": 4,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Where do you live?",
+  "source_text": "Where do you live?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Where do you live?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "Where"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 500,
+      "text": "do"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 700,
+      "text": "you"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1100,
+      "text": "live?"
+    }
+  ]
+}

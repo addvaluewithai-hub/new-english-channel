@@ -1,0 +1,116 @@
+{
+ "en1": {
+  "source": "OK, class! Let's meet. Where are you from? Ana, you first! Hi, everybody! I'm Ana. I'm from Spain. I live in Brooklyn. Great! Thank you, Ana.",
+  "gemini": "Okay, class. Let's meet. Anna, you first. Hi, everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you, Anna.",
+  "whisper": "Okay, class. Let's meet. Anna, you first. Hi, everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you, Anna.",
+  "dur": 12200
+ },
+ "en2": {
+  "source": "Youssef? Your turn. Hello! I'm Youssef. I'm from Egypt. I am live in Queens.",
+  "gemini": "Youssef? Your turn. Hello. I'm Youssef. I'm from Egypt. I am live in Queens.",
+  "whisper": "Youssef? Your turn. Hello, I'm Youssef. I'm from Egypt. I am live in Queens.",
+  "dur": 8600
+ },
+ "en3": {
+  "source": "I live in Queens. Oh! Sorry. I live in Queens. Good! Where in Egypt? Cairo!",
+  "gemini": "Short pause. I live in Queens. Oh, sorry. Uh, I live in Queens. Good. Where in Egypt? Cairo.",
+  "whisper": "Short pause. I live in Queens. Oh, sorry. I live in Queens. Good. Where in Egypt? Cairo.",
+  "dur": 10700
+ },
+ "en4": {
+  "source": "Ana, are you from Madrid? Yes, I am! I'm Spanish. And you're Egyptian! Yes! I'm Egyptian.",
+  "gemini": "Anna, are you from Madrid? Yes, I am. I'm Spanish. And you're Egyptian. Yes, I'm Egyptian.",
+  "whisper": "Ana, are you from Madrid? Yes, I am. I'm Spanish and you're Egyptian. Yes, I'm Egyptian.",
+  "dur": 9600
+ },
+ "en5": {
+  "source": "And I'm American. From New York!",
+  "gemini": "And I'm American from New York.",
+  "whisper": "And I'm American from New York.",
+  "dur": 3400
+ },
+ "en6": {
+  "source": "OK! Next question. So, Youssef… what do you do?",
+  "gemini": "Okay, next question. So, Yusef, what do you do?",
+  "whisper": "Okay, next question! So, Yusuf, what do you do?",
+  "dur": 4700
+ },
+ "r01": {
+  "source": "Where are you from?",
+  "gemini": "Where are you from?",
+  "whisper": "Where are you from?",
+  "dur": 1100
+ },
+ "r02": {
+  "source": "I'm from Egypt.",
+  "gemini": "I'm from Egypt.",
+  "whisper": "I'm from Egypt.",
+  "dur": 1600
+ },
+ "r03": {
+  "source": "Where do you live?",
+  "gemini": "Where do you live?",
+  "whisper": "Where do you live?",
+  "dur": 1100
+ },
+ "r04": {
+  "source": "I live in Queens.",
+  "gemini": "I live in Queens.",
+  "whisper": "I live in Queens.",
+  "dur": 2200
+ },
+ "r05": {
+  "source": "Are you from New York?",
+  "gemini": "Are you from New York?",
+  "whisper": "Are you from New York?",
+  "dur": 1600
+ },
+ "r06": {
+  "source": "Yes, I am.",
+  "gemini": "Yes, I am.",
+  "whisper": "Yes, I am.",
+  "dur": 1600
+ },
+ "r07": {
+  "source": "Are you from Madrid?",
+  "gemini": "Are you from Madrid?",
+  "whisper": "Are you from Madrid?",
+  "dur": 1800
+ },
+ "r08": {
+  "source": "No, I'm not.",
+  "gemini": "No, I'm not.",
+  "whisper": "No, I'm not",
+  "dur": 1400
+ },
+ "r09": {
+  "source": "I live in New York.",
+  "gemini": "I live in New York.",
+  "whisper": "I live in New York.",
+  "dur": 1400
+ },
+ "r10": {
+  "source": "Egypt. Egyptian.",
+  "gemini": "Egypt Egyptian",
+  "whisper": "Egypt. Egyptian.",
+  "dur": 2800
+ },
+ "r11": {
+  "source": "Spain. Spanish.",
+  "gemini": "Spain Spanish",
+  "whisper": "Spain. Spanish.",
+  "dur": 2300
+ },
+ "r12": {
+  "source": "America. American.",
+  "gemini": "America American",
+  "whisper": "America. American.",
+  "dur": 2600
+ },
+ "turn": {
+  "source": "Hi! Where are you from?",
+  "gemini": "Hi. Where are you from?",
+  "whisper": "Hi, where are you from?",
+  "dur": 2600
+ }
+}

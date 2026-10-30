@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:37.321Z",
+  "duration_ms": 1400,
+  "word_count": 3,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "No, I'm not.",
+  "source_text": "No, I'm not.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "No, I'm not."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 800,
+      "text": "No,"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1000,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1400,
+      "text": "not."
+    }
+  ]
+}

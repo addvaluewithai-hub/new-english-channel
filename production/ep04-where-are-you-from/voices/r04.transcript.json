@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:15.766Z",
+  "duration_ms": 2200,
+  "word_count": 4,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "I live in Queens.",
+  "source_text": "I live in Queens.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "I live in Queens."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "I"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 1200,
+      "text": "live"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1400,
+      "text": "in"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 2200,
+      "text": "Queens."
+    }
+  ]
+}

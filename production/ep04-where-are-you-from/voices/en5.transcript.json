@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:38.446Z",
+  "duration_ms": 3400,
+  "word_count": 6,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "And I'm American from New York.",
+  "source_text": "And I'm American. From New York!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "And I'm American. From New York!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 500,
+      "end_ms": 800,
+      "text": "And"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1400,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 2200,
+      "text": "American"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 2900,
+      "text": "from"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3000,
+      "text": "New"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3400,
+      "text": "York."
+    }
+  ]
+}

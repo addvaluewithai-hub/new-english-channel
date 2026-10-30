@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:13.480Z",
+  "duration_ms": 5300,
+  "word_count": 8,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "واخر حاجه البلد والجنسية. والاثنين بيتكتبوا بحرف كبير.",
+  "source_text": "وآخر حاجة: البلد والجنسية… والاتنين بيتكتبوا بحرف كبير.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وآخر حاجة: البلد والجنسية… والاتنين بيتكتبوا بحرف كبير."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "واخر"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1200,
+      "text": "حاجه"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1800,
+      "text": "البلد"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2400,
+      "text": "والجنسية."
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 4100,
+      "text": "والاثنين"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4500,
+      "text": "بيتكتبوا"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4900,
+      "text": "بحرف"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5300,
+      "text": "كبير."
+    }
+  ]
+}

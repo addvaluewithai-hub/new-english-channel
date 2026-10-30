@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:13.479Z",
+  "duration_ms": 4600,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولو عايز تسأل الرد او",
+  "source_text": "ولو عايز تسأل: Are you from …؟ الرد: Yes, I am . أو: No, I'm not .",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولو عايز تسأل: Are you from …؟ الرد: Yes, I am . أو: No, I'm not ."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "ولو"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "عايز"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1100,
+      "text": "تسأل"
+    },
+    {
+      "start_ms": 2600,
+      "end_ms": 3200,
+      "text": "الرد"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4600,
+      "text": "او"
+    }
+  ]
+}

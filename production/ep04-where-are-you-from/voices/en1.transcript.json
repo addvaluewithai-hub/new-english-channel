@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:11:09.424Z",
+  "duration_ms": 12200,
+  "word_count": 22,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Okay, class. Let's meet. Anna, you first. Hi, everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you, Anna.",
+  "source_text": "OK, class! Let's meet. Where are you from? Ana, you first! Hi, everybody! I'm Ana. I'm from Spain. I live in Brooklyn. Great! Thank you, Ana.",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Sara",
+      "text": "OK, class! Let's meet. Where are you from? Ana, you first!"
+    },
+    {
+      "index": 1,
+      "speaker": "Ana",
+      "text": "Hi, everybody! I'm Ana. I'm from Spain. I live in Brooklyn."
+    },
+    {
+      "index": 2,
+      "speaker": "Sara",
+      "text": "Great! Thank you, Ana."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 800,
+      "text": "Okay,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1800,
+      "text": "class.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2000,
+      "text": "Let's",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2300,
+      "text": "meet.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3000,
+      "text": "Anna,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3100,
+      "text": "you",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3600,
+      "text": "first.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 4300,
+      "end_ms": 4600,
+      "text": "Hi,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 5300,
+      "text": "everybody.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6200,
+      "text": "I'm",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6600,
+      "text": "Anna.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7300,
+      "text": "I'm",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 7300,
+      "end_ms": 7500,
+      "text": "from",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 7500,
+      "end_ms": 8000,
+      "text": "Spain.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8600,
+      "end_ms": 8700,
+      "text": "I",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8700,
+      "end_ms": 8900,
+      "text": "live",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8900,
+      "end_ms": 9000,
+      "text": "in",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 9000,
+      "end_ms": 9600,
+      "text": "Brooklyn.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10200,
+      "end_ms": 10600,
+      "text": "Great.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11300,
+      "end_ms": 11600,
+      "text": "Thank",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11600,
+      "end_ms": 11800,
+      "text": "you,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11800,
+      "end_ms": 12200,
+      "text": "Anna.",
+      "speaker": "spk:0"
+    }
+  ]
+}

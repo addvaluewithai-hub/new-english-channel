@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:55.727Z",
+  "duration_ms": 3800,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "دورك. فرب تسالك قول بلدك بصوت عالي.",
+  "source_text": "دورك! سارة بتسألك… قول بلدك بصوت عالي.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "دورك! سارة بتسألك… قول بلدك بصوت عالي."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 500,
+      "text": "دورك."
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1600,
+      "text": "فرب"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2300,
+      "text": "تسالك"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 2900,
+      "text": "قول"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3200,
+      "text": "بلدك"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3500,
+      "text": "بصوت"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3800,
+      "text": "عالي."
+    }
+  ]
+}

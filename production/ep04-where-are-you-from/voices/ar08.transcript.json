@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:13.435Z",
+  "duration_ms": 8800,
+  "word_count": 9,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولما يسالك قول وهنا ما فيش ام خالص. غلط.",
+  "source_text": "ولما يسألك: Where do you live ؟ قول: I live in … وهنا مفيش am خالص. I am live … غلط.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولما يسألك: Where do you live ؟ قول: I live in … وهنا مفيش am خالص. I am live … غلط."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 800,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1400,
+      "text": "يسالك"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3500,
+      "text": "قول"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 5900,
+      "text": "وهنا"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6000,
+      "text": "ما"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6200,
+      "text": "فيش"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6400,
+      "text": "ام"
+    },
+    {
+      "start_ms": 6400,
+      "end_ms": 7000,
+      "text": "خالص."
+    },
+    {
+      "start_ms": 8400,
+      "end_ms": 8800,
+      "text": "غلط."
+    }
+  ]
+}

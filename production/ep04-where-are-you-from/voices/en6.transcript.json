@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:45.462Z",
+  "duration_ms": 4700,
+  "word_count": 9,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Okay, next question. So, Yusef, what do you do?",
+  "source_text": "OK! Next question. So, Youssef… what do you do?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "OK! Next question. So, Youssef… what do you do?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 1000,
+      "text": "Okay,"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1600,
+      "text": "next"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2000,
+      "text": "question."
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3300,
+      "text": "So,"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 4100,
+      "text": "Yusef,"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4200,
+      "text": "what"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4300,
+      "text": "do"
+    },
+    {
+      "start_ms": 4300,
+      "end_ms": 4400,
+      "text": "you"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4700,
+      "text": "do?"
+    }
+  ]
+}

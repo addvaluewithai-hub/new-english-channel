@@ -1,3 +1,4 @@
+// SITE COPY of production/ep02-good-morning/kit.js; import path /core/lib.js → ./lib.js.
 // Bean People v2 — shared kit: palette tokens, colour maths, the "form" pass (crescent shade + rim light).
 import { mulberry } from './lib.js';
 
@@ -6,10 +7,10 @@ export const P = {
   ink:     '#2A2742',   // pupils, mouths, brows, text, outlines-free darks
   cream:   '#FFF6E8',   // sclera, bubbles, stucco, window frames
   sky:     '#9BD3EC',   // daylight sky, glass, atmospheric haze
-  red:     '#E8483A',   // suitcase, bus, phone box, Mia's shoes
+  red:     '#E8483A',   // suitcase, taxi checker trim, hydrant, Sara's shoes
   navy:    '#2E3D7C',   // Youssef's jacket, school sign, lamp posts
-  mustard: '#F5B63E',   // Mia's cardigan, sun, trims, highlight word
-  teal:    '#1E9D93',   // Mia's skirt + hair tie, school door, planters
+  mustard: '#F5B63E',   // Sara's cardigan, the taxi, sun, trims, highlight word
+  teal:    '#1E9D93',   // Sara's skirt + hair tie, school door, planters
   leaf:    '#69B464',   // trees, window boxes
 };
 // character materials (skin / hair) — kept outside the 8 environment tokens

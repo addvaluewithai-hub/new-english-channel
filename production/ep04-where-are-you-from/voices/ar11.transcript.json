@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:36.704Z",
+  "duration_ms": 6200,
+  "word_count": 6,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "والمدن والمدن والبلاد بتاخد يعني مش",
+  "source_text": "والمدن والبلاد بتاخد in : in Cairo ، in New York … مش at Cairo .",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "والمدن والبلاد بتاخد in : in Cairo ، in New York … مش at Cairo ."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 900,
+      "text": "والمدن"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1700,
+      "text": "والمدن"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 2200,
+      "text": "والبلاد"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2600,
+      "text": "بتاخد"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3800,
+      "text": "يعني"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6200,
+      "text": "مش"
+    }
+  ]
+}

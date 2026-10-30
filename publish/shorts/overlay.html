@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  :root { --ink:#2A2742; --cream:#FFF6E8; --navy:#2E3D7C; --mustard:#F5B63E; --red:#E8483A; --teal:#1E9D93; }
+  html, body { margin:0; width:1080px; height:1920px; background:transparent; overflow:hidden; }
+  .top { position:absolute; left:50px; right:50px; top:140px; height:430px; background:rgba(42,39,66,.82); border-radius:48px; box-sizing:border-box; padding:20px 30px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; }
+  .tag { font:700 40px 'Baloo Bhaijaan 2'; color:var(--cream); background:var(--red); padding:6px 30px 10px; border-radius:40px; direction:rtl; }
+  .hook { font:800 92px/1.15 'Baloo Bhaijaan 2'; color:var(--cream); text-align:center; direction:rtl; text-shadow:0 6px 0 rgba(0,0,0,.25); }
+  .hook em { font-style:normal; color:var(--mustard); }
+  .hook .en { font-family:'Fredoka'; font-weight:600; direction:ltr; unicode-bidi:isolate; }
+  .bottom { position:absolute; left:110px; right:110px; top:1430px; background:rgba(42,39,66,.82); border-radius:44px; padding:30px 20px 36px; display:flex; flex-direction:column; align-items:center; gap:26px; }
+  .series { font:700 46px 'Baloo Bhaijaan 2'; color:var(--cream); direction:rtl; }
+  .series b { color:var(--mustard); }
+  .pill { font:700 46px 'Baloo Bhaijaan 2'; direction:rtl; color:var(--ink); background:var(--mustard); padding:14px 46px 20px; border-radius:60px; box-shadow:0 8px 0 rgba(0,0,0,.25); }
+</style></head>
+<body>
+  <div class="top"><div class="tag" id="tag"></div><div class="hook" id="hook"></div></div>
+  <div class="bottom"><div class="series" id="series"></div><div class="pill" id="pill"></div></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  document.getElementById('tag').textContent = q.get('tag') || '';
+  document.getElementById('hook').innerHTML = q.get('hook') || '';
+  document.getElementById('series').innerHTML = q.get('series') || '';
+  document.getElementById('pill').textContent = q.get('pill') || '';
+  document.fonts.ready.then(() => { document.body.dataset.ready = 1; });
+</script>
+</body></html>

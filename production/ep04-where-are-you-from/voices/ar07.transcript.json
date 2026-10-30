@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:17.506Z",
+  "duration_ms": 7500,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "لما حد يسالك قول وما تنساش غلط.",
+  "source_text": "لما حد يسألك: Where are you from ؟ قول: I'm from … ومتنساش am : I from Egypt … غلط.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "لما حد يسألك: Where are you from ؟ قول: I'm from … ومتنساش am : I from Egypt … غلط."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "لما"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 800,
+      "text": "حد"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1400,
+      "text": "يسالك"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3000,
+      "text": "قول"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 4900,
+      "text": "وما"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5300,
+      "text": "تنساش"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7500,
+      "text": "غلط."
+    }
+  ]
+}

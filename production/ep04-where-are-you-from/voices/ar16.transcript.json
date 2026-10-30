@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:15.706Z",
+  "duration_ms": 9400,
+  "word_count": 11,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "الحلقه الجايه الشغل. ساره سالتني وانا قلت وطلعت ناقصه حاجه صغيره.",
+  "source_text": "الحلقة الجاية: الشغل. سارة سألتني: What do you do ؟ وأنا قلت: I am engineer . وطلعت ناقصة حاجة صغيرة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "الحلقة الجاية: الشغل. سارة سألتني: What do you do ؟ وأنا قلت: I am engineer . وطلعت ناقصة حاجة صغيرة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1400,
+      "text": "الجايه"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 2300,
+      "text": "الشغل."
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3500,
+      "text": "ساره"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 4000,
+      "text": "سالتني"
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 5500,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 5500,
+      "end_ms": 6000,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 8200,
+      "text": "وطلعت"
+    },
+    {
+      "start_ms": 8400,
+      "end_ms": 8700,
+      "text": "ناقصه"
+    },
+    {
+      "start_ms": 8700,
+      "end_ms": 8900,
+      "text": "حاجه"
+    },
+    {
+      "start_ms": 8900,
+      "end_ms": 9400,
+      "text": "صغيره."
+    }
+  ]
+}
