@@ -12,8 +12,8 @@ Commands, page contract and module roles are those of `../ep02-good-morning/READ
   (incl. the QA fix `drawTray o.cups`).
 - **The reception set** (`world.js`: `receptionStatic`, `counterFront`, `room4Live`, `drawReception`, `drawCounter`): the hallway's wall,
   wainscot and floor; the door of **Room 4** (big "4" plaque, opens progressively onto a warm classroom), a window, the wall clock
-  (7:52 → 8:00 over the scene), the RECEPTION sign (low enough to stay whole in the two- and three-shots), a shelf, the counter
-  whose front is a separate layer drawn over Mrs. Lopez (her lower body is behind it), the desk bell.
+  (7:52 → 8:00 over the scene), a shelf, the counter
+  whose front is a separate layer drawn over Mrs. Lopez (her lower body is behind it) and carries the RECEPTION plaque (below every bubble and tag; whole in the two- and three-shots and the ar04 push, fully off frame in the freeze close-up), the desk bell.
 - `drawForm` takes `ageVal` + `write` (26 handwritten in teal, revealed as it is written); `drawPen`.
 
 ## Scenes

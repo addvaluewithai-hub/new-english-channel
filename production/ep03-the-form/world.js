@@ -642,7 +642,7 @@ export function blanket(c, a = 0, t = 0, part = 'both') {
 }
 
 // ---------------- episode 3: the school reception (same wall, wainscot and floor as the hallway) ----------------
-// left: the door of Room 4 (teal, a big "4" plaque); a window; the wall clock; right: the RECEPTION sign over a shelf and the
+// left: the door of Room 4 (teal, a big "4" plaque); a window; the wall clock; right: a shelf and the
 // counter (its front panel is a separate layer, drawn over Mrs. Lopez, who stands behind it). GROUND = 880 as everywhere.
 export const RCLOCK = { x: 1010, y: 410, r: 58 };
 export const ROOM4 = { x: 235, w: 230, top: 300, bottom: 798 };   // the door of Room 4 (centre x, leaf width, top, threshold)
@@ -685,13 +685,7 @@ function receptionStatic(c) {
   c.fillStyle = rgba('#3B2F6B', .12); ell(c, cx + 6, cy + 8, r + 8, r + 8); c.fill();
   c.fillStyle = P.navy; ell(c, cx, cy, r + 8, r + 8); c.fill(); c.fillStyle = P.mustard; ell(c, cx, cy, r + 1, r + 1); c.fill(); c.fillStyle = '#FFFBF4'; ell(c, cx, cy, r - 6, r - 6); c.fill();
   c.fillStyle = P.ink; for (let i = 0; i < 12; i++) { const a = i / 12 * 2 * PI; c.save(); c.translate(cx + Math.sin(a) * (r - 16), cy - Math.cos(a) * (r - 16)); c.rotate(a); rr(c, -2.5, -(i % 3 ? 4 : 7), 5, i % 3 ? 8 : 14, 2.5); c.fill(); c.restore(); }
-  // the RECEPTION sign
-  const sx = 1560, sy = 446;   // low enough to stay whole in the two-shot and the three-shot
-  c.fillStyle = rgba('#3B2F6B', .18); rr(c, sx - 226, sy + 8, 460, 74, 14); c.fill();
-  c.fillStyle = P.navy; rr(c, sx - 230, sy, 460, 74, 14); c.fill();
-  c.strokeStyle = P.mustard; c.lineWidth = 4; rr(c, sx - 219, sy + 9, 438, 56, 9); c.stroke();
-  c.fillStyle = P.cream; c.font = '400 44px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.letterSpacing = '6px'; c.fillText('RECEPTION', sx + 3, sy + 39); c.letterSpacing = '0px';
-  c.textBaseline = 'alphabetic';
+  // (the RECEPTION sign is on the counter's front panel — counterFront — below every bubble and tag)
   // a shelf behind the counter: binders, a small plant, a framed photo
   const shy = 618;   // the shelf, right of her head and under the sign
   c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(1650, shy + 12, 400, 10);
@@ -723,6 +717,13 @@ function counterFront(c) {
   c.fillStyle = light(FR, .25); for (let x = x0 + 26; x < x1 - 40; x += 190) c.fillRect(x + 6, front + 32, 148, 4);
   c.fillStyle = rgba('#3B2F6B', .22); c.fillRect(x0, front + 10, 10, base - front - 10);
   c.fillStyle = dark(FR, .3); c.fillRect(x0, base - 14, x1 - x0, 14);
+  // the RECEPTION plaque on the front panel: bubbles and number tags live above the heads, so they never cross it
+  const px = 1662, py = front + 34, pw = 236, ph = 52;   // fully off frame in the freeze close-up, fully in frame in the other shots
+  c.fillStyle = rgba('#3B2F6B', .2); rr(c, px - pw / 2 + 4, py + 5, pw, ph, 10); c.fill();
+  c.fillStyle = P.navy; rr(c, px - pw / 2, py, pw, ph, 10); c.fill();
+  c.strokeStyle = P.mustard; c.lineWidth = 3; rr(c, px - pw / 2 + 7, py + 7, pw - 14, ph - 14, 6); c.stroke();
+  c.fillStyle = P.cream; c.font = '400 30px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.letterSpacing = '4px'; c.fillText('RECEPTION', px + 2, py + ph / 2 + 1); c.letterSpacing = '0px';
+  c.textBaseline = 'alphabetic';
   // the desk bell
   const bx = 1790, by = top + 6;
   c.fillStyle = rgba('#3B2F6B', .2); ell(c, bx + 4, by + 2, 40, 8); c.fill();

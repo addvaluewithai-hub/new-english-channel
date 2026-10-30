@@ -286,7 +286,7 @@ export function buildStory() {
     { t: bFreeze, d: 0, x: 1236, y: 700, z: 3.3 },
     { t: bUn, d: 0, x: 1290, y: 672, z: 1.85 },
     { t: bSaraIn + .2, d: 1.4, ...THREE },
-    { t: n4 ? n4.t0 : F1.t1 + .5, d: Math.max(1, (n4 ? n4.t1 - n4.t0 : 3)), x: 1222, y: 690, z: 2.1 },
+    { t: n4 ? n4.t0 : F1.t1 + .5, d: Math.max(1, (n4 ? n4.t1 - n4.t0 : 3)), x: 1330, y: 690, z: 2.0 },   // keeps the counter's RECEPTION plaque whole
     { t: sx.t0, d: 0, ...THREE },
     { t: X3.t0 - .2, d: .25, x: 1240, y: 672, z: 1.7 },
     { t: X4.t0 + .3, d: 1.2, ...THREE },
