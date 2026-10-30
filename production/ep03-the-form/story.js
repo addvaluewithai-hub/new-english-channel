@@ -430,7 +430,9 @@ function deskShot(c, t, cam, freeze = false) {
 }
 // the doorway of Room 4 in screen space (Sara walks in through it)
 function doorRect(cam) {
-  const [x0, y0] = toScreen(cam, 1, ROOM4.x - ROOM4.w / 2, ROOM4.top - 80), [x1, y1] = toScreen(cam, 1, ROOM4.x + ROOM4.w / 2, ROOM4.bottom + 200);
+  // the opening behind the open leaf (≈ 22 px of the leaf stays at the left jamb) and above the threshold: once she is inside the
+  // room her feet and bag stop at the threshold and she walks out of view behind the leaf
+  const [x0, y0] = toScreen(cam, 1, ROOM4.x - ROOM4.w / 2 + 22, ROOM4.top - 80), [x1, y1] = toScreen(cam, 1, ROOM4.x + ROOM4.w / 2, ROOM4.bottom + 4);
   return [x0, y0, x1, y1];
 }
 // a popping number tag (Fredoka on a cream pill), wobbling when it is a question
