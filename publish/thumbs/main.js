@@ -50,11 +50,11 @@ function bubbleSquiggle(c, B, i0, i1) {
 
 // ---------------- the Arabic headline plate: Baloo Bhaijaan 2 800, cream on navy, mustard keyline, a slight tilt ----------------
 // lines: [{ t, fs, col }], right-aligned RTL. Returns the plate box.
-function arPlate(c, cx, cy, lines, { rot = -.035, pad = 44, lh = 1.08, keyline = true } = {}) {
+function arPlate(c, cx, cy, lines, { rot = -.035, pad = 44, padY = 54, lh = 1.26, keyline = true } = {}) {
   c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.direction = 'rtl'; c.textAlign = 'center'; c.textBaseline = 'middle';
   let W = 0, Hh = 0;
   for (const L of lines) { c.font = `800 ${L.fs}px ${AR}`; W = Math.max(W, c.measureText(L.t).width); Hh += L.fs * lh; }
-  const bw = W + pad * 2, bh = Hh + pad * 1.4;
+  const bw = W + pad * 2, bh = Hh + padY * 2;
   c.translate(cx, cy); c.rotate(rot);
   rr(c, -bw / 2 + 10, -bh / 2 + 16, bw, bh, 40); c.fillStyle = rgba('#2A2742', .28); c.fill();
   rr(c, -bw / 2, -bh / 2, bw, bh, 40); c.fillStyle = P.navy; c.fill();
@@ -93,44 +93,44 @@ const SPARK = (c, x, y, r, col, rot = 0) => { c.save(); c.translate(x, y); c.rot
 // Episode 1 "First Day": the embarrassed freeze face big on the left, "I Youssef." with the squiggle, "أول جملة… غلط!"
 function ep1() {
   // the New York street, blurred (the establishing camera pushed in a little so the skyline and brownstones fill the back)
-  drawWorld(c, { x: 1040, y: 470, z: 1.25 }, 0, { dof: 9, nearDof: 8, taxiX: 1500, door: 0, clock: 8.9 });
+  drawWorld(c, { x: 1180, y: 690, z: 1.25 }, 0, { dof: 9, nearDof: 8, taxiX: 1500, door: 0, clock: 8.9 });
   dim(c, .08); vignette(c, .42);
   // Youssef: the freeze — wide eyes, worried brows, ///, sweat, the wavy mouth; one hand up at the head (the still's scratch)
-  const face = F('embarrassed', { eye: 1, pupil: .8, lx: .12, ly: -.02, happy: .12, bLy: .62, bRy: .62, bLr: .95, bRr: .95, mw: .125, ms: -.05, mwob: 1, mo: .012, blush: 1, lines: 1, sweat: 1 });
-  const k = 3.25, y = 1125;
-  const p = pose({ x: 585, y, k, turn: .1, face, armL: ARM.rest, armR: ARM.scratch, quiff: .15, breathe: 0, shadow: 0 });
+  const face = F('embarrassed', { eye: 1, pupil: .8, lx: .12, ly: -.02, happy: .12, bLy: .62, bRy: .62, bLr: .95, bRr: .95, mw: .14, ms: -.05, mwob: 1, mo: .012, blush: 1, lines: 1, sweat: 1 });
+  const k = 3.1, y = 1120;
+  const p = pose({ x: 575, y, k, turn: .1, face, armL: ARM.rest, armR: ARM.scratch, quiff: .15, breathe: 0, shadow: 0 });
   drawChar(c, CAST.youssef, p);
   // the bubble, tail to his head (right temple)
-  const B = bigBubble(c, { x: 840, y: 262, who: 'youssef', words: [{ w: 'I' }, { w: 'Youssef.' }], side: 1, fs: 118, lift: 110 });
+  const B = bigBubble(c, { x: 835, y: 372, who: 'youssef', words: [{ w: 'I' }, { w: 'Youssef.' }], side: 1, fs: 118, lift: 64 });
   bubbleSquiggle(c, B, 0, 1);
   // the headline
-  arPlate(c, 1440, 690, [{ t: 'أول جملة…', fs: 150 }, { t: 'غلط!', fs: 230, col: P.mustard, dy: -6 }], { rot: -.04 });
-  epTag(c, 1760, 428, 'الحلقة 1', 60, .1);
+  arPlate(c, 1430, 700, [{ t: 'أول جملة…', fs: 148, dy: 8 }, { t: 'غلط!', fs: 225, col: P.mustard, dy: -22 }], { rot: -.04 });
+  epTag(c, 1775, 392, 'الحلقة 1', 60, .1);
 }
 
 // Episode 2 "Good Morning?": the yawn, "Good… night." with the squiggle, Sara peeking surprised, "تصبح على خير… الصبح؟!"
 function ep2() {
   drawHall(c, { x: 1060, y: 560, z: 1.55 }, 0, { dof: 8, clock: 8.2 });
   dim(c, .06); vignette(c, .4);
-  // Sara peeks in from the right edge, surprised, leaning toward him
-  const sFace = F('surprised', { pupil: .72, mo: .085, mw: .062, lx: -.75, ly: .05, bLy: 1, bRy: 1, blush: .5 });
-  const sp = pose({ x: 1790, y: 1215, k: 1.95, turn: -.42, lean: -.06, face: sFace, armL: { dx: -.08, dy: -.2, w: 0, bend: 55, elv: [1, .3], flex: 1 }, armR: ARM.rest, pony: -.25, shadow: 0 });
-  drawChar(c, CAST.mia, sp);
   // Youssef mid-yawn: eyes shut, brows up, mouth wide open, the hand up near the mouth; a stretch
   const yFace = F('neutral', { eye: .06, bLy: 1, bRy: 1, bLr: .3, bRr: .3, mw: .1, mo: .15, ms: -.12, mt: 0, mround: .25, blush: .5, lx: 0, ly: 0 });
-  const MOUTH = { dx: -.3, dy: -.12, w: 0, bend: 55, elv: [1, .2], flex: 1 };
-  const yp = pose({ x: 600, y: 1130, k: 3.2, turn: .12, sq: 1.04, lean: -.02, face: yFace, armL: ARM.rest, armR: MOUTH, quiff: .1, shadow: 0 });
+  const MOUTH = { dx: -.19, dy: -.09, w: 0, bend: 55, elv: [1, .2], flex: 1 };
+  const yp = pose({ x: 575, y: 1125, k: 3.1, turn: .12, sq: 1.04, lean: -.02, face: yFace, armL: ARM.rest, armR: MOUTH, quiff: .1, shadow: 0 });
   drawChar(c, CAST.youssef, yp);
   // z z z off his head, small (the sleep trail from the open scene)
   c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = P.cream; c.strokeStyle = P.navy; c.lineWidth = 10; c.lineJoin = 'round'; c.font = '600 92px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle';
-  [[905, 300, -.18, 1], [960, 215, -.1, 1.25], [1030, 110, .05, 1.55]].forEach(([x, y, r, s]) => { c.save(); c.translate(x, y); c.rotate(r); c.scale(s, s); c.strokeText('z', 0, 0); c.fillText('z', 0, 0); c.restore(); });
+  [[880, 330, -.18, .95], [935, 245, -.1, 1.2], [1000, 145, .05, 1.5]].forEach(([x, y, r, s]) => { c.save(); c.translate(x, y); c.rotate(r); c.scale(s, s); c.strokeText('z', 0, 0); c.fillText('z', 0, 0); c.restore(); });
   c.restore();
   // the bubble
-  const B = bigBubble(c, { x: 1120, y: 262, who: 'youssef', words: [{ w: 'Good…' }, { w: 'night.' }], side: 1, fs: 112, lift: 110 });
+  const B = bigBubble(c, { x: 1090, y: 372, who: 'youssef', words: [{ w: 'Good…' }, { w: 'night.' }], side: 1, fs: 112, lift: 64 });
   bubbleSquiggle(c, B, 1, 1);
   // the headline
-  arPlate(c, 1400, 640, [{ t: 'تصبح على خير…', fs: 138 }, { t: 'الصبح؟!', fs: 210, col: P.mustard, dy: -6 }], { rot: -.04 });
-  epTag(c, 1735, 405, 'الحلقة 2', 60, .1);
+  arPlate(c, 1270, 645, [{ t: 'تصبح على خير…', fs: 126, dy: 8 }, { t: 'الصبح؟!', fs: 190, col: P.mustard, dy: -22 }], { rot: -.04 });
+  epTag(c, 1630, 368, 'الحلقة 2', 60, .1);
+  // Sara peeks in from the right edge, surprised, in front of the plate's corner, a hand up at her mouth
+  const sFace = F('surprised', { pupil: .72, mo: .085, mw: .062, lx: -.75, ly: .05, bLy: 1, bRy: 1, blush: .5 });
+  const sp = pose({ x: 1805, y: 1235, k: 2.0, turn: -.42, lean: -.07, face: sFace, armL: { dx: -.08, dy: -.2, w: 0, bend: 55, elv: [1, .3], flex: 1 }, armR: ARM.rest, pony: -.25, shadow: 0 });
+  drawChar(c, CAST.mia, sp);
 }
 
 window.render = t => {
