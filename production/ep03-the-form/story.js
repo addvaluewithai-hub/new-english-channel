@@ -199,7 +199,7 @@ export function buildStory() {
   mD.blinks.push(bSaraIn + .9, F0.t0 - .25, F1.t1 + .1);
   // ================= sixty: the form insert (26 is written), "And you? How old are you?", "Sixteen?!", the laugh =================
   const [X0, X1, X2, X3, X4] = [0, 1, 2, 3, 4].map(i => SX[Math.min(i, SX.length - 1)]);
-  const tIns0 = bWrite - .1, tIns1 = Math.min(X1.t0 - .25, bWrite + 1.9);
+  const tIns0 = Math.min(bWrite - .1, sx.t0), tIns1 = Math.min(X1.t0 - .25, bWrite + 1.9);
   const tMe = X2.t0, tHa = tokW(X2, /^Ha/i, 1).t0, tSixty1 = tokW(X2, /^sixty/i, 3).t0;
   const tThank = tokW(X4, /^thank/i, 2).t0, tNoNo = tokW(X4, /^No/, 4).t0, tSixty2 = tokW(X4, /^Sixty/, 6).t0, tSixZero = tokW(X4, /^Six-zero/i, 7).t0;
   const t16 = nwT('ar05', w => /^sixteen/.test(w), .05), t60 = nwT('ar05', w => /^sixty/.test(w), .15);
@@ -539,8 +539,8 @@ function formInsert(c, t) {
   drawPen(c, 0, -40, 3.2, -.75 + Math.PI);
   c.save(); c.rotate(-.75); ell(c, 0, 105, 64, 58); c.fillStyle = mix(sp.skin, '#4B2E52', .32); c.fill(); ell(c, -5, 99, 54, 50); c.fillStyle = sp.skin; c.fill(); c.restore();
   c.restore();
+  if (wr >= 1) { c.save(); c.rotate(rot); check(c, x0 + tw + 70, yAge - 8, 40, seg(t, S.bWrite + 1.05, S.bWrite + 1.4)); c.restore(); }   // the ✓ beside the written 26
   c.restore();
-  if (wr >= 1) { c.save(); check(c, 1240, 470, 46, seg(t, S.bWrite + 1.05, S.bWrite + 1.4)); c.restore(); }
   return {};
 }
 export { charState, drawActor, head, H };
