@@ -3,6 +3,7 @@
 // Modules: kit (tokens, form pass) · bean (characters) · world (the New York street) · ui (type) · tl (timeline) · act (acting) ·
 //          story (open → bye) · recap (Living Letters recap) · outro (title, your turn, teaser, end card) · cues (window.EV)
 import { P, grain, CPU } from './kit.js';
+import { setArms } from './bean.js';
 import { clamp, seg, ss } from '/core/lib.js';
 import { loadTimeline, TL, SEC } from './tl.js';
 import { bakeWorld } from './world.js';
@@ -32,6 +33,7 @@ function frame(t) {
 
 // preview ranges: ?from=door&to=retry (section ids: from its start / to its end) or seconds (?from=33&to=66)
 const Q = new URLSearchParams(location.search);
+if (Q.get('arms')) setArms(Q.get('arms'));   // ?arms=A2|A3: for cost comparisons only
 let OFF = 0;
 window.render = t => {
   t += OFF;

@@ -128,4 +128,10 @@ Each entry is `{t, type, ...}`. Some entries add fields: `dur` (s) for long soun
   `confetti`, `sparkle`, `pop`).
 - The end card follows `frame_endcard.jpg`: the series title on top, "الحلقة الجاية", the question, the big teal "حل التمارين" and red "اشترك" pills.
 - Owner review fixes: the sip hand target sits under the mouth with the cup tilted ~20° (`SIPPOSE`, `cupIn` rot); the form is held by its top corner at chest height with the sheet hanging below-left of the hand (`formHeld`, `HOLDF`, `LOOKF`); the recap presenters stand 110 px further in (`YX` 1580, `MX` 395, rows fit to 820 px) and Youssef's outer-arm poses are clamped so the hand never passes x = 1880 (`OUTR`).
+- **A3 arms** (the current default, `ARMS = 'A3'`, shared `bean.js`/`act.js`, also in `publish/thumbs`): one cubic from the shoulder cap to the hand
+  whose bend point is a continuous elbow bias per pose (rest: down/back against the body; holds: out/down; scratch/facepalm: up/back; wave:
+  out/up) — never a solved joint, so it cannot flip. Keeps the cap, taper .07 → .045 H, cuff, big hand with the thumb, drawn shading and the
+  overlap shadow. Every arm field (hand target, wave, flex, front amount, elbow bias, min bend) is a second-order follow (ζ .75 ≈ 3 % overshoot,
+  τ .14 s; a pose's own `tau` for snaps: slap .06, point/raise .08) simulated over the last second at 90 Hz (`smoothArms` in act.js), and a far
+  arm cross-fades between behind and in front of the body (`front` 0..1). Cost: render-only 167 ms vs 171 ms for A2 on the same frames (no added cost).
 - Check stills: `stills/contact_sheet_v3.jpg` (every 4.6 s), `stills/v3/` (key moments); ep02 `out/preview_v3.mp4` (hall → coffee, 540p).

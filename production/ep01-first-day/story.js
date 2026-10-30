@@ -5,7 +5,7 @@ import { CAST, drawChar, drawSuitcase } from './bean.js';
 import { drawWorld, drawForeground, toScreen, GROUND, DOOR } from './world.js';
 import { clamp, lerp, seg, ss, eio, eo, back } from '/core/lib.js';
 import { SEC, BEAT, NARR, LINES, nwT, has } from './tl.js';
-import { fold, F, moveAt, hop, liveFace, springAt, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, INWARD, RAISE } from './act.js';
+import { fold, F, moveAt, hop, liveFace, springAt, smoothArms, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, INWARD, RAISE } from './act.js';
 import { lineBubble, thought, smiley, alarmClock, timeTag, sparkle, wordStates, bubble } from './ui.js';
 import { cue } from './cues.js';
 
@@ -62,7 +62,7 @@ function drawActor(c, cam, C, t, extra = {}) {
   if ((st.alpha ?? 1) <= 0) return st;
   const [x, y, Z] = toScreen(cam, 1, st.x, st.y);
   const face = extra.frozenFace || liveFace(C.id, t, st.face, { blinks: C.blinks, extra: C.talkExtra });
-  const p = pose({ ...st, x, y, k: st.k * Z, face, pony: C.id === 'mia' ? (extra.pony ?? springAt(springFor(C), t)) : 0,
+  const p = pose({ ...st, ...smoothArms(C, t), x, y, k: st.k * Z, face, pony: C.id === 'mia' ? (extra.pony ?? springAt(springFor(C), t)) : 0,
     quiff: C.id === 'youssef' ? (extra.quiff ?? springAt(springFor(C), t, .25)) : 0, breathe: Math.sin(t * Math.PI * 2 / 3.2 + (C.id === 'mia' ? 1 : 0)) });
   c.save();
   if (st.alpha < 1) c.globalAlpha = st.alpha;

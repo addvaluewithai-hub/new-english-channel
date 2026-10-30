@@ -6,7 +6,7 @@ import { CAST, drawChar, drawSuitcase, drawCup, drawTray, drawBag, drawForm, dra
 import { drawWorld, drawBedroom, drawHall, blanket, layerT, toScreen, GROUND, DOOR, BED, BEDCLOCK } from './world.js';
 import { clamp, lerp, seg, ss, eio, eo, back, hash } from '/core/lib.js';
 import { SEC, BEAT, NARR, LINES, nwT, has } from './tl.js';
-import { fold, F, moveAt, hop, liveFace, springAt, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, RAISE, RUNARM, REACH, HOLDLOW } from './act.js';
+import { fold, F, moveAt, hop, liveFace, springAt, smoothArms, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, RAISE, RUNARM, REACH, HOLDLOW } from './act.js';
 import { lineBubble, thought, sunIcon, alarmClock, timeTag, sparkle, bigMark, zzz, bubble, wordStates } from './ui.js';
 import { cue } from './cues.js';
 
@@ -65,7 +65,7 @@ function drawActor(c, cam, C, t, extra = {}) {
   if ((st.alpha ?? 1) <= 0) return st;
   const [x, y, Z] = toScreen(cam, 1, st.x, st.y);
   const face = extra.frozenFace || liveFace(C.id, t, st.face, { blinks: C.blinks, extra: C.talkExtra });
-  const p = pose({ ...st, x, y, k: st.k * Z, face, pony: C.id === 'mia' ? (extra.pony ?? springAt(springFor(C), t)) : 0,
+  const p = pose({ ...st, ...smoothArms(C, t), x, y, k: st.k * Z, face, pony: C.id === 'mia' ? (extra.pony ?? springAt(springFor(C), t)) : 0,
     quiff: C.id === 'youssef' ? (extra.quiff ?? springAt(springFor(C), t, .25)) : 0, breathe: Math.sin(t * Math.PI * 2 / 3.2 + (C.id === 'mia' ? 1 : 0)) });
   const hands = (extra.behind || extra.front) ? handPos(CAST[C.id], p) : null;
   c.save();
@@ -110,7 +110,7 @@ export function buildStory() {
   const bWake = BEAT('wake', 1.2), bTitle = BEAT('title', op.t1 - 3), bSaraIn = BEAT('mia_enters', hl.t0), bYawn = BEAT('yawn', hl.t0 + 4), bLaugh = BEAT('laugh', hl.t0 + 9),
     bSip = BEAT('sip', cf.t0 + 11), bWelcome = BEAT('welcome', dr.t0 + 2.6), bForm = BEAT('form', by.t0 + 1.1), bNight = BEAT('good_night', by.t0 + 8.8), bAge = BEAT('age_box', by.t1 - 3);
   const tok = (L, i) => L.tok[Math.min(i, L.tok.length - 1)];
-  const SLAP = { dx: .3, dy: -.02, w: 0, bend: 15, elv: [1, 1], flex: 0 };                 // the arm shoots out to the clock
+  const SLAP = { dx: .3, dy: -.02, w: 0, bend: 15, elv: [1, 1], flex: 0, tau: .06 };                 // the arm shoots out to the clock
   const TRAY = ARM.hold, REACHBAG = { dx: -.3, dy: .1, w: 0, bend: 40, elv: [.5, 1], flex: 1, front: true };   // the tray at the chest; a hand into the bag
   S = { op, rn, hl, cf, dr, by, HL, CF, DR, BY, n1, n2, n3, n4, n5, n6, n7, bWake, bTitle, bSaraIn, bYawn, bLaugh, bSip, bWelcome, bForm, bNight, bAge };
 

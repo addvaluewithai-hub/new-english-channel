@@ -1,6 +1,6 @@
 // Episode 1 — acting helpers. Everything is a pure function of t (seeded randomness only).
 import { clamp, lerp, seg, ss, eio, hash, mulberry } from '/core/lib.js';
-import { EXPR, ARM, blendFace, blendArm, pose } from './bean.js';
+import { EXPR, ARM, blendFace, blendArm, normArm, pose } from './bean.js';
 import { mouthAt } from './tl.js';
 
 // ---- keyed state tracks ----
@@ -140,6 +140,34 @@ export function springAt(stateFn, t, gain = 1) {
   return a;
 }
 
+// ---- A3 arm follow: every arm field (hand target, wave, flex, front amount, elbow bias, min bend) is a second-order follow of the
+// keyed pose — ζ .75 (≈ 3 % overshoot on arrival), τ .14 s by default, a pose's own `tau` for snap gestures (slap, point) —
+// simulated deterministically over the last second at 90 Hz from the keyed track, so every change eases in and out the same way
+// and nothing pops. foldArm is the arm-only, allocation-free version of fold (vectors cached on the keys).
+const armVec = A => { const N = normArm(A); return [N.dx, N.dy, N.w, N.flex, N.front, N.elv[0], N.elv[1], N.bend, N.tau || 0]; };
+const vecOf = (k, which) => { const c = k._av || (k._av = {}); if (c[which] === undefined) c[which] = k[which] ? armVec(k[which]) : null; return c[which]; };
+function foldArm(keys, t, base, which) {
+  const bv = vecOf(base, which) || armVec(ARM.rest), x = bv.slice(0, 8); let tau = bv[8];
+  for (const k of keys) {
+    if (k.t == null || t < k.t) continue;
+    const v = vecOf(k, which); if (!v) continue;
+    const p = ss((t - k.t) / (k.d ?? .22));
+    for (let i = 0; i < 8; i++) x[i] += (v[i] - x[i]) * p;
+    if (p > 0) tau = v[8];
+  }
+  x[8] = tau; return x;
+}
+function smoothArm(C, t, which) {
+  const N = 90, dt = 1 / N, T0 = t - 1;
+  const x = foldArm(C.keys, T0, C.base, which), v = [0, 0, 0, 0, 0, 0, 0, 0];
+  for (let i = 1; i <= N; i++) {
+    const g = foldArm(C.keys, T0 + i * dt, C.base, which), w0 = 1 / (g[8] || C.tau || .14), z = .75;
+    for (let j = 0; j < 8; j++) { v[j] += (w0 * w0 * (g[j] - x[j]) - 2 * z * w0 * v[j]) * dt; x[j] += v[j] * dt; }
+  }
+  return { dx: x[0], dy: x[1], w: x[2], flex: x[3], front: x[4], elv: [x[5], x[6]], bend: x[7] };
+}
+export const smoothArms = (C, t) => ({ armL: smoothArm(C, t, 'armL'), armR: smoothArm(C, t, 'armR') });
+
 export { EXPR, ARM, pose };
 // A2 gestures shared by the episodes (design v3). A pose is a hand target from the shoulder (dx outward, dy down, fractions
 // of H) plus: bend = the minimum elbow bend in degrees, elv = the elbow side (outward, down), flex = how much of the full bones
@@ -155,8 +183,8 @@ export const DIP = { dx: .12, dy: .07, w: 0, bend: 25, elv: [1, .7], flex: .5 };
 export const OPEN = { dx: .2, dy: -.02, w: 0, bend: 30, elv: [.6, 1], flex: .7 };          // open hand toward the viewer / the board
 export const OUTLOW = { dx: .17, dy: .16, w: 0, bend: 22, elv: [.6, 1], flex: .3 };        // arm a little out, hand low (pointing down)
 export const INWARD = { dx: -.1, dy: .1, w: 0, bend: 45, elv: [1, 1], flex: .8 };          // hand pulled in to the body (nervous)
-export const RAISE = { dx: .2, dy: -.12, w: 0, bend: 35, elv: [1, .5], flex: .9 };         // arm out and up (a shock, "Oh!")
+export const RAISE = { dx: .2, dy: -.12, w: 0, bend: 35, elv: [1, .5], flex: .9, tau: .08 };   // arm out and up (a shock, "Oh!"): a snap
 export const RUNARM = { dx: .14, dy: -.1, w: 0, bend: 70, elv: [1, 1], flex: 1 };          // running: elbow bent, hand up
-export const FACEPALM = { dx: -.33, dy: -.17, w: 0, bend: 45, elv: [1, -.3], flex: 1 };    // across onto the face
+export const FACEPALM = { dx: -.33, dy: -.17, w: 0, bend: 45, elv: [1, -.6], flex: 1 };    // across onto the face (elbow up/back)
 export const REACH = { dx: .3, dy: -.05, w: 0, bend: 20, elv: [1, 1], flex: .3, front: true };   // the far-side arm held out to the other character
 export const HOLDLOW = { dx: -.02, dy: .12, w: 0, bend: 40, elv: [1, 1], flex: 1, front: true };   // a prop held in front, low (the form, a bag)

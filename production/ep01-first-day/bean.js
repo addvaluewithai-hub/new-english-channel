@@ -45,13 +45,14 @@ export const ARMV2 = {
 };
 // an arm pose blend that carries the A2 fields: bend (min elbow bend, deg), flex, elv (elbow-side hint), front (drawn in front:
 // switches at the midpoint), el. Missing fields take the A2 defaults so a bare {dx, dy, w} pose blends like any other.
-const ARMDEF = { dx: 0, dy: 0, w: 0, bend: 35, flex: .8, elv: [1, .5] };
-export const normArm = A => ({ ...ARMDEF, ...A, elv: A.elv || ARMDEF.elv });
+const ARMDEF = { dx: 0, dy: 0, w: 0, bend: 35, flex: .8, elv: [1, .5], front: 0 };
+export const normArm = A => ({ ...ARMDEF, ...A, elv: A.elv || ARMDEF.elv, front: +(A.front || 0) });
+// front is a 0..1 amount (A3 cross-fades the far arm between behind and in front of the body); tau = the follow time of a snap pose
 export const blendArm = (a, b, t) => {
   const A = normArm(a), B = normArm(b);
   const o = { dx: lerp(A.dx, B.dx, t), dy: lerp(A.dy, B.dy, t), w: lerp(A.w, B.w, t), bend: lerp(A.bend, B.bend, t), flex: lerp(A.flex, B.flex, t),
-    elv: [lerp(A.elv[0], B.elv[0], t), lerp(A.elv[1], B.elv[1], t)] };
-  const front = t > .5 ? B.front : A.front; if (front) o.front = true;
+    elv: [lerp(A.elv[0], B.elv[0], t), lerp(A.elv[1], B.elv[1], t)], front: lerp(A.front, B.front, t) };
+  const tau = t > .5 ? B.tau : A.tau; if (tau) o.tau = tau;
   const el = t > .5 ? B.el : A.el; if (el) o.el = el;
   return o;
 };
@@ -66,7 +67,7 @@ export function pose(o = {}) {
 // 'B' (bendy S-curved tube, no elbow) | 'C' (short stubby jointed). All three share: a fixed shoulder anchor on the
 // silhouette at .375 H (with a shoulder bump drawn into the body), a taper from the shoulder to the wrist, a cuff in the
 // sleeve colour, the round skin hand 15 % bigger, and both arms always visible (the far arm's hand comes out in front).
-export let ARMS = 'A2';   // the episodes use A2 (design v3, approved)
+export let ARMS = 'A3';   // the episodes use A3: the A2 look on one smooth curve with a biased, never-flipping elbow (see armGeoA3)
 export function setArms(m) { ARMS = m; }
 export const ARMCFG = {
   A: { L1: .175, L2: .165, wS: .076, wW: .046, elbow: true, stretch: 1.12, name: 'A · jointed tapered arm' },
@@ -78,6 +79,11 @@ export const ARMCFG = {
   // with a drawn crescent + rim light (form: 'drawn'; form: true runs the real blur pass, which costs ≈ 5 ms per character)
   // and a soft overlap shadow on the body.
   A2: { L1: .17, L2: .16, wS: .076, wW: .046, elbow: true, stretch: 1.0, sy: .43, cap: 1.3, form: 'drawn', x2: true, name: 'A2 · jointed tapered arm (revised)' },
+  // A3: the hybrid. A2's shoulder cap on the silhouette, taper (.07 → .045 H), cuff, bigger hand with the thumb, drawn shading and
+  // overlap shadow — but the arm is ONE cubic from the cap to the hand whose bend point is a continuous "elbow bias" per pose
+  // (never a solved joint, so it can never flip), with a reach of .33 H and a minimum bend per pose. Arm state is smoothed over
+  // time in act.js (smoothArms), and a far arm cross-fades between behind and in front of the body (front 0..1).
+  A3: { L: .33, wS: .07, wW: .045, sy: .43, cap: 1.3, form: 'drawn', x2: true, a3: true, name: 'A3 · smooth biased-elbow arm' },
 };
 // A2 pose extras: bend = minimum elbow bend (degrees), elv = elbow side hint in (outward, down), front = drawn in front of the body
 const X2 = {
@@ -89,6 +95,9 @@ const X2 = {
   point: { bend: 35, elv: [.1, 1], flex: 1 }, door: { bend: 35, elv: [1, .5], flex: 1 },
 };
 export const X2P = X2;
+// A3 elbow biases (outward, down) where they differ from the A2 hints: rest hangs with the elbow down/back against the body,
+// holds go out/down, scratch and the facepalm up/back, the wave out/up (upper arm out, forearm up)
+const X3 = { wave: { elv: [1, -.2] }, up: { elv: [1, -.1] }, scratch: { elv: [.8, -.6] }, point: { elv: [.3, 1], tau: .08 }, hold: { elv: [1, 1] }, door: { elv: [1, .2] } };
 // the episodes' pose table: every A2 pose (hand target + its extras) under the old names, so ARM.rest / ARM.wave… work everywhere
 export const ARM = {};
 // v3 poses: hand target from the shoulder (dx outward, dy down, fractions of H); el = elbow side override (+1 outward / -1);
@@ -106,9 +115,45 @@ export const ARM3 = {
   point:   { dx: .3, dy: -.1, w: 0, app: [1, -.1], flex: 1 },
   door:    { dx: .18, dy: -.5, w: 0, app: [.2, -1], flex: .8 },
 };
-for (const k in ARM3) ARM[k] = { ...ARM3[k], ...(X2[k] || {}) };
+for (const k in ARM3) ARM[k] = { ...ARM3[k], ...(X2[k] || {}), ...(X3[k] || {}) };
+// A3 geometry: one cubic from the shoulder cap to the hand. The bend point E sits off the chord's midpoint along the pose's elbow
+// bias by `lat`: at least the pose's minimum bend (bend°, as if two .165 H bones), more with flex (0 = the minimum, 1 = the full
+// bones). The hand is pulled in to the reach of that minimum bend. Everything is continuous in the pose fields, so smoothing the
+// fields over time (act.js) gives continuous motion with no IK side flips.
+function armGeoA3(sp, p, G) {
+  const cfg = ARMCFG.A3, H = G.H, ys = -cfg.sy * H, L = cfg.L * H, out = [];
+  for (const s of [-1, 1]) {
+    const A = normArm(s < 0 ? p.armL : p.armR);
+    const phi = s * PI / 2, ps = phi + G.th, c = Math.cos(ps), sn = Math.sin(ps), sg = Math.sign(sn) || s;
+    const far = c < -.2, fk = far ? clamp(A.front) : 1;   // fk: how much of the arm is drawn in front of the body
+    // the anchor on the silhouette: the far cap at the far edge, sliding to the near-arm anchor as the arm comes in front
+    const sx = G.hw(ys) * lerp(.95, .72 + .28 * Math.abs(sn), fk) * sg;
+    const S = G.D(sx, ys);
+    let dx = A.dx * H * s, dy = A.dy * H + .004 * H * (p.breathe || 0);   // the idle arm breathes with the body
+    if (far) { dx += s * .03 * H * (1 - fk); dy += .06 * H * (1 - fk); }   // a hanging far arm sits a touch forward so its hand peeks past the body edge
+    let drag = 0;
+    if (A.w > .001) {   // the wave: the hand swings, the elbow follows a little behind (sleeve drag)
+      const ph = p.wave * 2 * PI, ang = Math.sin(ph) * .45 * A.w, r = Math.hypot(dx, dy) * .35;
+      dx += Math.sin(ang) * r * s; dy += (1 - Math.cos(ang)) * r * .5; drag = Math.sin(ph - .7) * .03 * H * A.w * s;
+    }
+    let T = [S[0] + dx, S[1] + dy];
+    const b = clamp(A.bend, 4, 150) * PI / 180, dmax = L * Math.cos(b / 2), dmin = .06 * H;
+    let d = Math.hypot(T[0] - S[0], T[1] - S[1]) || 1;
+    if (d > dmax) { T = [S[0] + (T[0] - S[0]) * dmax / d, S[1] + (T[1] - S[1]) * dmax / d]; d = dmax; }
+    if (d < dmin) { T = [S[0] + (T[0] - S[0]) * dmin / d, S[1] + (T[1] - S[1]) * dmin / d]; d = dmin; }
+    const latMin = L / 2 * Math.sin(b / 2), latFull = Math.sqrt(Math.max(0, L * L / 4 - d * d / 4)), lat = lerp(latMin, Math.max(latMin, latFull), clamp(A.flex));
+    let ex = A.elv[0] * s, ey = A.elv[1]; const en = Math.hypot(ex, ey); if (en < 1e-3) { ex = 0; ey = 1; } else { ex /= en; ey /= en; }
+    const M = [(S[0] + T[0]) / 2, (S[1] + T[1]) / 2], E = [M[0] + ex * lat + drag, M[1] + ey * lat];
+    const c1 = [lerp(S[0], E[0], .85), lerp(S[1], E[1], .85)], c2 = [lerp(T[0], E[0], .85), lerp(T[1], E[1], .85)];
+    const fl = Math.hypot(T[0] - c2[0], T[1] - c2[1]) || 1, fdir = [(T[0] - c2[0]) / fl, (T[1] - c2[1]) / fl];
+    const dir = [(T[0] - S[0]) / d, (T[1] - S[1]) / d];
+    out.push({ s, S, E: null, Ec: E, Hd: T, far, frontK: fk, wave: A.w, c1, c2, cfg, dir, front: fk > .5, fdir });
+  }
+  return out;
+}
 function armGeo3(sp, p, G) {
   const cfg = ARMCFG[ARMS], H = G.H, ys = -(cfg.sy ?? .375) * H, out = [];
+  if (cfg.a3) return armGeoA3(sp, p, G);
   for (const s of [-1, 1]) {
     let A = s < 0 ? p.armL : p.armR;
     if (cfg.x2 && A.x2) A = { ...A, ...A.x2 };
@@ -192,7 +237,7 @@ function armPath(A) {
 }
 // the sleeve cap: a rounded shoulder, 1.3× the upper-arm width, centred on the anchor (A2)
 function capAt(c, A, H, off = [0, 0], k = 1) {
-  const r = A.cfg.cap * A.cfg.wS * H / 2 * k, P1 = A.E || A.Hd, ang = Math.atan2(P1[1] - A.S[1], P1[0] - A.S[0]);
+  const r = A.cfg.cap * A.cfg.wS * H / 2 * k, P1 = A.Ec || A.E || A.Hd, ang = Math.atan2(P1[1] - A.S[1], P1[0] - A.S[0]);
   ell(c, A.S[0] + off[0], A.S[1] + off[1], r * 1.08, r * .92, ang); c.fill();
 }
 // the arm's whole silhouette (cap + tube) in one colour: the overlap shadow on the body
@@ -268,6 +313,7 @@ function hairline(sp, phi) {
 }
 
 // ---------------- drawing ----------------
+const sstA = (x) => { const t = clamp(x); return t * t * (3 - 2 * t); };
 export function drawChar(ctx, sp, p) {
   const G = geo(sp, p), H = G.H, k = p.k;
   const toScreen = c => { c.translate(p.x, p.y); c.scale(k, k); };
@@ -281,14 +327,14 @@ export function drawChar(ctx, sp, p) {
       hy0: p.y - H * k, hy1: p.y - .55 * H * k, occl: st >= 2 ? .22 : 0, oy0: p.y - .3 * H * k, oy1: p.y });
   ctx.save(); toScreen(ctx);
   if (st >= 3) face(ctx, sp, p, G);
-  const front = arms.filter(A => !A.far);
+  const fkOf = A => A.frontK ?? (A.far ? 0 : 1), front = arms.filter(A => !A.far || fkOf(A) > .03);
   if (st >= 1 && front.length && front[0].cfg && front[0].cfg.form) {
     const real = front[0].cfg.form === true;
     // A2: a soft shadow where the arm lies over the body (clipped to the bean), then the sleeves through the form pass
     ctx.save(); smooth(ctx, G.outline()); ctx.clip(); ctx.fillStyle = rgba(SHADE, .25);
-    for (const A of front) armSil(ctx, sp, A, H, [.012 * H, .014 * H]);
+    for (const A of front) { ctx.globalAlpha = A.far ? sstA(fkOf(A)) : 1; armSil(ctx, sp, A, H, [.012 * H, .014 * H]); }
     ctx.restore();
-    if (!real) { for (const A of front) drawArm(ctx, sp, A, H); ctx.restore(); return { G, hands: arms.map(A => [p.x + A.Hd[0] * k, p.y + A.Hd[1] * k]) }; }
+    if (!real) { for (const A of front) { ctx.globalAlpha = A.far ? sstA(fkOf(A)) : 1; drawArm(ctx, sp, A, H); } ctx.restore(); return { G, hands: arms.map(A => [p.x + A.Hd[0] * k, p.y + A.Hd[1] * k]) }; }
     const P = front.flatMap(A => [A.S, A.E || A.S, A.Hd]), m = .1 * H;
     const bx0 = Math.min(...P.map(q => q[0])) - m, by0 = Math.min(...P.map(q => q[1])) - m, bx1 = Math.max(...P.map(q => q[0])) + m, by1 = Math.max(...P.map(q => q[1])) + m;
     formed(ctx, { x: bx0, y: by0, w: bx1 - bx0, h: by1 - by0 }, l => { for (const A of front) drawArm(l, sp, A, H); },
@@ -332,8 +378,8 @@ function drawArm(c, sp, A, H) {
 function bodyFlat(l, sp, p, G, arms) {
   const H = G.H, th = G.th, D = G.D;
   const st = p.stage ?? 9;
-  // far arm (behind the body)
-  if (st >= 1) for (const A of arms) if (A.far) drawArm(l, sp, A, H);
+  // far arm (behind the body); in A3 it is skipped once the arm has fully come in front (frontK ≥ .97)
+  if (st >= 1) for (const A of arms) if (A.far && (A.frontK ?? 0) < .97) drawArm(l, sp, A, H);
   // ponytail + tie (behind)
   if (sp.id === 'mia' && st >= 1) pony(l, sp, p, G);
   // feet
@@ -721,7 +767,7 @@ export function drawForm(ctx, x, y, w, h, o = {}) {
 // hand positions (screen px) for a pose, without drawing: [[x, y, far], [x, y, far]] for armL, armR
 export function handPos(sp, p) {
   const G = geo(sp, p), arms = armGeo(sp, p, G);
-  return arms.map(A => [p.x + A.Hd[0] * p.k, p.y + A.Hd[1] * p.k, A.far, A.fdir]);
+  return arms.map(A => [p.x + A.Hd[0] * p.k, p.y + A.Hd[1] * p.k, A.far && (A.frontK ?? 0) < .5, A.fdir]);
 }
 // a cardboard carrier with n takeaway cups, centred on (x, y)
 export function drawTray(ctx, x, y, k, n = 2, o = {}) {
