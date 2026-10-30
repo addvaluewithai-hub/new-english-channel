@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T19:24:06.519Z",
+  "duration_ms": 5400,
+  "word_count": 8,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Yes, I am. I'm Spanish, and you're Egyptian.",
+  "source_text": "Yes, I am! I'm Spanish. And you're Egyptian!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Yes, I am! I'm Spanish. And you're Egyptian!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 1000,
+      "text": "Yes,"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1100,
+      "text": "I"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1800,
+      "text": "am."
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2200,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 3000,
+      "text": "Spanish,"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3600,
+      "text": "and"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 4000,
+      "text": "you're"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 5400,
+      "text": "Egyptian."
+    }
+  ]
+}

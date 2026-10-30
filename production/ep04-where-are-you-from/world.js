@@ -830,11 +830,8 @@ function classStatic(c) {
   c.fillStyle = '#FFFBF4'; rr(c, D.x - 14, 286, D.w + 28, 516, 10); c.fill();
   c.fillStyle = mix(P.navy, P.cream, .78); c.fillRect(D.x, 300, D.w, 498);   // the hallway beyond (seen when the door opens)
   c.fillStyle = mix(P.navy, P.cream, .62); c.fillRect(D.x, 660, D.w, 138);
-  // the empty desk in the set (left of Ana's) + a coat hook row by the door
+  // the empty desk in the set (left of Ana's)
   deskFront(c, CLASS.desks.empty, { book: true });
-  c.fillStyle = mix(P.ink, P.cream, .5); rr(c, D.x - 190, 420, 150, 12, 6); c.fill();
-  for (const hx of [D.x - 170, D.x - 120, D.x - 70]) { c.fillStyle = P.ink; ell(c, hx, 438, 6, 10); c.fill(); }
-  c.fillStyle = P.mustard; rr(c, D.x - 140, 440, 40, 90, 14); c.fill(); c.fillStyle = dark(P.mustard, .15); rr(c, D.x - 140, 440, 40, 26, 12); c.fill();   // a scarf on a hook
 }
 function planterSmall(c, x, base, s = 1) {
   c.save(); c.translate(x, base); c.scale(s, s);
@@ -851,7 +848,7 @@ export function deskFront(c, x, o = {}) {
   c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(x - w / 2 + 16, top + 12, w - 32, 10);
   c.fillStyle = rgba('#FFFFFF', .12); rr(c, x - w / 2 + 30, top + 30, w - 60, 4, 2); c.fill();
   if (o.book) { c.save(); c.translate(x - 50, top - 4); c.rotate(-.05); c.fillStyle = P.teal; rr(c, -46, -10, 92, 14, 3); c.fill(); c.fillStyle = P.cream; c.fillRect(-42, -8, 84, 4); c.restore(); }
-  if (o.form) { c.save(); c.translate(x + 40, top - 2); c.fillStyle = '#FFFDF6'; rr(c, -40, -6, 80, 8, 2); c.fill(); c.restore(); }
+  if (o.form) { c.save(); c.globalAlpha = o.form === true ? 1 : clamp(o.form); c.translate(x + 40, top - 2); c.fillStyle = '#FFFDF6'; rr(c, -40, -6, 80, 8, 2); c.fill(); c.restore(); }
   if (o.pencil) { c.save(); c.translate(x + 90, top - 3); c.rotate(.08); c.fillStyle = P.mustard; rr(c, -28, -4, 56, 7, 3); c.fill(); c.fillStyle = P.ink; c.fillRect(26, -3, 6, 5); c.restore(); }
   rr(c, x - w / 2, top - 2, w, 22, 8); c.fillStyle = WOODD; c.fill();
   c.fillStyle = light(WOODD, .25); rr(c, x - w / 2, top - 2, w, 8, 6); c.fill();
@@ -912,7 +909,8 @@ export function drawClass(c, cam, t, o = {}) {
     classDoor(l, o.door || 0);
     boardWriting(l, o.board);
     const P_ = o.pins || {};
-    for (const [k, side] of [['usa', -1], ['spain', -1], ['egypt', 1]]) { const v = P_[k]; if (v) { const [x, y] = mapXY(...PINS[k]); pin(l, x, y, v.k, v.hi || 0, t, v.label, side); } }
+    // each label on the far side of its own pin (Spain's above)
+    for (const [k, side] of [['usa', -1], ['spain', 0], ['egypt', 1]]) { const v = P_[k]; if (v) { const [x, y] = mapXY(...PINS[k]); pin(l, x, y, v.k, v.hi || 0, t, v.label, side); } }
     if (o.live) o.live(l);
   });
   c.setTransform(1, 0, 0, 1, 0, 0);

@@ -335,12 +335,30 @@ const ITEM = {
   are(c, t, a, it) {
     const r07 = LINE('r07');
     modelRow(c, t, a, 'r07', 'youssef', 300, 100, 'إنت من مدريد؟', { ghost: it.t0, meanHi: seg(t, R.tAreQ - .1, R.tAreQ + .2) * (1 - seg(t, (r07 ? r07.t0 : 1e9) - .3, r07 ? r07.t0 : 1e9)) });
-    // the two short answers side by side: "Yes, I am." (typeset on the narration) and "No, I'm not." (Sara's model line)
-    const yA = a * seg(t, R.tYes - .1, R.tYes + .2);
-    if (yA > 0) {
-      drawRow(c, t, ['Yes,', 'I', 'am.'].map((w, i) => ({ w, t: R.tYes - .05 + i * .08 })), { x: CX + 40, y: 500, size: 96, who: 'mia', alpha: yA, mean: 'أيوه.', meanSize: 40 });
-    }
-    modelRow(c, t, a * seg(t, R.tNo - .1, R.tNo + .2), 'r08', 'mia', 690, 96, 'لأ.', { ghost: R.tNo - .1, dx: 40 });
+    // the two possible short answers, untagged (generic): they come in on the narration; then Sara answers the Madrid question
+    // with her model line "No, I'm not." (she is from New York): that chip lights up word by word, gets her tab and a ✓
+    const r08 = LINE('r08');
+    const ans = (txt, mean, x, y, tIn, model) => {
+      const k = seg(t, tIn - .1, tIn + .3); if (k <= 0) return;
+      const s = back(k, 2), sz = 80, w = mw(txt, sz) + 80;
+      c.save(); c.globalAlpha = a; c.translate(x, y); c.scale(s, s);
+      rr(c, -w / 2, -58 + 6, w, 116, 58); c.fillStyle = rgba(P.ink, .08); c.fill();
+      rr(c, -w / 2, -58, w, 116, 58); c.fillStyle = '#FFFDF8'; c.fill(); c.strokeStyle = rgba(P.ink, .14); c.lineWidth = 3; c.stroke();
+      const sp = model && model.t0 <= t;
+      if (model) {   // the spoken word gets the mustard swash (Sara's line), as on the rows
+        c.font = FONT(sz); let wx = -mw(txt, sz) / 2; const words = txt.split(' '), spw = mw(' ', sz);
+        words.forEach((wd, i) => { const o = model.tok[i]; const ww = mw(wd, sz);
+          if (o && t >= o.t0 && t < o.t1 + .12) { rr(c, wx - 8, -sz * .5, ww + 16, sz * .74, 16); c.fillStyle = rgba(P.mustard, .55); c.fill(); }
+          wx += ww + spw; });
+      }
+      c.font = FONT(sz); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(txt, 0, 6);
+      c.direction = 'rtl'; c.font = `700 40px ${AR}`; c.textAlign = 'right'; c.fillStyle = rgba(P.ink, .58); c.fillText(mean, -w / 2 - 22, 8);
+      c.restore();
+      if (sp) { c.save(); c.globalAlpha = a * seg(t, model.t0 - .1, model.t0 + .2); nameTab(c, SPEAKER.mia, x + w / 2 + 16, y - 18, 26); c.restore();
+        check(c, x + w / 2 - 4, y - 56, 26, seg(t, model.t1 + .1, model.t1 + .45)); }
+    };
+    ans('Yes, I am.', 'أيوه.', CX + 20, 500, R.tYes, null);
+    ans("No, I'm not.", 'لأ.', CX + 20, 680, R.tNo, r08);
   },
   // in + a city: "in Cairo, in New York" — never "at Cairo"
   in(c, t, a, it) {

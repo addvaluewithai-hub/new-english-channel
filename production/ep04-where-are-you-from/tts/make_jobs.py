@@ -88,6 +88,10 @@ en_single = {   # recap model phrases (learners repeat them), story lines said a
  "r11": ("Sara", "Spain. <short pause> Spanish.", "Slow and clear: the country, then the nationality."),
  "r12": ("Sara", "America. <short pause> American.", "Slow and clear: the country, then the nationality."),
  "turn": ("Sara", "Hi! <short pause> Where are you from?", "Talking directly to the viewer, warm and inviting, a little slower."),
+ # en4 was a two-voice job, but Youssef's question came out in a high (Ana-like) voice: the exchange is three solo clips (one voice each, v2)
+ "en4a": ("Youssef", "Ana, are you from Madrid?", "Turning to his classmate, friendly and curious, a man's natural speaking voice."),
+ "en4b": ("Ana", "Yes, I am! I'm Spanish. And you're Egyptian!", "Delighted and chatty, pointing at him."),
+ "en4c": ("Youssef", "Yes! I'm Egyptian.", "Proud and smiling."),
  "en5": ("Sara", "And I'm American. From New York!", "Laughing a little, joining in happily, proud of her city."),
  "en6": ("Sara", "OK! Next question. <short pause> So, Youssef… what do you do?", "Cheerful teacher moving on, turning to Youssef with a curious, friendly question."),
 }
@@ -109,11 +113,6 @@ en_multi = {
   ("Youssef", "Oh! Sorry. I live in Queens.", "Embarrassed, then repeating it carefully and correctly."),
   ("Sara", "Good! Where in Egypt?", "Encouraging, curious."),
   ("Youssef", "Cairo!", "Proud and happy, one word."),
- ],
- "en4": [
-  ("Youssef", "Ana, are you from Madrid?", "Turning to his classmate, friendly and curious."),
-  ("Ana", "Yes, I am! I'm Spanish. And you're Egyptian!", "Delighted and chatty, pointing at him."),
-  ("Youssef", "Yes! I'm Egyptian.", "Proud and smiling."),
  ],
 }
 

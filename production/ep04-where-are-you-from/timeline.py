@@ -12,7 +12,7 @@ lipsync.LEX.update({k: v for k, v in {"let's": 'L EH T S', 'ana': 'AA N AH', 'fi
 
 b = Builder(HERE,
             solo={'r01': 'Sara', 'r02': 'Youssef', 'r03': 'Sara', 'r04': 'Youssef', 'r05': 'Youssef', 'r06': 'Sara', 'r07': 'Youssef',
-                  'r08': 'Sara', 'r09': 'Sara', 'r10': 'Youssef', 'r11': 'Sara', 'r12': 'Sara', 'turn': 'Sara', 'en5': 'Sara', 'en6': 'Sara'},
+                  'r08': 'Sara', 'r09': 'Sara', 'r10': 'Youssef', 'r11': 'Sara', 'r12': 'Sara', 'turn': 'Sara', 'en5': 'Sara', 'en6': 'Sara', 'en4a': 'Youssef', 'en4b': 'Ana', 'en4c': 'Youssef'},
             latin=[('وير آر يو فروم', 'Where are you from'), ('وير دو يو ليف', 'Where do you live'), ('آر يو فروم', 'Are you from'),
                    ('آي فروم إيجيبت', 'I from Egypt'), ('آيم فروم', "I'm from"), ('آي آم ليف', 'I am live'), ('آي ليف إن', 'I live in'),
                    ('آي ليف', 'I live'), ('ليف', 'live'), ('يس، آي آم', 'Yes, I am'), ('نو، آيم نوت', "No, I'm not"), ('إن كايرو', 'in Cairo'),
@@ -47,7 +47,9 @@ b.put('en3', .4, scene='fix')
 b.beat('board', L(lambda s: s.startswith('I live'))['t0'] - .3)
 b.beat('cairo', L(lambda s: s.startswith('Cairo'))['t0'])
 b.put('ar04', .5)
-b.put('en4', .3, scene='fix')
+b.put('en4a', .35, scene='fix')
+b.put('en4b', .35, scene='fix')
+b.put('en4c', .3, scene='fix')
 b.put('en5', .5, scene='fix')
 # 2c. The next question: "So, Youssef… what do you do?" -> he freezes again
 b.section('hook')

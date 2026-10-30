@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T19:24:30.251Z",
+  "duration_ms": 1700,
+  "word_count": 3,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Yes, I'm Egyptian.",
+  "source_text": "Yes! I'm Egyptian.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Yes! I'm Egyptian."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 800,
+      "text": "Yes,"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1000,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1700,
+      "text": "Egyptian."
+    }
+  ]
+}

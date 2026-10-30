@@ -405,6 +405,48 @@
   "format": "wav",
   "temperature": 1
  },
+ "en4a": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈɑnə ɑr ju frəm məˈdrɪd\">Ana, are you from Madrid?</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Turning to his classmate, friendly and curious, a man's natural speaking voice. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en4b": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"jɛs aɪ æm\">Yes, I am!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈspænɪʃ\">I'm Spanish.</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ænd jʊr iˈdʒɪpʃən\">And you're Egyptian!</phoneme></lang>",
+  "style": "Ana, a friendly, bubbly 25-year-old woman from Madrid, Spain, a student in an English class in New York. She speaks simple English with a light, natural Spanish accent (soft Spanish vowels, a slightly tapped r), cheerful and a bit chatty. Delighted and chatty, pointing at him. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say exactly the tagged English words, with a light, natural Spanish accent.",
+  "voice": "Laomedeia",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en4c": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"jɛs\">Yes!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm iˈdʒɪpʃən\">I'm Egyptian.</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Proud and smiling. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
  "en5": {
   "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ænd aɪm əˈmɛrɪkən\">And I'm American.</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"frəm nu jɔrk\">From New York!</phoneme></lang>",
   "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Laughing a little, joining in happily, proud of her city. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
@@ -517,38 +559,6 @@
   ],
   "speakers": {
    "Sara": "Aoede",
-   "Youssef": "Achird"
-  },
-  "transcript": {
-   "language_codes": [
-    "en-US"
-   ],
-   "write_vtt": true
-  },
-  "routing": "quality",
-  "format": "wav",
-  "temperature": 1
- },
- "en4": {
-  "turns": [
-   {
-    "speaker": "Youssef",
-    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈɑnə ɑr ju frəm məˈdrɪd\">Ana, are you from Madrid?</phoneme></lang>",
-    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Turning to his classmate, friendly and curious. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
-   },
-   {
-    "speaker": "Ana",
-    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"jɛs aɪ æm\">Yes, I am!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈspænɪʃ\">I'm Spanish.</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ænd jʊr iˈdʒɪpʃən\">And you're Egyptian!</phoneme></lang>",
-    "style": "Ana, a friendly, bubbly 25-year-old woman from Madrid, Spain, a student in an English class in New York. She speaks simple English with a light, natural Spanish accent (soft Spanish vowels, a slightly tapped r), cheerful and a bit chatty. Delighted and chatty, pointing at him. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say exactly the tagged English words, with a light, natural Spanish accent."
-   },
-   {
-    "speaker": "Youssef",
-    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"jɛs\">Yes!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm iˈdʒɪpʃən\">I'm Egyptian.</phoneme></lang>",
-    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Proud and smiling. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
-   }
-  ],
-  "speakers": {
-   "Ana": "Laomedeia",
    "Youssef": "Achird"
   },
   "transcript": {

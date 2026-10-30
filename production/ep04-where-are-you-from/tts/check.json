@@ -208,5 +208,23 @@
   "gemini": "الحلقه الجايه الشغل. ساره سالتني وانا قلت وطلعت ناقصه حاجه صغيره.",
   "whisper": "الحلقة جاية الشغل صار سألتني What do you do? و أنا أولت I am engineer و طلعت نقصحك صغيرة",
   "dur": 9400
+ },
+ "en4a": {
+  "source": "Ana, are you from Madrid?",
+  "gemini": "Anna, are you from Madrid?",
+  "whisper": "Anna, are you from Madrid?",
+  "dur": 1800
+ },
+ "en4b": {
+  "source": "Yes, I am! I'm Spanish. And you're Egyptian!",
+  "gemini": "Yes, I am. I'm Spanish, and you're Egyptian.",
+  "whisper": "Yes, I am. I'm Spanish and you're Egyptian.",
+  "dur": 5400
+ },
+ "en4c": {
+  "source": "Yes! I'm Egyptian.",
+  "gemini": "Yes, I'm Egyptian.",
+  "whisper": "Yes! I'm Egyptian!",
+  "dur": 1700
  }
 }

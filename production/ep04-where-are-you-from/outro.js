@@ -134,7 +134,7 @@ export function titleCard(c, t) {
   c.save(); c.setTransform(1, 0, 0, 1, 0, 0);
   // soft cream veil behind the card so it reads over the skyline
   c.save(); c.translate(960, 320); c.scale(1, .5);
-  const v = c.createRadialGradient(0, 0, 60, 0, 0, 720); v.addColorStop(0, rgba(P.cream, .7 * (1 - out) * seg(t, t0, t0 + .3))); v.addColorStop(1, rgba(P.cream, 0));
+  const va = (1 - out) * seg(t, t0, t0 + .3), v = c.createRadialGradient(0, 0, 60, 0, 0, 820); v.addColorStop(0, rgba(P.cream, .93 * va)); v.addColorStop(.62, rgba(P.cream, .86 * va)); v.addColorStop(1, rgba(P.cream, 0));   // a clean area: the classroom wall is busy
   c.fillStyle = v; c.fillRect(-960, -720, 1920, 1440); c.restore();
   c.translate(960, 330); const so = 1 + .12 * out; c.scale(so, so); c.globalAlpha = 1 - out;
   // episode pill
@@ -426,12 +426,14 @@ export function sceneNext(c, t) {
   const fk = back(seg(t, O.tFormN - .1, O.tFormN + .35), 2), q = seg(t, O.tQ + .2, O.tQ + .55);
   if (fk > 0) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(470, 540); c.scale(fk, fk); c.rotate(-.04 + Math.sin(t * .8) * .012); jobCard(c, q, t); c.restore(); }
   // job words float up around the card
-  const jobs = ['teacher', 'doctor', 'engineer', 'student', 'driver', 'artist'];
-  jobs.forEach((n, i) => {
-    const t0 = O.tNums + i * .22, u = seg(t, t0, t0 + 2.6 + (i % 3) * .4); if (u <= 0 || u >= 1) return;
-    const x = 520 + (i - 2.5) * 150 + Math.sin(u * 5 + i) * 16, y = 290 - (i % 2) * 60 - u * 200;
-    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = Math.sin(Math.PI * u); c.translate(x, y); c.rotate(Math.sin(u * 4 + i) * .15); const s = .7 + .4 * eo(Math.min(1, u * 3)); c.scale(s, s);
-    c.font = '600 58px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba('#1E1B33', .2); c.fillText(n, 4, 5); c.fillStyle = [P.teal, P.red, P.navy, P.mustard][i % 4]; c.fillText(n, 0, 0); c.restore();
+  // job words: a 2 × 3 grid above the card (never overlapping each other), each bobbing gently; all gone before his bubble
+  const jobs = [['teacher', 235, 80], ['doctor', 455, 108], ['engineer', 240, 168], ['student', 465, 196], ['driver', 230, 256], ['artist', 450, 282]];
+  const jEnd = (O.said ? O.said.t0 : O.bEnd) - .35;
+  jobs.forEach(([n, x0, y0], i) => {
+    const t0 = O.tNums + i * .2, k = seg(t, t0, t0 + .35) * (1 - seg(t, jEnd - .3, jEnd)); if (k <= 0) return;
+    const x = x0 + Math.sin(t * 1.3 + i) * 6, y = y0 + Math.sin(t * 1.7 + i * 2) * 5 - (1 - eo(seg(t, t0, t0 + .5))) * 30;
+    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = k; c.translate(x, y); c.rotate(Math.sin(t * .9 + i) * .05);
+    c.font = '600 48px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba('#1E1B33', .2); c.fillText(n, 3, 4); c.fillStyle = [P.teal, P.red, P.navy, P.mustard][i % 4]; c.fillText(n, 0, 0); c.restore();
   });
   // Sara (off screen right) asks "What do you do?"; he answers "I am engineer." and the squiggle says something is missing
   if (O.how && h) {

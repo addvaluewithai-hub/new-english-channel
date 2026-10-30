@@ -83,7 +83,7 @@ function drawActor(c, cam, C, t, extra = {}) {
 const head = (st, id, f = 1.08) => st && st.sx != null ? [st.sx, st.sy - H[id] * st.k * st.Z * f] : null;
 const hand = (c, id, h, k) => drawHand(c, CAST[id], h[0], h[1], H[id] * k, { dir: h[3] });
 // the form held by its top corner at chest height (the sheet hangs below the hand, the face stays clear)
-const formHeld = (c, id, h, k) => { drawForm(c, h[0] + .09 * 300 * k, h[1] + .1 * 300 * k, .24 * 300 * k, .3 * 300 * k, { rot: .15, age: 0 }); hand(c, id, h, k); };
+const formHeld = (c, id, h, k, f = 0) => { const fh = .3 * 300 * k * (1 - .9 * f); drawForm(c, h[0] + .09 * 300 * k * (1 - f), h[1] - .05 * 300 * k + fh / 2 + .02 * 300 * k * (1 - f), .24 * 300 * k, fh, { rot: .15 * (1 - f), age: 0 }); hand(c, id, h, k); };
 
 const tokT = (L, re, d = 0) => { if (!L) return null; const o = L.tok.find(o => re.test(o.w)); return o ? o.t0 : L.t0 + (L.t1 - L.t0) * d; };
 const LN = (scene, re) => LINES(scene).find(l => re.test(l.text)) || null;
@@ -99,6 +99,9 @@ export function buildStory() {
   const I0 = LN('intro', /^OK, class/), I1 = LN('intro', /^Hi, every/), I2 = LN('intro', /^Great/), I3 = LN('intro', /^Youssef\?/), I4 = LN('intro', /^Hello/);
   const F0 = LN('fix', /^I live/), F1 = LN('fix', /^Oh!/), F2 = LN('fix', /^Good!/), F3 = LN('fix', /^Cairo/), F4 = LN('fix', /^Ana, are/), F5 = LN('fix', /^Yes, I am/),
     F6 = LN('fix', /^Yes! I'm/), F7 = LN('fix', /^And I'm American/), K0 = LN('hook', /^OK!/);
+  // Youssef's intro bubble breaks before "I am live in Queens." (the mistake stays on one line): a maxW just wide enough for the first part
+  if (I4) { const mc = document.createElement('canvas').getContext('2d'); mc.font = '600 64px "Fredoka"'; const k = I4.tok.findIndex((o, i) => o.w === 'I' && I4.tok[i + 1] && I4.tok[i + 1].w === 'am');
+    I4.maxW = k > 0 ? Math.ceil(mc.measureText(I4.tok.slice(0, k).map(o => o.w).join(' ')).width) + 92 + 8 : 1100; }
   S = { op, it, fx, hk, rc, n1, n2, n3, n4, n5, bEnter, bTitle, bAnaUp, bAnaDown, bYouUp, bFreeze, bUn, bBoard, bCairo, bStuck, I0, I1, I2, I3, I4, F0, F1, F2, F3, F4, F5, F6, F7, K0 };
   // narration keys
   const tMate = nwT('ar01', has('زميلة'), .85), tMap = nwT('ar01', has('وخريطة'), .6), tClass1 = nwT('ar01', has('كلاس'), .35);
@@ -197,7 +200,9 @@ export function buildStory() {
     moves: [{ t0: bEnter, t1: tArrive, x0: 2080, x1: X.youssef, k0: .9, k1: .9, step: .4 }], keys: [] };
   const YK = yC.keys;
   YK.push({ t: tArrive - .05, turn: -.45, face: F('happy', { lx: -.7, happy: .45, bLy: .7, bRy: .7 }), d: .3 },
-    { t: tSit, seat: 1, armR: ARM.rest, d: .32 },   // sits; the form goes onto the desk
+    { t: tSit, seat: 1, d: .32 },   // sits, then puts the form down on the desk (the hand goes down to the desk top, the sheet lies flat)
+    { t: tSit + .3, armR: { dx: -.08, dy: .15, w: 0, bend: 45, elv: [1, 1], flex: .7, front: true }, d: .3 },
+    { t: tSit + .8, armR: ARM.rest, d: .3 },
     { t: tMate - .1, turn: -.35, face: F('embarrassed', { lx: -.8, ly: .1, happy: .3, blush: .9, sweat: 0, lines: .4 }), d: .3 },
     { t: tMate + .05, armL: { ...DIP, front: true }, d: .14 }, { t: tMate + .22, armL: { ...ARM.wave, front: true, w: .6 }, d: .2 }, { t: tMate + 1.2, armL: ARM.rest, face: yRest, d: .3 },
     { t: tBoardW - .1, turn: -.5, face: F('happy', { lx: -.8, ly: -.35, happy: .3 }), d: .4 },
@@ -246,7 +251,7 @@ export function buildStory() {
   if (I4) yC.jumps.push({ t: tIam - .2, h: .03, d: .3 });
   yC.blinks.push(tArrive - .05, tMate - .1, tBoardW - .1, tEasy - .15, bYouUp, bUn + .05, tSorry - .08, n4 ? n4.t0 + .1 : 0, bStuck, tEng - .2);
   S.mC = mC; S.aC = aC; S.yC = yC;
-  S.formOnDesk = tSit + .15;
+  S.formOnDesk = tSit + .62; S.formFlat = [tSit + .32, tSit + .62];
 
   // ================= board writing + map pins (live parts of the set) =================
   S.board = t => {
@@ -332,8 +337,8 @@ function drawRoom(c, cam, t, tc, o = {}) {
   R.m = drawActor(c, cam, S.mC, tc);
   R.a = drawActor(c, cam, S.aC, tc);
   desk(c, cam, X.ana, { book: true, pencil: true });
-  R.y = drawActor(c, cam, S.yC, tc, { front: (h, k) => { if (tc < S.formOnDesk && !h[1][2]) formHeld(c, 'youssef', h[1], k); } });
-  desk(c, cam, X.youssef, { form: tc >= S.formOnDesk, pencil: true });
+  R.y = drawActor(c, cam, S.yC, tc, { front: (h, k) => { if (tc < S.formOnDesk && !h[1][2]) formHeld(c, 'youssef', h[1], k, ss(seg(tc, S.formFlat[0], S.formFlat[1]))); } });
+  desk(c, cam, X.youssef, { form: seg(tc, S.formOnDesk - .08, S.formOnDesk + .04), pencil: true });
   return R;
 }
 const doorAt = t => t < S.bEnter - .2 ? 0 : t < S.tArrive + .7 ? eo(seg(t, S.bEnter - .2, S.bEnter + .4)) : 1 - ss(seg(t, S.tArrive + .7, S.tArrive + 1.1));
@@ -353,7 +358,7 @@ export function sceneClass(c, t) {
     const hp = L.who === 'mia' ? mh : L.who === 'ana' ? ah : yh;
     if (!hp || hp[0] < 20 || hp[0] > 1900) return;   // the speaker is off screen (a cut away): no bubble tail into the edge
     const pos = L.who === 'mia' ? { x: hp[0] + 10, y: hp[1], side: 1, lift: 60, maxW: 1150 } : { x: hp[0] + 20, y: hp[1], side: -1, lift: 60, maxW: 1100 };
-    if (L === S.I4) { lineBubble(c, L, t, { ...pos, wordFx: (k, tt) => (k === amIdx(L) && tt > L.tok[k].t0 ? { mark: 0, shake: tt > S.bFreeze - .3 ? tt * .5 : 0 } : {}) }, { until: S.bFreeze + .05 }); return; }
+    if (L === S.I4) { lineBubble(c, L, t, { ...pos, maxW: L.maxW, wordFx: (k, tt) => (k === amIdx(L) && tt > L.tok[k].t0 ? { mark: 0, shake: tt > S.bFreeze - .3 ? tt * .5 : 0 } : {}) }, { until: S.bFreeze + .05 }); return; }
     lineBubble(c, L, t, pos, { next: nx, hold: 1.2, until: L === S.K0 ? S.bStuck - .02 : null });
   });
   // the shared ambassador moment: a few sparkles around his head on "سفير"
@@ -374,7 +379,7 @@ const amIdx = L => Math.max(0, L.tok.findIndex(o => o.w === 'am'));
 function hookBubble(c, t) {
   const L = S.K0, until = S.rc.t0 - .45;
   if (t > until + .2) return;
-  bubble(c, { x: 18, y: 470, who: 'mia', words: wordStates(L.tok, t), side: 1, lift: 90, maxW: 1000, pop: 1, out: seg(t, until, until + .2) });
+  bubble(c, { x: -110, y: 330, who: 'mia', words: wordStates(L.tok, t), side: 1, lift: 90, maxW: 1000, pop: 1, out: seg(t, until, until + .2) });   // the tail runs off frame toward Sara (left), above Ana's head
 }
 function vignette(c, a) {
   if (a <= 0) return;
@@ -397,7 +402,7 @@ function freezeFrame(c, t) {
   const u = eio(seg(t, S.bFreeze, S.bUn)), z = 1 + .06 * u, ax = FZ.yh[0], ay = FZ.yh[1] + 220;
   c.save(); c.setTransform(z, 0, 0, z, ax * (1 - z), ay * (1 - z)); c.drawImage(FZ.cv, 0, 0); c.restore();
   // his line, frozen, with the red squiggle under "am"
-  const L = S.I4, pos = { x: FZ.yh[0] + 20, y: FZ.yh[1], side: -1, lift: 50, maxW: 1100 };
+  const L = S.I4, pos = { x: FZ.yh[0] + 20, y: FZ.yh[1], side: -1, lift: 50, maxW: L.maxW || 1100 };
   const box = lineBubble(c, L, S.bFreeze + .02, pos, { until: S.bUn - .2 });
   if (box) squiggleWord(c, L, pos, amIdx(L), seg(t, S.bFreeze + .25, S.bFreeze + .6));
   freezeFx(c, t, FZ.yh);

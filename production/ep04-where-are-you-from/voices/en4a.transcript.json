@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T19:24:16.622Z",
+  "duration_ms": 1800,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Anna, are you from Madrid?",
+  "source_text": "Ana, are you from Madrid?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Ana, are you from Madrid?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "Anna,"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1000,
+      "text": "are"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1100,
+      "text": "you"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1400,
+      "text": "from"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1800,
+      "text": "Madrid?"
+    }
+  ]
+}
