@@ -1,12 +1,12 @@
 // Episode 2 — "اللي اتعلمته النهارده": the recap. Living Letters kinetic type, restyled into Bean People:
 // cream paper, ink Fredoka words that are typeset as they are spoken (rise, land with a squash), a speaker rail + name tab
 // under each line, a mustard highlighter on the spoken word, a red spell-check squiggle under mistakes, and two small
-// presenter beans (Youssef right, Mia left). Every beat is keyed to recap items, lines and narration words in timeline.json.
+// presenter beans (Youssef right, Sara left). Every beat is keyed to recap items, lines and narration words in timeline.json.
 import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
 import { clamp, lerp, seg, ss, eo, eio, back } from '/core/lib.js';
 import { TL, SEC, NARR, LINE, RECAP, nwT, has } from './tl.js';
 import { charState, drawActor } from './story.js';
-import { fold, F, ARM, CUP, CLAP } from './act.js';
+import { fold, F, ARM, CUP, CLAP, DIP, OPEN, POINT, FACEPALM } from './act.js';
 import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle, sunIcon, afternoonIcon, moonIcon, waveHand } from './ui.js';
 import { cue } from './cues.js';
 
@@ -41,9 +41,9 @@ export function buildRecap() {
     const nextIsLine = TL.lines.some(m => Math.abs(m.t0 - nx) < .01);
     if (nx - l.t1 >= .8 && !nextIsLine) R.gaps.push({ t0: l.t1 + .18, t1: nx - .12, line: l });
   }
-  // presenter Youssef mouths his narration clips (the diary voice's viseme track) and his own model lines; Mia hers
+  // presenter Youssef mouths his narration clips (the diary voice's viseme track) and his own model lines; Sara hers
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
-  // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Mia left facing right: armL) ----
+  // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Sara left facing right: armL) ----
   const hiT = it('times').t0;
   const YK = 1.6, MK_ = 1.5, YX = 1690, MX = 285;
   R.YX = YX; R.MX = MX;
@@ -53,11 +53,9 @@ export function buildRecap() {
   const mR = { id: 'mia', base: { turn: .3, face: mRest, armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1, sq: 1, lean: 0 },
     moves: [{ t0: hiT - 1.0, t1: hiT - .1, x0: -320, x1: MX, y0: GROUND_Y, y1: GROUND_Y, k0: MK_, k1: MK_, step: .45 }], keys: [], jumps: [], blinks: [] };
   const K = yR.keys, MK = mR.keys;
-  const OPEN = { dx: .2, dy: -.03, bend: .05, w: 0 };                 // open hand toward the viewer / the board
-  const FACEPALM = { dx: -.4, dy: -.31, bend: .25, w: 0 };            // armR across onto the face
   const nod = (keys, x) => keys.push({ t: x, sq: .95, d: .1 }, { t: x + .13, sq: 1, d: .12 }, { t: x + .28, sq: .955, d: .1 }, { t: x + .41, sq: 1, d: .14 });
   // hello wave on arrival
-  K.push({ t: rc.t0 + 1.25, armR: { dx: .12, dy: .05, bend: .1, w: 0 }, d: .15 }, { t: rc.t0 + 1.4, armR: ARM.wave, d: .2 }, { t: rc.t0 + 2.6, armR: ARM.rest, d: .3 });
+  K.push({ t: rc.t0 + 1.25, armR: DIP, d: .15 }, { t: rc.t0 + 1.4, armR: ARM.wave, d: .2 }, { t: rc.t0 + 2.6, armR: ARM.rest, d: .3 });
   // every model line: the speaker turns to us with an open hand and talks (lip sync from talk); the other looks over and nods
   for (const l of recapLines) {
     const ys = l.who === 'youssef', [SK, LK] = ys ? [K, MK] : [MK, K];
@@ -85,9 +83,9 @@ export function buildRecap() {
   mistake(R.tNotGreet + .1, R.tFarewell + .2);
   mistake(R.tWelcomeW + .3, r10 ? r10.t0 : R.tRight + 1, false);
   // "And you?": Youssef points at us; "Sorry!": a small apologetic bow
-  if (r09) K.push({ t: r09.t0 - .3, armL: { dx: .22, dy: -.08, bend: -.05, w: 0 }, face: F('happy', { lx: 0, happy: .5, bLy: .9, bRy: .9 }), d: .25 }, { t: r09.t1 + .8, armL: ARM.rest, d: .3 });
+  if (r09) K.push({ t: r09.t0 - .3, armL: POINT, face: F('happy', { lx: 0, happy: .5, bLy: .9, bRy: .9 }), d: .25 }, { t: r09.t1 + .8, armL: ARM.rest, d: .3 });
   if (r12) K.push({ t: r12.t0 - .15, lean: -.06, sq: .95, face: F('embarrassed', { lx: 0, ly: .3, happy: .3, lines: .5, sweat: .4 }), d: .18 }, { t: r12.t0 + .35, lean: 0, sq: 1, d: .3 }, { t: r12.t1 + .9, face: yRest, d: .35 });
-  // repeat gaps: Youssef turns to us with an open hand ("your turn"), Mia smiles at us
+  // repeat gaps: Youssef turns to us with an open hand ("your turn"), Sara smiles at us
   for (const g of R.gaps) {
     K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
     MK.push({ t: g.t0 + .1, face: F('happy', { lx: 0, ly: 0, happy: .6 }), d: .3 }, { t: g.t1 - .1, face: mRest, d: .3 });

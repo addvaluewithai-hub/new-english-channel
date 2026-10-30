@@ -8,9 +8,10 @@ import { lerp, clamp } from '/core/lib.js';
 const PI = Math.PI;
 export const CAST = {
   youssef: { id: 'youssef', H: 300, a: .352, taper: .11, n: 2.5, skin: SKIN.youssef, hair: HAIR.youssef, brow: HAIR.youssef,
-    band: P.navy, sleeve: P.navy, shoe: '#3B2C34', hairE: .035, blush: '#E2564E', blushA: .5, lash: P.ink, accent: P.navy },
+    band: P.navy, sleeve: P.navy, cuff: dark(P.navy, .3), shoe: '#3B2C34', hairE: .035, blush: '#E2564E', blushA: .5, lash: P.ink, accent: P.navy },
+  // mia = Sara, the teacher (design v3): the internal id stays `mia` (timeline who / talk / mouth); only the displayed name changed
   mia: { id: 'mia', H: 276, a: .352, taper: .15, n: 2.4, skin: SKIN.mia, hair: HAIR.mia, brow: '#94381C',
-    band: P.mustard, sleeve: P.mustard, shoe: P.red, hairE: .045, blush: '#FF7E76', blushA: .55, lash: P.ink, accent: P.mustard },
+    band: P.mustard, sleeve: P.mustard, cuff: dark(P.mustard, .18), shoe: P.red, hairE: .045, blush: '#FF7E76', blushA: .55, lash: P.ink, accent: P.mustard },
 };
 
 // ---------------- expressions (face kit presets; all numeric so they can be blended) ----------------
@@ -31,8 +32,8 @@ export const EXPR = {
 };
 export function blendFace(a, b, t) { const o = {}; for (const k in F0) o[k] = lerp(a[k] ?? F0[k], b[k] ?? F0[k], t); return o; }
 
-// ---------------- arm poses: hand offset from the shoulder (dx outward, dy down), bend, wave ----------------
-export const ARM = {
+// ---------------- v2 arm poses (the stick arm, kept for ARMS = 'v2'): hand offset from the shoulder, bend, wave ----------------
+export const ARMV2 = {
   rest:    { dx: .075, dy: .165, bend: .12, w: 0 },
   out:     { dx: .17, dy: .07, bend: .1, w: 0 },          // holding a suitcase handle
   wave:    { dx: .15, dy: -.24, bend: -.18, w: 1 },
@@ -42,11 +43,178 @@ export const ARM = {
   shrug:   { dx: .17, dy: -.02, bend: .45, w: 0 },
   hip:     { dx: .1, dy: .13, bend: -.6, w: 0 },
 };
-export const blendArm = (a, b, t) => ({ dx: lerp(a.dx, b.dx, t), dy: lerp(a.dy, b.dy, t), bend: lerp(a.bend, b.bend, t), w: lerp(a.w, b.w, t) });
+// an arm pose blend that carries the A2 fields: bend (min elbow bend, deg), flex, elv (elbow-side hint), front (drawn in front:
+// switches at the midpoint), el. Missing fields take the A2 defaults so a bare {dx, dy, w} pose blends like any other.
+const ARMDEF = { dx: 0, dy: 0, w: 0, bend: 35, flex: .8, elv: [1, .5] };
+export const normArm = A => ({ ...ARMDEF, ...A, elv: A.elv || ARMDEF.elv });
+export const blendArm = (a, b, t) => {
+  const A = normArm(a), B = normArm(b);
+  const o = { dx: lerp(A.dx, B.dx, t), dy: lerp(A.dy, B.dy, t), w: lerp(A.w, B.w, t), bend: lerp(A.bend, B.bend, t), flex: lerp(A.flex, B.flex, t),
+    elv: [lerp(A.elv[0], B.elv[0], t), lerp(A.elv[1], B.elv[1], t)] };
+  const front = t > .5 ? B.front : A.front; if (front) o.front = true;
+  const el = t > .5 ? B.el : A.el; if (el) o.el = el;
+  return o;
+};
 
 export function pose(o = {}) {
   return Object.assign({ x: 0, y: 0, k: 1, turn: 0, sq: 1, lean: 0, lift: 0, face: EXPR.neutral, armL: ARM.rest, armR: ARM.rest,
     wave: 0, footL: 0, footR: 0, pony: 0, quiff: 0, breathe: 0, shadow: 1 }, o);
+}
+
+// ======================================================================================================================
+// Design v3 — arm options. ARMS = 'v2' (the episode 1/2 stick arm) | 'A' (jointed, tapered, 2-bone IK elbow) |
+// 'B' (bendy S-curved tube, no elbow) | 'C' (short stubby jointed). All three share: a fixed shoulder anchor on the
+// silhouette at .375 H (with a shoulder bump drawn into the body), a taper from the shoulder to the wrist, a cuff in the
+// sleeve colour, the round skin hand 15 % bigger, and both arms always visible (the far arm's hand comes out in front).
+export let ARMS = 'A2';   // the episodes use A2 (design v3, approved)
+export function setArms(m) { ARMS = m; }
+export const ARMCFG = {
+  A: { L1: .175, L2: .165, wS: .076, wW: .046, elbow: true, stretch: 1.12, name: 'A · jointed tapered arm' },
+  B: { L1: .175, L2: .165, wS: .076, wW: .046, elbow: false, stretch: 1.12, name: 'B · bendy sleeve arm' },
+  C: { L1: .125, L2: .115, wS: .08, wW: .052, elbow: true, stretch: 1.1, name: 'C · short stubby jointed arm' },
+  // A2: the revision of A. Shoulder on the egg's widest band (.43 H) with a sleeve cap ON the silhouette (the far cap peeks at
+  // the far edge), bones .17 + .16 H, a per-pose minimum elbow bend (the hand is pulled in rather than the arm straightened),
+  // elbow-side hints, the hold pose with both forearms in front of the body, a 20 % bigger hand with a thumb bump, the sleeve
+  // with a drawn crescent + rim light (form: 'drawn'; form: true runs the real blur pass, which costs ≈ 5 ms per character)
+  // and a soft overlap shadow on the body.
+  A2: { L1: .17, L2: .16, wS: .076, wW: .046, elbow: true, stretch: 1.0, sy: .43, cap: 1.3, form: 'drawn', x2: true, name: 'A2 · jointed tapered arm (revised)' },
+};
+// A2 pose extras: bend = minimum elbow bend (degrees), elv = elbow side hint in (outward, down), front = drawn in front of the body
+const X2 = {
+  rest: { bend: 12, elv: [-.4, 1], flex: 0 },     // owner's review: at rest the elbow bends ~12° only, tucked in, the arm hangs close to the body out: { bend: 30, elv: [1, .6], flex: .6 }, wave: { bend: 55, elv: [1, 1], flex: 1 },
+  up: { bend: 35, elv: [1, .4], flex: 1 }, chest: { bend: 45, elv: [.2, 1], flex: .8, front: true },   // the hand on the chest is drawn in front even from the far shoulder scratch: { dx: -.02, dy: -.4, bend: 60, elv: [1, -.5], flex: 1 },
+  shrug: { bend: 45, elv: [1, .8], flex: 1 }, hip: { bend: 60, elv: [1, .2], flex: 1 },
+  hold: { dx: -.03, dy: .05, bend: 70, elv: [1, 1], flex: 1, front: true },   // elbows at the body, forearms up across the chest
+  point: { bend: 35, elv: [.1, 1], flex: 1 }, door: { bend: 35, elv: [1, .5], flex: 1 },
+};
+export const X2P = X2;
+// the episodes' pose table: every A2 pose (hand target + its extras) under the old names, so ARM.rest / ARM.wave… work everywhere
+export const ARM = {};
+// v3 poses: hand target from the shoulder (dx outward, dy down, fractions of H); el = elbow side override (+1 outward / -1);
+// app = the direction the forearm arrives from, for the bendy arm (B); the v2 poses are reused when a v3 one is missing
+export const ARM3 = {
+  rest:    { dx: .07, dy: .18, w: 0, app: [.2, 1], flex: .25 },   // along the body, a slight bend
+  out:     { dx: .17, dy: .08, w: 0, app: [.4, 1], flex: .5 },
+  wave:    { dx: .17, dy: -.21, w: 1, app: [.15, -1], flex: 1 },
+  up:      { dx: .1, dy: -.3, w: 0, app: [.2, -1], flex: .8 },
+  chest:   { dx: -.21, dy: .06, w: 0, app: [-1, .3], flex: .5 },
+  scratch: { dx: -.03, dy: -.395, w: 0, app: [-.4, -1], flex: 1 },
+  shrug:   { dx: .19, dy: -.02, w: 0, app: [.6, -1], flex: .8 },
+  hip:     { dx: .1, dy: .14, w: 0, app: [-1, .6], flex: .9 },
+  hold:    { dx: .17, dy: -.04, w: 0, app: [.25, -1], flex: .6 },      // a cup held in front, forearm up
+  point:   { dx: .3, dy: -.1, w: 0, app: [1, -.1], flex: 1 },
+  door:    { dx: .18, dy: -.5, w: 0, app: [.2, -1], flex: .8 },
+};
+for (const k in ARM3) ARM[k] = { ...ARM3[k], ...(X2[k] || {}) };
+function armGeo3(sp, p, G) {
+  const cfg = ARMCFG[ARMS], H = G.H, ys = -(cfg.sy ?? .375) * H, out = [];
+  for (const s of [-1, 1]) {
+    let A = s < 0 ? p.armL : p.armR;
+    if (cfg.x2 && A.x2) A = { ...A, ...A.x2 };
+    const phi = s * PI / 2, ps = phi + G.th, c = Math.cos(ps), sn = Math.sin(ps), sg = Math.sign(sn) || s;
+    let far = c < -.2;
+    if (A.front) far = false;                             // holding in front: both forearms cross the chest, drawn in front
+    // A2: the anchor sits on the silhouette (the near shoulder slides inward a little in a 3/4 view, the far cap peeks at the far edge)
+    const sx = G.hw(ys) * (cfg.x2 ? (far ? .95 * sg : (.72 + .28 * Math.abs(sn)) * sg) : .92 * sn);
+    const S = G.D(sx, ys);
+    let dx = A.dx * H * s, dy = A.dy * H;
+    if (far) { dx += s * (cfg.x2 ? .045 : .13) * H; if (cfg.x2) dy += .05 * H; }   // the far arm swings a little forward so its hand shows past the chest (and keeps hanging)
+    if (A.w) { const ang = Math.sin(p.wave * 2 * PI) * .45 * A.w; const r = Math.hypot(dx, dy) * .35; dx += Math.sin(ang) * r * s; dy += (1 - Math.cos(ang)) * r * .5; }
+    let T = [S[0] + dx, S[1] + dy];
+    // reach: the two bones stretch up to `stretch`, then the hand is pulled in
+    const L1 = cfg.L1 * H, L2 = cfg.L2 * H, Ls = L1 + L2;
+    let d = Math.hypot(T[0] - S[0], T[1] - S[1]) || 1;
+    const st = clamp(d / Ls, 1, cfg.stretch); let l1 = L1 * st, l2 = L2 * st;
+    // flex: how far the elbow may stick out. A relaxed arm shortens its bones toward the chord (the elbow goes back in
+    // depth, which a flat drawing cannot show), a deliberate bend (wave, scratch) keeps the full length
+    const flex = A.flex ?? .8;
+    if (cfg.elbow && d < Ls * .97) {
+      // A2: the shortest bones give exactly the pose's minimum bend at this reach (flex 0); longer bones (flex → 1) bend more
+      const b0 = cfg.x2 ? (A.bend ?? 35) * PI / 180 : 0, dm = Math.sqrt(L1 * L1 + L2 * L2 + 2 * L1 * L2 * Math.cos(b0)) || Ls;
+      const f = lerp(Math.min(1, cfg.x2 ? d / dm : d / Ls * 1.03), 1, flex); l1 *= f; l2 *= f;
+    }
+    // A2: a minimum elbow bend. The hand is pulled toward the shoulder until the elbow shows a corner, never straightened
+    let dmax = l1 + l2;
+    if (cfg.x2 && cfg.elbow) { const b = (A.bend ?? 35) * PI / 180; dmax = Math.sqrt(l1 * l1 + l2 * l2 + 2 * l1 * l2 * Math.cos(b)); }
+    if (d > dmax) { T = [S[0] + (T[0] - S[0]) * dmax / d, S[1] + (T[1] - S[1]) * dmax / d]; d = dmax; }
+    const dmin = Math.abs(l1 - l2) + .02 * H;
+    if (d < dmin) { T = [S[0] + (T[0] - S[0]) * dmin / d, S[1] + (T[1] - S[1]) * dmin / d]; d = dmin; }
+    const dir = [(T[0] - S[0]) / d, (T[1] - S[1]) / d];
+    let perp = [-dir[1], dir[0]];
+    if (A.elv) { const hv = [A.elv[0] * s, A.elv[1]]; if (perp[0] * hv[0] + perp[1] * hv[1] < 0) perp = [-perp[0], -perp[1]]; }   // elbow-side hint (outward, down)
+    else if (perp[0] * s < 0) perp = [-perp[0], -perp[1]];   // the elbow goes outward (toward the arm's own side), else down
+    if (A.el) perp = [perp[0] * A.el, perp[1] * A.el];
+    let E = null;
+    if (cfg.elbow) {
+      const ca = clamp((d * d + l1 * l1 - l2 * l2) / (2 * d * l1), -1, 1), a = Math.acos(ca);
+      E = [S[0] + dir[0] * l1 * Math.cos(a) + perp[0] * l1 * Math.sin(a), S[1] + dir[1] * l1 * Math.cos(a) + perp[1] * l1 * Math.sin(a)];
+    }
+    // bendy arm: cubic S-curve; it leaves the shoulder going down/out and arrives along the pose's approach direction
+    const app = A.app || [0, 1], an = Math.hypot(app[0], app[1]) || 1;
+    const c1 = [S[0] + s * .06 * H + dir[0] * d * .2, S[1] + .14 * H + dir[1] * d * .15];
+    const c2 = [T[0] - app[0] / an * s * d * .4, T[1] - app[1] / an * d * .4];
+    out.push({ s, S, E, Hd: T, far, wave: A.w, c1, c2, cfg, dir, front: !!A.front, fdir: E ? [(T[0] - E[0]) / (Math.hypot(T[0] - E[0], T[1] - E[1]) || 1), (T[1] - E[1]) / (Math.hypot(T[0] - E[0], T[1] - E[1]) || 1)] : dir });
+  }
+  return out;
+}
+// a tapered tube along a sampled centre line
+function tube(c, pts, w0, w1, off = [0, 0], k = 1) {
+  const n = pts.length, L = [], R = [];
+  for (let i = 0; i < n; i++) {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n - 1, i + 1)];
+    let nx = -(b[1] - a[1]), ny = b[0] - a[0]; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+    const w = lerp(w0, w1, i / (n - 1)) * k / 2, x = pts[i][0] + off[0], y = pts[i][1] + off[1];
+    L.push([x + nx * w, y + ny * w]); R.push([x - nx * w, y - ny * w]);
+  }
+  c.beginPath();
+  c.moveTo(L[0][0], L[0][1]); for (let i = 1; i < n; i++) c.lineTo(L[i][0], L[i][1]);
+  for (let i = n - 1; i >= 0; i--) c.lineTo(R[i][0], R[i][1]);
+  c.closePath(); c.fill();
+  const r0 = w0 * k / 2, r1 = w1 * k / 2;
+  ell(c, pts[0][0] + off[0], pts[0][1] + off[1], r0, r0); c.fill();
+  ell(c, pts[n - 1][0] + off[0], pts[n - 1][1] + off[1], r1, r1); c.fill();
+}
+function armPath(A) {
+  const pts = [], N = 26, S = A.S, T = A.Hd;
+  if (A.E) {   // jointed: straight bones with a short fillet at the elbow (a visible joint, not a kink)
+    const E = A.E, P1 = [lerp(S[0], E[0], .72), lerp(S[1], E[1], .72)], P2 = [lerp(E[0], T[0], .28), lerp(E[1], T[1], .28)];
+    for (let i = 0; i <= 8; i++) pts.push([lerp(S[0], P1[0], i / 8), lerp(S[1], P1[1], i / 8)]);
+    for (let i = 1; i <= 10; i++) { const t = i / 10, u = 1 - t; pts.push([u * u * P1[0] + 2 * u * t * E[0] + t * t * P2[0], u * u * P1[1] + 2 * u * t * E[1] + t * t * P2[1]]); }
+    for (let i = 1; i <= 8; i++) pts.push([lerp(P2[0], T[0], i / 8), lerp(P2[1], T[1], i / 8)]);
+    return pts;
+  }
+  for (let i = 0; i <= N; i++) {   // bendy: one cubic
+    const t = i / N, u = 1 - t;
+    pts.push([u * u * u * S[0] + 3 * u * u * t * A.c1[0] + 3 * u * t * t * A.c2[0] + t * t * t * T[0], u * u * u * S[1] + 3 * u * u * t * A.c1[1] + 3 * u * t * t * A.c2[1] + t * t * t * T[1]]);
+  }
+  return pts;
+}
+// the sleeve cap: a rounded shoulder, 1.3× the upper-arm width, centred on the anchor (A2)
+function capAt(c, A, H, off = [0, 0], k = 1) {
+  const r = A.cfg.cap * A.cfg.wS * H / 2 * k, P1 = A.E || A.Hd, ang = Math.atan2(P1[1] - A.S[1], P1[0] - A.S[0]);
+  ell(c, A.S[0] + off[0], A.S[1] + off[1], r * 1.08, r * .92, ang); c.fill();
+}
+// the arm's whole silhouette (cap + tube) in one colour: the overlap shadow on the body
+export function armSil(c, sp, A, H, off) {
+  const cfg = A.cfg, pts = armPath(A);
+  if (cfg.cap) capAt(c, A, H, off);
+  tube(c, pts, cfg.wS * H, cfg.wW * H, off);
+}
+function drawArm3(c, sp, A, H) {
+  const cfg = A.cfg, pts = armPath(A), wS = cfg.wS * H, wW = cfg.wW * H;
+  // sleeve: a darker full tube, then the lit tube shifted toward the light (the v2 shading language, tapered)
+  c.fillStyle = dark(sp.sleeve, .3); if (cfg.cap) capAt(c, A, H); tube(c, pts, wS, wW);
+  c.fillStyle = sp.sleeve; if (cfg.cap) capAt(c, A, H, [-.011 * H, -.008 * H], .86); tube(c, pts, wS, wW, [-.011 * H, -.007 * H], .78);
+  if (cfg.form === 'drawn') {   // rim light on the lit side (a thin tube further toward the light; it stays inside the sleeve by construction)
+    c.fillStyle = rgba('#FFFBF0', .13); if (cfg.cap) capAt(c, A, H, [-.021 * H, -.015 * H], .5);   // rim light (−40 % from the sheet: no plastic-pipe shine) tube(c, pts, wS, wW, [-.02 * H, -.013 * H], .3);
+  }
+  // cuff: a band across the wrist
+  const n = pts.length, e = pts[n - 1], q = pts[n - 3], ang = Math.atan2(e[1] - q[1], e[0] - q[0]);
+  c.save(); c.translate(e[0] - Math.cos(ang) * .028 * H, e[1] - Math.sin(ang) * .028 * H); c.rotate(ang);
+  rr(c, -.016 * H, -wW * .58, .034 * H, wW * 1.16, .012 * H); c.fillStyle = sp.cuff; c.fill();
+  if (sp.id === 'youssef') { rr(c, .012 * H, -wW * .5, .01 * H, wW, .004 * H); c.fillStyle = P.cream; c.fill(); }
+  c.restore();
+  drawHand(c, sp, e[0], e[1], H, { dir: A.fdir });
 }
 
 // ---------------- geometry ----------------
@@ -91,7 +259,7 @@ function hairline(sp, phi) {
     const temple = -.022 * Math.exp(-Math.pow((af - 1.05) / .2, 2));
     return (base + fringe + temple) * H;
   }
-  // Mia: scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
+  // Sara (id mia): scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
   const bang = -.79 + .026 * Math.pow(Math.abs(Math.cos(f * 4.4 + .3)), .7) + .025 * f;
   let y = lerp(bang, -.75, sst(.72, .98, af));
   y = lerp(y, -.56, sst(1.7, 2.3, af));
@@ -112,12 +280,25 @@ export function drawChar(ctx, sp, p) {
       hy0: p.y - H * k, hy1: p.y - .55 * H * k, occl: st >= 2 ? .22 : 0, oy0: p.y - .3 * H * k, oy1: p.y });
   ctx.save(); toScreen(ctx);
   if (st >= 3) face(ctx, sp, p, G);
-  if (st >= 1) for (const A of arms) if (!A.far) drawArm(ctx, sp, A, H);
+  const front = arms.filter(A => !A.far);
+  if (st >= 1 && front.length && front[0].cfg && front[0].cfg.form) {
+    const real = front[0].cfg.form === true;
+    // A2: a soft shadow where the arm lies over the body (clipped to the bean), then the sleeves through the form pass
+    ctx.save(); smooth(ctx, G.outline()); ctx.clip(); ctx.fillStyle = rgba(SHADE, .25);
+    for (const A of front) armSil(ctx, sp, A, H, [.012 * H, .014 * H]);
+    ctx.restore();
+    if (!real) { for (const A of front) drawArm(ctx, sp, A, H); ctx.restore(); return { G, hands: arms.map(A => [p.x + A.Hd[0] * k, p.y + A.Hd[1] * k]) }; }
+    const P = front.flatMap(A => [A.S, A.E || A.S, A.Hd]), m = .1 * H;
+    const bx0 = Math.min(...P.map(q => q[0])) - m, by0 = Math.min(...P.map(q => q[1])) - m, bx1 = Math.max(...P.map(q => q[0])) + m, by1 = Math.max(...P.map(q => q[1])) + m;
+    formed(ctx, { x: bx0, y: by0, w: bx1 - bx0, h: by1 - by0 }, l => { for (const A of front) drawArm(l, sp, A, H); },
+      { sx: .03 * H, sy: .018 * H, soft: .012 * H, shadeA: .5, hx: .012 * H, hy: .014 * H, hiA: .35, hy0: by0, hy1: by1 });
+  } else if (st >= 1) for (const A of front) drawArm(ctx, sp, A, H);
   ctx.restore();
   return { G, hands: arms.map(A => [p.x + A.Hd[0] * k, p.y + A.Hd[1] * k]) };
 }
 
 function armGeo(sp, p, G) {
+  if (ARMS !== 'v2') return armGeo3(sp, p, G);
   const H = G.H, ys = -.375 * H, out = [];
   for (const s of [-1, 1]) {
     const A = s < 0 ? p.armL : p.armR, phi = s * PI / 2, ps = phi + G.th, c = Math.cos(ps);
@@ -132,6 +313,7 @@ function armGeo(sp, p, G) {
 }
 
 function drawArm(c, sp, A, H) {
+  if (A.cfg) return drawArm3(c, sp, A, H);
   const [sx, sy] = A.S, [hx, hy] = A.Hd, mx = (sx + hx) / 2, my = (sy + hy) / 2, len = Math.hypot(hx - sx, hy - sy) || 1;
   const nx = -(hy - sy) / len * A.s, ny = (hx - sx) / len * A.s;
   const cx = mx + nx * A.bend * len, cy = my + ny * A.bend * len, lw = .082 * H;
@@ -168,6 +350,8 @@ function bodyFlat(l, sp, p, G, arms) {
   l.save(); smooth(l, body); l.clip();
   clothes(l, sp, p, G);
   l.restore();
+  // v3 shoulder bump: a small bulge of the sleeve at the anchor (part of the body's form pass)
+  if (ARMS !== 'v2' && !(arms[0].cfg && arms[0].cfg.x2)) for (const A of arms) if (!A.far) { ell(l, A.S[0], A.S[1] + .004 * H, .058 * H, .046 * H, A.s * .25); l.fillStyle = sp.sleeve; l.fill(); }
   // hair (with a soft cast shadow on the forehead), clipped to a slightly inflated bean for volume
   const hl = phi => hairline(sp, phi);
   const line = G.across(hl, 64), big = G.outline(sp.hairE);
@@ -452,11 +636,19 @@ export function drawSuitcase(ctx, x, y, k, u = 300, o = {}) {
 
 // ---------------- episode 2 props (held things; drawn after the character, then the hand is redrawn over them) ----------------
 // the round hand on its own (to draw it again over a held prop)
-export function drawHand(ctx, sp, hx, hy, H) {
-  const r = .047 * H;
-  ell(ctx, hx, hy, r, r); ctx.fillStyle = mix(sp.skin, '#4B2E52', .32); ctx.fill();
+// o.dir: the forearm direction (unit), for the thumb; o.grip: a short dark crease where the hand meets a held cup (A2)
+export function drawHand(ctx, sp, hx, hy, H, o = {}) {
+  const x2 = ARMCFG[ARMS] && ARMCFG[ARMS].x2, r = (ARMS === 'v2' ? .047 : x2 ? .0565 : .054) * H;
+  const dk = mix(sp.skin, '#4B2E52', .32);
+  if (x2) {   // thumb bump: on the upper side of the hand, leaning back toward the forearm
+    const d = o.dir || [0, 1]; let tx = -d[0] * .5, ty = -1 - d[1] * .5; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+    const px = hx + tx * r * .82, py = hy + ty * r * .82, tr = r * .42;
+    ell(ctx, px, py, tr, tr); ctx.fillStyle = dk; ctx.fill(); ell(ctx, px - .006 * H, py - .006 * H, tr * .78, tr * .78); ctx.fillStyle = sp.skin; ctx.fill();
+  }
+  ell(ctx, hx, hy, r, r); ctx.fillStyle = dk; ctx.fill();
   ell(ctx, hx - .009 * H, hy - .008 * H, r * .8, r * .8); ctx.fillStyle = sp.skin; ctx.fill();
   ell(ctx, hx - .02 * H, hy - .02 * H, r * .25, r * .2); ctx.fillStyle = rgba('#FFF6E8', .35); ctx.fill();
+  if (o.grip) { ctx.strokeStyle = rgba('#3B2142', .4); ctx.lineWidth = .011 * H; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(hx, hy - r * .1, r * .72, PI * 1.2, PI * 1.8); ctx.stroke(); }
 }
 // takeaway coffee cup: x,y = the centre of the cup body; k = scale (1 = a 300 px owner); o.steam (0..1) + o.t animate the steam
 export function drawCup(ctx, x, y, k, o = {}) {
@@ -481,7 +673,7 @@ export function drawCup(ctx, x, y, k, o = {}) {
   }
   ctx.restore();
 }
-// Mia's teal tote bag hanging from a hand at (x, y)
+// Sara's teal tote bag hanging from a hand at (x, y)
 export function drawBag(ctx, x, y, k) {
   const u = 276 * k;
   ctx.save(); ctx.translate(x, y);
@@ -528,7 +720,7 @@ export function drawForm(ctx, x, y, w, h, o = {}) {
 // hand positions (screen px) for a pose, without drawing: [[x, y, far], [x, y, far]] for armL, armR
 export function handPos(sp, p) {
   const G = geo(sp, p), arms = armGeo(sp, p, G);
-  return arms.map(A => [p.x + A.Hd[0] * p.k, p.y + A.Hd[1] * p.k, A.far]);
+  return arms.map(A => [p.x + A.Hd[0] * p.k, p.y + A.Hd[1] * p.k, A.far, A.fdir]);
 }
 // a cardboard carrier with n takeaway cups, centred on (x, y)
 export function drawTray(ctx, x, y, k, n = 2, o = {}) {

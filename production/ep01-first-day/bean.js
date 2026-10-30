@@ -82,7 +82,7 @@ export const ARMCFG = {
 // A2 pose extras: bend = minimum elbow bend (degrees), elv = elbow side hint in (outward, down), front = drawn in front of the body
 const X2 = {
   rest: { bend: 12, elv: [-.4, 1], flex: 0 },     // owner's review: at rest the elbow bends ~12° only, tucked in, the arm hangs close to the body out: { bend: 30, elv: [1, .6], flex: .6 }, wave: { bend: 55, elv: [1, 1], flex: 1 },
-  up: { bend: 35, elv: [1, .4], flex: 1 }, chest: { bend: 45, elv: [.2, 1], flex: .8 }, scratch: { dx: -.02, dy: -.4, bend: 60, elv: [1, -.5], flex: 1 },
+  up: { bend: 35, elv: [1, .4], flex: 1 }, chest: { bend: 45, elv: [.2, 1], flex: .8, front: true },   // the hand on the chest is drawn in front even from the far shoulder scratch: { dx: -.02, dy: -.4, bend: 60, elv: [1, -.5], flex: 1 },
   shrug: { bend: 45, elv: [1, .8], flex: 1 }, hip: { bend: 60, elv: [1, .2], flex: 1 },
   hold: { dx: -.03, dy: .05, bend: 70, elv: [1, 1], flex: 1, front: true },   // elbows at the body, forearms up across the chest
   point: { bend: 35, elv: [.1, 1], flex: 1 }, door: { bend: 35, elv: [1, .5], flex: 1 },
@@ -118,7 +118,7 @@ function armGeo3(sp, p, G) {
     const sx = G.hw(ys) * (cfg.x2 ? (far ? .95 * sg : (.72 + .28 * Math.abs(sn)) * sg) : .92 * sn);
     const S = G.D(sx, ys);
     let dx = A.dx * H * s, dy = A.dy * H;
-    if (far) dx += s * (cfg.x2 ? .1 : .13) * H;           // the far arm swings forward so its hand shows past the chest
+    if (far) { dx += s * (cfg.x2 ? .045 : .13) * H; if (cfg.x2) dy += .05 * H; }   // the far arm swings a little forward so its hand shows past the chest (and keeps hanging)
     if (A.w) { const ang = Math.sin(p.wave * 2 * PI) * .45 * A.w; const r = Math.hypot(dx, dy) * .35; dx += Math.sin(ang) * r * s; dy += (1 - Math.cos(ang)) * r * .5; }
     let T = [S[0] + dx, S[1] + dy];
     // reach: the two bones stretch up to `stretch`, then the hand is pulled in
@@ -259,7 +259,7 @@ function hairline(sp, phi) {
     const temple = -.022 * Math.exp(-Math.pow((af - 1.05) / .2, 2));
     return (base + fringe + temple) * H;
   }
-  // Mia: scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
+  // Sara (id mia): scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
   const bang = -.79 + .026 * Math.pow(Math.abs(Math.cos(f * 4.4 + .3)), .7) + .025 * f;
   let y = lerp(bang, -.75, sst(.72, .98, af));
   y = lerp(y, -.56, sst(1.7, 2.3, af));
@@ -673,7 +673,7 @@ export function drawCup(ctx, x, y, k, o = {}) {
   }
   ctx.restore();
 }
-// Mia's teal tote bag hanging from a hand at (x, y)
+// Sara's teal tote bag hanging from a hand at (x, y)
 export function drawBag(ctx, x, y, k) {
   const u = 276 * k;
   ctx.save(); ctx.translate(x, y);

@@ -1,6 +1,6 @@
 // Episode 1 "First Day" — entry. window.render(t) is a pure function of t (seeded randomness only); everything is keyed to
 // timeline.json, so a regenerated timeline (new voice timings) re-times the whole picture and the cue list.
-// Modules: kit (tokens, form pass) · bean (characters) · world (street) · ui (type) · tl (timeline) · act (acting) ·
+// Modules: kit (tokens, form pass) · bean (characters) · world (the New York street) · ui (type) · tl (timeline) · act (acting) ·
 //          story (open → bye) · recap (Living Letters recap) · outro (title, your turn, teaser, end card) · cues (window.EV)
 import { P, grain, CPU } from './kit.js';
 import { clamp, seg, ss } from '/core/lib.js';
@@ -24,7 +24,7 @@ function frame(t) {
   if (t < turn.t0 - .1) return sceneRecap(c, t);
   if (t < turn.t0 + .65) return wipe(c, seg(t, turn.t0 - .1, turn.t0 + .6), () => sceneRecap(c, t), () => sceneTurn(c, t));
   if (t < (site.t1 > 0 ? site.t0 : next.t0)) return sceneTurn(c, t);
-  if (t < next.t0) return sceneSite(c, t);   // the site nudge (the phone card)
+  if (t < next.t0) return sceneSite(c, t);   // the full-screen exercises call-to-action
   if (t < O.bEnd) return sceneNext(c, t);
   if (t < O.bEnd + .5) return wipe(c, seg(t, O.bEnd, O.bEnd + .45), () => sceneNext(c, t), () => endCard(c, t));
   return endCard(c, t);

@@ -6,7 +6,7 @@ import { TL, narrChunks } from './tl.js';
 
 export const SPEAKER = {
   youssef: { name: 'YOUSSEF', tab: P.navy, hi: P.mustard },
-  mia: { name: 'MIA', tab: '#C24A28', hi: P.mustard },
+  mia: { name: 'SARA', tab: '#C24A28', hi: P.mustard },   // the teacher, Sara (internal id mia; rust tab)
 };
 export const RUST = '#C24A28';
 const FS = 64;   // English dialogue size at 1080p (≥ 56)

@@ -141,8 +141,22 @@ export function springAt(stateFn, t, gain = 1) {
 }
 
 export { EXPR, ARM, pose };
-export const PULL = { dx: .2, dy: -.09, bend: .15, w: 0 };
-export const PULLR = { dx: .2, dy: -.09, bend: .15, w: 0 };
-export const CUP = { dx: -.06, dy: -.22, bend: .25, w: 0 };      // hand cupped by the mouth / ear
-export const POINT = { dx: .24, dy: -.1, bend: -.05, w: 0 };      // arm out, pointing
-export const CLAP = { dx: -.16, dy: -.06, bend: -.2, w: 0 };      // hands together in front
+// A2 gestures shared by the episodes (design v3). A pose is a hand target from the shoulder (dx outward, dy down, fractions
+// of H) plus: bend = the minimum elbow bend in degrees, elv = the elbow side (outward, down), flex = how much of the full bones
+// is used (0 = exactly the minimum bend, 1 = the full bones, i.e. a deliberate bend), front = both forearms drawn in front of
+// the body (holds across the chest, and the far-side arm held out toward the other character). ARM.* holds the standard set:
+// rest · out · wave · up · chest · scratch · shrug · hip · hold (a cup at the chest) · point · door.
+export const PULL = { dx: .1, dy: -.04, w: 0, bend: 25, elv: [1, .9], flex: .2 };          // the suitcase handle, trailing behind
+export const PULLR = PULL;
+export const CUP = { dx: -.04, dy: -.22, w: 0, bend: 50, elv: [1, .3], flex: 1 };          // hand cupped by the ear / the mouth
+export const POINT = ARM.point;                                                            // arm out, pointing
+export const CLAP = { dx: -.27, dy: -.03, w: 0, bend: 45, elv: [.4, 1], flex: 1, front: true };   // hands together in front of the chest
+export const DIP = { dx: .12, dy: .07, w: 0, bend: 25, elv: [1, .7], flex: .5 };           // the anticipation dip before a wave / a point
+export const OPEN = { dx: .2, dy: -.02, w: 0, bend: 30, elv: [.6, 1], flex: .7 };          // open hand toward the viewer / the board
+export const OUTLOW = { dx: .17, dy: .16, w: 0, bend: 22, elv: [.6, 1], flex: .3 };        // arm a little out, hand low (pointing down)
+export const INWARD = { dx: -.1, dy: .1, w: 0, bend: 45, elv: [1, 1], flex: .8 };          // hand pulled in to the body (nervous)
+export const RAISE = { dx: .2, dy: -.12, w: 0, bend: 35, elv: [1, .5], flex: .9 };         // arm out and up (a shock, "Oh!")
+export const RUNARM = { dx: .14, dy: -.1, w: 0, bend: 70, elv: [1, 1], flex: 1 };          // running: elbow bent, hand up
+export const FACEPALM = { dx: -.33, dy: -.17, w: 0, bend: 45, elv: [1, -.3], flex: 1 };    // across onto the face
+export const REACH = { dx: .3, dy: -.05, w: 0, bend: 20, elv: [1, 1], flex: .3, front: true };   // the far-side arm held out to the other character
+export const HOLDLOW = { dx: -.02, dy: .12, w: 0, bend: 40, elv: [1, 1], flex: 1, front: true };   // a prop held in front, low (the form, a bag)

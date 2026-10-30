@@ -133,6 +133,10 @@ def bus(d=4.0):
     tt = t_(d); e = np.sin(np.pi * tt / d) ** 2
     eng = lp(brown(d), 160) * .8 + bp(noise(d), 300, 900) * .25
     return norm(eng * e) * .8
+def taxi(d=4.0):   # the yellow cab passing: a lighter, higher engine than the old bus, with a tyre hiss
+    tt = t_(d); e = np.sin(np.pi * tt / d) ** 2
+    eng = lp(brown(d), 260) * .6 + bp(noise(d), 600, 1800) * .3
+    return norm(eng * e) * .7
 def wheels(d):
     tt = t_(d); x = bp(noise(d), 1500, 5000) * .25 * (1 + .5 * np.sin(2 * np.pi * 7 * tt)) + lp(brown(d), 300) * .3
     return x * np.minimum(1, np.minimum(tt / .15, (d - tt) / .15))
@@ -188,6 +192,7 @@ H = {   # event type -> (sound, gain, pan)
     'footsteps': lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
     'land':      lambda e: (thump(.5, 120), .12, 0),
     'bus':       lambda e: (bus(e.get('dur', 4.0)), .3, -.3),
+    'taxi':      lambda e: (taxi(e.get('dur', 4.0)), .26, -.3),
     'suitcase':  lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'wheels':    lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'freeze':    lambda e: (freeze_hit(), .35, 0),

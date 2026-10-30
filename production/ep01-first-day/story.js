@@ -5,7 +5,7 @@ import { CAST, drawChar, drawSuitcase } from './bean.js';
 import { drawWorld, drawForeground, toScreen, GROUND, DOOR } from './world.js';
 import { clamp, lerp, seg, ss, eio, eo, back } from '/core/lib.js';
 import { SEC, BEAT, NARR, LINES, nwT, has } from './tl.js';
-import { fold, F, moveAt, hop, liveFace, springAt, EXPR, ARM, pose, PULL, CUP, POINT, CLAP } from './act.js';
+import { fold, F, moveAt, hop, liveFace, springAt, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, INWARD, RAISE } from './act.js';
 import { lineBubble, thought, smiley, alarmClock, timeTag, sparkle, wordStates, bubble } from './ui.js';
 import { cue } from './cues.js';
 
@@ -95,7 +95,7 @@ export function buildStory() {
   const n1 = NARR('ar01'), n2 = NARR('ar02'), n3 = NARR('ar03'), n4 = NARR('ar04'), n5 = NARR('ar05'), n8 = NARR('ar08');
   const bSeen = BEAT('school_seen', st.t0 + 7), bDoor = BEAT('door_open', dr.t0 - .8), bSorry = BEAT('sorry'), bFreeze = BEAT('freeze'),
     bUn = BEAT('unfreeze', rt.t0), bIn = BEAT('come_in'), bEight = BEAT('eight');
-  const tLondon = nwT('ar01', has('لندن'), .95), tGood = nwT('ar02', has('كويس'), .65), tMia = nwT('ar02', has('قابلت'), .9);
+  const tNY = nwT('ar01', has('نيويورك'), .95), tGood = nwT('ar02', has('كويس'), .65), tSara = nwT('ar02', has('قابلت'), .9);
   const tConf = nwT('ar03', has('بثقة'), .75), tSmile = nwT('ar03', has('ابتسامة'), .9);
   const tok = (L, i) => L.tok[Math.min(i, L.tok.length - 1)];
   const D0 = D[0], D1 = D[1], D2 = D[2];
@@ -111,16 +111,16 @@ export function buildStory() {
     ], keys: [] };
   yA.moves.forEach(m => { m.k0 = m.k1 = .9; });
   const K = yA.keys, J = yA.jumps, BL = yA.blinks;
-  // "…أول يوم ليّا في لندن": stops, looks up at the skyline, delighted
-  K.push({ t: pause0 - .1, turn: .2, d: .35 }, { t: tLondon - .45, face: F('joy', { lx: -.35, ly: -.6 }), d: .25 },
-    { t: tLondon - .5, armR: { dx: .12, dy: .06, bend: .1, w: 0 }, d: .15 }, { t: tLondon - .3, armR: ARM.up, d: .22 },
+  // "…أول يوم ليّا في نيويورك": stops, looks up at the skyline, delighted
+  K.push({ t: pause0 - .1, turn: .2, d: .35 }, { t: tNY - .45, face: F('joy', { lx: -.35, ly: -.6 }), d: .25 },
+    { t: tNY - .5, armR: DIP, d: .15 }, { t: tNY - .3, armR: ARM.up, d: .22 },
     { t: pause1 - .45, armR: ARM.rest, face: happyWalk, d: .3 }, { t: pause1 - .2, turn: .5, d: .3 });
-  J.push({ t: tLondon - .25, h: .07, d: .4 }); BL.push(tLondon - .45, pause1 - .45);
-  // "…الإنجليزي بتاعي كويس" proud; "لحد ما قابلت ميا" a worried glance at us
+  J.push({ t: tNY - .25, h: .07, d: .4 }); BL.push(tNY - .45, pause1 - .45);
+  // "…الإنجليزي بتاعي كويس" proud; "لحد ما قابلت سارة" a worried glance at us
   K.push({ t: tGood - .1, face: F('happy', { bLy: .9, bRy: .9, happy: .5, mw: .12, mo: .04, lx: .45, ly: -.25 }), d: .3 },
-    { t: tMia - .15, face: F('worried', { lx: -.45, ly: .1, bLr: .45, bRr: .45 }), turn: .3, d: .25 },
+    { t: tSara - .15, face: F('worried', { lx: -.45, ly: .1, bLr: .45, bRr: .45 }), turn: .3, d: .25 },
     { t: n2.t1 + .5, face: happyWalk, turn: .5, d: .4 });
-  BL.push(tMia - .15);
+  BL.push(tSara - .15);
   // street: rehearsing "Hello!" — confident, then the big smile
   K.push({ t: tConf - .1, face: F('happy', { bLy: .8, bRy: .8, happy: .3, mw: .11, mo: .03, ms: .9, lx: .5, ly: -.3 }), d: .3 },
     { t: tSmile - .05, face: F('joy', { mw: .15, mo: .075, lx: .4 }), d: .2 }, { t: n3.t1 + .6, face: happyWalk, d: .3 });
@@ -128,14 +128,14 @@ export function buildStory() {
   K.push({ t: bSeen - .15, turn: .25, face: F('surprised', { lx: .45, ly: -.8 }), d: .2 }, { t: bSeen + .6, face: F('happy', { lx: .4, ly: -.7, happy: .5, mo: .05, mw: .12 }), d: .3 },
     { t: bSeen + 1.7, turn: .5, face: F('happy', { happy: .2, bLr: .3, bRr: .3, mo: .02, lx: .5 }), d: .3 });
   J.push({ t: bSeen + .55, h: .06, d: .38 }); BL.push(bSeen - .15, bSeen + 1.7);
-  // the door opens: a gulp, then a brave smile toward Mia
+  // the door opens: a gulp, then a brave smile toward Sara
   K.push({ t: bDoor + .05, turn: .4, face: F('surprised', { lx: .6, ly: -.1, sweat: .2 }), d: .15 }, { t: bDoor + .7, face: F('nervous', { mt: .5, mo: .03, lx: .55, sweat: .3 }), d: .25 },
     { t: D0.t0 - .1, face: F('happy', { happy: .3, mo: .03, mw: .1, lx: .55, ly: -.1, sweat: .15 }), d: .3 });
   BL.push(bDoor + .05);
   // "Hello! I… I Youssef."
   const tHello = tok(D1, 0).t0, tI1 = tok(D1, 1).t0, tI2 = tok(D1, 2).t0, tYou = tok(D1, 3).t0;
-  K.push({ t: tHello - .32, armR: { dx: .12, dy: .05, bend: .1, w: 0 }, face: F('happy', { lx: .55, happy: .4 }), d: .15 }, { t: tHello - .12, armR: ARM.wave, d: .2 },
-    { t: tI1 - .1, armR: { dx: -.1, dy: .1, bend: -.2, w: 0 }, face: F('nervous', { lx: .2, ly: .25, sweat: .5 }), trem: .006, d: .2 },
+  K.push({ t: tHello - .32, armR: DIP, face: F('happy', { lx: .55, happy: .4 }), d: .15 }, { t: tHello - .12, armR: ARM.wave, d: .2 },
+    { t: tI1 - .1, armR: INWARD, face: F('nervous', { lx: .2, ly: .25, sweat: .5 }), trem: .006, d: .2 },
     { t: tI2 - .1, face: F('happy', { bLy: .7, bRy: .7, happy: .15, mw: .1, ms: .7, lx: .55 }), trem: 0, lean: -.02, armR: ARM.rest, d: .25 },
     { t: D1.t1 + .1, face: F('happy', { bLy: .75, bRy: .75, happy: .2, mw: .11, ms: .9, lx: .55 }), lean: 0, d: .3 });
   J.push({ t: tHello - .05, h: .05, d: .34 }); BL.push(tI1 - .1, tI2 - .1);
@@ -149,7 +149,7 @@ export function buildStory() {
     { t: R1.t0 - .25, armR: ARM.chest, face: F('talk', { bLy: .55, bRy: .55, lx: .5, mo: 0, ms: .6, blush: .5 }), d: .3 },
     { t: R1.t1 - .25, face: F('happy', { happy: .45, lx: .55 }), d: .25 },
     { t: R2.t0 + .1, face: F('joy', { lx: .55 }), armR: ARM.rest, lean: 0, d: .2 },
-    { t: R3.t0 - .1, face: F('happy', { happy: .6, mw: .13, lx: .55, blush: .7 }), armR: { dx: .15, dy: -.02, bend: .1, w: 0 }, d: .25 },
+    { t: R3.t0 - .1, face: F('happy', { happy: .6, mw: .13, lx: .55, blush: .7 }), armR: OPEN, d: .25 },
     { t: R3.t1 + .05, face: F('joy', { lx: .55 }), armR: ARM.rest, d: .2 },
     { t: R4.t0 + .2, face: F('happy', { happy: .4, lx: .7, ly: -.2 }), d: .3 });
   J.push({ t: R2.t0 + .25, h: .04, d: .34 }, { t: R3.t1 + .02, h: .08, d: .42 }); BL.push(bUn, R1.t0 - .25, R2.t0 + .1);
@@ -157,20 +157,20 @@ export function buildStory() {
   const inY0 = R4.t1 + .55, inY1 = inY0 + 2.0;
   yA.moves.push({ t0: inY0, t1: inY1, x0: 1310, x1: 1530, y0: GROUND, y1: 800, k0: .9, k1: .62, step: .42 });
   K.push({ t: inY0 - .1, turn: 1.3, d: .5 }, { t: inY0 + .5, turn: 2.05, d: .6 }, { t: inY1 - .45, clip: 1 }, { t: inY1 - .4, alpha: 0, d: .45 });
-  // ---------------- Mia: door → retry ----------------
+  // ---------------- Sara (id mia): door → retry ----------------
   const mA = { id: 'mia', base: { turn: 0, face: F('happy', { lx: -.4 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: bDoor + .5, t1: D0.t0 - .1, x0: 1530, x1: 1540, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .46 }], keys: [] };
   const MK = mA.keys, MJ = mA.jumps, MB = mA.blinks;
   MK.push({ t: bDoor, alpha: 1, d: .01 }, { t: bDoor + .55, clip: null }, { t: bDoor + .5, turn: -.38, d: .7 },
-    // "Hi! I'm Mia." with a wave (dip first)
-    { t: D0.t0 - .35, armR: { dx: .12, dy: .07, bend: .1, w: 0 }, face: F('happy', { lx: -.5, happy: .4 }), d: .15 }, { t: D0.t0 - .15, armR: ARM.wave, d: .22 },
+    // "Hi! I'm Sara." with a wave (dip first)
+    { t: D0.t0 - .35, armR: DIP, face: F('happy', { lx: -.5, happy: .4 }), d: .15 }, { t: D0.t0 - .15, armR: ARM.wave, d: .22 },
     { t: D0.t1 + .45, armR: ARM.rest, d: .35 },
     { t: tI1, face: F('happy', { lx: -.5, bLy: .8, bRy: .8, happy: .1 }), d: .3 },
     { t: tYou + .25, face: F('puzzled', { lx: -.55 }), d: .3 },
     // "Sorry?": lean in with overshoot, hand to the ear
     { t: D2.t0 - .4, lean: -.095, armR: CUP, d: .25 }, { t: D2.t0 - .12, lean: -.065, d: .35 },
     // retry: kind and patient
-    { t: bUn, face: F('happy', { happy: .35, lx: -.55, bLy: .6, bRy: .6 }), lean: -.03, armR: ARM.rest, armL: { dx: .16, dy: .02, bend: .05, w: 0 }, d: .3 },
+    { t: bUn, face: F('happy', { happy: .35, lx: -.55, bLy: .6, bRy: .6 }), lean: -.03, armR: ARM.rest, armL: OPEN, d: .3 },
     { t: R0.t1 + .3, armL: ARM.rest, lean: -.01, d: .4 },
     { t: tok(R1, 3).t0 + .1, face: F('joy', { lx: -.5 }), d: .2 },
     { t: R2.t0 - .2, armL: CLAP, armR: CLAP, d: .2 }, { t: R2.t0 + .9, armL: ARM.rest, armR: ARM.rest, face: F('happy', { lx: -.5, happy: .5 }), d: .35 },
@@ -190,7 +190,7 @@ export function buildStory() {
   const mD = { id: 'mia', base: { turn: 0, face: F('happy', { lx: .1, lid: .1 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: outM0, t1: Math.min(Y0.t0 - .15, outM0 + 1.4), x0: 1530, x1: 1540, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .46 }], keys: [] };
   mD.keys.push({ t: outM0, alpha: 1, d: .2 }, { t: outM0 + .5, clip: null }, { t: outM0 + .3, turn: -.38, d: .6 },
-    { t: Y0.t0 - .35, armR: { dx: .12, dy: .07, bend: .1, w: 0 }, face: F('happy', { lx: -.5, happy: .5 }), d: .15 }, { t: Y0.t0 - .15, armR: ARM.wave, d: .22 },
+    { t: Y0.t0 - .35, armR: DIP, face: F('happy', { lx: -.5, happy: .5 }), d: .15 }, { t: Y0.t0 - .15, armR: ARM.wave, d: .22 },
     { t: Y0.t1 + .2, armR: ARM.rest, d: .35 },
     { t: Y2.t0 - .35, armR: CUP, lean: -.05, face: F('happy', { lx: -.75, happy: .45 }), d: .25 },
     { t: Y2.t1 + .25, armR: ARM.wave, lean: -.02, d: .3 }, { t: Y2.t1 + 1.6, armR: ARM.rest, d: .4 });
@@ -203,12 +203,12 @@ export function buildStory() {
   const tSabah = nwT('ar08', has('الصبح'), .2), tAdrus = nwT('ar08', has('أدرس'), .55), tArmy = nwT('ar08', has('الجيش'), .9);
   yD.keys.push({ t: outY0, alpha: 1, d: .25 }, { t: outY0 + .5, clip: null }, { t: outY0 + .4, turn: .4, d: .5 },
     { t: Y0.t1 - .2, face: F('happy', { happy: .5, lx: .55, lid: .1 }), d: .3 },
-    { t: Y1.t0 - .3, armR: { dx: .12, dy: .05, bend: .1, w: 0 }, d: .15 }, { t: Y1.t0 - .1, armR: ARM.wave, d: .22 },
+    { t: Y1.t0 - .3, armR: DIP, d: .15 }, { t: Y1.t0 - .1, armR: ARM.wave, d: .22 },
     { t: Y1.t1, armR: ARM.rest, d: .3 },
     // walks away to the left (suitcase now trails on his right)
     { t: walkAway0 - .2, turn: -.5, armL: ARM.rest, armR: PULL, caseSide: 1, face: F('happy', { happy: .35, lx: -.5, lid: .1 }), d: .3 },
     // "Class is at eight!" — he stops; on "Eight?!" whips round, shocked
-    { t: bEight - .12, turn: .22, face: F('surprised', { pupil: .55, mo: .085, mw: .07, lx: .3, ly: -.1, sweat: .6, blush: .3 }), armL: { dx: .2, dy: -.12, bend: -.1, w: 0 }, d: .14 },
+    { t: bEight - .12, turn: .22, face: F('surprised', { pupil: .55, mo: .085, mw: .07, lx: .3, ly: -.1, sweat: .6, blush: .3 }), armL: RAISE, d: .14 },
     { t: tSabah + .1, face: F('surprised', { pupil: .5, mo: .1, mw: .065, lx: .1, ly: -.2, sweat: .9, mwob: .5 }), d: .25 },
     { t: tAdrus - .2, face: F('worried', { lx: -.4, ly: .3, sweat: .9, mwob: 1 }), turn: .15, d: .3 },
     { t: tArmy - .1, face: F('neutral', { lid: .48, lx: 0, ly: 0, mw: .085, ms: -.1, bLy: -.1, bRy: -.1, bLr: 0, bRr: 0, sweat: .6, blush: .3 }), turn: 0, d: .2 });
@@ -240,16 +240,16 @@ export function buildStory() {
     { t: bEight + .4, d: Math.max(1, by.t1 - bEight), x: ye + 66, y: 668, z: 3.38 },
   ];
   S.clock0 = dy.t0 + .4; S.clock1 = dy.t1 - 2.8;
-  S.bus0 = n2.t0 + .2; S.bus1 = S.bus0 + 7;
+  S.taxi0 = n2.t0 + .2; S.taxi1 = S.taxi0 + 7;   // the yellow cab passes behind (the old bus's timing)
   S.thought = [n3.t0 + .25, bSeen - .35];
   S.alarm = [Y3.t1 + .12, n8 ? n8.t1 + .45 : Y3.t1 + 4];
   // ---------------- sound cues ----------------
   for (const L of [...D, ...R, ...Y]) cue(L.t0 - .18, 'bubble', { who: L.who, text: L.text });
-  cue(.3, 'ambience_street', { dur: rt.t1 - .3, note: 'London morning street bed' });
+  cue(.3, 'ambience_street', { dur: rt.t1 - .3, note: 'New York morning street bed' });
   steps(yA, 'youssef', 0, rt.t1); steps(mA, 'mia', 0, rt.t1); steps(yD, 'youssef', dy.t0, by.t1); steps(mD, 'mia', dy.t0, by.t1);
   rolls(yA, 0, rt.t1); rolls(yD, dy.t0, by.t1);
-  cue(S.bus0, 'bus', { dur: S.bus1 - S.bus0, pan: 'right_to_left' });
-  cue(tLondon - .3, 'pop', { note: 'excited hop' });
+  cue(S.taxi0, 'taxi', { dur: S.taxi1 - S.taxi0, pan: 'right_to_left', note: 'the yellow cab passes behind' });
+  cue(tNY - .3, 'pop', { note: 'excited hop' });
   cue(S.thought[0], 'thought', { note: 'thought bubble Hello!' });
   cue(tSmile, 'sparkle');
   cue(bSeen - .1, 'ding', { note: 'school seen' });
@@ -285,15 +285,15 @@ const todAt = t => eio(seg(t, S.clock0, S.clock1 + .4));
 // open → street → door → retry (one continuous world)
 export function sceneA(c, t) {
   const cam = camAt(S.camA, t), dof = dofOf(cam.z);
-  const midC = 960 + (cam.x - 960) * .45, bu = seg(t, S.bus0, S.bus1);
+  const midC = 960 + (cam.x - 960) * .45, bu = seg(t, S.taxi0, S.taxi1);
   const door = t < S.bDoor ? 0 : t < S.doorClose ? eo(seg(t, S.bDoor, S.bDoor + .6)) : 1 - ss(seg(t, S.doorClose, S.doorClose + .45));
   const freeze = t >= S.bFreeze && t < S.bUn;
   const tc = freeze ? S.bFreeze + .12 : t;            // character time stops during the freeze-frame
   if (freeze) return freezeFrame(c, t);
-  drawWorld(c, cam, t, { door, dof, busX: bu > 0 && bu < 1 ? midC + 1300 - 2600 * bu : null, clock: 8.93 });
+  drawWorld(c, cam, t, { door, dof, taxiX: bu > 0 && bu < 1 ? midC + 1300 - 2600 * bu : null, clock: 8.93 });
   const ys = S.yA, ms = S.mA;
   const yst = charState(ys, tc), mst = charState(ms, tc);
-  const closeUp = t >= S.bSorry && t < S.bUn;      // cut-in: Mia is off screen right (her bubble stays at the edge)
+  const closeUp = t >= S.bSorry && t < S.bUn;      // cut-in: Sara is off screen right (her bubble stays at the edge)
   const order = (mst.y < yst.y ? [[ms, 'm'], [ys, 'y']] : [[ys, 'y'], [ms, 'm']]).filter(([, n]) => !(closeUp && n === 'm'));
   const R = {};
   for (const [C, n] of order) R[n] = drawActor(c, cam, C, tc, { door });
@@ -315,7 +315,7 @@ export function sceneA(c, t) {
   lines.forEach((L, i) => {
     const nx = lines[i + 1] ? lines[i + 1].t0 : null;
     if (!(L.who === 'mia' ? mh : yh) && !(t >= S.bSorry && t < S.bUn)) return;
-    if (freeze || (t >= S.bSorry && t < S.bUn)) {   // close-up: Mia is off screen right
+    if (freeze || (t >= S.bSorry && t < S.bUn)) {   // close-up: Sara is off screen right
       if (L === S.D2) lineBubble(c, L, Math.min(t, S.bFreeze + .05), { x: 1905, y: 520, side: -1, lift: 120 }, { until: S.bUn - .2 });
       return;
     }
