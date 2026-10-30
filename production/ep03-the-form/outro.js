@@ -1,10 +1,9 @@
-// Episode 2 — title card, page wipe, "your turn" (Sara asks the viewer, 3-2-1 countdown), the full-screen exercises call-to-action
-// (the companion website's exercise plays by itself over the blurred street), next-episode teaser (the form) and end card (design v3).
+// Episode 3 — title card, page wipe, "your turn" (Sara asks the viewer, 3-2-1 countdown), the full-screen exercises call-to-action
+// (the companion website's exercise plays by itself over the blurred street), next-episode teaser (Room 4: the first class) and end card.
 import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
 import { clamp, lerp, seg, ss, eo, ei, eio, back, hash } from '/core/lib.js';
 import { TL, SEC, BEAT, NARR, LINE, nwT, has } from './tl.js';
-import { drawWorld, toScreen, GROUND } from './world.js';
-import { drawForm } from './bean.js';
+import { drawWorld, drawReception, drawCounter, toScreen, GROUND, ROOM4 } from './world.js';
 import { charState, drawActor, head, camAt, dofOf, speedLines } from './story.js';
 import { fold, F, ARM, CUP, CLAP, POINT, PULL, DIP, OPEN, OUTLOW, RUNARM } from './act.js';
 import { bubble, lineBubble, wordStates, micIcon, check, sparkle, commentIcon, alarmClock, timeTag, SPEAKER, bigMark, squiggle, cross } from './ui.js';
@@ -14,12 +13,12 @@ const AR = '"Baloo Bhaijaan 2"';
 let O = null;
 
 export function buildOutro() {
-  const tu = SEC('turn'), nx = SEC('next'), op = SEC('open'), st = SEC('run');
+  const tu = SEC('turn'), nx = SEC('next'), op = SEC('open'), st = SEC('desk');
   const bT = BEAT('title', op.t1 - 3), p0 = BEAT('pause_start', tu.t0 + 7), p1 = BEAT('pause_end', p0 + 4.5), bEnd = BEAT('end_card', nx.t1 - 4);
-  const n16 = NARR('ar14'), n17 = NARR('ar15'), n18 = NARR('ar16'), L = LINE('turn');
+  const n16 = NARR('ar14'), n17 = NARR('ar15'), n18 = NARR('ar17'), L = LINE('turn');
   O = { tu, nx, bT, tTitleOut: st.t0 - .42, p0, p1, bEnd, L, n18 };
   // ---------------- your turn: Sara faces the camera ----------------
-  const tDor = nwT('ar14', has('دورك'), .05), tRud = nwT('ar14', has('رد'), .6), tBravo = nwT('ar15', has('برافو'), .4), tWrite = nwT('ar15', has('واكتب'), .7);
+  const tDor = nwT('ar14', has('دورك'), .05), tRud = nwT('ar14', has('قول'), .6), tBravo = nwT('ar15', has('برافو'), .4), tWrite = nwT('ar15', has('واكتب'), .7);
   const tWhat = L ? (L.tok.find(o => /^How/i.test(o.w)) || L.tok[0]).t0 : p0 - 2;
   O.tBravo = tBravo; O.tWrite = tWrite;
   const mT = { id: 'mia', base: { turn: 0, face: F('happy', { happy: .45 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
@@ -45,12 +44,12 @@ export function buildOutro() {
   ];
   O.countdown = [0, 1, 2].map(i => p0 + i * third);
   // ---------------- site: "solve the episode's exercises on the website" — the full-screen call-to-action (design v3) ----------------
-  const si = SEC('site'), bSite = BEAT('site_card', si.t1 > 0 ? si.t0 : nx.t0 - 8), NS = 'ar17';
+  const si = SEC('site'), bSite = BEAT('site_card', si.t1 > 0 ? si.t0 : nx.t0 - 8), NS = 'ar16';
   const tEnter = nwT(NS, has('ادخل'), .35), tSolve = nwT(NS, has('وحل'), .45), tFive = nwT(NS, has('خمس'), .68), tLink = nwT(NS, has('اللينك'), .88);
   const sOut = nx.t0 - .4;   // the card leaves before the teaser
   O.bSite = bSite; O.tEnter = tEnter; O.tSolve = tSolve; O.tFive = tFive; O.tLink = tLink; O.sOut = sOut;
   // the mini exercise, mirrored from the site's "fix Youssef's mistake" item for this episode
-  O.EX = { n: 1, context: 'Good morning, Youssef!', wrong: 'Good night, Sara!', span: 'Good night', answer: 'Good morning', chips: ['Good bye', 'Good morning', 'Good night'], right: 1 };
+  O.EX = { n: 2, who: 'سارة:', context: 'How old are you, Youssef?', wrong: 'I have 26 years.', span: 'I have 26 years', answer: "I'm 26", chips: ['I have 26', "I'm 26", "I'm 26 years"], right: 1 };
   // Sara steps back into the doorway as the street blurs
   mT.moves.push({ t0: bSite + .05, t1: bSite + .62, x0: 1530, x1: 1534, y0: GROUND, y1: 805, k0: .9, k1: .62, step: .28 });
   K.push({ t: bSite - .05, turn: 1.0, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .4 }), d: .3 }, { t: bSite + .25, turn: 2.05, d: .35 },
@@ -73,21 +72,19 @@ export function buildOutro() {
   sS.blinks.push(tFive + .4);
   O.sS = sS;
   O.yS = yS;
-  // ---------------- next: the form, numbers, "How old are you?", "I have 26 years." (wrong) → end card ----------------
-  const tFormN = nwT('ar16', has('الاستمارة'), .15), tNums = nwT('ar16', has('أرقام'), .3), tQ = nwT('ar16', has('وسؤال'), .4);
-  const how = n18 ? n18.tok.find(o => /^How old/i.test(o.w)) : null, said = n18 ? n18.tok.find(o => /^I have/i.test(o.w)) : null;
-  const tWrong = nwT('ar16', has('غلط'), .97);
-  O.tFormN = tFormN; O.tNums = tNums; O.how = how; O.said = said; O.tWrong = tWrong;
-  const yN = { id: 'youssef', base: { turn: .2, face: F('puzzled', { lx: -.3, ly: .5 }), armL: { dx: .12, dy: -.1, w: 0, bend: 55, elv: [1, .3], flex: 1 }, armR: ARM.rest, alpha: 1, kmul: 1 },
-    moves: [{ t0: 0, t1: .1, x0: 1330, x1: 1330, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [],
-    talkExtra: said ? [[said.t0, said.t1]] : [] };   // he mouths the diary voice's "I have 26 years." (TL.mouth_nar)
-  yN.keys.push({ t: tNums - .1, armR: ARM.scratch, face: F('puzzled', { lx: -.4, ly: .3, sweat: .4 }), lean: -.02, d: .3 },
-    { t: how ? how.t0 - .2 : tQ, face: F('worried', { lx: .6, ly: -.1, sweat: .7 }), turn: .35, d: .3 },
-    { t: said ? said.t0 - .3 : tQ + 2, face: F('happy', { happy: .35, lx: .6, mw: .12, bLy: .8, bRy: .8, sweat: .5 }), armR: ARM.chest, lean: 0, turn: .4, d: .3 },
-    { t: tWrong - .15, face: F('embarrassed', { lx: 0, ly: .2 }), armR: ARM.scratch, turn: .2, d: .25 });
-  yN.jumps.push({ t: said ? said.t0 - .2 : tQ + 2, h: .04, d: .34 }); yN.blinks.push(tNums - .1, how ? how.t0 - .2 : tQ, tWrong - .15);
+  // ---------------- next: Room 4 — the first class: a new classmate (a silhouette for now) and "Where are you from?" ----------------
+  const tFirst = nwT('ar17', has('كلاس'), .15), tMate = nwT('ar17', has('زميلة'), .35), tQ = nwT('ar17', has('وسؤال'), .5);
+  const where = n18 ? n18.tok.find(o => /^Where/i.test(o.w)) : null, tMixed = nwT('ar17', has('اتلخبطت'), .92);
+  O.tFirst = tFirst; O.tMate = tMate; O.tQ = tQ; O.where = where; O.tMixed = tMixed;
+  const yN = { id: 'youssef', base: { turn: -.5, face: F('happy', { lx: -.6, happy: .35, mw: .11 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
+    moves: [{ t0: 0, t1: .1, x0: 560, x1: 560, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [] };
+  yN.keys.push({ t: tFirst - .1, face: F('happy', { lx: -.65, ly: -.1, happy: .5, bLy: .8, bRy: .8, mw: .12 }), d: .3 },
+    { t: tMate - .1, face: F('surprised', { lx: -.7, ly: -.05, pupil: .8, mo: .04, mw: .06, bLy: 1, bRy: 1 }), lean: .03, d: .25 },
+    { t: where ? where.t0 - .2 : tQ + .8, turn: -.2, face: F('worried', { lx: .3, ly: -.1, sweat: .6 }), lean: 0, d: .3 },
+    { t: tMixed - .2, turn: 0, face: F('embarrassed', { lx: 0, ly: .2 }), armL: ARM.scratch, d: .25 });
+  yN.jumps.push({ t: tMate - .05, h: .035, d: .32 }); yN.blinks.push(tFirst - .1, tMate - .1, tMixed - .2);
   O.yN = yN;
-  O.camN = [{ t: nx.t0 - 1, x: 1280, y: 690, z: 2.1 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 1300, y: 686, z: 2.3 }];
+  O.camN = [{ t: nx.t0 - 1, x: 470, y: 640, z: 1.75 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 450, y: 636, z: 1.95 }];
   // ---------------- cues ----------------
   cue(bT, 'sting', { note: 'title card' });
   cue(bT + .1, 'pop'); cue(bT + .45, 'pop'); cue(bT + .8, 'pop');
@@ -115,12 +112,10 @@ export function buildOutro() {
   cue(tLink, 'pop', { note: 'the mustard bar: the link is in the description' });
   cue(sOut, 'whoosh', { note: 'site card out' });
   cue(nx.t0, 'whoosh', { note: 'teaser' });
-  cue(tFormN, 'paper', { note: 'the form card' });
-  for (let i = 0; i < 6; i++) cue(tNums + i * .18, 'pop', { note: 'a number floats up' });
-  cue(tQ + .1, 'pop', { note: '? over the Age box' });
-  if (how) cue(how.t0 - .2, 'bubble', { who: 'mia', text: 'How old are you?' });
-  if (said) cue(said.t0 - .2, 'bubble', { who: 'youssef', text: 'I have 26 years.' });
-  cue(tWrong, 'squiggle'); cue(tWrong + .35, 'error_buzz');
+  cue(tFirst - .2, 'door_open', { note: 'Room 4 opens' }); cue(tFirst, 'chatter', { dur: 3, note: 'the class' });
+  cue(tMate, 'pop', { note: 'a new classmate (silhouette) + ?' });
+  if (where) cue(where.t0 - .2, 'bubble', { who: 'mia', text: 'Where are you from?' });
+  cue(tMixed, 'pop', { note: '? ? over Youssef' });
   cue(bEnd, 'sting_end', { note: 'end card' });
   cue(bEnd + 1.3, 'pop', { note: 'subscribe button' });
   cue(bEnd + 2.1, 'click'); cue(bEnd + 2.2, 'bell');
@@ -143,8 +138,8 @@ export function titleCard(c, t) {
   const k1 = back(seg(t, t0 + .35, t0 + .7), 2.2);
   if (k1 > 0) {
     c.save(); c.translate(0, -175); c.scale(k1, k1); c.direction = 'rtl'; c.font = `700 48px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
-    const w = c.measureText('الحلقة 2').width + 64; rr(c, -w / 2, -36, w, 72, 36); c.fillStyle = P.red; c.fill();
-    c.fillStyle = P.cream; c.fillText('الحلقة 2', 0, 5); c.restore();
+    const w = c.measureText('الحلقة 3').width + 64; rr(c, -w / 2, -36, w, 72, 36); c.fillStyle = P.red; c.fill();
+    c.fillStyle = P.cream; c.fillText('الحلقة 3', 0, 5); c.restore();
   }
   // يوسف في نيويورك — word by word (RTL: right word first)
   c.direction = 'rtl'; c.font = `800 168px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
@@ -159,8 +154,8 @@ export function titleCard(c, t) {
     c.fillStyle = i === 2 ? P.red : P.navy; c.fillText(w, 0, 8);
     c.restore();
   });
-  // Good Morning? — letters drop in (the ? wobbles)
-  const fd = 'Good Morning?'; c.direction = 'ltr'; c.font = '400 104px "Lilita One"'; c.textAlign = 'left'; c.letterSpacing = '3px';
+  // The Form — letters drop in
+  const fd = 'The Form'; c.direction = 'ltr'; c.font = '400 104px "Lilita One"'; c.textAlign = 'left'; c.letterSpacing = '3px';
   const fw = c.measureText(fd).width; let x = -fw / 2;
   [...fd].forEach((ch, i) => {
     const k = back(seg(t, t0 + .55 + i * .045, t0 + .85 + i * .045), 2.6), w = c.measureText(ch).width + 3;
@@ -233,7 +228,7 @@ function card(c, t, out = 0) {   // out: 0..1 exit (the site card takes its plac
   c.beginPath(); c.moveTo(sx, by + 8); c.lineTo(sx + slot, by + 8); c.stroke(); c.setLineDash([]);
   c.fillText('.', sx + slot + 4, by);
   // hint under the slot (small, quiet): the three real answers
-  c.font = '500 34px "Fredoka"'; c.textAlign = 'center'; c.fillStyle = rgba(P.ink, .45); c.fillText('good  ·  OK  ·  tired', sx + slot / 2, by + 62);
+  c.font = '500 34px "Fredoka"'; c.textAlign = 'center'; c.fillStyle = rgba(P.ink, .45); c.fillText('twenty-two  ·  thirty  ·  forty-five', sx + slot / 2, by + 62);
   // praise: sparkles out of the slot
   if (t > O.p1) for (let i = 0; i < 10; i++) {
     const u = seg(t, O.p1 + .05 + (i % 3) * .05, O.p1 + 1.2 + (i % 3) * .05); if (u <= 0 || u >= 1) continue;
@@ -325,7 +320,7 @@ function bigCard(c, t) {
   c.direction = 'rtl'; c.font = `800 42px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.navy; c.fillText('صلّح غلطة يوسف', X1 - 98, top + 58);
   // context (what Sara said) + the prompt
   rr(c, X0 + 26, top + 104, CW - 52, 72, 20); c.fillStyle = '#DDEFF8'; c.fill();
-  c.font = `700 32px ${AR}`; c.fillStyle = P.ink; const who = 'سارة:', ww = c.measureText(who).width; c.fillText(who, X1 - 48, top + 142);
+  c.font = `700 32px ${AR}`; c.fillStyle = P.ink; const who = O.EX.who || 'سارة:', ww = c.measureText(who).width; c.fillText(who, X1 - 48, top + 142);
   c.direction = 'ltr'; c.font = '500 34px "Fredoka"'; c.textAlign = 'right'; c.fillText(EX.context, X1 - 48 - ww - 12, top + 142);
   c.direction = 'rtl'; c.font = `800 36px ${AR}`; c.textAlign = 'right'; c.fillStyle = P.ink; c.fillText('يوسف غلط… الكلمة الصح إيه؟', X1 - 26, top + 226);
   // the sentence: the wrong span with the squiggle, then the answer on a mustard swash + ✓
@@ -391,50 +386,37 @@ function linkBar(c, t) {
   c.restore(); c.restore();
 }
 
-// ---------------- next episode teaser: the form in his hands, numbers floating, "How old are you?" ----------------
+// ---------------- next episode teaser: Room 4 opens; a new classmate (a silhouette: we meet her next time); "Where are you from?" ----------------
 export function sceneNext(c, t) {
   const cam = camAt(O.camN, t);
-  drawWorld(c, cam, t, { door: 1, dof: dofOf(cam.z), clock: 9.0 });
-  const R = drawActor(c, cam, O.yN, t, { door: 1 });
+  const door = eo(seg(t, O.tFirst - .2, O.tFirst + .5)), mk = seg(t, O.tMate - .1, O.tMate + .35);
+  drawReception(c, cam, t, { dof: dofOf(cam.z) * .7, clock: 8.02, door, who: (l, dx, db) => {
+    if (mk <= 0) return;
+    // a classmate in the doorway, as a dark silhouette (a bean) with a mustard ? — her design is revealed in episode 4
+    l.save(); l.globalAlpha = Math.min(1, mk * 1.5); l.translate(dx + 10, db - 6 + (1 - eo(mk)) * 30);
+    const Hh = 250, a = .36 * Hh;
+    l.beginPath(); for (let i = 0; i <= 60; i++) { const th = i / 60 * Math.PI * 2, u = Math.sin(th), v = -Math.cos(th); const U = Math.sign(u) * Math.pow(Math.abs(u), 2 / 2.4), V = Math.sign(v) * Math.pow(Math.abs(v), 2 / 2.4); const x = a * U * (1 + .13 * V), y = -Hh / 2 + Hh / 2 * V; i ? l.lineTo(x, y) : l.moveTo(x, y); }
+    l.closePath(); l.fillStyle = rgba('#3A2C4A', .88); l.fill();
+    l.font = '700 120px "Fredoka"'; l.textAlign = 'center'; l.textBaseline = 'middle'; l.fillStyle = P.mustard; l.fillText('?', 0, -Hh * .55 + Math.sin(t * 4) * 4);
+    l.restore();
+  } });
+  drawCounter(c, cam, t, { dof: 0 });
+  const R = drawActor(c, cam, O.yN, t);
   const h = head(R, 'youssef');
-  // the form card (a big copy of the sheet) on the left, with the ? over the Age box and floating numbers
-  const fk = back(seg(t, O.tFormN - .1, O.tFormN + .35), 2), q = seg(t, O.tNums + .9, O.tNums + 1.25);
-  if (fk > 0) {
-    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(470, 520); c.scale(fk, fk); c.rotate(-.05 + Math.sin(t * .8) * .012);
-    drawForm(c, 0, 0, 600, 440, { rot: 0, text: true, age: q });
-    bigMark(c, 150, 30, '?', 150, q, .1 + Math.sin((t - O.tNums) * 5) * .1, P.mustard);
-    c.restore();
+  // Sara (off screen right) asks "Where are you from?" — her bubble timed to the Latin token of the narration
+  if (O.where) {
+    const w = O.where, words = ['Where', 'are', 'you', 'from?'], n = words.length;
+    const tok = words.map((x, i) => ({ w: x, t0: w.t0 + (w.t1 - w.t0) * i / n, t1: w.t0 + (w.t1 - w.t0) * (i + 1) / n }));
+    const pop = seg(t, w.t0 - .2, w.t0 + .1), out = seg(t, O.bEnd - .5, O.bEnd - .3);
+    bubble(c, { x: 1905, y: 470, who: 'mia', words: wordStates(tok, t), side: -1, lift: 90, pop, out });
   }
-  const nums = ['1', '2', '3', '7', '26', '10', '5', '18'];
-  nums.forEach((n, i) => {
-    const t0 = O.tNums + i * .18, u = seg(t, t0, t0 + 2.6 + (i % 3) * .4); if (u <= 0 || u >= 1) return;
-    const a = hash(i * 2.3) * Math.PI * 2, x = 470 + Math.cos(a) * (320 + 60 * hash(i)) + Math.sin(u * 5 + i) * 18, y = 520 + Math.sin(a) * 200 - u * 260;
-    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = Math.sin(Math.PI * u); c.translate(x, y); c.rotate(Math.sin(u * 4 + i) * .2); c.scale(.7 + .5 * eo(Math.min(1, u * 3)), .7 + .5 * eo(Math.min(1, u * 3)));
-    c.font = '700 72px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba('#1E1B33', .2); c.fillText(n, 4, 5); c.fillStyle = [P.teal, P.red, P.navy, P.mustard][i % 4]; c.fillText(n, 0, 0); c.restore();
-  });
-  // Sara (off screen right) asks "How old are you?"; he answers "I have 26 years." and the squiggle says no
-  if (O.how && h) {
-    const hw = O.how, words = ['How', 'old', 'are', 'you?'], n = words.length;
-    const tok = words.map((w, i) => ({ w, t0: hw.t0 + (hw.t1 - hw.t0) * i / n, t1: hw.t0 + (hw.t1 - hw.t0) * (i + 1) / n }));
-    const pop = seg(t, hw.t0 - .2, hw.t0 + .1), out = seg(t, (O.said ? O.said.t0 : O.bEnd) - .45, (O.said ? O.said.t0 : O.bEnd) - .25);
-    bubble(c, { x: 1905, y: 430, who: 'mia', words: wordStates(tok, t), side: -1, lift: 90, pop, out });
-  }
-  if (O.said && h) {
-    const sw = O.said, words = ['I', 'have', '26', 'years.'], n = words.length;
-    const tok = words.map((w, i) => ({ w, t0: sw.t0 + (sw.t1 - sw.t0) * i / n, t1: sw.t0 + (sw.t1 - sw.t0) * (i + 1) / n }));
-    const pop = seg(t, sw.t0 - .2, sw.t0 + .1), out = seg(t, O.bEnd - .5, O.bEnd - .3);
-    const box = bubble(c, { x: h[0] + 20, y: h[1], who: 'youssef', words: wordStates(tok, t), side: -1, lift: 70, pop, out });
-    if (box && t > O.tWrong) {
-      c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1 - out;
-      squiggle(c, box.x + 50, box.x + box.w - 50, box.y + box.h - 30, seg(t, O.tWrong, O.tWrong + .4), 6, P.red, 6);
-      cross(c, box.x + box.w - 10, box.y + 10, 28, seg(t, O.tWrong + .35, O.tWrong + .7));
-      c.restore();
-    }
-  }
+  // "اتلخبطت تاني": two ? over his head
+  const q = seg(t, O.tMixed, O.tMixed + .35) * (1 - seg(t, O.bEnd - .5, O.bEnd - .3));
+  if (q > 0 && h) { bigMark(c, h[0] - 70 * R.Z, h[1] - 60 * R.Z, '?', 110 * R.Z, q, -.2 + Math.sin(t * 5) * .08, P.mustard); bigMark(c, h[0] + 60 * R.Z, h[1] - 90 * R.Z, '?', 80 * R.Z, seg(t, O.tMixed + .15, O.tMixed + .5), .25 + Math.sin(t * 6) * .08, P.red); }
   return { cam };
 }
 
-const NEXT_Q = 'How old are you';
+const NEXT_Q = 'Where are you from';
 // ---------------- end card (design v3): the series title on top, "الحلقة الجاية", the next question, the big teal + red pills ----------------
 export function endCard(c, t) {
   const t0 = O.bEnd, u = t - t0;
