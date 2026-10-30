@@ -4,7 +4,7 @@ Missing clips are estimated, so the picture can be built before the voices arriv
 import json, os, re, wave
 from difflib import SequenceMatcher
 
-WHO = {'Mia': 'mia', 'Youssef': 'youssef'}
+WHO = {'Sara': 'mia', 'Mia': 'mia', 'Youssef': 'youssef'}   # 'mia' stays the internal id of the teacher (now Sara)
 # transliterations the diary voice says -> how the plate shows them (one Latin token). Episodes may add their own.
 LATIN = [('آي يوسف', 'I Youssef'), ('آيم', "I'm"), ('آم', 'am'), ('نايس تو ميت يو', 'Nice to meet you'),
          ('مي تو', 'Me too'), ('هاو آر يو', 'How are you')]

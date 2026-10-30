@@ -4,13 +4,11 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.jo
 from tlkit import Builder
 
 b = Builder(HERE,
-            solo={'r01': 'Mia', 'r02': 'Youssef', 'r03': 'Youssef', 'r04': 'Youssef', 'r05': 'Mia', 'r06': 'Youssef',
-                  'r07': 'Youssef', 'r08': 'Mia', 'r09': 'Mia', 'r10': 'Youssef', 'turn': 'Mia'},
+            solo={'r01': 'Sara', 'r02': 'Youssef', 'r03': 'Youssef', 'r04': 'Youssef', 'r05': 'Sara', 'r06': 'Youssef',
+                  'r07': 'Youssef', 'r08': 'Sara', 'r09': 'Sara', 'r10': 'Youssef', 'turn': 'Sara'},
             # the voice added "اسمك إيه؟", so the plate shows it
             display={'ar12': 'ولو عايز تسأل حد عن اسمه: اسمك إيه؟ <short pause> والرد:'},
-            extra_jobs={'open3': {'turns': [{'speaker': 'Mia', 'text': "Hi! I'm Mia."},
-                                            {'speaker': 'Youssef', 'text': 'Hello! I... I Youssef.'},
-                                            {'speaker': 'Mia', 'text': 'Sorry?'}]}})
+)
 # 1. Opening
 b.section('open')
 b.hold(.6)
@@ -28,7 +26,7 @@ b.beat('door_open', e - .6)
 # 2b. Door: the mistake
 b.section('door')
 b.hold(.5)
-b.put('open3', 0, scene='door')
+b.put('open', 0, scene='door')
 b.beat('sorry', b.last_line()['t0'])
 b.beat('freeze', b.last_line()['t1'] + .15)
 b.hold(.6)

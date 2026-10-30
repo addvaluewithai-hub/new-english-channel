@@ -1,19 +1,19 @@
 # الحلقة 2 — Good Morning? | صباح الخير؟
 
-> **المسلسل:** يوسف في لندن · **درس المنهج:** A1-U1-L2 How are you?
+> **المسلسل:** يوسف في نيويورك · **درس المنهج:** A1-U1-L2 How are you?
 > **الستايل:** نفس الحلقة 1 (Bean People v2 + الكتابة المتحركة في "اللي اتعلمته")
 > **الطول المستهدف:** ~3:00 · **الغلطتين:** `Good night` كتحية · `Welcome` كرد على Thank you
-> **الأصوات:** يوسف = Achird · ميا = Aoede
+> **الأصوات:** يوسف = Achird · سارة = Aoede
 
-`AR` = يوسف بيحكي بالمصري (يوميات). `EN` = حوار إنجليزي في المشهد.
+`AR` = يوسف بيحكي بالمصري (يوسارةت). `EN` = حوار إنجليزي في المشهد.
 
 ## 1. الافتتاحية (~18 ث) — أوضة يوسف، الصبح
 
 منبّه بيرن على الكومودينو: 8:10. يوسف نايم، بيصحى فجأة، بيبص للساعة، بيقفز من السرير.
 
-- **AR-01:** تاني يوم ليّا في لندن. المنبه رن الساعة سبعة… وأنا ما سمعتوش. صحيت الساعة تمانية وعشرة.
+- **AR-01:** تاني يوم ليّا في نيويورك. المنبه رن الساعة سبعة… وأنا ما سمعتوش. صحيت الساعة تمانية وعشرة.
 - **AR-02:** جريت على المدرسة من غير فطار ولا قهوة… وده كان الغلط الأول في اليوم.
-- **العنوان:** يوسف في لندن · الحلقة 2 · **Good Morning?**
+- **العنوان:** يوسف في نيويورك · الحلقة 2 · **Good Morning?**
 
 ## 2. القصة (~1:55)
 
@@ -22,62 +22,62 @@
 - **AR-03:** طول الطريق وأنا بحضّر تحية الصبح. عارفها: Good morning! سهلة… بس أنا كنت نايم وأنا بجري.
 
 ### ب. الطرقة (الغلطة الأولى)
-جوه المدرسة، طرقة فيها ساعة ولوحة إعلانات. ميا جاية وفي إيدها كوبايتين قهوة.
+جوه المدرسة، طرقة فيها ساعة ولوحة إعلانات. سارة جاية وفي إيدها كوبايتين قهوة.
 - **EN-1:**
-  - Mia: `Good morning, Youssef! How are you?`
+  - Sara: `Good morning, Youssef! How are you?`
   - Youssef (بيتثاءب): `Good… night.`
-  - Mia (بتضحك): `Good night?!`
+  - Sara (بتضحك): `Good night?!`
   - Youssef: `Oh! Sorry! Good morning!`
 - لقطة قريبة: يوسف عينه نص مقفولة، وبعدين بيفوق وبيتكسف.
 - **AR-04:** قلتلها تصبحي على خير… الساعة تمانية الصبح! هي ضحكت، وأنا كنت عايز أرجع أنام من الكسوف.
 
 ### ج. القهوة
 - **EN-2:**
-  - Mia: `So… how are you?`
+  - Sara: `So… how are you?`
   - Youssef: `I'm OK… a little tired.`
-  - Mia: `Oh, sorry! Coffee?`
+  - Sara: `Oh, sorry! Coffee?`
   - Youssef: `Yes, please! Thank you!`
-  - Mia: `You're welcome.`
+  - Sara: `You're welcome.`
 - يوسف بيشرب أول شفطة، عينه بتفتح، نجوم صغيرة.
 - **AR-05:** أول شفطة قهوة… ورجعت بني آدم. وخدت بالي إنها ردت بجملة مش عارفها: You're welcome.
 
 ### د. آخر اليوم (الغلطة التانية)
-بعد الضهر. يوسف بيفتح الباب لميا وهي خارجة بشنطتها.
+بعد الضهر. يوسف بيفتح الباب لسارة وهي خارجة بشنطتها.
 - **EN-3:**
-  - Mia: `Thank you, Youssef!`
+  - Sara: `Thank you, Youssef!`
   - Youssef (بثقة): `Welcome!`
-  - Mia (بتبتسم): `You're welcome.`
+  - Sara (بتبتسم): `You're welcome.`
   - Youssef: `You're welcome!`
 - **AR-06:** قلت Welcome! زي ما بنقول "عفوًا"… بس طلعت ناقصة كلمة. هحكيلكم.
 
 ### هـ. الوداع + الاستمارة (النهاية المعلّقة)
 - **EN-4:**
-  - Mia: `Oh! One more thing. This form, please. For tomorrow.`
+  - Sara: `Oh! One more thing. This form, please. For tomorrow.`
   - Youssef: `OK… thank you.`
-  - Mia: `Good night, Youssef!`
-  - Youssef: `Good night, Mia!`
+  - Sara: `Good night, Youssef!`
+  - Youssef: `Good night, Sara!`
 - يوسف بيبص في الاستمارة: سطر مكتوب فيه `Age: ____`.
 - **AR-07:** وفي الآخر، قلتها صح: Good night بتتقال وإنت ماشي، مش وإنت جاي. بس الاستمارة دي… فيها سؤال وقفت قدامه.
 
 ## 3. اللي اتعلمته النهارده (~60 ث)
 
 - **AR-08:** تعالوا نشوف اتعلمت إيه النهارده.
-- كارت الساعة: شمس/عصر/ليل. **EN:** Mia: `Good morning.` · Youssef: `Good afternoon.` · Mia: `Good evening.`
+- كارت الساعة: شمس/عصر/ليل. **EN:** Sara: `Good morning.` · Youssef: `Good afternoon.` · Sara: `Good evening.`
 - **AR-09:** الصبح، وبعد الضهر، وبالليل. لكن Good night مش تحية… دي للوداع بس، وإنت ماشي أو رايح تنام.
 - **EN:** Youssef: `Good night!` (مع أيقونة باي/قمر ✅)، وجنبها `Good night` كتحية بخط أحمر ❌.
 - **AR-10:** ولما حد يسألك How are you؟ ما تردش رد محفوظ. قول رد حقيقي:
-- **EN:** Mia: `How are you?` · Youssef: `I'm good, thanks!` · Youssef: `I'm OK… a little tired.` · Youssef: `Not bad!`
+- **EN:** Sara: `How are you?` · Youssef: `I'm good, thanks!` · Youssef: `I'm OK… a little tired.` · Youssef: `Not bad!`
 - **AR-11:** وبعدها اسأله هو: And you?
 - **EN:** Youssef: `And you?`
 - **AR-12:** ولما حد يقولك Thank you، ما تقولش Welcome لوحدها. الرد الصح:
-- `Welcome.` بخط أحمر ❌ → **EN:** Mia: `You're welcome.`
+- `Welcome.` بخط أحمر ❌ → **EN:** Sara: `You're welcome.`
 - **AR-13:** وكلمتين من الذوق: Please لما تطلب، وSorry لما تغلط.
 - **EN:** Youssef: `Coffee, please.` · Youssef: `Sorry!`
 
 ## 4. دورك (~15 ث)
 
-- **AR-14:** دورك! ميا بتسألك… رد عليها رد حقيقي، بصوت عالي.
-- **EN:** Mia (للكاميرا): `Good morning! How are you?`
+- **AR-14:** دورك! سارة بتسألك… رد عليها رد حقيقي، بصوت عالي.
+- **EN:** Sara (للكاميرا): `Good morning! How are you?`
 - كارت: `I'm ______.` وعدّاد 3، 2، 1.
 - **AR-15:** رديت؟ برافو! واكتب في الكومنتات: إنت عامل إيه النهارده… بالإنجليزي.
 

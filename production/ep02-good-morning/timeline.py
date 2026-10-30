@@ -4,9 +4,9 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.jo
 from tlkit import Builder
 
 b = Builder(HERE,
-            solo={'r01': 'Mia', 'r02': 'Youssef', 'r03': 'Mia', 'r04': 'Youssef', 'r05': 'Mia', 'r06': 'Youssef',
-                  'r07': 'Youssef', 'r08': 'Youssef', 'r09': 'Youssef', 'r10': 'Mia', 'r11': 'Youssef', 'r12': 'Youssef',
-                  'turn': 'Mia'},
+            solo={'r01': 'Sara', 'r02': 'Youssef', 'r03': 'Sara', 'r04': 'Youssef', 'r05': 'Sara', 'r06': 'Youssef',
+                  'r07': 'Youssef', 'r08': 'Youssef', 'r09': 'Youssef', 'r10': 'Sara', 'r11': 'Youssef', 'r12': 'Youssef',
+                  'turn': 'Sara'},
             latin=[('جود مورنينج', 'Good morning'), ('جود نايت', 'Good night'), ('يور ويلكم', "You're welcome"),
                    ('ويلكم', 'Welcome'), ('آند يو', 'And you'), ('ثانك يو', 'Thank you'), ('بليز', 'Please'),
                    ('سوري', 'Sorry'), ('هاو أولد آر يو', 'How old are you'), ('آي هاف توينتي سيكس ييرز', 'I have 26 years')])
