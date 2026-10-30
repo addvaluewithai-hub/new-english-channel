@@ -274,7 +274,7 @@ export function buildStory() {
   const tFormN = nwT('ar07', has('الاستمارة'), .7), tQ = nwT('ar07', has('سؤال'), .9), tWalking = nwT('ar07', has('ماشي'), .4), tComing = nwT('ar07', has('جاي'), .5);
   const yD = { id: 'youssef', base: { turn: .55, face: F('happy', { happy: .35, lid: .1, lx: .55 }), armL: ARM.rest, armR: ARM.door, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: -1, t1: -.9, x0: 1400, x1: 1400, k0: .9, k1: .9 }], keys: [] };
-  const BAGARM = { dx: .05, dy: .06, w: 0, bend: 18, elv: [1, .8], flex: .2 }, RESTF = { ...ARM.rest, front: true }, OHUP = { ...ARM.up, front: true };
+  const BAGARM = { dx: .03, dy: .16, w: 0, bend: 14, elv: [-1, .35], flex: 0 }, RESTF = { ...ARM.rest, front: true }, OHUP = { ...ARM.up, front: true };
   const mD = { id: 'mia', base: { turn: 0, face: F('happy', { lx: .1, lid: .1 }), armL: RESTF, armR: BAGARM, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: tOutM, t1: Math.min(D0.t0 + .1, tOutM + .9), x0: 1530, x1: 1640, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .42 }], keys: [] };
   const DK = yD.keys, EK = mD.keys;

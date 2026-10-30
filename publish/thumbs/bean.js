@@ -81,7 +81,8 @@ export const ARMCFG = {
 };
 // A2 pose extras: bend = minimum elbow bend (degrees), elv = elbow side hint in (outward, down), front = drawn in front of the body
 const X2 = {
-  rest: { bend: 12, elv: [-.4, 1], flex: 0 },     // owner's review: at rest the elbow bends ~12° only, tucked in, the arm hangs close to the body out: { bend: 30, elv: [1, .6], flex: .6 }, wave: { bend: 55, elv: [1, 1], flex: 1 },
+  rest: { bend: 14, elv: [-1, .35], flex: 0 },    // owner's review: at rest the upper arm hangs near-vertical from the cap, the elbow sits low and points
+                                                   // down/slightly back (into the body, never up-out), the forearm continues down with a small natural bend out: { bend: 30, elv: [1, .6], flex: .6 }, wave: { bend: 55, elv: [1, 1], flex: 1 },
   up: { bend: 35, elv: [1, .4], flex: 1 }, chest: { bend: 45, elv: [.2, 1], flex: .8, front: true },   // the hand on the chest is drawn in front even from the far shoulder scratch: { dx: -.02, dy: -.4, bend: 60, elv: [1, -.5], flex: 1 },
   shrug: { bend: 45, elv: [1, .8], flex: 1 }, hip: { bend: 60, elv: [1, .2], flex: 1 },
   hold: { dx: -.03, dy: .05, bend: 70, elv: [1, 1], flex: 1, front: true },   // elbows at the body, forearms up across the chest
@@ -93,7 +94,7 @@ export const ARM = {};
 // v3 poses: hand target from the shoulder (dx outward, dy down, fractions of H); el = elbow side override (+1 outward / -1);
 // app = the direction the forearm arrives from, for the bendy arm (B); the v2 poses are reused when a v3 one is missing
 export const ARM3 = {
-  rest:    { dx: .07, dy: .18, w: 0, app: [.2, 1], flex: .25 },   // along the body, a slight bend
+  rest:    { dx: .03, dy: .2, w: 0, app: [.2, 1], flex: .25 },    // hanging ≤ 15° from vertical, the hand resting beside the hip
   out:     { dx: .17, dy: .08, w: 0, app: [.4, 1], flex: .5 },
   wave:    { dx: .17, dy: -.21, w: 1, app: [.15, -1], flex: 1 },
   up:      { dx: .1, dy: -.3, w: 0, app: [.2, -1], flex: .8 },
@@ -118,7 +119,7 @@ function armGeo3(sp, p, G) {
     const sx = G.hw(ys) * (cfg.x2 ? (far ? .95 * sg : (.72 + .28 * Math.abs(sn)) * sg) : .92 * sn);
     const S = G.D(sx, ys);
     let dx = A.dx * H * s, dy = A.dy * H;
-    if (far) { dx += s * (cfg.x2 ? .045 : .13) * H; if (cfg.x2) dy += .05 * H; }   // the far arm swings a little forward so its hand shows past the chest (and keeps hanging)
+    if (far) { dx += s * (cfg.x2 ? .03 : .13) * H; if (cfg.x2) dy += .06 * H; }   // the far arm hangs too, a touch forward so its hand peeks past the body edge
     if (A.w) { const ang = Math.sin(p.wave * 2 * PI) * .45 * A.w; const r = Math.hypot(dx, dy) * .35; dx += Math.sin(ang) * r * s; dy += (1 - Math.cos(ang)) * r * .5; }
     let T = [S[0] + dx, S[1] + dy];
     // reach: the two bones stretch up to `stretch`, then the hand is pulled in
