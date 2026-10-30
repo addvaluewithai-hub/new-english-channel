@@ -1,0 +1,238 @@
+{
+ "id": "ep03",
+ "n": 3,
+ "title": "The Form",
+ "titleAr": "الاستمارة",
+ "intro": "يوسف قال I have 26 years… وسمع sixty افتكرها sixteen. تعالى نصلّحها ونثبّت الأرقام.",
+ "phrases": [
+  {
+   "id": "count",
+   "en": "One, two, three, four, five, six, seven, eight, nine, ten.",
+   "ar": "واحد، اتنين، تلاتة… عشرة.",
+   "who": "mia",
+   "audio": "audio/ep03/r01.mp3"
+  },
+  {
+   "id": "teens",
+   "en": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.",
+   "ar": "تلتاشر… تسعتاشر (آخرهم -teen)",
+   "who": "youssef",
+   "audio": "audio/ep03/r02.mp3"
+  },
+  {
+   "id": "tens",
+   "en": "Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred.",
+   "ar": "عشرين، تلاتين… مية (آخرهم -ty)",
+   "who": "mia",
+   "audio": "audio/ep03/r03.mp3"
+  },
+  {
+   "id": "stress",
+   "en": "Thirteen. Thirty. Sixteen. Sixty.",
+   "ar": "13 · 30 · 16 · 60",
+   "who": "mia",
+   "audio": "audio/ep03/r04.mp3"
+  },
+  {
+   "id": "howold",
+   "en": "How old are you?",
+   "ar": "عندك كام سنة؟",
+   "who": "mia",
+   "audio": "audio/ep03/r05.mp3"
+  },
+  {
+   "id": "im26",
+   "en": "I'm 26.",
+   "ar": "عندي 26 سنة.",
+   "who": "youssef",
+   "audio": "audio/ep03/r06.mp3"
+  },
+  {
+   "id": "im26old",
+   "en": "I'm 26 years old.",
+   "ar": "عندي 26 سنة.",
+   "who": "youssef",
+   "audio": "audio/ep03/r07.mp3"
+  },
+  {
+   "id": "twentysix",
+   "en": "Twenty-six.",
+   "ar": "ستة وعشرين (العشرات الأول)",
+   "who": "youssef",
+   "audio": "audio/ep03/r08.mp3"
+  },
+  {
+   "id": "sixty",
+   "en": "I'm sixty!",
+   "ar": "عندي ستين سنة!",
+   "who": "mia",
+   "audio": null
+  }
+ ],
+ "mistakes": [
+  {
+   "id": "m-have",
+   "phrase": "im26",
+   "context": "في الريسبشن. سارة: How old are you, Youssef?",
+   "wrong": "I have 26 years.",
+   "span": "I have 26 years",
+   "mark": "I have 26 years",
+   "chips": [
+    "I'm 26",
+    "I have 26",
+    "I'm 26 years"
+   ],
+   "answer": "I'm 26",
+   "explain": "في الإنجليزي إنت مش «عندك» سن… إنت سنّك: I'm 26. (ترجمة «عندي 26 سنة» حرفيًا غلط)"
+  },
+  {
+   "id": "m-years",
+   "phrase": "im26old",
+   "context": "سارة: How old are you?",
+   "wrong": "I'm 26 years.",
+   "span": "26 years.",
+   "mark": "years",
+   "chips": [
+    "26 years old.",
+    "26 old years.",
+    "have 26 years."
+   ],
+   "answer": "26 years old.",
+   "explain": "يا I'm 26. يا I'm 26 years old. لكن years لوحدها من غير old ناقصة."
+  },
+  {
+   "id": "m-order",
+   "phrase": "twentysix",
+   "context": "سنّك ستة وعشرين. اكتبه بالإنجليزي:",
+   "wrong": "I'm six-twenty.",
+   "span": "six-twenty",
+   "mark": "six-twenty",
+   "chips": [
+    "twenty-six",
+    "six-twenty",
+    "sixty-two"
+   ],
+   "answer": "twenty-six",
+   "explain": "إحنا بنقول الآحاد الأول (ستة وعشرين)، والإنجليزي بيقول العشرات الأول: twenty-six."
+  }
+ ],
+ "items": [
+  {
+   "type": "listen",
+   "phrase": "howold",
+   "mode": "ar",
+   "options": [
+    "عندك كام سنة؟",
+    "إنت منين؟",
+    "عامل إيه؟"
+   ]
+  },
+  {
+   "type": "fix",
+   "mistake": "m-have"
+  },
+  {
+   "type": "listen",
+   "phrase": "stress",
+   "mode": "en",
+   "options": [
+    "Thirteen. Thirty. Sixteen. Sixty.",
+    "Thirty. Thirteen. Sixty. Sixteen.",
+    "Thirteen. Thirteen. Sixty. Sixty."
+   ],
+   "explain": "thirTEEN الضغطة في الآخر، THIRty الضغطة في الأول."
+  },
+  {
+   "type": "gap",
+   "phrase": "im26",
+   "text": "How old are you? — ___ 26.",
+   "chips": [
+    "I'm",
+    "I have",
+    "I am have"
+   ],
+   "answer": "I'm",
+   "explain": "السن بييجي مع I'm (أنا)، مش مع have."
+  },
+  {
+   "type": "order",
+   "phrase": "im26old",
+   "extra": [
+    "have"
+   ]
+  },
+  {
+   "type": "fix",
+   "mistake": "m-years"
+  },
+  {
+   "type": "listen",
+   "phrase": "tens",
+   "mode": "ar",
+   "options": [
+    "عشرين، تلاتين… مية (آخرهم -ty)",
+    "تلتاشر… تسعتاشر (آخرهم -teen)",
+    "واحد، اتنين، تلاتة… عشرة."
+   ]
+  },
+  {
+   "type": "gap",
+   "phrase": "sixty",
+   "text": "Mrs. Lopez: I'm ___! (60)",
+   "chips": [
+    "sixty",
+    "sixteen",
+    "six"
+   ],
+   "answer": "sixty",
+   "explain": "60 = SIXty (الضغطة في الأول). 16 = sixTEEN (الضغطة في الآخر)."
+  },
+  {
+   "type": "fix",
+   "mistake": "m-order"
+  },
+  {
+   "type": "order",
+   "phrase": "howold",
+   "extra": [
+    "have"
+   ]
+  },
+  {
+   "type": "listen",
+   "phrase": "twentysix",
+   "mode": "en",
+   "options": [
+    "Twenty-six.",
+    "Sixty-two.",
+    "Thirty-six."
+   ]
+  },
+  {
+   "type": "speak",
+   "phrase": "im26",
+   "asks": "howold",
+   "hint": "I'm ______.",
+   "keywords": [
+    "i'm",
+    "i am",
+    "years old",
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "teen",
+    "ty"
+   ],
+   "examples": [
+    "I'm 26.",
+    "I'm 18 years old.",
+    "I'm thirty-five."
+   ]
+  }
+ ]
+}
