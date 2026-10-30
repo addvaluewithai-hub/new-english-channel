@@ -15,7 +15,7 @@ SHORTS = {
    series='<b>يوسف في نيويورك</b> · الحلقة 1', pill='الحلقة كاملة على القناة'),
  'short_ep02': dict(
    ep='ep02-good-morning',
-   segs=[(26.6, 50.2), (118.6, 129.5)],                          # Good… night, then the "Good night is a goodbye" recap card
+   segs=[(26.6, 50.2), (121.0, 129.5)],                          # Good… night, then the "Good night is a goodbye" recap card
    tag='الساعة 8 الصبح 😴', hook='قالها <em class="en">Good night</em><br>بدل <em class="en">Good morning</em>!',
    series='<b>يوسف في نيويورك</b> · الحلقة 2', pill='الحلقة كاملة على القناة'),
 }
@@ -62,11 +62,11 @@ def make(sid):
     # vertical layout: blurred, darkened full-bleed background + the scene cropped to 4:3 in the middle + overlay
     f.append(f"[{last_v}]split[bgs][fgs];"
              f"[bgs]scale=-2:1920,crop=1080:1920,boxblur=28:2,eq=brightness=-0.3:saturation=0.8[bg];"
-             f"[fgs]crop=1720:1080:100:0,scale=1080:678:flags=lanczos[fg];"
-             f"[bg][fg]overlay=0:680[comp];[comp][1:v]overlay=0:0,format=yuv420p[vout]")
+             f"[fgs]crop=1840:1080:40:0,scale=1080:634:flags=lanczos[fg];"
+             f"[bg][fg]overlay=0:700[comp];[comp][1:v]overlay=0:0,format=yuv420p[vout]")
     out = os.path.join(HERE, sid + '.mp4')
     run(['ffmpeg', '-y', '-loglevel', 'error', '-i', src, '-loop', '1', '-i', ov,
-         '-filter_complex', ';'.join(f), '-map', '[vout]', '-map', f'[{last_a}]', '-t', f'{acc:.3f}',
+         '-filter_complex', ';'.join(f), '-map', '[vout]', '-map', f'[{last_a}]', '-t', f'{acc - .35:.3f}',   # end before the next caption box fades in
          '-r', '24', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-c:a', 'aac', '-b:a', '160k',
          '-movflags', '+faststart', out])
     print(sid, f'{acc:.1f} s →', out)
