@@ -97,7 +97,11 @@ export function buildRecap() {
     K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
     MK.push({ t: g.t0 + .1, face: F('happy', { lx: 0, ly: 0, happy: .6 }), d: .3 }, { t: g.t1 - .1, face: mRest, d: .3 });
   }
-  for (const k of K) if (k.armR) k.armR = OUTR(k.armR);
+  // the inner arms stay out of the text column: Youssef's armL hand x ≥ COL.x1 + 20, Sara's armR hand x ≤ COL.x0 − 20 (hand x ≈ X ∓ (.34 + dx) · 300 · K)
+  const INY = A => { const lim = (YX - COL.x1 - 20) / (300 * YK) - .34 - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
+  const INM = A => { const lim = (COL.x0 - 20 - MX) / (276 * MK_) - .34 - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
+  for (const k of K) { if (k.armR) k.armR = OUTR(k.armR); if (k.armL) k.armL = INY(k.armL); }
+  for (const k of MK) if (k.armR) k.armR = INM(k.armR);
   K.sort((p, q) => p.t - q.t); MK.sort((p, q) => p.t - q.t);
   R.yR = yR; R.mR = mR;
   // ---- cues ----
@@ -357,7 +361,7 @@ const ITEM = {
     const nice = ['Nice', 'to', 'meet', 'you.'].map((w, i) => ({ w, t: R.tNice + i * .09 }));
     drawRow(c, t, nice, { x: CX, y: Y1 - 10, size: 104, who: 'mia', alpha: a * (1 - .4 * seg(t, R.tQul, R.tQul + .4)), ghost: it.t0, mean: 'اتشرفت بيك' });
     // "Me too." (wrong) → "Nice to meet you too." (right)
-    const sw = seg(t, R.tQul, R.tQul + .35);
+    const sw = seg(t, R.tQul, R.tQul + .25);   // the wrong row is gone before the right one types in (no overlap)
     if (sw < 1) {
       const me = [{ w: 'Me', t: R.tMe }, { w: 'too.', t: R.tMe + .08 }];
       c.save(); c.translate(0, sw * 60);
@@ -370,9 +374,9 @@ const ITEM = {
       }
       c.restore();
     }
-    if (t > R.tQul) {
+    if (t > R.tQul + .25) {
       const r07 = LINE('r07'), sp = r07 ? r07.tok : [];
-      const right = ['Nice', 'to', 'meet', 'you', 'too.'].map((w, i) => ({ w, t: R.tQul + .15 + i * .07, s0: sp[i]?.t0, s1: sp[i]?.t1, mark: i === 4 ? eo(seg(t, R.tQul + .7, R.tQul + 1.1)) : 0 }));
+      const right = ['Nice', 'to', 'meet', 'you', 'too.'].map((w, i) => ({ w, t: R.tQul + .25 + i * .06, s0: sp[i]?.t0, s1: sp[i]?.t1, mark: i === 4 ? eo(seg(t, R.tQul + .7, R.tQul + 1.1)) : 0 }));
       const size = fit(right, 130, COLW - 90), x = CX - 30;
       const row = drawRow(c, t, right, { x, y: Y2, size, who: 'youssef', alpha: a, mean: 'وأنا كمان اتشرفت بيك' });
       if (row) check(c, row.x + row.W / 2 + 48, Y2 - 45, 30, seg(t, R.tQul + .45, R.tQul + .8));

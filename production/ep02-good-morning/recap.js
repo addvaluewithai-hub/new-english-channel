@@ -95,7 +95,11 @@ export function buildRecap() {
     K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
     MK.push({ t: g.t0 + .1, face: F('happy', { lx: 0, ly: 0, happy: .6 }), d: .3 }, { t: g.t1 - .1, face: mRest, d: .3 });
   }
-  for (const k of K) if (k.armR) k.armR = OUTR(k.armR);
+  // the inner arms stay out of the text column: Youssef's armL hand x ≥ COL.x1 + 20, Sara's armR hand x ≤ COL.x0 − 20 (hand x ≈ X ∓ (.34 + dx) · 300 · K)
+  const INY = A => { const lim = (YX - COL.x1 - 20) / (300 * YK) - .34 - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
+  const INM = A => { const lim = (COL.x0 - 20 - MX) / (276 * MK_) - .34 - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
+  for (const k of K) { if (k.armR) k.armR = OUTR(k.armR); if (k.armL) k.armL = INY(k.armL); }
+  for (const k of MK) if (k.armR) k.armR = INM(k.armR);
   K.sort((p, q) => p.t - q.t); MK.sort((p, q) => p.t - q.t);
   R.yR = yR; R.mR = mR;
   // ---- cues ----

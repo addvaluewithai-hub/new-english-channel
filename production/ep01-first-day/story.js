@@ -78,7 +78,7 @@ function drawActor(c, cam, C, t, extra = {}) {
 function doorClip(c, cam, open, amt = 1) {
   const dw = 116, dh = 196, lw = dw * Math.cos(clamp(open) * Math.PI * .47);
   const [x0, y0] = toScreen(cam, 1, DOOR.x - dw / 2 + lw, DOOR.y - dh), [x1, y1] = toScreen(cam, 1, DOOR.x + dw / 2, DOOR.y + 2);
-  const g = (1 - clamp(amt)) * 240 * toScreen(cam, 1, 0, 0)[2];   // 240 world px of release, in screen px
+  const g = (1 - clamp(amt)) * 420 * toScreen(cam, 1, 0, 0)[2];   // 420 world px of release (the walker and the suitcase he pulls), in screen px
   c.beginPath(); c.rect(x0 - g, y0 - 60 - g, x1 - x0 + 2 * g, y1 - y0 + 60 + 2 * g); c.clip();
 }
 // suitcase: trails behind the walker with a .06 s lag; wheel wobble while rolling

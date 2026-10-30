@@ -256,7 +256,7 @@ export function buildStory() {
     { t: C4.t1 + .4, lean: 0, face: F('happy', { lx: -.5, happy: .4 }), d: .35 },
     { t: bSip + .6, face: F('joy', { lx: -.5 }), d: .3 }, { t: bSip + 2.2, face: F('happy', { lx: -.5, happy: .45 }), d: .4 },
     { t: tNotice, face: F('happy', { lx: -.5, happy: .5, lid: .1 }), d: .3 });
-  mH.jumps.push({ t: bLaugh + .05, h: .03, d: .3 }, { t: bLaugh + .42, h: .028, d: .3 }, { t: bLaugh + .8, h: .022, d: .3 }, { t: tTake + .3, h: .03, d: .32 });
+  mH.jumps.push({ t: bLaugh + .05, h: .03, d: .3 }, { t: bLaugh + .42, h: .028, d: .3 }, { t: bLaugh + .8, h: .022, d: .3 });
   mH.blinks.push(H0.t0 - .3, bYawn + .3, tNightY + .25, bLaugh - .05, cf.t0 + .3, C2.t0 - .15, tTake + .25, bSip + .6);
   S.yH = yH; S.mH = mH; S.tHand = tHand; S.tTake = tTake; S.tUnknown = tUnknown; S.tNotice = tNotice;
   S.camH = [
@@ -513,19 +513,24 @@ function formTravel(c, t, R) {
   if (!y || !y.hands) return;
   const hang = (h, k) => [h[0] - .09 * 300 * k, h[1] + .1 * 300 * k];
   const yA = hang(y.hands[1], y.ks);
-  let P = yA, k = y.ks, rot = -.15, a = 1, uX = 1;
+  let P = yA, k = y.ks, rot = -.15, uX = 1, clipY = null;
   if (m && m.hands) {
-    const bag = [m.hands[1][0], m.hands[1][1] + .27 * 276 * m.ks], sA = hang(m.hands[0], m.ks);
-    const uIn = ss(seg(t, F.out, F.out + .45)); a = seg(t, F.out, F.out + .2);
-    const p0 = [lerp(bag[0], sA[0], uIn), lerp(bag[1], sA[1], uIn)];
+    // out of the bag: the sheet rises out of the bag's opening (clipped to above the opening line while any of it is still inside), then
+    // follows her hand out to where she holds it
+    const sh = .3 * 300 * m.ks, top = [m.hands[1][0], m.hands[1][1] + .15 * 276 * m.ks], sA = hang(m.hands[0], m.ks);
+    const u1 = ss(seg(t, F.out - .4, F.out)), u2 = ss(seg(t, F.out, F.out + .45));
+    const rise = [top[0], lerp(top[1] + sh * .55, top[1] - sh * .45, u1)];
+    const p0 = [lerp(rise[0], sA[0], u2), lerp(rise[1], sA[1], u2)];
+    if (p0[1] + sh / 2 > top[1]) clipY = top[1];
     uX = ss(seg(t, F.take - .25, F.take + .3));
-    P = [lerp(p0[0], yA[0], uX), lerp(p0[1], yA[1], uX)]; k = lerp(m.ks, y.ks, uX); rot = lerp(.12, -.15, uX);
+    P = [lerp(p0[0], yA[0], uX), lerp(p0[1], yA[1], uX)]; k = lerp(m.ks, y.ks, uX); rot = lerp(lerp(0, .12, u2), -.15, uX);
   }
-  c.save(); c.globalAlpha = a;
+  c.save();
+  if (clipY != null && uX < .01) { c.beginPath(); c.rect(-1e4, -1e4, 2e4, clipY + 1e4); c.clip(); }
   drawForm(c, P[0], P[1], .24 * 300 * k, .3 * 300 * k, { rot, age: .3 });
-  if (m && m.hands && uX < .75) hand(c, 'mia', m.hands[0], m.ks);
-  if (uX > .25) hand(c, 'youssef', y.hands[1], y.ks);
   c.restore();
+  if (m && m.hands && uX < .75 && t >= F.out) hand(c, 'mia', m.hands[0], m.ks);
+  if (uX > .25) hand(c, 'youssef', y.hands[1], y.ks);
 }
 
 // door + bye (golden afternoon), then the close-up of the form
@@ -541,7 +546,7 @@ export function sceneDoor(c, t) {
     if (n === 'm') R.m = drawActor(c, cam, C, t, { door, behind: (h, k) => { if (h[1][2]) bagIn(c, 'mia', h[1], k); }, front: (h, k) => { if (!h[1][2]) bagIn(c, 'mia', h[1], k); } });
     else R.y = drawActor(c, cam, C, t, { door, front: () => {} });
   }
-  if (t >= S.formAt.out) formTravel(c, t, R);
+  if (t >= S.formAt.out - .4) formTravel(c, t, R);
   grade(c, tod);
   const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
   const lines = [...S.DR, ...S.BY];
