@@ -2,6 +2,7 @@
 // ?arms=A|B|C|v2 picks the arm system for the frames (default: the recommended one, see NOTES.md)
 import { P, rgba, mix, dark, light, grain, rr, ell, CPU } from './kit.js';
 import { CAST, EXPR, ARM, ARM3, ARMCFG, pose, drawChar, drawSuitcase, drawCup, drawHand, handPos, setArms, ARMS } from './bean.js';
+import { X2P } from './bean.js';
 import { bakeWorld, drawWorld, drawForeground, toScreen, GROUND, DOOR, STOOP } from './world.js';
 import { bubble, nameTab, plate, SPEAKER, squiggle, check, sparkle } from './ui.js';
 import { setNarration } from './tl.js';
@@ -12,11 +13,12 @@ const SW = 1920, SH = 1080, AR = '"Baloo Bhaijaan 2"';
 const Q = new URLSearchParams(location.search);
 const F = Q.get('f') || 'ny_wide', ARMQ = Q.get('arms') || 'A';
 window.DUR = 10;
+if (Q.get('form')) ARMCFG.A2.form = Q.get('form') === 'blur' ? true : Q.get('form') === 'none' ? false : 'drawn';   // A2 sleeve shading: drawn (default) | blur | none
 
 const face = (name, extra = {}) => ({ ...EXPR[name], ...extra });
 // an arm pose by name for the active arm system (v2 falls back to its own table, with stand-ins for the new poses)
 const V2X = { hold: { dx: .14, dy: .0, bend: .1, w: 0 }, point: { dx: .3, dy: -.1, bend: -.05, w: 0 }, door: { dx: .16, dy: -.56, bend: -.12, w: 0 } };
-const AP = name => ARMS === 'v2' ? (ARM[name] || V2X[name]) : ARM3[name];
+const AP = name => ARMS === 'v2' ? (ARM[name] || V2X[name]) : ARMS === 'A2' ? { ...ARM3[name], ...(X2P[name] || {}) } : ARM3[name];
 // a character in the world: feet at (wx, wy), scale k; returns the pose and its screen hands
 function actor(cam, id, wx, wy, k, o = {}) {
   const [x, y, Z] = toScreen(cam, 1, wx, wy);
@@ -24,7 +26,7 @@ function actor(cam, id, wx, wy, k, o = {}) {
   drawChar(c, CAST[id], p);
   return { p, hands: handPos(CAST[id], p) };
 }
-const cupsIn = (id, R) => { for (const h of R.hands) { drawCup(c, h[0], h[1] - .02 * 300 * R.p.k, R.p.k, { steam: .8, t: 1 }); drawHand(c, CAST[id], h[0], h[1], CAST[id].H * R.p.k); } };
+const cupsIn = (id, R) => { for (const h of R.hands) { drawCup(c, h[0], h[1] - .02 * 300 * R.p.k, R.p.k, { steam: .8, t: 1 }); drawHand(c, CAST[id], h[0], h[1], CAST[id].H * R.p.k, { dir: h[3], grip: true }); } };
 function grade(tod) {   // warm afternoon grade (from the episode's story.js)
   if (tod <= .01) return;
   c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'multiply';
@@ -55,8 +57,8 @@ function frameDoor(t, o = {}) {
   const S = actor(cam, 'mia', o.cups ? 1584 : 1548, STOOP.top + 2, .8, { turn: -.42, face: face('happy', { happy: .5, lx: -.5, ly: .25, mw: .11, mo: .05, mt: .5 }),
     armL: AP(o.cups ? 'hold' : 'rest'), armR: AP(o.cups ? 'hold' : 'wave'), wave: .25, pony: -.1, lean: -.03 });
   if (o.cups) cupsIn('mia', S);
-  const pointUp = ARMS === 'v2' ? { dx: .22, dy: -.2, bend: -.05, w: 0 } : { ...ARM3.point, dx: .22, dy: -.2 };
-  const Y = actor(cam, 'youssef', o.cups ? 1318 : 1360, GROUND, .98, { turn: .55, face: face('happy', { happy: .45, lx: .55, ly: -.25, mw: .12, mo: .05, mt: .4 }),
+  const pointUp = ARMS === 'v2' ? { dx: .22, dy: -.2, bend: -.05, w: 0 } : { ...AP('point'), dx: .22, dy: -.2 };
+  const Y = actor(cam, 'youssef', o.cups ? 1300 : 1360, GROUND, .98, { turn: .55, face: face('happy', { happy: .45, lx: .55, ly: -.25, mw: .12, mo: .05, mt: .4 }),
     armL: AP(o.point ? 'rest' : 'chest'), armR: o.point ? pointUp : AP('rest'), lean: .02 });
   grade(tod);
   const sh = [S.p.x - 6, S.p.y - CAST.mia.H * S.p.k * 1.1], yh = [Y.p.x + 10, Y.p.y - CAST.youssef.H * Y.p.k * 1.08];
@@ -72,7 +74,7 @@ function label(txt, x, y, size = 22, col = P.ink, align = 'center', font = 'Fred
 function measureArms() {   // ms per character for each arm system (same pose, same scale), averaged over 30 draws
   const out = {}, p = pose({ x: 600, y: 600, k: 1, turn: .3, face: EXPR.happy });
   const off = document.createElement('canvas'); off.width = 1920; off.height = 1080; const oc = off.getContext('2d', CPU);
-  for (let pass = 0; pass < 3; pass++) for (const m of ['v2', 'A', 'B', 'C']) {   // three passes: the first two warm the caches + JIT, the best run counts
+  for (let pass = 0; pass < 3; pass++) for (const m of ['v2', 'A', 'B', 'C', 'A2']) {   // three passes: the first two warm the caches + JIT, the best run counts
     setArms(m); const q = { ...p, armL: AP('wave'), armR: AP('hold') };
     const t0 = performance.now(); for (let i = 0; i < 30; i++) { drawChar(oc, CAST.youssef, q); drawChar(oc, CAST.mia, q); }
     const ms = (performance.now() - t0) / 30;   // ms for the two characters
@@ -119,6 +121,32 @@ function sheetArms() {
   });
   setArms(ARMQ);
   label('Model sheet 1920×1080 · same two characters, same scale in every cell · light from the upper-left · SARA (was MIA) keeps the rust tab', SW / 2, SH - 10, 14, rgba(P.ink, .45));
+}
+
+// ---------------- A2 close-ups: five panels at about twice the sheet scale ----------------
+function sheetCloseups() {
+  c.fillStyle = '#F6EEDF'; c.fillRect(0, 0, SW, SH);
+  const cost = measureArms(); window.COST = cost;
+  c.font = '400 44px "Lilita One"'; c.fillStyle = P.navy; c.textAlign = 'left'; c.fillText('A2 · CLOSE-UPS', 40, 58);
+  label('jointed tapered arm, revised · shoulder on the widest band (.43 H) with a sleeve cap · min elbow bend per pose · hand +20 % with a thumb · drawn crescent + rim on the sleeve, overlap shadow on the body', 380, 54, 17, rgba(P.ink, .7), 'left', 'Fredoka', 500);
+  label(`cost: ${cost.A2.toFixed(1)} ms vs ${cost.v2.toFixed(1)} ms (current arm) for two characters at k = 1, 1080p → ${(cost.A2 - cost.v2) >= 0 ? '+' : ''}${(cost.A2 - cost.v2).toFixed(1)} ms / frame · the blur form pass on the sleeve would add ≈ 11 ms, so the crescent + rim are drawn instead`, 380, 76, 15, dark(P.teal, .2), 'left', 'Fredoka', 600);
+  const panels = [['Youssef pointing', [['youssef', { turn: .3, armL: AP('rest'), armR: AP('point'), face: face('talk', { lx: .6 }) }]]],
+    ['Sara holding two cups', [['mia', { turn: 0, armL: AP('hold'), armR: AP('hold'), face: face('happy', { happy: .5 }), cups: 1 }]]],
+    ['Youssef scratching his head', [['youssef', { turn: .15, armL: AP('rest'), armR: AP('scratch'), face: face('embarrassed') }]]],
+    ['both at rest', [['youssef', { turn: .2, armL: AP('rest'), armR: AP('rest'), face: face('happy', { happy: .4 }) }], ['mia', { turn: -.2, armL: AP('rest'), armR: AP('rest'), face: face('happy', { happy: .4 }) }]]],
+    ['Youssef waving', [['youssef', { turn: 0, armL: AP('rest'), armR: AP('wave'), wave: .25, face: face('joy') }]]]];
+  const W = 620, Hh = 480, pos = [[40, 90], [650, 90], [1260, 90], [345, 580], [955, 580]];
+  panels.forEach(([name, chars], i) => {
+    const [px, py] = pos[i];
+    rr(c, px, py, W, Hh, 26); c.fillStyle = i % 2 ? '#FFF8EC' : '#FFFBF3'; c.fill();
+    const g = py + Hh - 36, k = chars.length > 1 ? 1.15 : 1.3;
+    chars.forEach(([id, o], j) => {
+      const sp = CAST[id], x = px + W / 2 + (chars.length > 1 ? (j ? 175 : -175) : 0);
+      const p = pose({ x, y: g, k, ...o, shadow: .8 }); drawChar(c, sp, p);
+      if (o.cups) for (const h of handPos(sp, p)) { drawCup(c, h[0], h[1] - .02 * 300 * k, k, { steam: .7, t: 1 }); drawHand(c, sp, h[0], h[1], sp.H * k, { dir: h[3], grip: true }); }
+    });
+    label(name, px + W / 2, py + Hh - 10, 18, rgba(P.ink, .65));
+  });
 }
 
 // ---------------- 3. exercises call-to-action: full screen ----------------
@@ -257,6 +285,7 @@ window.render = t => {
   else if (F === 'ny_door') frameDoor(t);
   else if (F === 'arms_frame') frameDoor(t, { cups: true, point: true });
   else if (F === 'arms') { sheetArms(); return; }
+  else if (F === 'closeups') { sheetCloseups(); return; }
   else if (F === 'cta') frameCTA(t);
   else if (F === 'endcard') { frameEnd(t); grain(c, SW, SH, .03); return; }
   c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';

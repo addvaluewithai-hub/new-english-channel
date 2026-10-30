@@ -13,6 +13,8 @@ with `f` = `ny_wide` · `ny_door` · `ny_night` · `arms` (model sheet) · `arms
 | `frame_ny_night.jpg` | optional: the same wide shot at night (moon upper-left, stars, lit windows, the lamp's pool of light) |
 | `arms_options.jpg` | model sheet: arm options A / B / C on both characters, 5 poses + a 3/4 view, with the measured cost per row |
 | `frame_arms_A/B/C.jpg` | the door two-shot with that option: Sara holds two coffee cups, Youssef points |
+| `frame_arms_A2.jpg` | **the chosen revision A2** in the same two-shot (all the other frames are rendered with A2 too) |
+| `arms_A2_closeups.jpg` | A2 close-ups at ≈ 2.3× the sheet scale: Youssef pointing · Sara holding two cups · Youssef scratching his head · both at rest · Youssef waving |
 | `frame_cta.jpg` | the full-screen exercises call-to-action: dimmed + blurred street, the big site card, Youssef small pointing, the mustard bar, the plate at y ≈ 1000 |
 | `frame_endcard.jpg` | the end card: series title, "الحلقة الجاية", "How old are you?", the bigger teal + red pills |
 
@@ -43,7 +45,26 @@ The cost is noise-level for all three: the arm is ~60 path samples and two fills
 is what the frame pays for. The measurement runs in the page when the sheet renders (`window.COST`, 3 passes, best of 30 draws).
 Stills (render + screenshot) are 0.17–0.30 s each on this 4-core box, as in the episodes.
 
-**Recommendation: A (jointed tapered).** It fixes every point on the owner's list (shoulder, taper, elbow, rest, both arms) and
+### A2 — the approved A, revised (`ARMS = 'A2'`, `?arms=A2`, the default for every frame now)
+| owner's point | what A2 does |
+|---|---|
+| elbow must be visible | every pose carries a minimum elbow bend (`bend`: rest 22°, point 35°, wave 55°, scratch 60°, hold 70°); when the hand target is further than that bend allows, the hand is pulled in — the IK never picks the straight solution. Elbow side comes from a per-pose hint `elv` in (outward, down): holds and waves go outward-down, scratch goes outward-up |
+| shoulder | anchor on the egg's widest band (.43 H); a sleeve cap 1.3 × the upper-arm width centred ON the silhouette, drawn with the arm (dark base + lit cap + rim). The far arm's cap sits at the far silhouette edge and peeks out from behind the body |
+| reach | upper arm .17 H + forearm .16 H, no stretch; the hand reaches the temple and crosses the body |
+| hold | `front: true`: both forearms are drawn in front of the body; hand target (−.03 outward, +.05 down) from the shoulder, elbows at the hips, forearms ≈ 40° up across the chest, cups at chest height; the hand (with its thumb and a grip crease) is drawn over the cup |
+| hands | round, .0565 H (+20 %), a thumb bump on the upper side leaning back toward the forearm; `drawHand(…, { grip: true })` adds a short dark crease where the hand meets the cup |
+| shading | a drawn crescent + rim light on the sleeve and cap (dark full tube, lit tube shifted toward the light, a thin rim tube further toward the light, all inside the silhouette by construction) plus a soft violet shadow (25 %, offset .012/.014 H ≈ 4 px at 1080p) where the arm lies over the body, clipped to the bean |
+
+**Cost / trade-off.** Measured on the close-ups page (3 passes, best of 30 draws, two characters at k = 1, 1080p):
+v2 45.8 ms → A2 46.5 ms = **+0.8 ms / frame**, inside the ≤ 2 ms budget. The cap, elbow, thumb and overlap shadow are free.
+The one thing I had to give up: running the sleeve through the real `formed()` pass (blurred crescent + rim from the
+silhouette) measured **+11 ms** for two characters (57.9 vs 44.2 ms; `?arms=A2&form=blur` reproduces it), because every
+`formed()` call pays for its own layer blur regardless of size. So A2 draws the crescent + rim with offset tubes instead;
+at full size the difference is a hard-edged rather than feathered terminator on the sleeve, which matches the v2 arm's
+own shading language. `form: 'drawn' | true | false` is a switch on `ARMCFG.A2` if the owner prefers the blurred look for a
+hero close-up.
+
+**Recommendation: A → A2 (jointed tapered, revised).** The original A below is kept for comparison. It fixes every point on the owner's list (shoulder, taper, elbow, rest, both arms) and
 reads at phone size: the elbow gives the point / hold / wave a clear silhouette. B is the smoothest to animate (one curve, no
 IK pops) but holds and points look boneless at full size; C keeps the bean feel but cannot reach the head or point across.
 If A is approved, the episode poses map 1:1 (`ARM3` has every v2 pose plus `hold`, `point`, `door`); the hop-walk arm swing,
