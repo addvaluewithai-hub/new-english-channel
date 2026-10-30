@@ -186,13 +186,13 @@ H = {   # event type -> (sound, gain, pan)
     'correct':   lambda e: (ding(), .22, .1),
     'clock_tick':lambda e: (tick(), .25, .1),
     'tick':      lambda e: (tick(), .25, .1),
-    'alarm':     lambda e: (alarm(e.get('dur', 1.6)), .18, .2),
-    'step':      lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
-    'footstep':  lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
-    'footsteps': lambda e: (step(), .1, float(rng.uniform(-.15, .15))),
+    'alarm':     lambda e: (alarm(e.get('dur', 1.6)), .14, .2),
+    'step':      lambda e: (step(), .05, float(rng.uniform(-.15, .15))),
+    'footstep':  lambda e: (step(), .05, float(rng.uniform(-.15, .15))),
+    'footsteps': lambda e: (step(), .05, float(rng.uniform(-.15, .15))),
     'land':      lambda e: (thump(.5, 120), .12, 0),
     'bus':       lambda e: (bus(e.get('dur', 4.0)), .3, -.3),
-    'taxi':      lambda e: (taxi(e.get('dur', 4.0)), .26, -.3),
+    'taxi':      lambda e: (taxi(e.get('dur', 4.0)), .16, -.3),
     'suitcase':  lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'wheels':    lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
     'freeze':    lambda e: (freeze_hit(), .35, 0),
@@ -207,7 +207,7 @@ H = {   # event type -> (sound, gain, pan)
     'sparkle':   lambda e: (ding() * .5, .15, .2),
     'bird':      lambda e: (chirp(), .2, .5),
     'tap':       lambda e: (over(tick() * .6, thump(.4, 220)[:int(.06 * SR)] * .5), .3, .2),
-    'suitcase_roll': lambda e: (wheels(e.get('dur', 2.0)), .15, .1),
+    'suitcase_roll': lambda e: (wheels(e.get('dur', 2.0)), .08, .1),
     'thought':   lambda e: (over(pop() * .6, (pop() * .4, .06)), .2, -.2),
     'cut_in':    lambda e: (whoosh(.25), .18, 0),
     'cut':       lambda e: (np.zeros(10), 0, 0),
@@ -251,12 +251,14 @@ street(rt[0] - .5, dy[1] + .3, .6)
 street(by[0] - .3, by[1] + .3, .9)
 room = lp(brown(DUR + 1), 300)[:N] * .01; amb += room[:, None]
 
-mix = vox + mus * MUSIC + fx * .9 + amb
+FX = .4             # sound effects well under the voices (owner: footsteps and effects were too loud)
+fx *= (1 - .6 * speech)[:, None]   # and quieter still while anyone talks
+mix = vox + mus * MUSIC + fx * FX + amb
 if os.environ.get('STEMS'):   # level check: rms per section of each stem
     for s_ in T['sections']:
         a, b = int(s_['t0'] * SR), int(s_['t1'] * SR)
         db = lambda x: round(20 * np.log10(np.sqrt(np.mean(x[a:b] ** 2)) + 1e-9), 1)
-        print(f"{s_['id']:7s} vox {db(vox)} mus {db(mus * MUSIC)} fx {db(fx * .9)} amb {db(amb)}")
+        print(f"{s_['id']:7s} vox {db(vox)} mus {db(mus * MUSIC)} fx {db(fx * FX)} amb {db(amb)}")
 mix = np.stack([limit(mix[:, c], .6) for c in range(2)], 1)
 mix = norm(mix, .89)[:int(DUR * SR)]
 os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
