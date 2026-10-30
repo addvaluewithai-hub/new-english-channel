@@ -95,14 +95,14 @@ def block(t0, t1, fade_in=.0, fade_out=.6, **kw):
 
 o, rn, hl, cf, dr, by, rc, tu, nx = (SEC[k] for k in ('open', 'run', 'hall', 'coffee', 'door', 'bye', 'recap', 'turn', 'next'))
 # the alarm opens the episode (a foley cue); the theme comes in when he wakes
-block(BT['wake'] + .4, BT['title'] - .1, fade_in=.6, mel=True, lvl=.85)
-sting(BT['title'], v=.5)                                                          # title card
+block(BT['wake'] + .4, BT['title'] - .1, fade_in=.6, mel=True, lvl=.5)
+sting(BT['title'], v=.3)                                                          # title card
 block(BT['title'] + .5, BT['mia_enters'] - .2, mel=False, perc=True, lvl=.7)     # the run: pulse only, hurried
 for i, m in enumerate([69, 72, 77]): add(mus, glock(m + 12, 1.4, .25), BT['mia_enters'] + .1 + i * .12, 1, .1)   # Mia chime
 for i, (m, d) in enumerate([(55, .3), (53, .3), (52, .8)]):                       # the yawn: a sleepy reed slide
     add(mus, bassoon(m, d, .2), BT['yawn'] + .2 + i * .32, 1, 0)
 sting(BT['laugh'], (79, 84), .35, .1)                                             # her laugh
-block(BT['sip'] + .1, dr[0] - .3, fade_in=.8, mel=True, lvl=.7)                  # coffee: the theme returns
+block(BT['sip'] + .1, dr[0] - .3, fade_in=.8, mel=True, lvl=.5)                  # coffee: the theme returns
 sting(BT['sip'], (77, 81, 84, 89), .4, .06)                                       # sparkle on the first sip
 block(dr[0] + .4, BT['welcome'] - .2, mel=False, perc=False, lvl=.45, fade_out=.15)   # afternoon: soft strum
 add(mus, bassoon(50, .35, .25), BT['welcome'] + .5, 1, 0)                         # "Welcome!": one comic boop
@@ -116,10 +116,10 @@ block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, 
 sting(BT['pause_end'] + .2, (72, 76, 79, 84), .45)                                  # praise
 si = SEC['site']
 block(si[0] + .2, si[1] - .3, fade_in=.6, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)   # the site nudge: soft strum
-block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.85, fade_out=1.0)                # theme out
-for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .4), DUR - 2.4 + dt, 1, 0)
-MUSIC = .32          # music under the voices (the owner asked for it quiet)
-mus *= (1 - .8 * speech)[:, None]
+block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.5, fade_out=1.0)                # theme out
+for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .25), DUR - 2.4 + dt, 1, 0)
+MUSIC = .15          # music well in the background (the owner asked twice for it quieter)
+mus *= (1 - .9 * speech)[:, None]   # under speech the music almost disappears
 
 # ---------------- foley (from the page's events) ----------------
 fx = np.zeros((N, 2))

@@ -94,15 +94,15 @@ def block(t0, t1, fade_in=.0, fade_out=.6, **kw):
     mus = keep + mus * env[:, None]
 
 o, st, dr, rt, dy, by, rc, tu, nx = (SEC[k] for k in ('open', 'street', 'door', 'retry', 'day', 'bye', 'recap', 'turn', 'next'))
-block(0, BT['title'] - .1, fade_in=.3, mel=True, lvl=.85)                        # cold open: the theme
-sting(BT['title'], v=.5)                                                          # title card
+block(0, BT['title'] - .1, fade_in=.3, mel=True, lvl=.5)                        # cold open: the theme
+sting(BT['title'], v=.3)                                                          # title card
 block(BT['title'] + .5, BT['door_open'] - .2, mel=False, perc=True, lvl=.6)      # the walk: strum + pulse
 for i, m in enumerate([69, 72, 77]): add(mus, glock(m + 12, 1.4, .25), BT['door_open'] + .1 + i * .12, 1, .1)   # door chime
 # the freeze: a comic reed "uh-oh" under the panic
 for i, (m, d) in enumerate([(55, .25), (54, .25), (53, .25), (52, .7)]):
     add(mus, bassoon(m, d, .22), BT['freeze'] + .1 + i * .28, 1, 0)
 block(BT['unfreeze'] + .2, BT['come_in'], fade_in=1.0, mel=False, perc=False, lvl=.45)   # second try: soft strum
-block(BT['come_in'], dy[1] - .3, mel=True, lvl=.8)                                # relief + the day passing
+block(BT['come_in'], dy[1] - .3, mel=True, lvl=.5)                                # relief + the day passing
 block(by[0] + .3, BT['eight'] - .25, mel=False, perc=False, lvl=.45, fade_out=.15)
 for i, (m, d) in enumerate([(50, .22), (49, .22), (48, 1.0)]):                    # "Eight?!": dun dun duuun
     add(mus, bassoon(m, d, .3), BT['eight'] + .45 + i * .26, 1, 0)
@@ -112,10 +112,10 @@ block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, 
 sting(BT['pause_end'] + .2, (72, 76, 79, 84), .45)                                  # praise
 si = SEC['site']
 block(si[0] + .2, si[1] - .3, fade_in=.6, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)   # the site nudge: soft strum
-block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.85, fade_out=1.0)                # theme out
-for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .4), DUR - 2.4 + dt, 1, 0)
-MUSIC = .32          # music under the voices (the owner asked for it quiet)
-mus *= (1 - .8 * speech)[:, None]
+block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.5, fade_out=1.0)                # theme out
+for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .25), DUR - 2.4 + dt, 1, 0)
+MUSIC = .15          # music well in the background (the owner asked twice for it quieter)
+mus *= (1 - .9 * speech)[:, None]   # under speech the music almost disappears
 
 # ---------------- foley (from the page's events) ----------------
 fx = np.zeros((N, 2))
