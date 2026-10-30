@@ -129,7 +129,7 @@ export function buildStory() {
   S.camO = [
     { t: -1, f: tt => ({ x: Math.max(240, yx(tt - .35) + 280), y: 575, z: 1.05 }) },
     { t: tW1 - 1.6, d: 2.0, x: 1330, y: 566, z: 1.22 },
-    { t: bTitle - .3, d: Math.max(1, dk.t0 - bTitle), x: 1390, y: 560, z: 1.3 },
+    { t: bTitle - .6, d: .9, x: 1390, y: 705, z: 1.3 },   // the school's sign leaves the frame above the title card (its pill never sits on it)
   ];
 
   // ================= desk: the reception — the form, "How old are you?", "I have 26 years." → freeze =================
@@ -250,8 +250,8 @@ export function buildStory() {
   // ================= room: "Class starts now. Room four!" — to the door of Room 4 =================
   const [R0, R1] = [RM[0], RM[1] || RM[0]];
   const tRoom = tokW(R0, /^Room/i, 5).t0, tNow = R1.t0;
-  const tGo = Math.max(R1.t1 + .35, bWalk - .1), tSArr = tGo + 2.4, tYArr = tGo + 2.7;
-  const tOpen = Math.max(tSArr + .35, Math.min(bDoor, rm.t1 - 3.2)), tIn0 = tOpen + 1.1, tIn1 = tIn0 + 1.0;
+  const tGo = Math.max(R1.t1 + .35, bWalk - .1), tSArr = tGo + 2.6, tYArr = tGo + 2.7;
+  const tOpen = Math.max(tSArr + .35, Math.min(bDoor, rm.t1 - 3.2)), tIn0 = tOpen + 1.1, tIn1 = tIn0 + 1.2;
   const tWorld = nwT('ar06', has('الدنيا'), .9), tBehind = nwT('ar06', has('الباب'), .55);
   MK.push({ t: R0.t0 - .25, turn: -.45, face: F('happy', { lx: -.5, happy: .5, mw: .12 }), d: .3 },
     { t: tRoom - .3, armR: DIP, d: .12 }, { t: tRoom - .15, armR: { ...POINT, front: true }, face: F('happy', { lx: -.6, ly: -.2, happy: .5, mw: .12 }), d: .2 },
@@ -259,8 +259,12 @@ export function buildStory() {
     { t: tGo - .1, turn: -.5, d: .3 },
     // at the door: opens it (the far hand to the handle), smiles back at him, goes in
     { t: tOpen - .3, armR: { ...REACH, dx: .16, dy: .06 }, d: .3 }, { t: tOpen + .5, armR: ARM.rest, turn: .25, face: F('joy', { lx: .5 }), d: .35 },
-    { t: tIn0 - .2, turn: -.6, d: .3 }, { t: tIn0, alpha: 1 }, { t: tIn1 - .2, alpha: 0, d: .2 });
-  mD.moves.push({ t0: tGo, t1: tSArr, x0: SXP, x1: 345, k0: .9, k1: .9, step: .4 }, { t0: tIn0, t1: tIn1, x0: 345, x1: 240, y0: GROUND, y1: 812, k0: .9, k1: .82, step: .45 });
+    { t: tIn0 - .2, turn: -.6, d: .3 });
+  // into Room 4: she stands centred in the doorway, steps in over the threshold (up, a touch smaller), then walks left inside the
+  // room; only then is she masked — by the door's frame (the mask is the opening, so she disappears behind its left jamb)
+  mD.moves.push({ t0: tGo, t1: tSArr, x0: SXP, x1: 245, k0: .9, k1: .9, step: .4 },
+    { t0: tIn0, t1: tIn0 + .55, x0: 245, x1: 238, y0: GROUND, y1: 806, k0: .9, k1: .8, step: .55 },
+    { t0: tIn0 + .55, t1: tIn1 + .5, x0: 238, x1: 20, y0: 806, y1: 806, k0: .8, k1: .8, step: .45 });
   YK.push({ t: R0.t0 - .15, turn: .1, face: F('surprised', { lx: -.4, pupil: .8, mo: .03, mw: .06 }), d: .3 },
     { t: tNow - .1, armL: RAISE, armR: RAISE, face: F('surprised', { lx: -.3, ly: -.1, pupil: .6, mo: .09, mw: .07, sweat: .5 }), d: .12 },
     { t: tNow + .55, armL: ARM.rest, armR: { ...ARM.wave, front: true }, turn: .45, face: F('joy', { lx: .5 }), d: .25 },
@@ -270,13 +274,13 @@ export function buildStory() {
     { t: tBehind - .1, face: F('surprised', { lx: -.6, ly: -.05, pupil: .8, mo: .03, mw: .06, bLy: 1, bRy: 1 }), d: .25 },
     { t: tWorld - .5, turn: -.1, armL: { ...ARM.hold, dx: .02 }, armR: { ...ARM.hold, dx: .02 }, face: F('nervous', { lx: 0, ly: 0, sweat: .8, mt: .7 }), d: .3 },
     { t: rm.t1 - .7, turn: -.55, armL: ARM.rest, armR: ARM.rest, face: F('happy', { lx: -.6, happy: .3, sweat: .4 }), d: .35 });
-  yD.moves.push({ t0: tGo + .15, t1: tYArr, x0: YX, x1: 640, k0: .9, k1: .9, step: .42 });
+  yD.moves.push({ t0: tGo + .15, t1: tYArr, x0: YX, x1: 490, k0: .9, k1: .9, step: .42 });
   yD.jumps.push({ t: tNow - .05, h: .07, d: .38 });
   yD.blinks.push(R0.t0 - .15, tNow - .1, tYArr, tWorld - .5);
   LK.push({ t: R1.t0 + .2, face: F('happy', { lx: -.6, happy: .55 }), d: .3 },
     { t: tNow + .5, armR: DIP, d: .12 }, { t: tNow + .65, armR: ARM.wave, face: F('joy', { lx: -.6 }), d: .2 }, { t: tGo + 1.4, armR: ARM.rest, face: F('happy', { lx: -.8, happy: .5 }), d: .35 });
   S.yD = yD; S.lD = lD; S.mD = mD; S.tGo = tGo; S.tOpen = tOpen; S.tIn0 = tIn0; S.tIn1 = tIn1; S.tWorld = tWorld;
-  S.formAt = { take: tTake, down: tDown };   // in his hand until `take`, in hers until `down`, then on the counter
+  S.formAt = { take: tTake, down: tDown, b0: tTake - .3, b1: tTake + .2, d0: tDown - .15, d1: tDown + .35 };   // see deskShot: one continuous path of the sheet
   // cameras: two-shot (desk), the freeze close-up, the three-shot (fix + sixty), the push on Youssef (ar04), the pan to Room 4
   const TWO = { x: 1352, y: 670, z: 1.85 }, THREE = { x: 1215, y: 672, z: 1.58 };
   S.camD = [
@@ -362,33 +366,48 @@ function deskShot(c, t, cam, freeze = false) {
   drawReception(c, cam, t, { dof, clock: Math.min(8, mins), door });
   const R = {};
   // Mrs. Lopez behind the counter (her pen; the form in her far hand between `take` and `down`)
-  const lHasForm = t >= S.formAt.take && t < S.formAt.down + .25, penOn = true;   // the held sheet sinks behind the counter as the one on top fades in; the pen never leaves her hand
+  // the form's one continuous path: his hand → (both hands) → her far hand, held over the counter's front edge → laid flat on
+  // the counter top (it moves and flattens; it never jumps or cross-fades). Phases: A his · B hand-over · C hers · D put down · E lying
+  const F = S.formAt, ph = t < F.b0 ? 'A' : t < F.b1 ? 'B' : t < F.d0 ? 'C' : t < F.d1 ? 'D' : 'E';
+  let lHand = null;
   R.l = drawActor(c, cam, S.lD, t, { front: (h, k) => {
-    if (penOn && !h[1][2]) penIn(c, 'lopez', h[1], k, .55);
-    if (lHasForm && !h[0][2]) formHeld(c, 'lopez', h[0], k, 1);
+    if (!h[1][2]) penIn(c, 'lopez', h[1], k, .55);   // the pen never leaves her near hand
+    lHand = [h[0], k];
   } });
   drawCounter(c, cam, t, { dof: 0 });
-  // the form lying on the counter top, in front of her
-  if (t >= S.formAt.down) {
-    const [fx, fy, Z] = toScreen(cam, 1, 1418, COUNTER.top + 7);
-    const a = seg(t, S.formAt.down, S.formAt.down + .2);
-    c.save(); c.globalAlpha = a; c.translate(fx, fy); c.scale(1, .34); drawForm(c, 0, 0, 120 * Z, 150 * Z, { rot: -.12, age: .2, ageVal: t >= S.tIns0 ? '26' : null }); c.restore();
-  }
+  const [fx, fy, FZ_] = toScreen(cam, 1, 1418, COUNTER.top + 7);
+  const flat = { x: fx, y: fy, w: 120 * FZ_, h: 150 * FZ_, sy: .34, rot: -.12 };
+  const atHand = (h, k) => ({ x: h[0] - .09 * 300 * k, y: h[1] + .1 * 300 * k, w: .24 * 300 * k, h: .3 * 300 * k, sy: 1, rot: -.15 });
+  const sheet = f => { c.save(); c.translate(f.x, f.y); c.scale(1, f.sy); drawForm(c, 0, 0, f.w, f.h, { rot: f.rot, age: .2 + .1 * f.sy, ageVal: t >= S.tIns0 ? '26' : null }); c.restore(); };
+  const mixF = (a, b, u) => ({ x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u), w: lerp(a.w, b.w, u), h: lerp(a.h, b.h, u), sy: lerp(a.sy, b.sy, u), rot: lerp(a.rot, b.rot, u) });
+  if (lHand && (ph === 'C' || ph === 'D')) {
+    const [h, k] = lHand, held = atHand(h, k);
+    if (ph === 'C') { sheet(held); hand(c, 'lopez', h, k); }
+    else { const u = eio(seg(t, F.d0, F.d1)); sheet(mixF(held, flat, u)); if (u < .6) hand(c, 'lopez', h, k); }
+  } else if (ph === 'E') sheet(flat);
   // Sara (with her tote bag) and Youssef, in front of the counter
-  const yHas = t < S.formAt.take;
+  const yHas = ph === 'A' || ph === 'B';
   const order = [[S.mD, 'm'], [S.yD, 'y']];
   for (const [C, n] of order) {
     if (n === 'm') {
       if (t < S.bSaraIn) continue;
-      const cl = t >= S.tIn0 ? doorRect(cam) : null;
+      const cl = t >= S.tIn0 + .5 ? doorRect(cam) : null;   // masked only once she is inside the frame of the door
       R.m = drawActor(c, cam, C, t, { clip: cl, behind: (h, k) => { if (h[0][2]) bagIn(c, 'mia', h[0], k); }, front: (h, k) => { if (!h[0][2]) bagIn(c, 'mia', h[0], k); } });
-    } else R.y = drawActor(c, cam, C, t, { front: (h, k) => { if (yHas && !h[1][2]) formHeld(c, 'youssef', h[1], k); } });
+    } else R.y = drawActor(c, cam, C, t, { front: (h, k) => {
+      if (!yHas) return;
+      if (ph === 'A' || !lHand) return formHeld(c, 'youssef', h[1], k);
+      // the hand-over: the sheet slides from his hand's grip to hers (both hands are out over the counter edge), his hand over it
+      const u = eio(seg(t, F.b0, F.b1)), [lh, lk] = lHand;
+      sheet(mixF(atHand(h[1], k), atHand(lh, lk), u));
+      if (u < .7) hand(c, 'youssef', h[1], k);
+      if (u > .3) hand(c, 'lopez', lh, lk);
+    } });
   }
   if (freeze) return R;
   const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null, lh = head(R.l, 'lopez', 1.14);
   // number tags: "16?!" over Youssef, "60" over Mrs. Lopez
   if (yh) { const k = seg(t, S.tSixteen, S.tSixteen + .35) * (1 - seg(t, S.tSixty2 - .1, S.tSixty2 + .2)); if (k > 0) numTag(c, yh[0] + 120 * R.y.Z, yh[1] - 110 * R.y.Z, '16?!', P.red, k, R.y.Z, t - S.tSixteen); }
-  if (lh) { const k = seg(t, S.tSixty2, S.tSixty2 + .35) * (1 - seg(t, S.n5 ? S.n5.t0 - .4 : 1e9, S.n5 ? S.n5.t0 - .1 : 1e9)); if (k > 0) numTag(c, lh[0] + 20 * R.l.Z, lh[1] - 150 * R.l.Z, '60', P.teal, k, R.l.Z, 0, seg(t, S.tSixZero, S.tSixZero + .3) > 0 ? '6 · 0' : null); }
+  if (lh) { const k = seg(t, S.tSixty2, S.tSixty2 + .35) * (1 - seg(t, S.n5 ? S.n5.t0 - .4 : 1e9, S.n5 ? S.n5.t0 - .1 : 1e9)); if (k > 0) numTag(c, lh[0] + 190 * R.l.Z, lh[1] + 70 * R.l.Z, '60', P.teal, k, R.l.Z, 0, seg(t, S.tSixZero, S.tSixZero + .3) > 0 ? '6 · 0' : null); }
   // ar05: the two stress cards (six·TEEN beside Youssef, SIX·ty beside Mrs. Lopez); a dot lands on the stressed part on the second mention
   if (S.n5 && t > S.t16 - .2 && t < S.n5.t1 + .6) {
     const out = seg(t, S.n5.t1 + .2, S.n5.t1 + .5);

@@ -66,6 +66,30 @@
    "text": "سهل"
   },
   {
+   "text": "where",
+   "start_ms": 5640,
+   "end_ms": 5859,
+   "src": "whisper"
+  },
+  {
+   "text": "are",
+   "start_ms": 5869,
+   "end_ms": 6020,
+   "src": "whisper"
+  },
+  {
+   "text": "you",
+   "start_ms": 6029,
+   "end_ms": 6160,
+   "src": "whisper"
+  },
+  {
+   "text": "from",
+   "start_ms": 6170,
+   "end_ms": 6480,
+   "src": "whisper"
+  },
+  {
    "start_ms": 6880,
    "end_ms": 7080,
    "text": "وانا"
@@ -84,5 +108,9 @@
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 1.71
+ },
+ "whisper_words": {
+  "offset_s": 0.1,
+  "n": 4
  }
 }

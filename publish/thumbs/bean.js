@@ -12,6 +12,15 @@ export const CAST = {
   // mia = Sara, the teacher (design v3): the internal id stays `mia` (timeline who / talk / mouth); only the displayed name changed
   mia: { id: 'mia', H: 276, a: .352, taper: .15, n: 2.4, skin: SKIN.mia, hair: HAIR.mia, brow: '#94381C',
     band: P.mustard, sleeve: P.mustard, cuff: dark(P.mustard, .18), shoe: P.red, hairE: .045, blush: '#FF7E76', blushA: .55, lash: P.ink, accent: P.mustard },
+  // episode 3: Mrs. Lopez, the school receptionist (≈ 60): a silver bun on the crown, red round glasses, a cream blouse with a collar
+  // under a sage-teal cardigan (teal + leaf, the palette mix), a navy-pastel skirt. Same egg, a touch wider and rounder.
+  lopez: { id: 'lopez', H: 270, a: .368, taper: .14, n: 2.35, skin: '#D69A6E', hair: '#D9D3DC', brow: '#8C8499',
+    band: mix(P.teal, P.leaf, .42), sleeve: mix(P.teal, P.leaf, .42), cuff: dark(mix(P.teal, P.leaf, .42), .2), shoe: P.navy, hairE: .04,
+    blush: '#E8786C', blushA: .45, lash: P.ink, accent: P.red, glasses: P.red },
+  // episode 4: Ana, the classmate from Madrid. Same egg, olive skin, a dark wavy bob with a side-swept fringe and a teal clip,
+  // a red top with a cream collar over teal trousers (palette tokens + mixes only)
+  ana: { id: 'ana', H: 266, a: .352, taper: .14, n: 2.4, skin: '#E2A77C', hair: '#3A2131', brow: '#3A2131',
+    band: P.red, sleeve: P.red, cuff: dark(P.red, .2), shoe: P.navy, hairE: .07, blush: '#F06A5E', blushA: .5, lash: P.ink, accent: P.red },
 };
 
 // ---------------- expressions (face kit presets; all numeric so they can be blended) ----------------
@@ -305,6 +314,18 @@ function hairline(sp, phi) {
     const temple = -.022 * Math.exp(-Math.pow((af - 1.05) / .2, 2));
     return (base + fringe + temple) * H;
   }
+  if (sp.id === 'lopez') {   // swept back: a high soft front with a side part, down to the ears at the sides, short at the back (the bun holds the rest)
+    const front = -.9 + .03 * Math.exp(-Math.pow((f - .3) / .22, 2)) + .012 * Math.cos(f * 9) * Math.exp(-Math.pow(f / .7, 2));   // a soft wave, the side part
+    let y = lerp(front, -.77, sst(.55, 1.05, af));
+    y = lerp(y, -.66, sst(1.6, 2.4, af));
+    return y * H;
+  }
+  if (sp.id === 'ana') {   // a bob: side-swept fringe (lower toward her left), sides down to the jaw with a soft wave, short at the back
+    const fringe = -.8 + .045 * Math.tanh((f + .1) * 2.2) + .018 * Math.sin(f * 6 + .5);
+    let y = lerp(fringe, -.5 + .018 * Math.sin(af * 9), sst(.74, 1.02, af));
+    y = lerp(y, -.47, sst(2.0, 2.6, af));
+    return y * H;
+  }
   // Sara (id mia): scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
   const bang = -.79 + .026 * Math.pow(Math.abs(Math.cos(f * 4.4 + .3)), .7) + .025 * f;
   let y = lerp(bang, -.75, sst(.72, .98, af));
@@ -320,7 +341,7 @@ export function drawChar(ctx, sp, p) {
   // contact shadow (stays on the ground while hopping, shrinks with lift)
   const st = p.stage ?? 9;
   if (p.shadow && st >= 3) { const s = 1 - clamp(p.lift / H) * .7; contact(ctx, p.x + .035 * H * k, p.y + .004 * H * k, .44 * H * k * s, .065 * H * k * s, .3 * p.shadow); }
-  const bx = (sp.id === 'mia' ? .82 : .72) * H * k, box = { x: p.x - bx + p.lean * H * k * .6, y: p.y - 1.3 * H * k - p.lift * k, w: bx * 2, h: 1.38 * H * k + p.lift * k };
+  const bx = (sp.id !== 'youssef' ? .82 : .72) * H * k, box = { x: p.x - bx + p.lean * H * k * .6, y: p.y - 1.3 * H * k - p.lift * k, w: bx * 2, h: 1.38 * H * k + p.lift * k };
   const arms = armGeo(sp, p, G);
   formed(ctx, box, l => { l.save(); toScreen(l); bodyFlat(l, sp, p, G, arms); l.restore(); },
     { sx: .055 * H * k, sy: .03 * H * k, soft: .016 * H * k, shadeA: st >= 2 ? .55 : 0, hx: .016 * H * k, hy: .02 * H * k, hiA: st >= 2 ? .38 : 0,
@@ -382,6 +403,7 @@ function bodyFlat(l, sp, p, G, arms) {
   if (st >= 1) for (const A of arms) if (A.far && (A.frontK ?? 0) < .97) drawArm(l, sp, A, H);
   // ponytail + tie (behind)
   if (sp.id === 'mia' && st >= 1) pony(l, sp, p, G);
+  if (sp.id === 'lopez' && st >= 1) bun(l, sp, p, G);
   // feet
   for (const s of [-1, 1]) {
     const lift = (s < 0 ? p.footL : p.footR) * H, side = Math.abs(Math.sin(th));
@@ -411,10 +433,10 @@ function bodyFlat(l, sp, p, G, arms) {
   l.save(); smooth(l, big); l.clip(); poly(l, region()); l.fillStyle = sp.hair; l.fill();
   // hair sheen: a soft arc on the lit side
   const [tx, ty] = D(G.hw(-.9 * H) * -.35 + Math.sin(th) * .05 * H, -.9 * H);
-  l.strokeStyle = rgba('#FFFFFF', sp.id === 'mia' ? .2 : .13); l.lineWidth = .028 * H; l.lineCap = 'round';
+  l.strokeStyle = rgba('#FFFFFF', sp.id === 'mia' ? .2 : sp.id === 'ana' ? .16 : .13); l.lineWidth = .028 * H; l.lineCap = 'round';
   l.beginPath(); l.ellipse(tx + .07 * H, ty + .03 * H, .16 * H, .085 * H, -.2, PI * 1.12, PI * 1.42); l.stroke();
   l.restore();
-  if (sp.id === 'youssef') quiff(l, sp, p, G); else tendrils(l, sp, p, G);
+  if (sp.id === 'youssef') quiff(l, sp, p, G); else if (sp.id === 'mia') tendrils(l, sp, p, G); else if (sp.id === 'ana') bob(l, sp, p, G); else waves(l, sp, p, G);
 }
 
 function clothes(l, sp, p, G) {
@@ -436,6 +458,41 @@ function clothes(l, sp, p, G) {
     // single button
     const bs = G.surf(0, -.205 * H);
     if (bs.c > .1) { const [bx, by] = D(bs.x, -.205 * H); ell(l, bx, by, .016 * H * Math.max(.4, bs.c), .016 * H); l.fillStyle = dark(sp.band, .35); l.fill(); }
+  } else if (sp.id === 'lopez') {
+    // cream blouse with a pointed collar, an open sage cardigan (two fronts, buttons on one side), a navy-pastel skirt
+    const top = G.across(phi => (-.405 - .05 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...top, [H, H], [-H, H]]); l.fillStyle = P.cream; l.fill();
+    const card = G.across(phi => { const f = Math.abs(wrap(phi)); return (-.455 + .012 * (1 - Math.cos(f)) + (f < .42 ? .26 * Math.pow(1 - f / .42, 1.15) : 0)) * H; }, 72);
+    poly(l, [...card, [H, H], [-H, H]]); l.fillStyle = sp.band; l.fill();
+    // the blouse collar: two small cream points over the cardigan's neckline
+    for (const s of [-1, 1]) {
+      const a = G.surf(s * .05, -.43 * H), b = G.surf(s * .3, -.41 * H), q = G.surf(s * .2, -.33 * H);
+      if (Math.min(a.c, b.c) > .05) { poly(l, [G.D(a.x, -.43 * H), G.D(b.x, -.415 * H), G.D(q.x, -.335 * H)]); l.fillStyle = '#FFFDF8'; l.fill(); l.strokeStyle = rgba(SHADE, .25); l.lineWidth = .006 * H; l.stroke(); }
+    }
+    // the cardigan's front edges and buttons
+    for (const s of [-1, 1]) {
+      const pl = []; for (let i = 0; i <= 8; i++) { const y = lerp(-.25, -.11, i / 8) * H, q = G.surf(s * .1 * (1 - i / 8), y, 1); pl.push(G.D(q.x, y)); }
+      if (G.surf(s * .1, -.2 * H).c > .05) { l.strokeStyle = dark(sp.band, .22); l.lineWidth = .011 * H; l.lineCap = 'round'; poly(l, pl, false); l.stroke(); }
+    }
+    for (const y of [-.22, -.16]) { const q = G.surf(-.08, y * H, 1); if (q.c > .1) { const [bx, by] = D(q.x, y * H); ell(l, bx, by, .013 * H * Math.max(.4, q.c), .013 * H); l.fillStyle = P.cream; l.fill(); } }
+    // a pocket with a pen clipped in it
+    const pq = G.surf(.42, -.24 * H, 1);
+    if (pq.c > .2) { const [px, py] = D(pq.x, -.24 * H); rr(l, px - .045 * H * pq.c, py - .01 * H, .09 * H * pq.c, .055 * H, .008 * H); l.fillStyle = dark(sp.band, .12); l.fill();
+      l.fillStyle = P.navy; rr(l, px - .012 * H * pq.c, py - .05 * H, .014 * H, .05 * H, .005 * H); l.fill(); }
+    const hem = G.across(() => -.14 * H, 30); poly(l, [...hem, [H, H], [-H, H]]); l.fillStyle = dark(sp.band, .14); l.fill();
+    const sk = G.across(() => -.11 * H, 30); poly(l, [...sk, [H, H], [-H, H]]); l.fillStyle = mix(P.navy, P.cream, .3); l.fill();
+  } else if (sp.id === 'ana') {
+    // red top with a rounded cream collar, teal trousers below a darker hem
+    const top = G.across(phi => (-.43 - .03 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...top, [H, H], [-H, H]]); l.fillStyle = sp.band; l.fill();
+    for (const s of [-1, 1]) {   // the two collar wings (cream), drawn on the visible front
+      const pts = [];
+      for (let i = 0; i <= 12; i++) { const f = s * (.02 + .5 * i / 12), y = (-.455 + .06 * Math.sin(Math.PI * i / 12) + .02 * i / 12) * H; const ps = f + th; pts.push(D(G.hw(y) * Math.sin(ps), y)); }
+      for (let i = 12; i >= 0; i--) { const f = s * (.02 + .5 * i / 12), y = (-.43 - .005 * Math.sin(Math.PI * i / 12)) * H; const ps = f + th; pts.push(D(G.hw(y) * Math.sin(ps), y)); }
+      if (Math.cos(s * .25 + th) > -.2) { smooth(l, pts); l.fillStyle = P.cream; l.fill(); }
+    }
+    const hem = G.across(() => -.15 * H, 30); poly(l, [...hem, [H, H], [-H, H]]); l.fillStyle = dark(sp.band, .16); l.fill();
+    const tr = G.across(() => -.125 * H, 30); poly(l, [...tr, [H, H], [-H, H]]); l.fillStyle = dark(P.teal, .08); l.fill();
   } else {
     // cream top with a scoop neck, mustard cardigan (placket + buttons + ribbed hem), teal skirt
     const top = G.across(phi => (-.4 - .065 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
@@ -466,6 +523,32 @@ function tendrils(l, sp, p, G) {
       Lp.push(G.D(x - w, y)); Rp.push(G.D(x + w, y));
     }
     smooth(l, [...Lp, ...Rp.reverse()]); l.fillStyle = sp.hair; l.fill();
+  }
+}
+
+// Ana's bob: two wavy side masses that frame the face down to the jaw and flip out a little at the ends, plus a teal clip
+function bob(l, sp, p, G) {
+  const H = G.H, th = G.th;
+  for (const s of [-1, 1]) {
+    const ps = s * 1.12 + th; if (Math.cos(ps) < -.35) continue;
+    const Lp = [], Rp = [], N = 16, sn = Math.sin(ps), sg = Math.sign(sn) || s;
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, y = lerp(-.9, -.47, t) * H;
+      const x = G.hw(y) * sn * 1.02 + sg * (.018 * Math.sin(PI * t) + .02 * Math.pow(t, 3) + .006 * Math.sin(t * 11)) * H;
+      const w = (.045 + .02 * Math.sin(PI * t * .9) - .015 * Math.pow(t, 4)) * H * (.6 + .4 * Math.abs(Math.cos(ps)));
+      Lp.push(G.D(x - w * .7, y)); Rp.push(G.D(x + w, y));
+    }
+    smooth(l, [...Lp, ...Rp.reverse()]); l.fillStyle = sp.hair; l.fill();
+    // a soft wave line inside each side
+    const wl = []; for (let i = 2; i <= N - 2; i++) { const t = i / N, y = lerp(-.88, -.5, t) * H; wl.push(G.D(G.hw(y) * sn * 1.04 + sg * (.01 + .008 * Math.sin(t * 10)) * H, y)); }
+    l.strokeStyle = rgba('#FFFFFF', .1); l.lineWidth = .012 * H; l.lineCap = 'round'; poly(l, wl, false); l.stroke();
+  }
+  // teal clip in the fringe on her left (screen right in a front view)
+  const phi = .55, ps = phi + th, y = -.83 * H;
+  if (Math.cos(ps) > -.1) {
+    const [cx, cy] = G.D(G.hw(y) * .9 * Math.sin(ps), y);
+    l.save(); l.translate(cx, cy); l.rotate(-.5); rr(l, -.04 * H, -.013 * H, .08 * H, .026 * H, .013 * H); l.fillStyle = P.teal; l.fill();
+    rr(l, -.03 * H, -.008 * H, .03 * H, .008 * H, .004 * H); l.fillStyle = light(P.teal, .35); l.fill(); l.restore();
   }
 }
 
@@ -505,6 +588,28 @@ function pony(l, sp, p, G) {
   ell(l, tx - .015 * H, ty, .03 * H, .018 * H, d * .3); l.fillStyle = light(P.teal, .25); l.fill();
 }
 
+// Mrs. Lopez: a round silver bun on the crown (drawn behind the head, so it peeks above it) with a red band, and soft waves at the temples
+function bun(l, sp, p, G) {
+  const H = G.H, th = G.th;
+  const [bx, by] = G.D(-Math.sin(th) * .06 * H, -1.06 * H);
+  ell(l, bx, by, .105 * H, .085 * H, Math.sin(th) * .2); l.fillStyle = dark(sp.hair, .12); l.fill();
+  ell(l, bx - .015 * H, by - .015 * H, .08 * H, .062 * H, Math.sin(th) * .2); l.fillStyle = sp.hair; l.fill();
+  l.strokeStyle = rgba('#FFFFFF', .45); l.lineWidth = .014 * H; l.lineCap = 'round';
+  l.beginPath(); l.ellipse(bx - .015 * H, by - .015 * H, .055 * H, .035 * H, -.2, PI * 1.1, PI * 1.6); l.stroke();
+  l.strokeStyle = dark(sp.hair, .25); l.lineWidth = .008 * H;
+  for (const a of [-.5, .4]) { l.beginPath(); l.ellipse(bx, by, .08 * H, .06 * H, a, PI * 1.05, PI * 1.45); l.stroke(); }
+}
+function waves(l, sp, p, G) {
+  const H = G.H, th = G.th;
+  for (const s of [-1, 1]) {
+    const ps = s * 1.08 + th; if (Math.cos(ps) < -.1) continue;
+    const sn = Math.sin(ps), pts = [];
+    for (let i = 0; i <= 10; i++) { const t = i / 10, y = lerp(-.78, -.66, t) * H; pts.push(G.D(G.hw(y) * sn * 1.015 + Math.sign(sn) * .018 * H * Math.sin(PI * t * 2), y)); }
+    for (let i = 10; i >= 0; i--) { const t = i / 10, y = lerp(-.78, -.66, t) * H; pts.push(G.D(G.hw(y) * sn * .93, y)); }
+    smooth(l, pts); l.fillStyle = sp.hair; l.fill();
+  }
+}
+
 // ---------------- face ----------------
 const EYE = { y: -.665, dx: .122, rx: .061, ry: .077 };
 function face(c, sp, p, G) {
@@ -534,6 +639,24 @@ function face(c, sp, p, G) {
       c.strokeStyle = sp.brow; c.lineWidth = .031 * H; c.lineCap = 'round';
       c.beginPath(); c.moveTo(xo, yo); c.quadraticCurveTo(0, (yi + yo) / 2 - .016 * H, xi, yi); c.stroke();
     });
+  }
+  // round glasses (Mrs. Lopez): two frames around the eyes and a bridge, a faint lens glint
+  if (sp.glasses) {
+    const qs = [-1, 1].map(s => place(s * EYE.dx, EYE.y + .005));
+    const lw = .017 * H;
+    qs.forEach((q, i) => { if (q.c > .12) sub(q, fx => {
+      ell(c, 0, 0, EYE.rx * H * 1.55 * fx, EYE.ry * H * 1.3); c.fillStyle = rgba('#FFFFFF', .12); c.fill();
+      c.strokeStyle = sp.glasses; c.lineWidth = lw; c.stroke();
+      c.strokeStyle = rgba('#FFFFFF', .55); c.lineWidth = lw * .45; c.lineCap = 'round';
+      c.beginPath(); c.ellipse(0, 0, EYE.rx * H * 1.2 * fx, EYE.ry * H * 1.0, 0, PI * 1.15, PI * 1.4); c.stroke();
+    }); });
+    if (qs[0].c > .12 && qs[1].c > .12) {
+      const a = [qs[0].X + EYE.rx * H * 1.5 * Math.max(.2, qs[0].c), qs[0].Y - .012 * H], b = [qs[1].X - EYE.rx * H * 1.5 * Math.max(.2, qs[1].c), qs[1].Y - .012 * H];
+      c.strokeStyle = sp.glasses; c.lineWidth = lw; c.lineCap = 'round'; c.beginPath(); c.moveTo(a[0], a[1]); c.quadraticCurveTo((a[0] + b[0]) / 2, a[1] - .02 * H, b[0], b[1]); c.stroke();
+    }
+    // the temple arm toward the visible ear
+    const side = th >= 0 ? -1 : 1, q = qs[side < 0 ? 0 : 1];
+    if (q.c > .12) { const ey = EYE.y * H, ex = G.D(side * G.hw(ey) * .9, ey); c.strokeStyle = sp.glasses; c.lineWidth = lw * .8; c.beginPath(); c.moveTo(q.X + side * EYE.rx * H * 1.5 * q.c, q.Y - .01 * H); c.lineTo(ex[0], ex[1] - .006 * H); c.stroke(); }
   }
   // mouth
   const qm = place(0, -.548);
@@ -579,7 +702,7 @@ function eye(c, sp, f, H, fx, s) {
   c.save(); ell(c, 0, 0, rx * 1.12, ryo * 1.12); c.clip();
   c.beginPath(); if (lid > .01) upper(); else c.ellipse(0, 0, rx, ryo, 0, PI * 1.1, PI * 1.9); c.stroke();
   c.restore();
-  if (sp.id === 'mia') { const ox = s * rx * .8, oy = -ryo * .58 + (lid > .01 ? ryo * lid * 1.2 : 0); c.beginPath(); c.moveTo(ox, oy); c.quadraticCurveTo(ox + s * rx * .32, oy - ry * .1, ox + s * rx * .45, oy - ry * .3); c.stroke(); }
+  if (sp.id !== 'youssef') { const ox = s * rx * .8, oy = -ryo * .58 + (lid > .01 ? ryo * lid * 1.2 : 0); c.beginPath(); c.moveTo(ox, oy); c.quadraticCurveTo(ox + s * rx * .32, oy - ry * .1, ox + s * rx * .45, oy - ry * .3); c.stroke(); }
 }
 
 function mouth(c, sp, f, H, fx) {
@@ -760,8 +883,24 @@ export function drawForm(ctx, x, y, w, h, o = {}) {
       ctx.font = `600 ${h * .075}px "Fredoka"`; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = isAge ? P.ink : rgba(P.ink, .7); ctx.fillText(lab, -w / 2 + m, yy);
       if (val) { ctx.font = `500 ${h * .07}px "Fredoka"`; ctx.fillStyle = P.teal; ctx.fillText(val, -w / 2 + m + w * .27, yy + h * .005); }
       if (isAge) { ctx.strokeStyle = P.ink; ctx.lineWidth = lw * 1.3; ctx.setLineDash([w * .03, w * .02]); ctx.beginPath(); ctx.moveTo(-w / 2 + m + w * .26, yy + h * .03); ctx.lineTo(-w / 2 + m + w * .62, yy + h * .03); ctx.stroke(); ctx.setLineDash([]); }
-    } else if (isAge) { ctx.fillStyle = rgba(P.ink, .55); rr(ctx, -w / 2 + m + w * .26, yy + h * .015, w * .3, h * .03, h * .01); ctx.fill(); }
+      if (isAge && o.ageVal && (o.write ?? 1) > 0) {   // handwritten in teal ink, revealed left to right as it is written
+        ctx.save(); ctx.font = `600 ${h * .1}px "Fredoka"`; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        const vx = -w / 2 + m + w * .29, vw = ctx.measureText(o.ageVal).width;
+        ctx.beginPath(); ctx.rect(vx - 4, yy - h * .08, (vw + 8) * (o.write ?? 1), h * .16); ctx.clip();
+        ctx.translate(vx, yy - h * .004); ctx.rotate(-.04); ctx.fillStyle = P.teal; ctx.fillText(o.ageVal, 0, 0); ctx.restore();
+      }
+    } else if (isAge && o.ageVal && (o.write ?? 1) > .5) { ctx.fillStyle = P.teal; rr(ctx, -w / 2 + m + w * .27, yy - h * .025, w * .12, h * .05, h * .02); ctx.fill(); }
+    else if (isAge) { ctx.fillStyle = rgba(P.ink, .55); rr(ctx, -w / 2 + m + w * .26, yy + h * .015, w * .3, h * .03, h * .01); ctx.fill(); }
   });
+  ctx.restore();
+}
+// a navy pen held in a hand at (x, y): k = the owner's screen scale, rot = its angle (0 = pointing down-left, nib first)
+export function drawPen(ctx, x, y, k, rot = 0) {
+  const u = 270 * k;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  rr(ctx, -.012 * u, -.07 * u, .024 * u, .12 * u, .01 * u); ctx.fillStyle = P.navy; ctx.fill();
+  ctx.fillStyle = P.mustard; ctx.fillRect(-.012 * u, -.07 * u, .024 * u, .018 * u);
+  ctx.fillStyle = '#C9CED8'; ctx.beginPath(); ctx.moveTo(-.01 * u, .05 * u); ctx.lineTo(.01 * u, .05 * u); ctx.lineTo(0, .075 * u); ctx.closePath(); ctx.fill();
   ctx.restore();
 }
 // hand positions (screen px) for a pose, without drawing: [[x, y, far], [x, y, far]] for armL, armR

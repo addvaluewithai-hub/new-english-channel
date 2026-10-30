@@ -36,9 +36,33 @@
    "text": "تقولش"
   },
   {
+   "text": "26",
+   "start_ms": 1480,
+   "end_ms": 1900,
+   "src": "whisper"
+  },
+  {
+   "text": "years",
+   "start_ms": 1910,
+   "end_ms": 2380,
+   "src": "whisper"
+  },
+  {
    "start_ms": 2800,
    "end_ms": 3400,
    "text": "ولا"
+  },
+  {
+   "text": "26",
+   "start_ms": 3760,
+   "end_ms": 4300,
+   "src": "whisper"
+  },
+  {
+   "text": "years",
+   "start_ms": 4310,
+   "end_ms": 5120,
+   "src": "whisper"
   },
   {
    "start_ms": 5000,
@@ -49,10 +73,20 @@
    "start_ms": 5200,
    "end_ms": 5400,
    "text": "غير"
+  },
+  {
+   "text": "old",
+   "start_ms": 5480,
+   "end_ms": 5880,
+   "src": "whisper"
   }
  ],
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.0
+ },
+ "whisper_words": {
+  "offset_s": 0.06,
+  "n": 5
  }
 }

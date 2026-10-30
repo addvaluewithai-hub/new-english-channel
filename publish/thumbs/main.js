@@ -1,10 +1,15 @@
 // YouTube thumbnails for "يوسف في نيويورك", drawn with the episodes' own engine (Bean People v3) so the characters are on-model.
-// Page contract: window.DUR = 2, window.render(t): t < 1.5 → episode 1 ("First Day"), otherwise episode 2 ("Good Morning?").
-// Render: node core/render/still.mjs <this dir> 1 2 --out <dir>   (1920×1080; downscale to 1280×720 with ffmpeg)
+// Page contract: window.DUR = 4, window.render(t): t < 1.5 → episode 1 ("First Day"), t < 2.5 → episode 2 ("Good Morning?"),
+// t < 3.5 → episode 3 ("The Form"), otherwise episode 4 ("Where Are You From?").
+// Render: node core/render/still.mjs <this dir> 1 2 3 4 --out <dir>   (1920×1080; downscale to 1280×720 with ffmpeg)
+// Episodes 3 and 4 draw their own sets from the episodes' world.js (copied verbatim as world3.js / world4.js); bean.js carries
+// Mrs. Lopez (episode 3) and Ana (episode 4) from the episode engines.
 import { P, grain, CPU, rgba, rr, mix } from './kit.js';
 import { clamp } from '/core/lib.js';
 import { CAST, drawChar, pose } from './bean.js';
 import { bakeWorld, bakeSets, drawWorld, drawHall } from './world.js';
+import { drawReception, drawCounter } from './world3.js';
+import { drawClass } from './world4.js';
 import { F, ARM, EXPR } from './act.js';
 import { SPEAKER, nameTab, squiggle } from './ui.js';
 
@@ -133,11 +138,62 @@ function ep2() {
   drawChar(c, CAST.mia, sp);
 }
 
+// Episode 3 "The Form": the sheepish freeze at the reception, "I have 26 years." with the squiggle, Mrs. Lopez peeking over
+// her red glasses, "عندي 26 سنة… غلط!"
+function ep3() {
+  // the reception, blurred (the clock, Room 4's door, the shelves; the counter front in the bottom right)
+  const cam = { x: 1120, y: 560, z: 1.5 };
+  drawReception(c, cam, 0, { dof: 9, clock: 7.95, door: 0 });
+  drawCounter(c, cam, 0, { dof: 9 });
+  dim(c, .06); vignette(c, .4);
+  // Youssef: the awkward grin — worried brows, a tight wobbly smile, ///, sweat, eyes to the viewer; the hand up at his head
+  const face = F('embarrassed', { eye: 1, pupil: .82, lx: .18, ly: -.05, happy: .25, bLy: .55, bRy: .55, bLr: 1, bRr: 1, mw: .16, ms: .5, mo: .02, mt: .9, mwob: 1, blush: 1, lines: 1, sweat: 1 });
+  const p = pose({ x: 575, y: 1120, k: 3.1, turn: .1, lean: .015, face, armL: ARM.rest, armR: ARM.scratch, quiff: .15, breathe: 0, shadow: 0 });
+  drawChar(c, CAST.youssef, p);
+  // the bubble
+  const B = bigBubble(c, { x: 820, y: 372, who: 'youssef', words: [{ w: 'I' }, { w: 'have' }, { w: '26' }, { w: 'years.' }], side: 1, fs: 104, lift: 64 });
+  bubbleSquiggle(c, B, 0, 3);
+  // the headline
+  arPlate(c, 1320, 655, [{ t: 'عندي 26 سنة…', fs: 136, dy: 8 }, { t: 'غلط!', fs: 225, col: P.mustard, dy: -22 }], { rot: -.04 });
+  epTag(c, 1650, 368, 'الحلقة 3', 60, .1);
+  // Mrs. Lopez peeks in from the right edge, surprised, eyes up over her red glasses, a hand at her cheek
+  const lFace = F('surprised', { pupil: .7, mo: .075, mw: .06, lx: -.7, ly: -.25, bLy: 1, bRy: 1, blush: .45 });
+  const lp = pose({ x: 1812, y: 1262, k: 2.0, turn: -.42, lean: -.07, face: lFace, armL: { dx: -.08, dy: -.2, w: 0, bend: 55, elv: [1, .3], flex: 1 }, armR: ARM.rest, shadow: 0 });
+  drawChar(c, CAST.lopez, lp);
+}
+
+// Episode 4 "Where Are You From?": the "uh-oh" in the classroom, "I am live in Queens." with the squiggle under "am", Ana
+// peeking puzzled, "am زيادة!"
+function ep4(variant = Q.get('v') || 'a') {
+  // the classroom, blurred (the board with the question, the world map, the window)
+  const cam = { x: 1060, y: 530, z: 1.45 };
+  drawClass(c, cam, 0, { dof: 9, door: 0, board: [{ text: 'Where are you from?', x: 865, y: 300, size: 56, col: P.navy, p: 1 }],
+    pins: { egypt: { k: 1, label: 'Egypt' }, spain: { k: 1, label: 'Spain' }, usa: { k: 1, label: 'New York' } } });
+  dim(c, .06); vignette(c, .4);
+  // Youssef: caught — wide eyes cutting sideways, brows up and worried, a small open "oh-no" mouth, sweat, a hand at his mouth
+  const face = F('embarrassed', { eye: 1, pupil: .74, lx: .55, ly: -.05, happy: 0, bLy: .85, bRy: .85, bLr: .9, bRr: .9, mw: .07, mo: .05, ms: -.25, mround: .3, mwob: 1, blush: 1, lines: 1, sweat: 1 });
+  const MOUTH = { dx: -.17, dy: -.12, w: 0, bend: 55, elv: [1, .2], flex: 1 };
+  const p = pose({ x: 575, y: 1120, k: 3.1, turn: .14, face, armL: ARM.rest, armR: MOUTH, quiff: .15, breathe: 0, shadow: 0 });
+  drawChar(c, CAST.youssef, p);
+  // the bubble: the squiggle under "am" only
+  const B = bigBubble(c, { x: 780, y: 372, who: 'youssef', words: [{ w: 'I' }, { w: 'am' }, { w: 'live' }, { w: 'in' }, { w: 'Queens.' }], side: 1, fs: 96, lift: 64 });
+  bubbleSquiggle(c, B, 1, 1);
+  // the headline
+  const lines = variant === 'b' ? [{ t: '\u2066I am live…\u2069', fs: 130, dy: 8 }, { t: 'ليه غلط؟', fs: 200, col: P.mustard, dy: -22 }]
+    : [{ t: 'كلمة واحدة…', fs: 120, dy: 8 }, { t: 'am زيادة!', fs: 190, col: P.mustard, dy: -22 }];
+  arPlate(c, 1300, 650, lines, { rot: -.04 });
+  epTag(c, 1630, 372, 'الحلقة 4', 60, .1);
+  // Ana peeks in from the right edge, one brow up, looking at him
+  const aFace = F('puzzled', { pupil: .75, lx: -.75, ly: .0, mo: .03, mw: .06, blush: .5 });
+  const ap = pose({ x: 1815, y: 1262, k: 2.0, turn: -.42, lean: -.07, face: aFace, armL: { dx: -.1, dy: -.12, w: 0, bend: 55, elv: [1, .3], flex: 1 }, armR: ARM.rest, shadow: 0 });
+  drawChar(c, CAST.ana, ap);
+}
+
 window.render = t => {
   c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.globalCompositeOperation = 'source-over'; c.filter = 'none';
   c.fillStyle = P.ink; c.fillRect(0, 0, SW, SH);
-  const ep = Q.get('ep') ? +Q.get('ep') : (t < 1.5 ? 1 : 2);
-  if (ep === 1) ep1(); else ep2();
+  const ep = Q.get('ep') ? +Q.get('ep') : (t < 1.5 ? 1 : t < 2.5 ? 2 : t < 3.5 ? 3 : 4);
+  if (ep === 1) ep1(); else if (ep === 2) ep2(); else if (ep === 3) ep3(); else ep4();
   c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
   grain(c, SW, SH, .025);
 };
@@ -145,10 +201,11 @@ window.render = t => {
 (async () => {
   await document.fonts.load('600 40px "Fredoka"');
   await Promise.all([document.fonts.load('400 40px "Lilita One"'), document.fonts.load('700 40px "Fredoka"'), document.fonts.load('500 40px "Fredoka"'),
-    document.fonts.load('700 40px "Baloo Bhaijaan 2"', 'أول يوسف الحلقة'), document.fonts.load('800 40px "Baloo Bhaijaan 2"', 'أول جملة غلط تصبح على خير الصبح')]);
+    document.fonts.load('700 40px "Baloo Bhaijaan 2"', 'أول يوسف الحلقة'), document.fonts.load('800 40px "Baloo Bhaijaan 2"', 'أول جملة غلط تصبح على خير الصبح'),
+    document.fonts.load('800 40px "Baloo Bhaijaan 2"', 'عندي 26 سنة ليه كلمة واحدة زيادة I am live'), document.fonts.load('400 30px "Lilita One"', 'RECEPTION')]);
   await document.fonts.ready;
   bakeWorld(); bakeSets();
-  window.DUR = 2;
+  window.DUR = 4;
   window.render(1);
   window.READY = true;
 })();

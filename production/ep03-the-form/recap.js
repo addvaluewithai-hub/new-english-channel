@@ -55,12 +55,14 @@ export function buildRecap() {
   const mR = { id: 'mia', base: { turn: .3, face: mRest, armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1, sq: 1, lean: 0 },
     moves: [{ t0: hiT - 1.0, t1: hiT - .1, x0: -320, x1: MX, y0: GROUND_Y, y1: GROUND_Y, k0: MK_, k1: MK_, step: .45 }], keys: [], jumps: [], blinks: [] };
   const K = yR.keys, MK = mR.keys;
+  // open hands toward the board stay short, so a hand never covers the cards at the column's edges (x 560–1400)
+  const YOPEN = { ...OPEN, dx: .06, dy: -.06 }, MOPEN = { ...OPEN, dx: .06, dy: -.06 };
   const nod = (keys, x) => keys.push({ t: x, sq: .95, d: .1 }, { t: x + .13, sq: 1, d: .12 }, { t: x + .28, sq: .955, d: .1 }, { t: x + .41, sq: 1, d: .14 });
   K.push({ t: rc.t0 + 1.25, armR: DIP, d: .15 }, { t: rc.t0 + 1.4, armR: ARM.wave, d: .2 }, { t: rc.t0 + 2.6, armR: ARM.rest, d: .3 });
   // every model line: the speaker turns to us with an open hand and talks (lip sync from talk); the other looks over and nods
   for (const l of recapLines) {
     const ys = l.who === 'youssef', [SK, LK] = ys ? [K, MK] : [MK, K];
-    SK.push({ t: l.t0 - .3, turn: ys ? -.1 : .1, face: F('happy', { lx: 0, ly: 0, happy: .45, bLy: .6, bRy: .6 }), [ys ? 'armL' : 'armR']: OPEN, d: .25 },
+    SK.push({ t: l.t0 - .3, turn: ys ? -.1 : .1, face: F('happy', { lx: 0, ly: 0, happy: .45, bLy: .6, bRy: .6 }), [ys ? 'armL' : 'armR']: ys ? YOPEN : MOPEN, d: .25 },
       { t: l.t1 + .35, turn: ys ? -.3 : .3, face: ys ? yRest : mRest, [ys ? 'armL' : 'armR']: ARM.rest, d: .3 });
     LK.push({ t: l.t0 - .15, face: F('happy', { lx: ys ? .75 : -.75, ly: -.05, happy: .55 }), d: .25 }, { t: l.t1 + .5, face: ys ? mRest : yRest, d: .3 });
     nod(LK, l.t1 - .05);
@@ -69,7 +71,7 @@ export function buildRecap() {
   const beatNods = (keys, l) => { if (l) l.tok.forEach((o, i) => { if (i % 2 === 0) keys.push({ t: o.t0, sq: .97, d: .08 }, { t: o.t0 + .12, sq: 1, d: .12 }); }); };
   beatNods(MK, L('r01')); beatNods(K, L('r02')); beatNods(MK, L('r03'));
   const r04 = L('r04'), r05 = L('r05'), r08 = L('r08');
-  if (r04) r04.tok.forEach(o => MK.push({ t: o.t0 + (/teen/i.test(o.w) ? .18 : 0), armR: { ...OPEN, dy: -.1 }, sq: .96, d: .08 }, { t: o.t0 + (/teen/i.test(o.w) ? .3 : .12), sq: 1, d: .12 }));
+  if (r04) r04.tok.forEach(o => MK.push({ t: o.t0 + (/teen/i.test(o.w) ? .18 : 0), armR: MOPEN, sq: .96, d: .08 }, { t: o.t0 + (/teen/i.test(o.w) ? .3 : .12), sq: 1, d: .12 }));
   if (r05) MK.push({ t: r05.t0 - .3, armL: { ...OPEN, dx: .18 }, d: .25 }, { t: r05.t1 + .4, armL: ARM.rest, d: .3 });
   // the mistakes: facepalm on the squiggle, sheepish scratch while it is explained, proud nod (hand on chest) on the fix
   const mistake = (tSq, tFix) => {
@@ -89,7 +91,7 @@ export function buildRecap() {
     { t: r08 ? r08.t0 - .3 : R.tTwentyFirst + 1.5, armL: ARM.rest, d: .3 });
   // repeat gaps: Youssef turns to us with an open hand ("your turn"), Sara smiles at us
   for (const g of R.gaps) {
-    K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
+    K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: YOPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
     MK.push({ t: g.t0 + .1, face: F('happy', { lx: 0, ly: 0, happy: .6 }), d: .3 }, { t: g.t1 - .1, face: mRest, d: .3 });
   }
   for (const k of K) if (k.armR) k.armR = OUTR(k.armR);
@@ -224,7 +226,8 @@ export function sceneRecap(c, t) {
   // repeat cue in the gaps after model lines
   for (const g of R.gaps) {
     const a = Math.min(seg(t, g.t0, g.t0 + .3), 1 - seg(t, g.t1 - .2, g.t1));
-    if (a > 0) repeatCue(c, 960, cueY, a, t);
+    const own = I.find(i => g.t0 >= i.t0 - .05 && g.t0 < i.t1 + .05);   // the item the gap belongs to (not the next one fading in)
+    if (a > 0) repeatCue(c, 960, own && CUEY[own.id] ? CUEY[own.id] : cueY, a, t);
   }
 }
 

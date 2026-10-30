@@ -21,6 +21,18 @@
  ],
  "words": [
   {
+   "text": "sixteen",
+   "start_ms": 213,
+   "end_ms": 810,
+   "src": "whisper"
+  },
+  {
+   "text": "sixty",
+   "start_ms": 930,
+   "end_ms": 1350,
+   "src": "whisper"
+  },
+  {
    "start_ms": 2600,
    "end_ms": 3000,
    "text": "قريبين"
@@ -79,5 +91,9 @@
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.01
+ },
+ "whisper_words": {
+  "offset_s": 0.03,
+  "n": 2
  }
 }

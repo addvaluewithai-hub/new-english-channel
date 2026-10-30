@@ -49,10 +49,20 @@
    "start_ms": 3300,
    "end_ms": 3700,
    "text": "تين."
+  },
+  {
+   "text": "teen",
+   "start_ms": 3519,
+   "end_ms": 3920,
+   "src": "whisper"
   }
  ],
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.0
+ },
+ "whisper_words": {
+  "offset_s": 0.26,
+  "n": 1
  }
 }

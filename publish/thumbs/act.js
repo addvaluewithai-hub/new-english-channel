@@ -82,8 +82,9 @@ export function blinkAt(id, t, extra = []) {
 // idle eye darts: pupils jump to a new seeded target every 1.5–2.5 s (fast saccade)
 export function dart(id, t, amp = .18) {
   const per = 2, i = Math.floor(t / per), u = t / per - i;
-  const h0 = hash(i * 7.1 + (id === 'mia' ? 3 : 0)), h1 = hash(i * 7.1 + 1.7 + (id === 'mia' ? 3 : 0));
-  const prev = [hash((i - 1) * 7.1 + (id === 'mia' ? 3 : 0)), hash((i - 1) * 7.1 + 1.7 + (id === 'mia' ? 3 : 0))];
+  const o = id === 'mia' ? 3 : id === 'lopez' ? 5.3 : 0;   // each character darts on its own seed (episode 3 adds lopez)
+  const h0 = hash(i * 7.1 + o), h1 = hash(i * 7.1 + 1.7 + o);
+  const prev = [hash((i - 1) * 7.1 + o), hash((i - 1) * 7.1 + 1.7 + o)];
   const k = ss(seg(u, .55 + h0 * .2, .62 + h0 * .2));
   return [lerp(prev[0] - .5, h0 - .5, k) * 2 * amp, lerp(prev[1] - .5, h1 - .5, k) * amp];
 }

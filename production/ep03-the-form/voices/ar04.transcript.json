@@ -61,9 +61,33 @@
    "text": "سنك"
   },
   {
+   "text": "i'm",
+   "start_ms": 4420,
+   "end_ms": 5200,
+   "src": "whisper"
+  },
+  {
+   "text": "26",
+   "start_ms": 5210,
+   "end_ms": 5680,
+   "src": "whisper"
+  },
+  {
    "start_ms": 6160,
    "end_ms": 6460,
    "text": "زي"
+  },
+  {
+   "text": "i'm",
+   "start_ms": 6620,
+   "end_ms": 6900,
+   "src": "whisper"
+  },
+  {
+   "text": "tired",
+   "start_ms": 6910,
+   "end_ms": 7160,
+   "src": "whisper"
   },
   {
    "start_ms": 7060,
@@ -74,5 +98,9 @@
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.34
+ },
+ "whisper_words": {
+  "offset_s": 0.24,
+  "n": 4
  }
 }

@@ -36,6 +36,36 @@
    "text": "يسالك"
   },
   {
+   "text": "how",
+   "start_ms": 1199,
+   "end_ms": 1540,
+   "src": "whisper"
+  },
+  {
+   "text": "old",
+   "start_ms": 1550,
+   "end_ms": 1900,
+   "src": "whisper"
+  },
+  {
+   "text": "are",
+   "start_ms": 1910,
+   "end_ms": 2100,
+   "src": "whisper"
+  },
+  {
+   "text": "you",
+   "start_ms": 2110,
+   "end_ms": 2320,
+   "src": "whisper"
+  },
+  {
+   "text": "i'm",
+   "start_ms": 3040,
+   "end_ms": 3720,
+   "src": "whisper"
+  },
+  {
    "start_ms": 3920,
    "end_ms": 4320,
    "text": "وبعدها"
@@ -49,5 +79,9 @@
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.08
+ },
+ "whisper_words": {
+  "offset_s": 0.06,
+  "n": 5
  }
 }

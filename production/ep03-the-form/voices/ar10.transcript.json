@@ -46,6 +46,12 @@
    "text": "في"
   },
   {
+   "text": "teen",
+   "start_ms": 2280,
+   "end_ms": 3320,
+   "src": "whisper"
+  },
+  {
    "start_ms": 2780,
    "end_ms": 3380,
    "text": "تين"
@@ -71,6 +77,12 @@
    "text": "وفي"
   },
   {
+   "text": "ty",
+   "start_ms": 5359,
+   "end_ms": 6220,
+   "src": "whisper"
+  },
+  {
    "start_ms": 5710,
    "end_ms": 6110,
    "text": "تي"
@@ -94,5 +106,9 @@
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.72
+ },
+ "whisper_words": {
+  "offset_s": -0.02,
+  "n": 2
  }
 }

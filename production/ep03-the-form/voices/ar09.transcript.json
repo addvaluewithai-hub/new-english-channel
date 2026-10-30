@@ -1,39 +1,49 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:33:38.475Z",
-  "duration_ms": 1600,
-  "word_count": 3,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "والعشرات اخرها تي.",
-  "source_text": "والعشرات آخرها tee .",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "والعشرات آخرها tee ."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 200,
-      "end_ms": 900,
-      "text": "والعشرات"
-    },
-    {
-      "start_ms": 1000,
-      "end_ms": 1300,
-      "text": "اخرها"
-    },
-    {
-      "start_ms": 1300,
-      "end_ms": 1600,
-      "text": "تي."
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:33:38.475Z",
+ "duration_ms": 1600,
+ "word_count": 3,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "والعشرات اخرها تي.",
+ "source_text": "والعشرات آخرها tee .",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "والعشرات آخرها tee ."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 200,
+   "end_ms": 900,
+   "text": "والعشرات"
+  },
+  {
+   "start_ms": 1000,
+   "end_ms": 1300,
+   "text": "اخرها"
+  },
+  {
+   "text": "ty",
+   "start_ms": 1220,
+   "end_ms": 1540,
+   "src": "whisper"
+  },
+  {
+   "start_ms": 1300,
+   "end_ms": 1600,
+   "text": "تي."
+  }
+ ],
+ "whisper_words": {
+  "offset_s": 0.0,
+  "n": 1
+ }
 }

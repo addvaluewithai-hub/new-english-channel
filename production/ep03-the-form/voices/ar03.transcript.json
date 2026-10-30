@@ -21,6 +21,30 @@
  ],
  "words": [
   {
+   "text": "i",
+   "start_ms": 197,
+   "end_ms": 450,
+   "src": "whisper"
+  },
+  {
+   "text": "have",
+   "start_ms": 460,
+   "end_ms": 790,
+   "src": "whisper"
+  },
+  {
+   "text": "26",
+   "start_ms": 800,
+   "end_ms": 1610,
+   "src": "whisper"
+  },
+  {
+   "text": "years",
+   "start_ms": 1620,
+   "end_ms": 2170,
+   "src": "whisper"
+  },
+  {
    "start_ms": 2780,
    "end_ms": 3580,
    "text": "يعني"
@@ -114,5 +138,9 @@
  "tightened": {
   "max_gap_s": 0.45,
   "removed_s": 0.09
+ },
+ "whisper_words": {
+  "offset_s": 0.07,
+  "n": 4
  }
 }
