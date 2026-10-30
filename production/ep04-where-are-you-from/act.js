@@ -32,7 +32,7 @@ export const F = (name, extra = {}) => ({ ...EXPR[name], ...extra });
 // ---- moves along x (and optionally y / k): segments [{t0, t1, x0, x1, y0?, y1?, k0?, k1?}] ----
 // returns position + hop-walk state. Each segment holds a whole number of ≈.42 s steps so the character lands at its mark.
 export function moveAt(segs, t, H = 300) {
-  let x = segs[0].x0, y = segs[0].y0 ?? 0, k = segs[0].k0 ?? 1, phase = 0, walking = 0, dir = 1, stepT = .42;
+  let x = segs[0].x0, y = segs[0].y0 ?? 0, k = segs[0].k0 ?? 1, phase = 0, walking = 0, dir = 1, stepT = .42, ramp = 0;
   for (const s of segs) {
     if (t < s.t0) break;
     const D = Math.max(.01, s.t1 - s.t0), n = Math.max(1, Math.round(D / (s.step || .42))), u = clamp((t - s.t0) / D);
@@ -41,9 +41,9 @@ export function moveAt(segs, t, H = 300) {
     if (s.y0 != null) y = lerp(s.y0, s.y1, e);
     if (s.k0 != null) k = lerp(s.k0, s.k1, e);
     phase += n * u; dir = Math.sign(s.x1 - s.x0) || dir; stepT = D / n;
-    if (t < s.t1 && !s.glide) walking = 1;
+    if (t < s.t1 && !s.glide) { walking = 1; ramp = Math.min(1, (t - s.t0) / .2, (s.t1 - t) / .2); }   // the walk lean eases in/out at the segment ends
   }
-  return { x, y, k, phase, walking, dir, stepT };
+  return { x, y, k, phase, walking, dir, stepT, ramp };
 }
 // linear motion with short eased ends
 function smoothLin(u, r) {
@@ -65,7 +65,7 @@ export function hop(m, H = 300, amp = 1) {
     lift: A * .1 * H * air,
     sq: 1 + A * (.07 * air - .1 * land - .04 * pre),
     footL: A * (L ? .05 * air : 0), footR: A * (L ? 0 : .05 * air),
-    lean: A * .05 * m.dir,
+    lean: A * .05 * m.dir * ss(m.ramp ?? 1),   // eased at the ends of a walk (it used to drop to 0 in one frame when the walk stopped)
   };
 }
 
