@@ -82,12 +82,13 @@ class Builder:
                     out.append((ws[i], [norm(ws[i])], ti))
                     i += 1
         # English written directly inside Arabic (tagged for pronunciation): consecutive Latin words become one
-        # display token, so the plate shows the phrase left-to-right as a unit; each word still aligns on its own
+        # display token (punctuation included, e.g. "Yes, I am."), so the plate shows the phrase left-to-right as a unit; each word still aligns on its own
+        narration = k.startswith('ar')   # English dialogue keeps one token per word (word highlight, lip sync)
         merged = []
         for disp, parts, ti in out:
             prev = merged[-1] if merged else None
             latin = disp[:1].isascii() and disp[:1].isalpha() or disp[:1].isdigit()
-            if prev and prev[2] == ti and latin and prev[3] and not re.search(r'[.!?…,:;]$', prev[0]):
+            if narration and prev and prev[2] == ti and latin and prev[3]:   # merge across commas/colons too: split chips get reversed by the RTL line
                 merged[-1] = (prev[0] + ' ' + disp, prev[1] + parts, ti, True)
             else:
                 merged.append((disp, parts, ti, latin))
