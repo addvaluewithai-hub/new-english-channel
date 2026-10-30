@@ -78,8 +78,8 @@ function end(ctx, items, results) {
     h('p', { class: 'score' }, `جبت ${score} من ${total}`),
     h('p', { class: 'hint' }, score === total ? 'الجمل دي هتتأجل لفترة أطول… كده بتثبت 🔥' : 'اللي غلطت فيه هيرجع لك بكرة تاني، عادي… كده بنحفظ.'),
     h('div', { class: 'actions' }, h('a', { class: 'btn', href: './' }, 'الرئيسية'), h('a', { class: 'btn ghost', href: 'review.html?all=1' }, 'راجع تاني')));
-  const mia = mountBean(cM, { who: 'mia', expr: 'joy' });
-  setTimeout(() => { mia.react('clap'); confetti(2400); }, 300);
+  const sara = mountBean(cM, { who: 'mia', expr: 'joy' });
+  setTimeout(() => { sara.react('clap'); confetti(2400); }, 300);
   window.scrollTo({ top: 0 });
 }
 main().catch(e => { console.error(e); app.innerHTML = '<main class="wrap"><div class="card" style="margin-top:20px;text-align:center"><p class="prompt">حصلت مشكلة… جرّب تاني.</p><a class="btn" href="./">الرئيسية</a></div></main>'; });

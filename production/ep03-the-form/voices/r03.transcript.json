@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:13:08.973Z",
+  "duration_ms": 12600,
+  "word_count": 9,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "20 30 40 50 60 70 80 90 100",
+  "source_text": "Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 900,
+      "text": "20"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2300,
+      "text": "30"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3700,
+      "text": "40"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 5100,
+      "text": "50"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6600,
+      "text": "60"
+    },
+    {
+      "start_ms": 7500,
+      "end_ms": 8000,
+      "text": "70"
+    },
+    {
+      "start_ms": 9000,
+      "end_ms": 9400,
+      "text": "80"
+    },
+    {
+      "start_ms": 10400,
+      "end_ms": 11000,
+      "text": "90"
+    },
+    {
+      "start_ms": 11900,
+      "end_ms": 12600,
+      "text": "100"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:11:17.556Z",
+  "duration_ms": 7400,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "استنى. انا من اول يوم بحط ام في كل جمله. حتى اللي ما لهاش دعوه.",
+  "source_text": "استنى… I am live ؟! أنا من أول يوم بحط am في كل جملة… حتى اللي مالهاش دعوة!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "استنى… I am live ؟! أنا من أول يوم بحط am في كل جملة… حتى اللي مالهاش دعوة!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 800,
+      "text": "استنى."
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 3900,
+      "text": "انا"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4000,
+      "text": "من"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4200,
+      "text": "اول"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4400,
+      "text": "يوم"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4900,
+      "text": "بحط"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5100,
+      "text": "ام"
+    },
+    {
+      "start_ms": 5100,
+      "end_ms": 5200,
+      "text": "في"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5500,
+      "text": "كل"
+    },
+    {
+      "start_ms": 5500,
+      "end_ms": 5900,
+      "text": "جمله."
+    },
+    {
+      "start_ms": 6400,
+      "end_ms": 6700,
+      "text": "حتى"
+    },
+    {
+      "start_ms": 6700,
+      "end_ms": 6800,
+      "text": "اللي"
+    },
+    {
+      "start_ms": 6800,
+      "end_ms": 7000,
+      "text": "ما"
+    },
+    {
+      "start_ms": 7000,
+      "end_ms": 7100,
+      "text": "لهاش"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7400,
+      "text": "دعوه."
+    }
+  ]
+}

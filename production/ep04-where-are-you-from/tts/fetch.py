@@ -4,13 +4,18 @@ import json, os, re, subprocess, sys, urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__)); V = os.path.join(HERE, '..', 'voices')
 ver = sys.argv[1] if len(sys.argv) > 1 else 'v1'; lim = sys.argv[2] if len(sys.argv) > 2 else '80'
 seen = json.load(open(os.path.join(HERE, 'runs_seen.json'))) if os.path.exists(os.path.join(HERE, 'runs_seen.json')) else {}
-runs = json.loads(subprocess.run(['gh', 'run', 'list', '-R', 'addvaluewithai-hub/gemini-tts', '-L', lim, '--json', 'databaseId,status,conclusion'],
-                                 capture_output=True, text=True, check=True).stdout)
+runs = []
+for page in range(1, int(lim) // 100 + 2):   # gh run list pages through a numeric-id URL the proxy refuses: page by hand
+    r = json.loads(subprocess.run(['gh', 'api', f'repos/addvaluewithai-hub/gemini-tts/actions/runs?per_page=100&page={page}'],
+                                  capture_output=True, text=True, check=True).stdout)['workflow_runs']
+    runs += [{'databaseId': x['id'], 'status': x['status'], 'conclusion': x['conclusion']} for x in r]
+    if len(runs) >= int(lim): break
+runs = runs[:int(lim)]
 pat = re.compile(r'https://res\.cloudinary\.com/[^" \s]*channel-ep04-([a-z0-9]+)-' + ver + r'\.(wav|transcript\.json)')
 got = {}
 for r in runs:
     rid = str(r['databaseId'])
-    if r['status'] != 'completed' or rid in seen: continue
+    if r['status'] != 'completed' or (rid in seen and seen[rid] != ['?']): continue
     log = subprocess.run(['gh', 'run', 'view', rid, '-R', 'addvaluewithai-hub/gemini-tts', '--log'], capture_output=True, text=True).stdout
     hits = {(m.group(1), m.group(2)): m.group(0) for m in pat.finditer(log)}
     seen[rid] = sorted({k for k, _ in hits}) or (['-'] if r['conclusion'] == 'success' and 'channel-ep04' not in log else ['?'])

@@ -291,8 +291,8 @@ export function buildStory() {
     { t: sx.t0, d: 0, ...THREE },
     { t: X3.t0 - .2, d: .25, x: 1240, y: 672, z: 1.7 },
     { t: X4.t0 + .3, d: 1.2, ...THREE },
-    { t: tGo, d: 2.6, x: 640, y: 660, z: 1.55 },
-    { t: tOpen + .2, d: Math.max(1.5, rm.t1 - tOpen), x: 420, y: 640, z: 1.95 },
+    { t: tGo, d: 2.6, x: 620, y: 600, z: 1.42 },
+    { t: tOpen + .2, d: Math.max(1.5, rm.t1 - tOpen), x: 470, y: 590, z: 1.55 },
   ];
   // ================= sound cues =================
   cue(op.t0 + .3, 'ambience_street', { dur: dk.t0 - .5, note: 'New York morning street bed' });
@@ -509,7 +509,7 @@ function freezeFx(c, t, yh) {
   }
   // ? and ! marks around his head on the panicked words
   const marks = [{ t: tSaid + .3, ch: '?' }, { t: tWord, ch: '!' }, { t: tBag + .2, ch: '!' }];
-  const spots = [[300, -150, .2], [380, 40, .3], [80, -330, 0]];
+  const spots = [[-150, -330, -.15], [150, -360, .2], [10, -420, 0]];
   marks.forEach((m, i) => {
     const k = seg(t, m.t, m.t + .35); if (k <= 0) return;
     const [dx, dy, r] = spots[i % spots.length], s = back(k, 2.4);

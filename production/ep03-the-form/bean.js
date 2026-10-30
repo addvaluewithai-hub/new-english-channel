@@ -14,7 +14,7 @@ export const CAST = {
     band: P.mustard, sleeve: P.mustard, cuff: dark(P.mustard, .18), shoe: P.red, hairE: .045, blush: '#FF7E76', blushA: .55, lash: P.ink, accent: P.mustard },
   // episode 3: Mrs. Lopez, the school receptionist (≈ 60): a silver bun on the crown, red round glasses, a cream blouse with a collar
   // under a sage-teal cardigan (teal + leaf, the palette mix), a navy-pastel skirt. Same egg, a touch wider and rounder.
-  lopez: { id: 'lopez', H: 270, a: .368, taper: .14, n: 2.35, skin: '#D69A6E', hair: '#C9C3D6', brow: '#8C8499',
+  lopez: { id: 'lopez', H: 270, a: .368, taper: .14, n: 2.35, skin: '#D69A6E', hair: '#D9D3DC', brow: '#8C8499',
     band: mix(P.teal, P.leaf, .42), sleeve: mix(P.teal, P.leaf, .42), cuff: dark(mix(P.teal, P.leaf, .42), .2), shoe: P.navy, hairE: .04,
     blush: '#E8786C', blushA: .45, lash: P.ink, accent: P.red, glasses: P.red },
 };
@@ -311,9 +311,9 @@ function hairline(sp, phi) {
     return (base + fringe + temple) * H;
   }
   if (sp.id === 'lopez') {   // swept back: a high soft front with a side part, down to the ears at the sides, short at the back (the bun holds the rest)
-    const front = -.835 + .02 * Math.exp(-Math.pow((f - .35) / .25, 2)) - .012 * Math.exp(-Math.pow((f + .3) / .3, 2));
-    let y = lerp(front, -.7, sst(.6, 1.15, af));
-    y = lerp(y, -.62, sst(1.6, 2.4, af));
+    const front = -.9 + .03 * Math.exp(-Math.pow((f - .3) / .22, 2)) + .012 * Math.cos(f * 9) * Math.exp(-Math.pow(f / .7, 2));   // a soft wave, the side part
+    let y = lerp(front, -.77, sst(.55, 1.05, af));
+    y = lerp(y, -.66, sst(1.6, 2.4, af));
     return y * H;
   }
   // Sara (id mia): scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
@@ -543,13 +543,16 @@ function pony(l, sp, p, G) {
 // Mrs. Lopez: a round silver bun on the crown (drawn behind the head, so it peeks above it) with a red band, and soft waves at the temples
 function bun(l, sp, p, G) {
   const H = G.H, th = G.th;
-  const [bx, by] = G.D(-Math.sin(th) * .05 * H, -1.035 * H);
-  ell(l, bx, by, .135 * H, .1 * H, Math.sin(th) * .2); l.fillStyle = dark(sp.hair, .08); l.fill();
-  ell(l, bx - .02 * H, by - .02 * H, .1 * H, .07 * H, Math.sin(th) * .2); l.fillStyle = sp.hair; l.fill();
-  l.strokeStyle = rgba('#FFFFFF', .35); l.lineWidth = .016 * H; l.lineCap = 'round';
-  l.beginPath(); l.ellipse(bx - .02 * H, by - .02 * H, .075 * H, .045 * H, -.2, PI * 1.1, PI * 1.6); l.stroke();
-  l.strokeStyle = dark(sp.hair, .2); l.lineWidth = .008 * H;
-  for (const a of [-.5, .3]) { l.beginPath(); l.ellipse(bx, by, .1 * H, .07 * H, a, PI * 1.05, PI * 1.5); l.stroke(); }
+  const [bx, by] = G.D(-Math.sin(th) * .06 * H, -1.06 * H);
+  ell(l, bx, by, .105 * H, .085 * H, Math.sin(th) * .2); l.fillStyle = dark(sp.hair, .12); l.fill();
+  ell(l, bx - .015 * H, by - .015 * H, .08 * H, .062 * H, Math.sin(th) * .2); l.fillStyle = sp.hair; l.fill();
+  l.strokeStyle = rgba('#FFFFFF', .45); l.lineWidth = .014 * H; l.lineCap = 'round';
+  l.beginPath(); l.ellipse(bx - .015 * H, by - .015 * H, .055 * H, .035 * H, -.2, PI * 1.1, PI * 1.6); l.stroke();
+  l.strokeStyle = dark(sp.hair, .25); l.lineWidth = .008 * H;
+  for (const a of [-.5, .4]) { l.beginPath(); l.ellipse(bx, by, .08 * H, .06 * H, a, PI * 1.05, PI * 1.45); l.stroke(); }
+  // a red pencil through the bun (the receptionist's tell)
+  l.save(); l.translate(bx, by); l.rotate(-.5 + Math.sin(th) * .2); rr(l, -.13 * H, -.012 * H, .26 * H, .024 * H, .01 * H); l.fillStyle = P.red; l.fill();
+  l.fillStyle = '#F3DDB8'; l.beginPath(); l.moveTo(.13 * H, -.012 * H); l.lineTo(.16 * H, 0); l.lineTo(.13 * H, .012 * H); l.closePath(); l.fill(); l.restore();
 }
 function waves(l, sp, p, G) {
   const H = G.H, th = G.th;
@@ -608,7 +611,7 @@ function face(c, sp, p, G) {
     }
     // the temple arm toward the visible ear
     const side = th >= 0 ? -1 : 1, q = qs[side < 0 ? 0 : 1];
-    if (q.c > .12) { const ey = EYE.y * H, ex = G.D(side * G.hw(ey) * .97, ey); c.strokeStyle = sp.glasses; c.lineWidth = lw * .8; c.beginPath(); c.moveTo(q.X + side * EYE.rx * H * 1.5 * q.c, q.Y - .01 * H); c.lineTo(ex[0], ex[1] - .006 * H); c.stroke(); }
+    if (q.c > .12) { const ey = EYE.y * H, ex = G.D(side * G.hw(ey) * .9, ey); c.strokeStyle = sp.glasses; c.lineWidth = lw * .8; c.beginPath(); c.moveTo(q.X + side * EYE.rx * H * 1.5 * q.c, q.Y - .01 * H); c.lineTo(ex[0], ex[1] - .006 * H); c.stroke(); }
   }
   // mouth
   const qm = place(0, -.548);

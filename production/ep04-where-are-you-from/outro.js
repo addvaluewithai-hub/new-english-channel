@@ -1,11 +1,10 @@
-// Episode 2 — title card, page wipe, "your turn" (Sara asks the viewer, 3-2-1 countdown), the full-screen exercises call-to-action
+// Episode 4 — title card, page wipe, "your turn" (Sara asks the viewer, 3-2-1 countdown), the full-screen exercises call-to-action
 // (the companion website's exercise plays by itself over the blurred street), next-episode teaser (the form) and end card (design v3).
 import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
 import { clamp, lerp, seg, ss, eo, ei, eio, back, hash } from '/core/lib.js';
 import { TL, SEC, BEAT, NARR, LINE, nwT, has } from './tl.js';
-import { drawWorld, toScreen, GROUND } from './world.js';
-import { drawForm } from './bean.js';
-import { charState, drawActor, head, camAt, dofOf, speedLines } from './story.js';
+import { drawClass, deskFront, layerT, toScreen, GROUND, CLASS } from './world.js';
+import { charState, drawActor, head, camAt, dofOf, STORY } from './story.js';
 import { fold, F, ARM, CUP, CLAP, POINT, PULL, DIP, OPEN, OUTLOW, RUNARM } from './act.js';
 import { bubble, lineBubble, wordStates, micIcon, check, sparkle, commentIcon, alarmClock, timeTag, SPEAKER, bigMark, squiggle, cross } from './ui.js';
 import { cue } from './cues.js';
@@ -14,16 +13,17 @@ const AR = '"Baloo Bhaijaan 2"';
 let O = null;
 
 export function buildOutro() {
-  const tu = SEC('turn'), nx = SEC('next'), op = SEC('open'), st = SEC('run');
+  const tu = SEC('turn'), nx = SEC('next'), op = SEC('open'), st = SEC('intro');
   const bT = BEAT('title', op.t1 - 3), p0 = BEAT('pause_start', tu.t0 + 7), p1 = BEAT('pause_end', p0 + 4.5), bEnd = BEAT('end_card', nx.t1 - 4);
-  const n16 = NARR('ar14'), n17 = NARR('ar15'), n18 = NARR('ar16'), L = LINE('turn');
-  O = { tu, nx, bT, tTitleOut: st.t0 - .42, p0, p1, bEnd, L, n18 };
+  const n16 = NARR('ar13'), n17 = NARR('ar14'), n18 = NARR('ar16'), L = LINE('turn');
+  O = { late: SEC('hook').t1 };   // the set as it is at the end of the story (board written, pins up)
+  Object.assign(O, { tu, nx, bT, tTitleOut: st.t0 - .42, p0, p1, bEnd, L, n18 });
   // ---------------- your turn: Sara faces the camera ----------------
-  const tDor = nwT('ar14', has('دورك'), .05), tRud = nwT('ar14', has('رد'), .6), tBravo = nwT('ar15', has('برافو'), .4), tWrite = nwT('ar15', has('واكتب'), .7);
-  const tWhat = L ? (L.tok.find(o => /^How/i.test(o.w)) || L.tok[0]).t0 : p0 - 2;
+  const tDor = nwT('ar13', has('دورك'), .05), tRud = nwT('ar13', has('قول'), .6), tBravo = nwT('ar14', has('برافو'), .4), tWrite = nwT('ar14', has('واكتب'), .7);
+  const tWhat = L ? (L.tok.find(o => /^Where/i.test(o.w)) || L.tok[0]).t0 : p0 - 2;
   O.tBravo = tBravo; O.tWrite = tWrite;
   const mT = { id: 'mia', base: { turn: 0, face: F('happy', { happy: .45 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
-    moves: [{ t0: tu.t0 - 1, t1: tu.t0 - .9, x0: 1530, x1: 1530, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [] };
+    moves: [{ t0: tu.t0 - 1, t1: tu.t0 - .9, x0: 470, x1: 470, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [] };
   const K = mT.keys;
   K.push({ t: tDor - .3, armL: DIP, d: .15 }, { t: tDor - .1, armL: ARM.wave, face: F('joy'), d: .2 },
     { t: tDor + 1.0, armL: ARM.rest, face: F('happy', { happy: .5 }), d: .3 },
@@ -39,22 +39,21 @@ export function buildOutro() {
   mT.blinks.push(p0 - .1, p1 - .05);
   O.mT = mT;
   O.camT = [
-    { t: tu.t0 - 1, x: 1661, y: 700, z: 2.45 },
-    { t: L ? L.t0 : tu.t0 + 3, d: 2.5, x: 1655, y: 696, z: 2.6 },
-    { t: p1, d: .5, x: 1650, y: 694, z: 2.66 },
+    { t: tu.t0 - 1, x: 601, y: 700, z: 2.45 },
+    { t: L ? L.t0 : tu.t0 + 3, d: 2.5, x: 595, y: 696, z: 2.6 },
+    { t: p1, d: .5, x: 590, y: 694, z: 2.66 },
   ];
   O.countdown = [0, 1, 2].map(i => p0 + i * third);
   // ---------------- site: "solve the episode's exercises on the website" — the full-screen call-to-action (design v3) ----------------
-  const si = SEC('site'), bSite = BEAT('site_card', si.t1 > 0 ? si.t0 : nx.t0 - 8), NS = 'ar17';
+  const si = SEC('site'), bSite = BEAT('site_card', si.t1 > 0 ? si.t0 : nx.t0 - 8), NS = 'ar15';
   const tEnter = nwT(NS, has('ادخل'), .35), tSolve = nwT(NS, has('وحل'), .45), tFive = nwT(NS, has('خمس'), .68), tLink = nwT(NS, has('اللينك'), .88);
   const sOut = nx.t0 - .4;   // the card leaves before the teaser
   O.bSite = bSite; O.tEnter = tEnter; O.tSolve = tSolve; O.tFive = tFive; O.tLink = tLink; O.sOut = sOut;
   // the mini exercise, mirrored from the site's "fix Youssef's mistake" item for this episode
-  O.EX = { n: 1, context: 'Good morning, Youssef!', wrong: 'Good night, Sara!', span: 'Good night', answer: 'Good morning', chips: ['Good bye', 'Good morning', 'Good night'], right: 1 };
-  // Sara steps back into the doorway as the street blurs
-  mT.moves.push({ t0: bSite + .05, t1: bSite + .62, x0: 1530, x1: 1534, y0: GROUND, y1: 805, k0: .9, k1: .62, step: .28 });
-  K.push({ t: bSite - .05, turn: 1.0, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .4 }), d: .3 }, { t: bSite + .25, turn: 2.05, d: .35 },
-    { t: bSite + .15, clip: 1 }, { t: bSite + .22, alpha: 0, d: .4 });
+  O.EX = { n: 1, context: 'Where do you live?', wrong: 'I am live in Queens.', span: 'am live', answer: 'live', chips: ['is live', 'live', 'am live'], right: 1 };
+  // Sara hops off to the left as the classroom blurs
+  mT.moves.push({ t0: bSite + .05, t1: bSite + .8, x0: 470, x1: -260, k0: .9, k1: .9, step: .27 });
+  K.push({ t: bSite - .05, turn: -.9, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .4, lx: -.6 }), d: .25 });
   // Youssef, small, hops in from the left of the frame (screen space) and presents the card; on "اللينك" he turns to us and points down at the bar
   const yS = { id: 'youssef', base: { turn: .4, face: F('happy', { happy: .45, lx: .6, ly: -.3, mw: .12, mo: .05, mt: .4 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
     moves: [{ t0: bSite + .3, t1: bSite + 1.1, x0: -220, x1: 250, y0: 905, y1: 905, k0: .92, k1: .92, step: .27 }], keys: [], jumps: [], blinks: [] };
@@ -74,20 +73,20 @@ export function buildOutro() {
   O.sS = sS;
   O.yS = yS;
   // ---------------- next: the form, numbers, "How old are you?", "I have 26 years." (wrong) → end card ----------------
-  const tFormN = nwT('ar16', has('الاستمارة'), .15), tNums = nwT('ar16', has('أرقام'), .3), tQ = nwT('ar16', has('وسؤال'), .4);
-  const how = n18 ? n18.tok.find(o => /^How old/i.test(o.w)) : null, said = n18 ? n18.tok.find(o => /^I have/i.test(o.w)) : null;
-  const tWrong = nwT('ar16', has('غلط'), .97);
-  O.tFormN = tFormN; O.tNums = tNums; O.how = how; O.said = said; O.tWrong = tWrong;
+  const tFormN = nwT('ar16', has('الشغل'), .15), tNums = tFormN + .35, tQ = nwT('ar16', has('سألتني'), .3);
+  const how = n18 ? n18.tok.find(o => /^What do/i.test(o.w)) : null, said = n18 ? n18.tok.find(o => /^I am eng/i.test(o.w)) : null;
+  const tWrong = nwT('ar16', has('ناقصة'), .85);
+  O.tFormN = tFormN; O.tNums = tNums; O.tQ = tQ; O.how = how; O.said = said; O.tWrong = tWrong;
   const yN = { id: 'youssef', base: { turn: .2, face: F('puzzled', { lx: -.3, ly: .5 }), armL: { dx: .12, dy: -.1, w: 0, bend: 55, elv: [1, .3], flex: 1 }, armR: ARM.rest, alpha: 1, kmul: 1 },
-    moves: [{ t0: 0, t1: .1, x0: 1330, x1: 1330, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [],
-    talkExtra: said ? [[said.t0, said.t1]] : [] };   // he mouths the diary voice's "I have 26 years." (TL.mouth_nar)
+    moves: [{ t0: 0, t1: .1, x0: CLASS.desks.youssef, x1: CLASS.desks.youssef, k0: .9, k1: .9 }], keys: [], jumps: [], blinks: [],
+    talkExtra: said ? [[said.t0, said.t1]] : [] };   // he mouths the diary voice's "I am engineer." (TL.mouth_nar)
   yN.keys.push({ t: tNums - .1, armR: ARM.scratch, face: F('puzzled', { lx: -.4, ly: .3, sweat: .4 }), lean: -.02, d: .3 },
     { t: how ? how.t0 - .2 : tQ, face: F('worried', { lx: .6, ly: -.1, sweat: .7 }), turn: .35, d: .3 },
     { t: said ? said.t0 - .3 : tQ + 2, face: F('happy', { happy: .35, lx: .6, mw: .12, bLy: .8, bRy: .8, sweat: .5 }), armR: ARM.chest, lean: 0, turn: .4, d: .3 },
     { t: tWrong - .15, face: F('embarrassed', { lx: 0, ly: .2 }), armR: ARM.scratch, turn: .2, d: .25 });
   yN.jumps.push({ t: said ? said.t0 - .2 : tQ + 2, h: .04, d: .34 }); yN.blinks.push(tNums - .1, how ? how.t0 - .2 : tQ, tWrong - .15);
   O.yN = yN;
-  O.camN = [{ t: nx.t0 - 1, x: 1280, y: 690, z: 2.1 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 1300, y: 686, z: 2.3 }];
+  O.camN = [{ t: nx.t0 - 1, x: 1400, y: 690, z: 2.1 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 1414, y: 686, z: 2.3 }];
   // ---------------- cues ----------------
   cue(bT, 'sting', { note: 'title card' });
   cue(bT + .1, 'pop'); cue(bT + .45, 'pop'); cue(bT + .8, 'pop');
@@ -115,11 +114,10 @@ export function buildOutro() {
   cue(tLink, 'pop', { note: 'the mustard bar: the link is in the description' });
   cue(sOut, 'whoosh', { note: 'site card out' });
   cue(nx.t0, 'whoosh', { note: 'teaser' });
-  cue(tFormN, 'paper', { note: 'the form card' });
-  for (let i = 0; i < 6; i++) cue(tNums + i * .18, 'pop', { note: 'a number floats up' });
-  cue(tQ + .1, 'pop', { note: '? over the Age box' });
-  if (how) cue(how.t0 - .2, 'bubble', { who: 'mia', text: 'How old are you?' });
-  if (said) cue(said.t0 - .2, 'bubble', { who: 'youssef', text: 'I have 26 years.' });
+  cue(tFormN, 'pop', { note: 'the job card (hard hat)' });
+  for (let i = 0; i < 4; i++) cue(tNums + i * .22, 'pop', { note: 'a job word floats up' });
+  if (how) cue(how.t0 - .2, 'bubble', { who: 'mia', text: 'What do you do?' });
+  if (said) cue(said.t0 - .2, 'bubble', { who: 'youssef', text: 'I am engineer.' });
   cue(tWrong, 'squiggle'); cue(tWrong + .35, 'error_buzz');
   cue(bEnd, 'sting_end', { note: 'end card' });
   cue(bEnd + 1.3, 'pop', { note: 'subscribe button' });
@@ -143,8 +141,8 @@ export function titleCard(c, t) {
   const k1 = back(seg(t, t0 + .35, t0 + .7), 2.2);
   if (k1 > 0) {
     c.save(); c.translate(0, -175); c.scale(k1, k1); c.direction = 'rtl'; c.font = `700 48px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
-    const w = c.measureText('الحلقة 2').width + 64; rr(c, -w / 2, -36, w, 72, 36); c.fillStyle = P.red; c.fill();
-    c.fillStyle = P.cream; c.fillText('الحلقة 2', 0, 5); c.restore();
+    const w = c.measureText('الحلقة 4').width + 64; rr(c, -w / 2, -36, w, 72, 36); c.fillStyle = P.red; c.fill();
+    c.fillStyle = P.cream; c.fillText('الحلقة 4', 0, 5); c.restore();
   }
   // يوسف في نيويورك — word by word (RTL: right word first)
   c.direction = 'rtl'; c.font = `800 168px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
@@ -160,7 +158,7 @@ export function titleCard(c, t) {
     c.restore();
   });
   // Good Morning? — letters drop in (the ? wobbles)
-  const fd = 'Good Morning?'; c.direction = 'ltr'; c.font = '400 104px "Lilita One"'; c.textAlign = 'left'; c.letterSpacing = '3px';
+  const fd = 'Where Are You From?'; c.direction = 'ltr'; c.font = '400 100px "Lilita One"'; c.textAlign = 'left'; c.letterSpacing = '3px';
   const fw = c.measureText(fd).width; let x = -fw / 2;
   [...fd].forEach((ch, i) => {
     const k = back(seg(t, t0 + .55 + i * .045, t0 + .85 + i * .045), 2.6), w = c.measureText(ch).width + 3;
@@ -196,8 +194,8 @@ export function wipe(c, p, drawOld, drawNew) {
 // ---------------- your turn ----------------
 export function sceneTurn(c, t) {
   const cam = camAt(O.camT, t);
-  drawWorld(c, cam, t, { door: 1, dof: dofOf(cam.z), clock: 9.0 });
-  const st = drawActor(c, cam, O.mT, t, { door: 1 });
+  drawClass(c, cam, t, { dof: dofOf(cam.z) * .8, board: STORY.board(O.late), pins: STORY.pins(O.late) });
+  const st = drawActor(c, cam, O.mT, t);
   const h = head(st, 'mia', 1.12);
   if (O.L && h) lineBubble(c, O.L, t, { x: h[0] + 40, y: h[1], side: 0, lift: 60, maxW: 1100 }, { until: O.p0 - .3 });
   card(c, t);
@@ -223,17 +221,17 @@ function card(c, t, out = 0) {   // out: 0..1 exit (the site card takes its plac
     c.save(); c.translate(270, -88); c.scale(s, s); c.font = '400 88px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = P.ink; c.fillText(String(3 - i), 0, 4); c.restore();
   } else if (t >= O.p1) check(c, 270, -95, 52, seg(t, O.p1, O.p1 + .5));
   else { c.font = '400 70px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba(P.ink, .35); c.fillText('3', 270, -88); }
-  // I'm ______.
-  c.font = '600 112px "Fredoka"'; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillStyle = P.ink;
-  const iw = c.measureText("I'm").width, slot = 330, dw = c.measureText('.').width, W = iw + 24 + slot + dw, x0 = -W / 2, by = 110;
-  c.fillText("I'm", x0, by);
+  // I'm from ______.
+  c.font = '600 96px "Fredoka"'; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillStyle = P.ink;
+  const iw = c.measureText("I'm from").width, slot = 270, dw = c.measureText('.').width, W = iw + 24 + slot + dw, x0 = -W / 2, by = 110;
+  c.fillText("I'm from", x0, by);
   const sx = x0 + iw + 24;
   if (wait) { const pul = .5 + .5 * Math.sin((t - O.p0) * 6); rr(c, sx - 8, by - 92, slot + 16, 112, 22); c.fillStyle = rgba(P.mustard, .14 + .12 * pul); c.fill(); }
   c.strokeStyle = P.mustard; c.lineWidth = 10; c.lineCap = 'round'; c.setLineDash([26, 18]); c.lineDashOffset = -t * 40;
   c.beginPath(); c.moveTo(sx, by + 8); c.lineTo(sx + slot, by + 8); c.stroke(); c.setLineDash([]);
   c.fillText('.', sx + slot + 4, by);
   // hint under the slot (small, quiet): the three real answers
-  c.font = '500 34px "Fredoka"'; c.textAlign = 'center'; c.fillStyle = rgba(P.ink, .45); c.fillText('good  ·  OK  ·  tired', sx + slot / 2, by + 62);
+  c.font = '500 34px "Fredoka"'; c.textAlign = 'center'; c.fillStyle = rgba(P.ink, .45); c.fillText('Egypt  ·  Jordan  ·  Morocco', Math.min(sx + slot / 2, 380 - 230), by + 62);
   // praise: sparkles out of the slot
   if (t > O.p1) for (let i = 0; i < 10; i++) {
     const u = seg(t, O.p1 + .05 + (i % 3) * .05, O.p1 + 1.2 + (i % 3) * .05); if (u <= 0 || u >= 1) continue;
@@ -269,9 +267,9 @@ function confetti(c, t, t0) {
 const CTA = { cx: 1040, cy: 420, w: 1000, h: 740, barY: 858 };
 const SCREEN = { x: 960, y: 540, z: 1 };
 export function sceneSite(c, t) {
-  const cam = camAt(O.camT, t), k = eio(seg(t, O.bSite, O.bSite + .5)), d0 = dofOf(cam.z);
-  drawWorld(c, cam, t, { door: 1, dof: lerp(d0, 9, k), nearDof: lerp(d0 * .6, 9, k), clock: 9.0 });
-  drawActor(c, cam, O.mT, t, { door: 1 });   // Sara steps back into the doorway
+  const cam = camAt(O.camT, t), k = eio(seg(t, O.bSite, O.bSite + .5)), d0 = dofOf(cam.z) * .8;
+  drawClass(c, cam, t, { dof: lerp(d0, 9, k), board: STORY.board(O.late), pins: STORY.pins(O.late) });
+  drawActor(c, cam, O.mT, t);   // Sara hops off to the left
   if (k > 0) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = rgba('#2A2742', .5 * k); c.fillRect(0, 0, 1920, 1080); c.restore(); }
   if (t < O.bSite + .35) card(c, t, seg(t, O.bSite, O.bSite + .3));   // the "I'm ______." card leaves
   drawActor(c, SCREEN, O.yS, t);
@@ -391,36 +389,58 @@ function linkBar(c, t) {
   c.restore(); c.restore();
 }
 
-// ---------------- next episode teaser: the form in his hands, numbers floating, "How old are you?" ----------------
+// ---------------- next episode teaser: work — the hard-hat card, job words floating, "What do you do?", "I am engineer." ----------------
+// the job card: a cream card with a mustard hard hat over a navy blueprint (a grid and a gear)
+function jobCard(c, q, t) {
+  rr(c, -300 + 8, -220 + 12, 600, 440, 40); c.fillStyle = rgba('#2A2742', .2); c.fill();
+  rr(c, -300, -220, 600, 440, 40); c.fillStyle = '#FFFDF6'; c.fill();
+  // blueprint
+  c.save(); c.translate(0, 60); c.rotate(-.04);
+  rr(c, -220, -110, 440, 220, 14); c.fillStyle = P.navy; c.fill();
+  c.strokeStyle = rgba('#FFFFFF', .18); c.lineWidth = 2;
+  for (let x = -200; x <= 200; x += 40) { c.beginPath(); c.moveTo(x, -100); c.lineTo(x, 100); c.stroke(); }
+  for (let y = -90; y <= 90; y += 40) { c.beginPath(); c.moveTo(-210, y); c.lineTo(210, y); c.stroke(); }
+  c.strokeStyle = rgba(P.cream, .85); c.lineWidth = 5; c.lineJoin = 'round';
+  c.beginPath(); c.moveTo(-170, 70); c.lineTo(-170, -20); c.lineTo(-100, -70); c.lineTo(-30, -20); c.lineTo(-30, 70); c.closePath(); c.stroke();   // a house outline
+  c.beginPath(); c.moveTo(-120, 70); c.lineTo(-120, 20); c.lineTo(-80, 20); c.lineTo(-80, 70); c.stroke();
+  c.save(); c.translate(110, 10); c.rotate(t * .8);   // a gear
+  c.beginPath(); for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, r = i % 2 ? 46 : 60; c.lineTo(Math.cos(a) * r, Math.sin(a) * r); } c.closePath(); c.fillStyle = P.mustard; c.fill();
+  ell(c, 0, 0, 20, 20); c.fillStyle = P.navy; c.fill(); c.restore();
+  c.restore();
+  // the hard hat on top
+  c.save(); c.translate(0, -120);
+  c.beginPath(); c.moveTo(-120, 30); c.quadraticCurveTo(-118, -80, 0, -84); c.quadraticCurveTo(118, -80, 120, 30); c.closePath(); c.fillStyle = P.mustard; c.fill();
+  rr(c, -160, 22, 320, 30, 15); c.fillStyle = dark(P.mustard, .12); c.fill();
+  rr(c, -16, -82, 32, 100, 12); c.fillStyle = light(P.mustard, .25); c.fill();
+  c.fillStyle = rgba('#FFFFFF', .35); c.beginPath(); c.ellipse(-60, -40, 30, 14, -.6, 0, Math.PI * 2); c.fill();
+  c.restore();
+  bigMark(c, 230, -170, '?', 140, q, .1 + Math.sin(t * 5) * .1, P.red);
+}
 export function sceneNext(c, t) {
   const cam = camAt(O.camN, t);
-  drawWorld(c, cam, t, { door: 1, dof: dofOf(cam.z), clock: 9.0 });
-  const R = drawActor(c, cam, O.yN, t, { door: 1 });
+  drawClass(c, cam, t, { dof: dofOf(cam.z), board: STORY.board(O.late), pins: STORY.pins(O.late) });
+  const R = drawActor(c, cam, O.yN, t);
+  c.save(); layerT(c, cam, 1); deskFront(c, CLASS.desks.youssef, { form: true, pencil: true }); c.restore(); c.setTransform(1, 0, 0, 1, 0, 0);
   const h = head(R, 'youssef');
-  // the form card (a big copy of the sheet) on the left, with the ? over the Age box and floating numbers
-  const fk = back(seg(t, O.tFormN - .1, O.tFormN + .35), 2), q = seg(t, O.tNums + .9, O.tNums + 1.25);
-  if (fk > 0) {
-    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(470, 520); c.scale(fk, fk); c.rotate(-.05 + Math.sin(t * .8) * .012);
-    drawForm(c, 0, 0, 600, 440, { rot: 0, text: true, age: q });
-    bigMark(c, 150, 30, '?', 150, q, .1 + Math.sin((t - O.tNums) * 5) * .1, P.mustard);
-    c.restore();
-  }
-  const nums = ['1', '2', '3', '7', '26', '10', '5', '18'];
-  nums.forEach((n, i) => {
-    const t0 = O.tNums + i * .18, u = seg(t, t0, t0 + 2.6 + (i % 3) * .4); if (u <= 0 || u >= 1) return;
-    const a = hash(i * 2.3) * Math.PI * 2, x = 470 + Math.cos(a) * (320 + 60 * hash(i)) + Math.sin(u * 5 + i) * 18, y = 520 + Math.sin(a) * 200 - u * 260;
-    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = Math.sin(Math.PI * u); c.translate(x, y); c.rotate(Math.sin(u * 4 + i) * .2); c.scale(.7 + .5 * eo(Math.min(1, u * 3)), .7 + .5 * eo(Math.min(1, u * 3)));
-    c.font = '700 72px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba('#1E1B33', .2); c.fillText(n, 4, 5); c.fillStyle = [P.teal, P.red, P.navy, P.mustard][i % 4]; c.fillText(n, 0, 0); c.restore();
+  const fk = back(seg(t, O.tFormN - .1, O.tFormN + .35), 2), q = seg(t, O.tQ + .2, O.tQ + .55);
+  if (fk > 0) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.translate(470, 540); c.scale(fk, fk); c.rotate(-.04 + Math.sin(t * .8) * .012); jobCard(c, q, t); c.restore(); }
+  // job words float up around the card
+  const jobs = ['teacher', 'doctor', 'engineer', 'student', 'driver', 'artist'];
+  jobs.forEach((n, i) => {
+    const t0 = O.tNums + i * .22, u = seg(t, t0, t0 + 2.6 + (i % 3) * .4); if (u <= 0 || u >= 1) return;
+    const a = hash(i * 2.3 + 1) * Math.PI * 2, x = 470 + Math.cos(a) * (340 + 50 * hash(i)) + Math.sin(u * 5 + i) * 18, y = 540 + Math.sin(a) * 220 - u * 240;
+    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = Math.sin(Math.PI * u); c.translate(x, y); c.rotate(Math.sin(u * 4 + i) * .15); const s = .7 + .4 * eo(Math.min(1, u * 3)); c.scale(s, s);
+    c.font = '600 58px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba('#1E1B33', .2); c.fillText(n, 4, 5); c.fillStyle = [P.teal, P.red, P.navy, P.mustard][i % 4]; c.fillText(n, 0, 0); c.restore();
   });
-  // Sara (off screen right) asks "How old are you?"; he answers "I have 26 years." and the squiggle says no
+  // Sara (off screen right) asks "What do you do?"; he answers "I am engineer." and the squiggle says something is missing
   if (O.how && h) {
-    const hw = O.how, words = ['How', 'old', 'are', 'you?'], n = words.length;
+    const hw = O.how, words = ['What', 'do', 'you', 'do?'], n = words.length;
     const tok = words.map((w, i) => ({ w, t0: hw.t0 + (hw.t1 - hw.t0) * i / n, t1: hw.t0 + (hw.t1 - hw.t0) * (i + 1) / n }));
     const pop = seg(t, hw.t0 - .2, hw.t0 + .1), out = seg(t, (O.said ? O.said.t0 : O.bEnd) - .45, (O.said ? O.said.t0 : O.bEnd) - .25);
-    bubble(c, { x: 1905, y: 430, who: 'mia', words: wordStates(tok, t), side: -1, lift: 90, pop, out });
+    bubble(c, { x: 1905, y: 400, who: 'mia', words: wordStates(tok, t), side: -1, lift: 90, pop, out });
   }
   if (O.said && h) {
-    const sw = O.said, words = ['I', 'have', '26', 'years.'], n = words.length;
+    const sw = O.said, words = ['I', 'am', 'engineer.'], n = words.length;
     const tok = words.map((w, i) => ({ w, t0: sw.t0 + (sw.t1 - sw.t0) * i / n, t1: sw.t0 + (sw.t1 - sw.t0) * (i + 1) / n }));
     const pop = seg(t, sw.t0 - .2, sw.t0 + .1), out = seg(t, O.bEnd - .5, O.bEnd - .3);
     const box = bubble(c, { x: h[0] + 20, y: h[1], who: 'youssef', words: wordStates(tok, t), side: -1, lift: 70, pop, out });
@@ -434,7 +454,7 @@ export function sceneNext(c, t) {
   return { cam };
 }
 
-const NEXT_Q = 'How old are you';
+const NEXT_Q = 'What do you do';
 // ---------------- end card (design v3): the series title on top, "الحلقة الجاية", the next question, the big teal + red pills ----------------
 export function endCard(c, t) {
   const t0 = O.bEnd, u = t - t0;

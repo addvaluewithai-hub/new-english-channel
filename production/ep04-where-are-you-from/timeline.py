@@ -29,7 +29,7 @@ b.beat('title')
 b.hold(3.2)
 # 2a. Ana first; then Youssef: "I am live in Queens." -> the freeze
 b.section('intro')
-b.hold(.3)
+b.hold(.2)
 b.put('en1', .5, scene='intro')
 b.beat('ana_up', L(lambda s: s.startswith('Hi, everybody'))['t0'] - .7)
 b.beat('ana_down', L(lambda s: s.startswith('Great'))['t0'] + .2)
@@ -53,8 +53,8 @@ b.put('en5', .5, scene='fix')
 b.section('hook')
 b.put('en6', 0, scene='hook')
 b.beat('stuck', b.last_line()['t1'] + .1)
-b.hold(.9)
-b.put('ar05', 1.0)
+b.hold(.7)
+b.put('ar05', .9)
 # 3. Recap
 b.section('recap')
 b.beat('recap_title')
@@ -62,10 +62,10 @@ b.hold(2.0)
 b.recap([('ar06', .4, None),
          ('ar07', .4, 'from'), ('r01', .4, 'from'), ('r02', 'R', 'from'),
          ('ar08', .4, 'live'), ('r03', .4, 'live'), ('r04', 'R', 'live'),
-         ('ar09', 1.0, 'rule'),
-         ('ar10', .4, 'are'), ('r05', .4, 'are'), ('r06', .6, 'are'), ('r07', .4, 'are'), ('r08', 'R', 'are'),
+         ('ar09', .7, 'rule'),
+         ('ar10', .4, 'are'), ('r07', .4, 'are'), ('r08', 'R', 'are'),
          ('ar11', .4, 'in'), ('r09', 'R', 'in'),
-         ('ar12', .4, 'nat'), ('r10', 'R', 'nat'), ('r11', 'R', 'nat'), ('r12', 'R', 'nat')])
+         ('ar12', .4, 'nat'), ('r10', .5, 'nat'), ('r11', .5, 'nat'), ('r12', 'R', 'nat')])
 # 4. Your turn
 b.section('turn')
 b.put('ar13', .4)

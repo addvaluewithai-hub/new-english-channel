@@ -11,7 +11,7 @@ SHORTS = {
  'short_ep01': dict(
    ep='ep01-first-day',
    segs=[(35.84, 49.0), (49.0, 58.6), (95.75, 117.11)],          # the mistake + freeze, the second try, the am → I'm recap
-   tag='غلطة كل العرب 😅', hook='إزاي تقول<br><em class="en">I\'m Youssef</em> صح؟',
+   tag='أول يوم في نيويورك 😅', hook='إزاي تقول<br><em class="en">I\'m Youssef</em> صح؟',
    series='<b>يوسف في نيويورك</b> · الحلقة 1', pill='الحلقة كاملة على القناة'),
  'short_ep02': dict(
    ep='ep02-good-morning',

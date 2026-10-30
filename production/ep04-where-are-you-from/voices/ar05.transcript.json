@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:13.061Z",
+  "duration_ms": 6700,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وبعدين ساره سالت السؤال اللي بعده وانا اتجمدت تاني انا مهندس بس دي بتتقال ازاي؟",
+  "source_text": "وبعدين سارة سألت السؤال اللي بعده… وأنا اتجمدت تاني. أنا مهندس… بس دي بتتقال إزاي؟",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وبعدين سارة سألت السؤال اللي بعده… وأنا اتجمدت تاني. أنا مهندس… بس دي بتتقال إزاي؟"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 900,
+      "text": "وبعدين"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1200,
+      "text": "ساره"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1400,
+      "text": "سالت"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1800,
+      "text": "السؤال"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 1900,
+      "text": "اللي"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2200,
+      "text": "بعده"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3100,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3500,
+      "text": "اتجمدت"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3800,
+      "text": "تاني"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 4900,
+      "text": "انا"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5600,
+      "text": "مهندس"
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 5900,
+      "text": "بس"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6000,
+      "text": "دي"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6400,
+      "text": "بتتقال"
+    },
+    {
+      "start_ms": 6400,
+      "end_ms": 6700,
+      "text": "ازاي؟"
+    }
+  ]
+}

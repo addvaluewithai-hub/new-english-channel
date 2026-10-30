@@ -42,9 +42,9 @@ ar = {
 }
 
 en_single = {   # recap model phrases (learners repeat them) + the "your turn" question
- "r01": ("Sara", "One, two, three, four, five, six, seven, eight, nine, ten.", "Counting slowly and clearly for learners, a small pause after each number."),
- "r02": ("Youssef", "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.", "Counting slowly and clearly, the stress on the last syllable of each number (-TEEN)."),
- "r03": ("Sara", "Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred.", "Counting slowly and clearly, the stress on the first syllable of each number."),
+ "r01": ("Sara", "One, two, three, four, five, six, seven, eight, nine, ten.", "Counting clearly at a steady, natural pace for learners: about one number every 0.7 seconds, no long pauses between numbers."),
+ "r02": ("Youssef", "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.", "Counting clearly at a steady, natural pace: about one number every 0.8 seconds, no long pauses, the stress on the last syllable of each number (-TEEN)."),
+ "r03": ("Sara", "Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred.", "Counting clearly at a steady, natural pace: about one number every 0.8 seconds, no long pauses, the stress on the first syllable of each number."),
  "r04": ("Sara", "Thirteen. <short pause> Thirty. <short pause> Sixteen. <short pause> Sixty.", "A model of the stress contrast, slow: thirTEEN with the stress at the end, THIRty with the stress at the start; sixTEEN, SIXty. A clear pause after each word."),
  "r05": ("Sara", "How old are you?", "Clear and friendly, a model question."),
  "r06": ("Youssef", "I'm 26.", "Clear and friendly: I'm twenty-six."),
@@ -68,9 +68,9 @@ en_multi = {
  "en3": [
   ("Lopez", "OK! 26. Great!", "Writing on the form, cheerful: twenty-six."),
   ("Youssef", "And you? How old are you?", "Friendly and innocent, proud to ask back."),
-  ("Lopez", "Me? <short pause> Ha! I'm sixty.", "Surprised, then laughing good-naturedly; says 'sixty' with the stress on SIX."),
+  ("Lopez", "Me? <short pause> I'm sixty!", "Surprised, then laughing good-naturedly, proud of her age; says 'sixty' with the stress on SIX."),
   ("Youssef", "Sixteen?!", "Shocked and amazed. He says exactly 'sixteen' (six-TEEN, the stress at the end), NOT 'sixty'."),
-  ("Lopez", "Sixteen? Oh, thank you! <short pause> No, no. Sixty! Six-zero!", "Flattered and laughing warmly, then clearly correcting him: SIXty, six-zero."),
+  ("Lopez", "Sixteen? Oh, thank you! <short pause> No. Sixty! Six-zero!", "Flattered and laughing warmly, then clearly correcting him, said only once: SIXty, six-zero."),
  ],
  "en4": [
   ("Sara", "OK, Youssef! Class starts now. Room four!", "Cheerful, hurrying him along."),

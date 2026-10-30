@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:12:42.567Z",
+  "duration_ms": 2000,
+  "word_count": 4,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "والعشرات اخرها تي واي.",
+  "source_text": "والعشرات آخرها -ty .",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "والعشرات آخرها -ty ."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 1000,
+      "text": "والعشرات"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1400,
+      "text": "اخرها"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1600,
+      "text": "تي"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2000,
+      "text": "واي."
+    }
+  ]
+}

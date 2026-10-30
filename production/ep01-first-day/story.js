@@ -66,17 +66,20 @@ function drawActor(c, cam, C, t, extra = {}) {
     quiff: C.id === 'youssef' ? (extra.quiff ?? springAt(springFor(C), t, .25)) : 0, breathe: Math.sin(t * Math.PI * 2 / 3.2 + (C.id === 'mia' ? 1 : 0)) });
   c.save();
   if (st.alpha < 1) c.globalAlpha = st.alpha;
-  if (st.clip) doorClip(c, cam, extra.door ?? 1);
+  if (st.clip) doorClip(c, cam, extra.door ?? 1, st.clip);
   if (C.case) drawCase(c, cam, C, t, st);
   drawChar(c, CAST[C.id], p);
   c.restore();
   return { ...st, sx: x, sy: y, Z };
 }
 // clip to the open part of the doorway (screen space); open = door amount
-function doorClip(c, cam, open) {
+// amt (1 → 0): a clip being released widens out from the door opening at about walking pace, so a character stepping out is
+// revealed progressively (as if coming out from behind the door frame) instead of popping in when the clip is dropped
+function doorClip(c, cam, open, amt = 1) {
   const dw = 116, dh = 196, lw = dw * Math.cos(clamp(open) * Math.PI * .47);
   const [x0, y0] = toScreen(cam, 1, DOOR.x - dw / 2 + lw, DOOR.y - dh), [x1, y1] = toScreen(cam, 1, DOOR.x + dw / 2, DOOR.y + 2);
-  c.beginPath(); c.rect(x0, y0 - 60, x1 - x0, y1 - y0 + 60); c.clip();
+  const g = (1 - clamp(amt)) * 240 * toScreen(cam, 1, 0, 0)[2];   // 240 world px of release, in screen px
+  c.beginPath(); c.rect(x0 - g, y0 - 60 - g, x1 - x0 + 2 * g, y1 - y0 + 60 + 2 * g); c.clip();
 }
 // suitcase: trails behind the walker with a .06 s lag; wheel wobble while rolling
 function drawCase(c, cam, C, t, st) {
@@ -189,7 +192,7 @@ export function buildStory() {
   const outDoor = dy.t1 - 1.6, outM0 = dy.t1 - 1.15, outY0 = dy.t1 - .8;
   const mD = { id: 'mia', base: { turn: 0, face: F('happy', { lx: .1, lid: .1 }), armL: ARM.rest, armR: ARM.rest, alpha: 0, clip: 1, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: outM0, t1: Math.min(Y0.t0 - .15, outM0 + 1.4), x0: 1530, x1: 1540, y0: 800, y1: GROUND, k0: .6, k1: .9, step: .46 }], keys: [] };
-  mD.keys.push({ t: outM0, alpha: 1, d: .2 }, { t: outM0 + .5, clip: null }, { t: outM0 + .3, turn: -.38, d: .6 },
+  mD.keys.push({ t: outM0, alpha: 1, d: .2 }, { t: outM0 + .2, clip: 0, d: 1.0 }, { t: outM0 + .3, turn: -.38, d: .6 },
     { t: Y0.t0 - .35, armR: DIP, face: F('happy', { lx: -.5, happy: .5 }), d: .15 }, { t: Y0.t0 - .15, armR: ARM.wave, d: .22 },
     { t: Y0.t1 + .2, armR: ARM.rest, d: .35 },
     { t: Y2.t0 - .35, armR: CUP, lean: -.05, face: F('happy', { lx: -.75, happy: .45 }), d: .25 },
@@ -201,12 +204,14 @@ export function buildStory() {
   const walkAway0 = Y1.t1 + .3, walkAway1 = Math.max(walkAway0 + 1.2, Y2.t0 + .5);
   yD.moves.push({ t0: walkAway0, t1: walkAway1, x0: 1310, x1: 1060 });
   const tSabah = nwT('ar08', has('الصبح'), .2), tAdrus = nwT('ar08', has('أدرس'), .55), tArmy = nwT('ar08', has('الجيش'), .9);
-  yD.keys.push({ t: outY0, alpha: 1, d: .25 }, { t: outY0 + .5, clip: null }, { t: outY0 + .4, turn: .4, d: .5 },
+  yD.keys.push({ t: outY0, alpha: 1, d: .25 }, { t: outY0 + .15, clip: 0, d: 1.2 }, { t: outY0 + .4, turn: .4, d: .5 },
     { t: Y0.t1 - .2, face: F('happy', { happy: .5, lx: .55, lid: .1 }), d: .3 },
     { t: Y1.t0 - .3, armR: DIP, d: .15 }, { t: Y1.t0 - .1, armR: ARM.wave, d: .22 },
     { t: Y1.t1, armR: ARM.rest, d: .3 },
     // walks away to the left (suitcase now trails on his right)
-    { t: walkAway0 - .2, turn: -.5, armL: ARM.rest, armR: PULL, caseSide: 1, face: F('happy', { happy: .35, lx: -.5, lid: .1 }), d: .3 },
+    // he turns to walk away: the turn and the suitcase swinging round behind him (from his left to his trailing side) take .8 s
+    { t: walkAway0 - .6, turn: -.5, caseSide: 1, d: .8 },
+    { t: walkAway0 - .2, armL: ARM.rest, armR: PULL, face: F('happy', { happy: .35, lx: -.5, lid: .1 }), d: .3 },
     // "Class is at eight!" — he stops; on "Eight?!" whips round, shocked
     { t: bEight - .12, turn: .22, face: F('surprised', { pupil: .55, mo: .085, mw: .07, lx: .3, ly: -.1, sweat: .6, blush: .3 }), armL: RAISE, d: .14 },
     { t: tSabah + .1, face: F('surprised', { pupil: .5, mo: .1, mw: .065, lx: .1, ly: -.2, sweat: .9, mwob: .5 }), d: .25 },
@@ -232,7 +237,7 @@ export function buildStory() {
   ];
   const ye = charState(yD, bEight).x;
   S.camD = [
-    { t: dy.t0 - 1, x: 1530, y: 430, z: 2.35 },
+    { t: dy.t0 - 1, x: 1530, y: 392, z: 2.35 },   // the whole sign in frame (its top edge was cut at y 430)
     { t: dy.t1 - 2.7, d: 2.0, x: 1180, y: 575, z: 1.05 },
     { t: by.t0, d: 0, ...TWO },
     { t: Y1.t1 - .1, d: 1.4, x: 1300, y: 640, z: 1.5 },

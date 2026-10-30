@@ -1,6 +1,6 @@
 // The five exercise types. Each takes (root, item, ctx) and resolves { correct } where `correct` = right on the first try.
 // ctx: { stage(who, {bubble, expr}), bubble(html), react(name), talk(sec), feedback(kind, {head, why, cont}) → Promise }
-import { h, esc, mix, shuffle, play, playButton, sleep, REDUCED } from './ui.js';
+import { h, esc, mix, shuffle, play, playButton, sleep, REDUCED, speaker } from './ui.js';
 
 const T = {
   listen: 'اسمع واختار', fix: 'صلّح غلطة يوسف', order: 'رتّب الكلمات', gap: 'كمّل الجملة', speak: 'قولها بصوت عالي',
@@ -142,7 +142,8 @@ async function gap(root, item, ctx) {
   ctx.stage(ph.who, { bubble: gapHTML(''), expr: 'neutral' });
   const sent = h('div', { class: 'sentence', html: gapHTML('') });
   const chips = h('div', { class: 'chips', role: 'group', 'aria-label': 'الكلمات' });
-  root.append(kind('gap', item.n), h('p', { class: 'prompt' }, 'إيه الكلمة الناقصة؟'), sent, h('p', { class: 'ar-under' }, ph.ar), chips);
+  const ar = item.ar || ph.ar;   // an item may gap a longer line from the episode and give its own translation
+  root.append(kind('gap', item.n), h('p', { class: 'prompt' }, 'إيه الكلمة الناقصة؟'), sent, h('p', { class: 'ar-under' }, ar), chips);
   let tries = 0, done = false;
   return new Promise(res => {
     for (const c of shuffle(item.chips)) {
@@ -153,7 +154,7 @@ async function gap(root, item, ctx) {
         if (c === item.answer) {
           done = true; b.classList.add('correct'); chips.querySelectorAll('.chip').forEach(x => x.disabled = true);
           ctx.react(ph.who === 'mia' ? 'clap' : 'happy'); if (ph.audio) play(ph.audio, { onstart: d => ctx.talk(d) });
-          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(item.text.replace('___', c))} = ${esc(ph.ar)}` + (item.explain ? `<br>${mix(item.explain)}` : '') });
+          await ctx.feedback('ok', { head: pick(T.ok), why: `${enHTML(item.text.replace('___', c))} = ${esc(ar)}` + (item.explain ? `<br>${mix(item.explain)}` : '') });
           res({ correct: tries === 1 });
         } else {
           b.classList.add('wrong'); b.disabled = true; ctx.react('oops');
@@ -169,13 +170,13 @@ async function gap(root, item, ctx) {
 // ---------- 5. say it out loud ----------
 const SR = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
 async function speak(root, item, ctx) {
-  const asks = item.asks, ph = item.phrase;
-  ctx.stage('mia', { bubble: esc(asks.en), expr: 'happy' });
+  const asks = item.asks, ph = item.phrase, S = speaker(asks.who);
+  ctx.stage(asks.who, { bubble: esc(asks.en), expr: 'happy' });
   const box = h('div', { style: 'text-align:center' });
-  root.append(kind('speak', item.n), h('p', { class: 'prompt' }, 'ميا بتسألك… رد عليها بصوت عالي!'), box);
+  root.append(kind('speak', item.n), h('p', { class: 'prompt' }, `${S.ar} ${S.asks}… رد ${S.him} بصوت عالي!`), box);
   const hintEl = h('div', { class: 'sentence', style: 'color:var(--navy)' }, item.hint);
   const ex = h('p', { class: 'hint', html: 'مثلًا: ' + exHTML(item.examples) });
-  const ask = playButton(asks.audio, 'اسمع ميا', { onplay: d => ctx.talk(d) });
+  const ask = playButton(asks.audio, `اسمع ${S.ar}`, { onplay: d => ctx.talk(d) });
   const start = h('button', { class: 'btn teal big', type: 'button' }, 'جاهز؟ يلا 3، 2، 1');
   box.append(h('div', { style: 'margin:6px 0 10px' }, ask), hintEl, ex, h('div', { style: 'margin-top:14px' }, start));
   sleep(350).then(() => play(asks.audio, { onstart: d => ctx.talk(d) }));
@@ -227,7 +228,7 @@ async function speak(root, item, ctx) {
       });
       no.addEventListener('click', async () => {
         if (ph.audio) await play(ph.audio, { onstart: d => { ctx.stage('youssef', { bubble: esc(ph.en), expr: 'happy' }); ctx.talk(d); } });
-        ctx.stage('mia', { bubble: esc(asks.en), expr: 'happy' });
+        ctx.stage(asks.who, { bubble: esc(asks.en), expr: 'happy' });
         no.textContent = 'كمّل من غير ما أقولها';
         no.onclick = async () => { acts.remove(); q.remove(); await ctx.feedback('ok', { head: 'ماشي… جرّبها المرة الجاية', why: `قول: ${exHTML(item.examples)}` }); res({ correct: false }); };
       });
@@ -249,6 +250,8 @@ export function normalise(ep, item, n) {
     return { ...item, phrase: ph, words: sentence.split(' '), ar: join ? `${ph.ar} ${join.ar}` : ph.ar, n };
   }
   if (item.type === 'listen') { const ph = P.get(item.phrase); return { ...item, phrase: ph, answer: item.options[0], n }; }
-  if (item.type === 'speak') return { ...item, phrase: P.get(item.phrase), asks: P.get(item.asks), n };
+  // speak: `asks` is the question's phrase; an optional `ask` {en, audio} replaces its text / clip with the episode's own "your
+  // turn" line (e.g. "Hi! I'm Sara. What's your name?", audio/ep01/turn.mp3)
+  if (item.type === 'speak') return { ...item, phrase: P.get(item.phrase), asks: { ...P.get(item.asks), ...(item.ask || {}) }, n };
   return { ...item, phrase: P.get(item.phrase), n };
 }

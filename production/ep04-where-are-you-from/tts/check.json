@@ -1,9 +1,9 @@
 {
  "en1": {
   "source": "OK, class! Let's meet. Where are you from? Ana, you first! Hi, everybody! I'm Ana. I'm from Spain. I live in Brooklyn. Great! Thank you, Ana.",
-  "gemini": "Okay, class. Let's meet. Anna, you first. Hi, everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you, Anna.",
-  "whisper": "Okay, class. Let's meet. Anna, you first. Hi, everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you, Anna.",
-  "dur": 12200
+  "gemini": "Okay, class. Let's meet. Where are you from? Anna, you first. Hi, everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you, Anna.",
+  "whisper": "Okay class, let's meet where are you from Anna you first Hi everybody. I'm Anna. I'm from Spain. I live in Brooklyn. Great. Thank you Anna",
+  "dur": 12600
  },
  "en2": {
   "source": "Youssef? Your turn. Hello! I'm Youssef. I'm from Egypt. I am live in Queens.",
@@ -13,9 +13,9 @@
  },
  "en3": {
   "source": "I live in Queens. Oh! Sorry. I live in Queens. Good! Where in Egypt? Cairo!",
-  "gemini": "Short pause. I live in Queens. Oh, sorry. Uh, I live in Queens. Good. Where in Egypt? Cairo.",
-  "whisper": "Short pause. I live in Queens. Oh, sorry. I live in Queens. Good. Where in Egypt? Cairo.",
-  "dur": 10700
+  "gemini": "I live in Queens. Oh, sorry. I live in Queens. Good. Where in Egypt? Cairo.",
+  "whisper": "I live in Queens. Oh, sorry. I live in Queens. Good. We're in Egypt. Cairo!",
+  "dur": 9600
  },
  "en4": {
   "source": "Ana, are you from Madrid? Yes, I am! I'm Spanish. And you're Egyptian! Yes! I'm Egyptian.",
@@ -112,5 +112,101 @@
   "gemini": "Hi. Where are you from?",
   "whisper": "Hi, where are you from?",
   "dur": 2600
+ },
+ "ar01": {
+  "source": "خلّصت الاستمارة… وأخيرًا، أول كلاس ليّا في نيويورك. فصل صغير، وخريطة للعالم كله… وزميلة جديدة.",
+  "gemini": "خلصت الاستماره واخيرا اول كلاس ليا في نيويورك فصل صغير وخريطة للعالم كله وزميله جديدة",
+  "whisper": "خلصت الاستمرها وأخيرا أول كلاسلة في نيويورك فصل صغير وخريطة للعالم كله وزميلة جديدة",
+  "dur": 9100
+ },
+ "ar02": {
+  "source": "وعلى السبورة سؤال: Where are you from ؟ سهل! أنا عارف I'm من أول يوم… هقولها في كل حتة.",
+  "gemini": "وعلى السبورة سؤال سهل انا عارف ايام من اول يوم هقولها في كل حتة",
+  "whisper": "وعالصبورة سؤل Where are you from? سهل أن أعرف آيم من أول يوم هؤلاء في كل حتة",
+  "dur": 6600
+ },
+ "ar03": {
+  "source": "استنى… I am live ؟! أنا من أول يوم بحط am في كل جملة… حتى اللي مالهاش دعوة!",
+  "gemini": "استنى. انا من اول يوم بحط ام في كل جمله. حتى اللي ما لهاش دعوه.",
+  "whisper": "ستن أيام ليف أنا من أول يوم بحط تقام في كله جملة حتى اللي ملهج دعوة",
+  "dur": 7400
+ },
+ "ar04": {
+  "source": "سارة صلّحتها من غير ما تكسفني. ولما قلت Cairo … حسيت إني سفير مصر في الفصل!",
+  "gemini": "ساره صلحتها من غير ما تكسفني. ولما قلت حسيت ان سفير مصر في الفصل.",
+  "whisper": "سارة صلاحتها من غير متكسيفني و لما قلت كايرو حستي نسافير مصر في الفصل",
+  "dur": 6700
+ },
+ "ar05": {
+  "source": "وبعدين سارة سألت السؤال اللي بعده… وأنا اتجمدت تاني. أنا مهندس… بس دي بتتقال إزاي؟",
+  "gemini": "وبعدين ساره سالت السؤال اللي بعده وانا اتجمدت تاني انا مهندس بس دي بتتقال ازاي؟",
+  "whisper": "وبعدين صار سألت سؤال اللي بعضه وانا جمدت تاني أنا مهندس بس دي تتألل زي",
+  "dur": 6700
+ },
+ "ar06": {
+  "source": "تعالوا نشوف اتعلمت إيه النهارده.",
+  "gemini": "تعالوا نشوف اتعلمت ايه النهارده.",
+  "whisper": "تعالوا نشوفة علمت إنه هاردة",
+  "dur": 2000
+ },
+ "ar07": {
+  "source": "لما حد يسألك: Where are you from ؟ قول: I'm from … ومتنساش am : I from Egypt … غلط.",
+  "gemini": "لما حد يسالك قول وما تنساش غلط.",
+  "whisper": "لما حديث عليك Where are you from? أقول I'm from وما تنسش I'm I'm from Egypt غلط",
+  "dur": 7500
+ },
+ "ar08": {
+  "source": "ولما يسألك: Where do you live ؟ قول: I live in … وهنا مفيش am خالص. I am live … غلط.",
+  "gemini": "ولما يسالك قول وهنا ما فيش ام خالص. غلط.",
+  "whisper": "و لما يسألك Where do you live? I live in و هنا مفيش أم خالص I am live غلط",
+  "dur": 8800
+ },
+ "ar09": {
+  "source": "يعني: I'm from فيها am … لكن live فعل، يبقى: I live ، من غير am .",
+  "gemini": "يعني فيها لكن فعل يبقى من غير",
+  "whisper": "يعني أمفرم فيها أم لكن لذ فعل يبقى I live من غير أم",
+  "dur": 6400
+ },
+ "ar10": {
+  "source": "ولو عايز تسأل: Are you from …؟ الرد: Yes, I am . أو: No, I'm not .",
+  "gemini": "ولو عايز تسأل الرد او",
+  "whisper": "و لو عايز تسأل are you from الرد يا سيام أو no I'm not",
+  "dur": 4600
+ },
+ "ar11": {
+  "source": "والمدن والبلاد بتاخد in : in Cairo ، in New York … مش at Cairo .",
+  "gemini": "والمدن والمدن والبلاد بتاخد يعني مش",
+  "whisper": "والمدن والبلاد بتاخد إن يعني إن كيرو إن نيويورك مش أت كيرو",
+  "dur": 6200
+ },
+ "ar12": {
+  "source": "وآخر حاجة: البلد والجنسية… والاتنين بيتكتبوا بحرف كبير.",
+  "gemini": "واخر حاجه البلد والجنسية. والاثنين بيتكتبوا بحرف كبير.",
+  "whisper": "وآخر حاجة البلد والجنسية واللتنين بيكتبوا بحرف كبير",
+  "dur": 5300
+ },
+ "ar13": {
+  "source": "دورك! سارة بتسألك… قول بلدك بصوت عالي.",
+  "gemini": "دورك. فرب تسالك قول بلدك بصوت عالي.",
+  "whisper": "دورك صرب تسألك قول بلدك بصوت عالي",
+  "dur": 3800
+ },
+ "ar14": {
+  "source": "قلتها؟ برافو! واكتب في الكومنتات: إنت منين، وساكن فين… بالإنجليزي.",
+  "gemini": "قلتها؟ برافو. واكتب في الكومنتات انت منين وساكن فين بالانجليزي.",
+  "whisper": "ألتها بروف وكتب في كومنتات انتمنين وسكنفين بالإنجليزي",
+  "dur": 5200
+ },
+ "ar15": {
+  "source": "وزي كل حلقة: ادخل على الموقع وحل تمارين الحلقة، خمس دقايق والجمل تثبت. اللينك في الوصف.",
+  "gemini": "وزي كل حلقه ادخل على الموقع وحل تمارين الحلقه خمس دقائق والجمل تثبت اللينك في الوصف.",
+  "whisper": "و زي كل حلقة ادخل على الموقع و حلة مرين الحلقة خمس داية و جمال تزبط اللنك في الوصف",
+  "dur": 6200
+ },
+ "ar16": {
+  "source": "الحلقة الجاية: الشغل. سارة سألتني: What do you do ؟ وأنا قلت: I am engineer . وطلعت ناقصة حاجة صغيرة.",
+  "gemini": "الحلقه الجايه الشغل. ساره سالتني وانا قلت وطلعت ناقصه حاجه صغيره.",
+  "whisper": "الحلقة جاية الشغل صار سألتني What do you do? و أنا أولت I am engineer و طلعت نقصحك صغيرة",
+  "dur": 9400
  }
 }

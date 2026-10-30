@@ -1,4 +1,4 @@
-// Episode 2 — "اللي اتعلمته النهارده": the recap. Living Letters kinetic type, restyled into Bean People:
+// Episode 3 — "اللي اتعلمته النهارده": the recap. Living Letters kinetic type, restyled into Bean People:
 // cream paper, ink Fredoka words that are typeset as they are spoken (rise, land with a squash), a speaker rail + name tab
 // under each line, a mustard highlighter on the spoken word, a red spell-check squiggle under mistakes, and two small
 // presenter beans (Youssef right, Sara left). Every beat is keyed to recap items, lines and narration words in timeline.json.
@@ -7,7 +7,7 @@ import { clamp, lerp, seg, ss, eo, eio, back } from '/core/lib.js';
 import { TL, SEC, NARR, LINE, RECAP, nwT, has } from './tl.js';
 import { charState, drawActor } from './story.js';
 import { fold, F, ARM, CUP, CLAP, DIP, OPEN, POINT, FACEPALM } from './act.js';
-import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle, sunIcon, afternoonIcon, moonIcon, waveHand } from './ui.js';
+import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle } from './ui.js';
 import { cue } from './cues.js';
 
 const PAPER = '#FBF1E1', RULE = rgba(P.ink, .045), GROUND_Y = 900;
@@ -22,15 +22,15 @@ export function buildRecap() {
   const rc = SEC('recap');
   const it = id => RECAP(id) || { t0: rc.t0, t1: rc.t0 };
   const L = id => LINE(id);
-  R = { rc, items: ['times', 'night', 'how', 'andyou', 'welcome', 'polite'].map(id => ({ id, ...it(id) })) };
-  R.title0 = rc.t0 + .55; R.title1 = it('times').t0 - .35;
+  R = { rc, items: ['count', 'teen', 'ty', 'stress', 'age', 'wrong', 'order'].map(id => ({ id, ...it(id) })) };
+  R.title0 = rc.t0 + .55; R.title1 = it('count').t0 - .35;
   // keys into the narration (Latin tokens and Arabic words) that time the cards
-  R.tMorning = nwT('ar09', has('الصبح'), .05); R.tAfter = nwT('ar09', has('الضهر'), .15); R.tNightW = nwT('ar09', has('وبالليل'), .25);
-  R.tGNwrong = nwT('ar09', w => /^Good night/i.test(w), .4); R.tNotGreet = nwT('ar09', has('تحية'), .55); R.tFarewell = nwT('ar09', has('للوداع'), .7); R.tSleep = nwT('ar09', has('تنام'), .97);
-  R.tHow = nwT('ar10', w => /^How are/i.test(w), .3); R.tReal = nwT('ar10', has('حقيقي'), .95);
-  R.tAndYou = nwT('ar11', w => /^And you/i.test(w), .6);
-  R.tThank = nwT('ar12', w => /^Thank/i.test(w), .25); R.tWelcomeW = nwT('ar12', w => /^Welcome/i.test(w), .55); R.tRight = nwT('ar12', has('الصح'), .9);
-  R.tPlease = nwT('ar13', w => /^Please/i.test(w), .3); R.tSorryW = nwT('ar13', has('سوري'), .7);
+  R.tNums = nwT('ar07', has('الأرقام'), .85);
+  R.tTeen = nwT('ar08', w => /^-teen/.test(w), .85); R.tTy = nwT('ar09', w => /^-ty/.test(w), .8);
+  R.tStressW = nwT('ar10', has('الضغطة'), .2); R.tEnd = nwT('ar10', has('الآخر'), .5); R.tStart = nwT('ar10', has('الأول'), .95);
+  R.tHowOld = nwT('ar11', w => /^How old/.test(w), .3); R.tSay = nwT('ar11', w => /^I'm/.test(w), .75);
+  R.tW1 = nwT('ar12', w => /^I have/.test(w), .3); R.tW2 = nwT('ar12', w => /^I'm 26 years/.test(w), .65); R.tOld = nwT('ar12', w => /^old/.test(w), .92);
+  R.tSix = nwT('ar13', has('ستة'), .35); R.tSixFirst = nwT('ar13', has('الستة'), .55); R.tEng = nwT('ar13', has('الإنجليزي'), .7); R.tTwentyFirst = nwT('ar13', has('العشرين'), .85);
   // repeat gaps: after a model line, until the next speech (narration or line) or the end of the recap
   const recapLines = TL.lines.filter(l => l.scene === 'recap');
   const speech = [...TL.narration.map(n => n.t0), ...TL.lines.map(l => l.t0)].sort((a, b) => a - b);
@@ -41,13 +41,10 @@ export function buildRecap() {
     const nextIsLine = TL.lines.some(m => Math.abs(m.t0 - nx) < .01);
     if (nx - l.t1 >= .8 && !nextIsLine) R.gaps.push({ t0: l.t1 + .18, t1: nx - .12, line: l });
   }
-  // presenter Youssef mouths his narration clips (the diary voice's viseme track) and his own model lines; Sara hers
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Sara left facing right: armL) ----
-  const hiT = it('times').t0;
+  const hiT = it('count').t0;
   const YK = 1.6, MK_ = 1.5, YX = 1580, MX = 395;   // 110 px in from the frame edges, clear of the text column (rows fit to 820 px) and the plate
-  // Youssef's outer arm (armR: screen-right, he faces left) must never leave the frame: a pose whose hand would pass x = 1880 is
-  // pulled in (hand x ≈ YX + shoulder .34 H + dx H + the wave swing + the hand radius, H = 300 · YK)
   const OUTR = A => { const lim = (1880 - 27 - .34 * 300 * YK - YX) / (300 * YK) - (A.w ? .08 : 0); return A.dx > lim ? { ...A, dx: lim } : A; };
   R.YX = YX; R.MX = MX;
   const yRest = F('happy', { lx: -.5, happy: .35 }), mRest = F('happy', { lx: .5, happy: .35 });
@@ -57,7 +54,6 @@ export function buildRecap() {
     moves: [{ t0: hiT - 1.0, t1: hiT - .1, x0: -320, x1: MX, y0: GROUND_Y, y1: GROUND_Y, k0: MK_, k1: MK_, step: .45 }], keys: [], jumps: [], blinks: [] };
   const K = yR.keys, MK = mR.keys;
   const nod = (keys, x) => keys.push({ t: x, sq: .95, d: .1 }, { t: x + .13, sq: 1, d: .12 }, { t: x + .28, sq: .955, d: .1 }, { t: x + .41, sq: 1, d: .14 });
-  // hello wave on arrival
   K.push({ t: rc.t0 + 1.25, armR: DIP, d: .15 }, { t: rc.t0 + 1.4, armR: ARM.wave, d: .2 }, { t: rc.t0 + 2.6, armR: ARM.rest, d: .3 });
   // every model line: the speaker turns to us with an open hand and talks (lip sync from talk); the other looks over and nods
   for (const l of recapLines) {
@@ -67,27 +63,28 @@ export function buildRecap() {
     LK.push({ t: l.t0 - .15, face: F('happy', { lx: ys ? .75 : -.75, ly: -.05, happy: .55 }), d: .25 }, { t: l.t1 + .5, face: ys ? mRest : yRest, d: .3 });
     nod(LK, l.t1 - .05);
   }
-  // waves on the greetings / the good night; the time-of-day lines get a small point at the icon
-  const r01 = L('r01'), r04 = L('r04'), r09 = L('r09'), r10 = L('r10'), r12 = L('r12');
-  if (r01) MK.push({ t: r01.t0 - .3, armL: ARM.wave, d: .2 }, { t: r01.t1 + .6, armL: ARM.rest, d: .3 });
-  if (r04) K.push({ t: r04.t0 - .3, armR: ARM.wave, face: F('joy'), d: .2 }, { t: r04.t1 + 1.2, armR: ARM.rest, face: yRest, d: .3 });
+  // counting: the speaker beats the numbers with small nods; the stress pairs: Sara taps the air on the stressed syllables
+  const beatNods = (keys, l) => { if (l) l.tok.forEach((o, i) => { if (i % 2 === 0) keys.push({ t: o.t0, sq: .97, d: .08 }, { t: o.t0 + .12, sq: 1, d: .12 }); }); };
+  beatNods(MK, L('r01')); beatNods(K, L('r02')); beatNods(MK, L('r03'));
+  const r04 = L('r04'), r05 = L('r05'), r08 = L('r08');
+  if (r04) r04.tok.forEach(o => MK.push({ t: o.t0 + (/teen/i.test(o.w) ? .18 : 0), armR: { ...OPEN, dy: -.1 }, sq: .96, d: .08 }, { t: o.t0 + (/teen/i.test(o.w) ? .3 : .12), sq: 1, d: .12 }));
+  if (r05) MK.push({ t: r05.t0 - .3, armL: { ...OPEN, dx: .18 }, d: .25 }, { t: r05.t1 + .4, armL: ARM.rest, d: .3 });
   // the mistakes: facepalm on the squiggle, sheepish scratch while it is explained, proud nod (hand on chest) on the fix
-  const mistake = (tSq, tFix, clap = true) => {
+  const mistake = (tSq, tFix) => {
     K.push({ t: tSq - .05, armR: FACEPALM, face: F('embarrassed', { eye: .12, lx: 0, ly: .3 }), lean: -.025, d: .2 },
       { t: tSq + 1.3, armR: ARM.scratch, face: F('embarrassed', { lx: -.5, ly: .2 }), lean: -.015, d: .3 },
       { t: tFix - .1, armR: ARM.chest, face: F('joy', { bLy: .9, bRy: .9 }), lean: 0, turn: -.15, d: .25 },
       { t: tFix + 1.5, armR: ARM.rest, face: yRest, turn: -.3, d: .35 });
     nod(K, tFix + .15);
     MK.push({ t: tSq + .1, armL: CUP, face: F('happy', { lx: .7, happy: .8, mw: .09, mo: 0 }), d: .25 },
-      { t: tSq + 1.4, armL: ARM.rest, face: F('happy', { lx: .6, bLy: .7, bRy: .7, happy: .3 }), d: .3 });
-    if (clap) MK.push({ t: tFix, armL: CLAP, armR: CLAP, face: F('joy'), d: .18 }, { t: tFix + .9, armL: ARM.rest, armR: ARM.rest, face: mRest, d: .3 });
+      { t: tSq + 1.4, armL: ARM.rest, face: F('happy', { lx: .6, bLy: .7, bRy: .7, happy: .3 }), d: .3 },
+      { t: tFix, armL: CLAP, armR: CLAP, face: F('joy'), d: .18 }, { t: tFix + .9, armL: ARM.rest, armR: ARM.rest, face: mRest, d: .3 });
     yR.blinks.push(tSq - .05, tSq + 1.3, tFix - .1); mR.blinks.push(tSq + .1, tFix);
   };
-  mistake(R.tNotGreet + .1, R.tFarewell + .2);
-  mistake(R.tWelcomeW + .3, r10 ? r10.t0 : R.tRight + 1, false);
-  // "And you?": Youssef points at us; "Sorry!": a small apologetic bow
-  if (r09) K.push({ t: r09.t0 - .3, armL: POINT, face: F('happy', { lx: 0, happy: .5, bLy: .9, bRy: .9 }), d: .25 }, { t: r09.t1 + .8, armL: ARM.rest, d: .3 });
-  if (r12) K.push({ t: r12.t0 - .15, lean: -.06, sq: .95, face: F('embarrassed', { lx: 0, ly: .3, happy: .3, lines: .5, sweat: .4 }), d: .18 }, { t: r12.t0 + .35, lean: 0, sq: 1, d: .3 }, { t: r12.t1 + .9, face: yRest, d: .35 });
+  mistake(R.tW1 + .3, R.tOld + .35);
+  // the order trap: Youssef points at the Arabic, then at the English
+  K.push({ t: R.tSix - .2, armL: POINT, face: F('happy', { lx: -.6, ly: -.2, happy: .4 }), d: .25 }, { t: R.tTwentyFirst - .2, armL: { ...POINT, dy: .02 }, face: F('happy', { lx: -.6, ly: .1, happy: .5 }), d: .25 },
+    { t: r08 ? r08.t0 - .3 : R.tTwentyFirst + 1.5, armL: ARM.rest, d: .3 });
   // repeat gaps: Youssef turns to us with an open hand ("your turn"), Sara smiles at us
   for (const g of R.gaps) {
     K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
@@ -100,13 +97,14 @@ export function buildRecap() {
   cue(R.title0, 'pop', { note: 'recap title' });
   cue(rc.t0 + .3, 'step', { who: 'youssef' }); cue(hiT - .6, 'step', { who: 'mia' });
   for (const l of recapLines) cue(l.t0 - .05, 'type', { note: 'line typesets: ' + l.text });
-  for (const x of [R.tMorning, R.tAfter, R.tNightW]) cue(x, 'pop', { note: 'time-of-day icon' });
-  cue(R.tGNwrong, 'type'); cue(R.tNotGreet + .1, 'squiggle'); cue(R.tNotGreet + .5, 'error_buzz');
-  cue(R.tFarewell + .2, 'pop', { note: 'moon + wave' }); if (r04) cue(r04.t1 + .1, 'ding');
-  cue(R.tReal, 'pop', { note: 'the three real answers' });
-  cue(R.tThank, 'type'); cue(R.tWelcomeW, 'type'); cue(R.tWelcomeW + .3, 'squiggle'); cue(R.tWelcomeW + .7, 'error_buzz');
-  cue(R.tRight, 'caret'); if (r10) cue(r10.t1 + .1, 'ding');
-  cue(R.tPlease, 'type'); cue(R.tSorryW, 'type');
+  for (const id of ['r01', 'r02', 'r03']) { const l = L(id); if (l) l.tok.forEach(o => cue(o.t0, 'tick', { note: 'number card ' + o.w })); }
+  cue(R.tTeen, 'pop', { note: '-teen lights up' }); cue(R.tTy, 'pop', { note: '-ty lights up' });
+  cue(R.tStressW, 'pop', { note: 'stress pairs' }); cue(R.tEnd, 'ding', { note: 'TEEN dots' }); cue(R.tStart, 'ding', { note: 'THIR dots' });
+  cue(R.tHowOld, 'pop'); cue(R.tSay, 'caret');
+  cue(R.tW1, 'type'); cue(R.tW1 + .35, 'squiggle'); cue(R.tW1 + .75, 'error_buzz');
+  cue(R.tW2, 'type'); cue(R.tW2 + .35, 'squiggle'); cue(R.tW2 + .75, 'error_buzz');
+  cue(R.tOld, 'caret', { note: 'old inserted' }); cue(R.tOld + .4, 'ding', { note: 'the two fixes' });
+  cue(R.tSix, 'pop', { note: 'ستة وعشرين' }); cue(R.tTwentyFirst, 'whoosh', { note: 'flip to twenty-six' }); if (r08) cue(r08.t1 + .1, 'ding');
   for (const g of R.gaps) cue(g.t0, 'repeat', { dur: g.t1 - g.t0, note: 'learner repeats' });
   return R;
 }
@@ -258,98 +256,172 @@ function gloss(c, txt, x, y, a) {
   c.fillStyle = P.navy; c.fillText(txt, 0, 4); c.restore();
 }
 // ---- items (each card comes in ghosted as soon as its item starts, while the Arabic explains) ----
-const CX = 1000, CUEY = { times: 160, night: 822, how: 150, andyou: 822, welcome: 150, polite: 822 };
+const CX = 1000, CUEY = { count: 822, teen: 822, ty: 822, stress: 836, age: 150, wrong: 822, order: 822 };
 const ghostRow = (words, who) => words.map(w => ({ w, t: 1e9 }));   // a row that stays ghosted
-const ITEM = {
-  // three greetings with a time-of-day icon each
-  times(c, t, a, it) {
-    const rows = [['r01', 'mia', 'صباح الخير', R.tMorning, (cc, x, y, k) => sunIcon(cc, x, y, 26 * k, P.mustard, t)],
-      ['r02', 'youssef', 'مساء الخير (بعد الضهر)', R.tAfter, (cc, x, y, k) => afternoonIcon(cc, x, y, 24 * k)],
-      ['r03', 'mia', 'مساء الخير', R.tNightW, (cc, x, y, k) => moonIcon(cc, x, y, 24 * k)]];
-    rows.forEach(([id, who, mean, tIcon, icon], i) => {
-      const y = 290 + i * 190, items = fromLine(id), l = LINE(id);
-      const hi = seg(t, tIcon - .1, tIcon + .2) * (1 - seg(t, (l ? l.t0 : tIcon + 2) - .3, l ? l.t0 : tIcon + 2));
-      const row = drawRow(c, t, items, { x: CX + 40, y, size: 100, who, alpha: a, ghost: it.t0, mean, meanHi: hi, meanSize: 44 });
-      const ik = back(seg(t, Math.min(tIcon, it.t0 + .3 + i * .15), Math.min(tIcon, it.t0 + .3 + i * .15) + .4), 2);
-      if (row && ik > 0) { c.save(); c.globalAlpha = a; icon(c, row.x - row.W / 2 - 80, y - 36, ik); c.restore(); }
-    });
-  },
-  // "Good night!" is a goodbye (moon + a wave), never a greeting (red squiggle)
-  night(c, t, a, it) {
-    const l = LINE('r04');
-    // the wrong use: a ghosted "Good night" said as a hello, with a small sun, a squiggle, an ✗ and "مش تحية"
-    const wrongA = a * seg(t, R.tGNwrong - .05, R.tGNwrong + .25);
-    if (wrongA > 0) {
-      const row = drawRow(c, t, ghostRow(['Good', 'night']), { x: CX, y: 390, size: 120, who: 'youssef', alpha: wrongA, ghost: R.tGNwrong - .05 });
-      if (row) {
-        c.save(); c.globalAlpha = wrongA;
-        sunIcon(c, row.x - row.W / 2 - 70, 360, 22, rgba(P.mustard, .7), t);
-        const x0 = row.x - row.W / 2 - 6, x1 = row.x + row.W / 2 + 6;
-        squiggle(c, x0, x1, 408, seg(t, R.tNotGreet + .1, R.tNotGreet + .5), 7, P.red, 7);
-        cross(c, x1 + 70, 345, 32, seg(t, R.tNotGreet + .5, R.tNotGreet + .85));
-        const pa = seg(t, R.tNotGreet + .6, R.tNotGreet + .9);
-        if (pa > 0) { c.globalAlpha = wrongA * pa; c.direction = 'rtl'; c.font = `700 40px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; const w = c.measureText('مش تحية').width + 50; rr(c, CX - w / 2, 440, w, 60, 30); c.fillStyle = rgba(P.red, .12); c.fill(); c.fillStyle = P.red; c.fillText('مش تحية', CX, 472); }
-        c.restore();
-      }
-    }
-    // the right use: typeset on his line, moon + waving hand, ✓
-    const okA = a * seg(t, R.tFarewell - .05, R.tFarewell + .25);
-    if (okA > 0) {
-      const row = drawRow(c, t, fromLine('r04'), { x: CX + 40, y: 660, size: 130, who: 'youssef', alpha: okA, ghost: R.tFarewell, mean: 'تصبح على خير (وإنت ماشي)', meanSize: 44 });
-      if (row) {
-        c.save(); c.globalAlpha = okA;
-        const ik = back(seg(t, R.tFarewell + .1, R.tFarewell + .5), 2);
-        if (ik > 0) { moonIcon(c, row.x - row.W / 2 - 120, 610, 26 * ik); waveHand(c, row.x - row.W / 2 - 62, 616, 20 * ik, '#B9773F', t); }
-        if (l) check(c, row.x + row.W / 2 + 60, 612, 34, seg(t, l.t1 + .1, l.t1 + .45));
-        c.restore();
-      }
-    }
-  },
-  // "How are you?" and three real answers that stack
-  how(c, t, a, it) {
-    const q = fromLine('r05'), r05 = LINE('r05');
-    const hi = seg(t, R.tHow - .1, R.tHow + .2) * (1 - seg(t, (r05 ? r05.t0 : R.tHow + 3) - .3, r05 ? r05.t0 : R.tHow + 3));
-    drawRow(c, t, q, { x: CX, y: 280, size: 104, who: 'mia', alpha: a, ghost: it.t0, mean: 'عامل إيه؟', meanHi: hi, meanSize: 44 });
-    const ans = [['r06', 'كويس، شكرًا'], ['r07', 'ماشي الحال… تعبان شوية'], ['r08', 'مش بطّال']];
-    ans.forEach(([id, mean], i) => {
-      const items = fromLine(id), size = fit(items, 76, 800);
-      drawRow(c, t, items, { x: CX, y: 455 + i * 148, size, who: 'youssef', alpha: a * seg(t, R.tReal - .1, R.tReal + .2), ghost: R.tReal - .1, mean, meanSize: 38 });
-    });
-  },
-  andyou(c, t, a, it) {
-    const l = LINE('r09'), hi = seg(t, R.tAndYou - .1, R.tAndYou + .2) * (1 - seg(t, (l ? l.t0 : R.tAndYou + 2) - .3, l ? l.t0 : R.tAndYou + 2));
-    drawRow(c, t, fromLine('r09'), { x: CX, y: 480, size: 160, who: 'youssef', alpha: a, ghost: it.t0, mean: 'وإنت؟', meanHi: hi });
-  },
-  // "Thank you" → "Welcome." alone is wrong → "You're welcome."
-  welcome(c, t, a, it) {
-    const r10 = LINE('r10');
-    const thA = a * seg(t, R.tThank - .05, R.tThank + .25);
-    if (thA > 0) drawRow(c, t, ghostRow(['Thank', 'you.']), { x: CX, y: 285, size: 96, who: 'mia', alpha: thA, ghost: R.tThank - .05, mean: 'شكرًا', meanSize: 40 });
-    const wr = [{ w: 'Welcome.', t: R.tWelcomeW - .05 }];
-    const row = drawRow(c, t, wr, { x: CX, y: 490, size: 124, who: 'youssef', alpha: a });
-    if (row && t > R.tWelcomeW) {
+// a number card: the digits big, the word under them (a part of the word can be coloured: hi = [start, col]); k = pop, cur = being said
+function numCard(c, x, y, w, h, num, word, { k = 1, ghost = 0, cur = 0, hi = null, mute = 0 } = {}) {
+  const a = Math.max(ghost * .3, k > 0 ? 1 : 0);
+  if (a <= 0) return;
+  const s = k > 0 ? back(clamp(k), 2.2) : 1;
+  c.save(); c.globalAlpha *= a * (1 - .5 * mute); c.translate(x, y); c.scale(s, s);
+  rr(c, -w / 2, -h / 2 + 8, w, h, 22); c.fillStyle = rgba('#2A2742', .12); c.fill();
+  rr(c, -w / 2, -h / 2, w, h, 22); c.fillStyle = cur > 0 ? mix('#FFFDF8', P.mustard, .35 * cur) : '#FFFDF8'; c.fill();
+  c.strokeStyle = cur > 0 ? rgba(P.mustard, cur) : rgba(P.ink, .1); c.lineWidth = 4; c.stroke();
+  c.font = '400 84px "Lilita One"'; c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillStyle = P.navy; c.fillText(num, 0, h * .12);
+  // the word, fitted to the card, with an optional coloured ending (-teen / -ty)
+  let fs = 30; c.font = `600 ${fs}px "Fredoka"`; let ww = c.measureText(word).width; if (ww > w - 16) { fs = fs * (w - 16) / ww; c.font = `600 ${fs}px "Fredoka"`; ww = c.measureText(word).width; }
+  const by = h * .38;
+  if (hi) {
+    const [i0, col] = hi, A = word.slice(0, i0), B = word.slice(i0), wa = c.measureText(A).width;
+    c.textAlign = 'left'; c.fillStyle = rgba(P.ink, .75); c.fillText(A, -ww / 2, by);
+    c.fillStyle = col; c.font = `700 ${fs}px "Fredoka"`; c.fillText(B, -ww / 2 + wa, by);
+    if (typeof hi[2] === 'number' && hi[2] > 0) { rr(c, -ww / 2 + wa - 3, by + 6, (c.measureText(B).width + 6) * hi[2], 6, 3); c.fillStyle = col; c.fill(); }
+  } else { c.fillStyle = rgba(P.ink, .75); c.fillText(word, 0, by); }
+  c.restore();
+}
+// a grid of number cards keyed to a counting line: map[i] = the token that says card i (or -1: shown muted from the start)
+function countGrid(c, t, a, it, nums, words, lineId, map, { hiFrom = null, hiCol = P.red, hiT = 1e9, rows = [5, 5] } = {}) {
+  const l = LINE(lineId), W = 140, Hc = 178, G = 18, ys = [360, 586];
+  let n = 0;
+  rows.forEach((cnt, r) => {
+    const rowW = cnt * W + (cnt - 1) * G;
+    for (let j = 0; j < cnt; j++, n++) {
+      const i = n, ti = map[i], tk = l && ti >= 0 ? l.tok[Math.min(ti, l.tok.length - 1)] : null;
+      const t0 = tk ? tk.t0 - .05 : it.t0 + .2 + i * .05, k = seg(t, t0, t0 + .3);
+      const cur = tk ? seg(t, tk.t0 - .05, tk.t0 + .05) * (1 - seg(t, tk.t1, tk.t1 + .15)) : 0;
+      const hk = hiFrom && hiFrom[i] != null ? [hiFrom[i], hiCol, seg(t, hiT, hiT + .4)] : null;
       c.save(); c.globalAlpha = a;
-      const x0 = row.x - row.W / 2 - 6, x1 = row.x + row.W / 2 - mw('.', 124) + 6;
-      squiggle(c, x0, x1, 506, seg(t, R.tWelcomeW + .3, R.tWelcomeW + .7), 7, P.red, 7);
-      cross(c, x1 + 70, 445, 32, seg(t, R.tWelcomeW + .7, R.tWelcomeW + 1.05));
-      const pa = seg(t, R.tWelcomeW + .8, R.tWelcomeW + 1.1);
-      if (pa > 0) { c.globalAlpha = a * pa; c.direction = 'rtl'; c.font = `700 36px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba(P.red, .9); c.fillText('ناقصة كلمة', CX, 560); }
+      numCard(c, CX - rowW / 2 + W / 2 + j * (W + G), ys[r], W, Hc, nums[i], words[i], { k: ti < 0 ? seg(t, it.t0, it.t0 + .3) : k, ghost: seg(t, it.t0, it.t0 + .3), cur, hi: t >= hiT - .05 || ti < 0 ? hk : null, mute: ti < 0 ? 1 : 0 });
       c.restore();
     }
-    const okA = a * seg(t, R.tRight - .05, R.tRight + .25);
-    if (okA > 0) {
-      const r10i = fromLine('r10'), r10s = fit(r10i, 124, 800);
-      const row2 = drawRow(c, t, r10i, { x: CX - 30, y: 700, size: r10s, who: 'mia', alpha: okA, ghost: R.tRight, mean: 'عفوًا / العفو', meanSize: 44 });
-      if (row2 && r10) check(c, row2.x + row2.W / 2 + 56, 700 - r10s * .55, 32, seg(t, r10.t1 + .1, r10.t1 + .45));
-    }
+  });
+}
+// a stress pair row: the number + its word split into syllables (the stressed one big, mustard underlay, a dot that drops in on `dot`)
+function syllables(c, x, y, parts, size, col, dot, cur) {
+  c.save(); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+  const sz = st => st ? size : size * .66, ws = parts.map(([s, st]) => { c.font = `${st ? 700 : 600} ${sz(st)}px "Fredoka"`; return c.measureText(s).width; });
+  const gap = size * .14, W = ws.reduce((a, b) => a + b, 0) + gap * (parts.length - 1);
+  if (cur > 0) { rr(c, x - W / 2 - 16, y - size * .92, (W + 32) * eo(cur), size * 1.12, 20); c.fillStyle = rgba(P.mustard, .35); c.fill(); }
+  let px = x - W / 2;
+  parts.forEach(([s, st], i) => {
+    c.font = `${st ? 700 : 600} ${sz(st)}px "Fredoka"`; c.fillStyle = st ? col : rgba(P.ink, .7); c.fillText(s, px, y);
+    if (st && dot > 0) { const d = back(clamp(dot), 2.6); ell(c, px + ws[i] / 2, y - size * .95 - (1 - d) * 26, size * .1 * d, size * .1 * d); c.fill(); }
+    if (i < parts.length - 1) { c.fillStyle = rgba(P.ink, .3); ell(c, px + ws[i] + gap / 2, y - size * .3, 4, 4); c.fill(); }
+    px += ws[i] + gap;
+  });
+  c.restore();
+  return W;
+}
+const ITEM = {
+  // 1–10: two rows of cards, each pops as Sara says it
+  count(c, t, a, it) {
+    countGrid(c, t, a, it, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'], 'r01', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   },
-  // the two polite words
-  polite(c, t, a, it) {
-    const pA = a * seg(t, R.tPlease - .05, R.tPlease + .25), sA = a * seg(t, R.tSorryW - .05, R.tSorryW + .25);
-    const r11 = LINE('r11'), r12 = LINE('r12');
-    const hi1 = seg(t, R.tPlease - .1, R.tPlease + .2) * (1 - seg(t, (r11 ? r11.t0 : R.tPlease + 4) - .3, r11 ? r11.t0 : R.tPlease + 4));
-    const hi2 = seg(t, R.tSorryW - .1, R.tSorryW + .2) * (1 - seg(t, (r12 ? r12.t0 : R.tSorryW + 4) - .3, r12 ? r12.t0 : R.tSorryW + 4));
-    if (pA > 0) drawRow(c, t, fromLine('r11').map((o, i) => ({ ...o, mark: i === 1 ? eo(seg(t, R.tPlease, R.tPlease + .4)) * (1 - seg(t, (r11 ? r11.t0 : 1e9) - .2, r11 ? r11.t0 : 1e9)) : 0 })), { x: CX, y: 380, size: 130, who: 'youssef', alpha: pA, ghost: R.tPlease - .05, mean: 'قهوة، لو سمحت', meanHi: hi1 });
-    if (sA > 0) drawRow(c, t, fromLine('r12').map(o => ({ ...o, wob: true })), { x: CX, y: 650, size: 140, who: 'youssef', alpha: sA, ghost: R.tSorryW - .05, mean: 'آسف!', meanHi: hi2 });
+  // 11–20: 11, 12 and 20 are there (muted); 13–19 pop as Youssef says them; their -teen lights up red on the narration
+  teen(c, t, a, it) {
+    countGrid(c, t, a, it, ['11', '12', '13', '14', '15', '16', '17', '18', '19', '20'], ['eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'], 'r02',
+      [-1, -1, 0, 1, 2, 3, 4, 5, 6, -1], { hiFrom: [null, null, 4, 4, 3, 3, 5, 4, 4, null], hiCol: P.red, hiT: R.tTeen });
+  },
+  // the tens: -ty lights up teal
+  ty(c, t, a, it) {
+    countGrid(c, t, a, it, ['20', '30', '40', '50', '60', '70', '80', '90', '100'], ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'one hundred'], 'r03',
+      [0, 1, 2, 3, 4, 5, 6, 7, 8], { hiFrom: [4, 4, 3, 3, 3, 5, 4, 4, null], hiCol: P.teal, hiT: R.tTy, rows: [5, 4] });
+  },
+  // the stress pairs: thir·TEEN / THIR·ty …; the dots drop on the narration ("في الآخر" / "في الأول"); Sara says 13 / 30 / 16 / 60
+  stress(c, t, a, it) {
+    const l = LINE('r04'), tk = i => l ? l.tok[Math.min(i, l.tok.length - 1)] : null;
+    const P4 = [['13', [['thir', 0], ['TEEN', 1]], '30', [['THIR', 1], ['ty', 0]], 0, 1], ['14', [['four', 0], ['TEEN', 1]], '40', [['FOR', 1], ['ty', 0]], -1, -1],
+      ['15', [['fif', 0], ['TEEN', 1]], '50', [['FIF', 1], ['ty', 0]], -1, -1], ['16', [['six', 0], ['TEEN', 1]], '60', [['SIX', 1], ['ty', 0]], 2, 3]];
+    c.save(); c.globalAlpha = a;
+    // column heads
+    const hk = seg(t, it.t0, it.t0 + .3);
+    c.globalAlpha = a * hk; c.font = '700 40px "Fredoka"'; c.textAlign = 'center'; c.fillStyle = P.red; c.fillText('-teen', CX - 210, 205); c.fillStyle = P.teal; c.fillText('-ty', CX + 210, 205);
+    c.direction = 'rtl'; c.font = `700 32px ${AR}`; c.fillStyle = rgba(P.ink, .55); c.fillText('الضغطة في الآخر', CX - 210, 250); c.fillText('الضغطة في الأول', CX + 210, 250); c.direction = 'ltr';
+    P4.forEach(([n1, s1, n2, s2, i1, i2], r) => {
+      const y = 360 + r * 128, k = seg(t, it.t0 + .2 + r * .12, it.t0 + .5 + r * .12); if (k <= 0) return;
+      c.globalAlpha = a * k;
+      const c1 = i1 >= 0 && tk(i1) ? seg(t, tk(i1).t0 - .05, tk(i1).t0 + .1) * (1 - seg(t, tk(i1).t1, tk(i1).t1 + .2)) : 0;
+      const c2 = i2 >= 0 && tk(i2) ? seg(t, tk(i2).t0 - .05, tk(i2).t0 + .1) * (1 - seg(t, tk(i2).t1, tk(i2).t1 + .2)) : 0;
+      c.font = '400 54px "Lilita One"'; c.textAlign = 'right'; c.fillStyle = P.navy; c.fillText(n1, CX - 330, y);
+      c.fillStyle = P.red; syllables(c, CX - 160, y, s1, 76, P.red, seg(t, R.tEnd + r * .1, R.tEnd + .35 + r * .1), c1);
+      c.fillStyle = rgba(P.ink, .25); c.fillRect(CX - 2, y - 60, 4, 70);
+      c.font = '400 54px "Lilita One"'; c.textAlign = 'left'; c.fillStyle = P.navy; c.fillText(n2, CX + 70, y);
+      c.fillStyle = P.teal; syllables(c, CX + 250, y, s2, 76, P.teal, seg(t, R.tStart + r * .1, R.tStart + .35 + r * .1), c2);
+    });
+    c.restore();
+  },
+  // "How old are you?" and the two right answers
+  age(c, t, a, it) {
+    const q = fromLine('r05'), r05 = LINE('r05');
+    const hi = seg(t, R.tHowOld - .1, R.tHowOld + .2) * (1 - seg(t, (r05 ? r05.t0 : R.tHowOld + 3) - .3, r05 ? r05.t0 : R.tHowOld + 3));
+    drawRow(c, t, q, { x: CX, y: 290, size: 104, who: 'mia', alpha: a, ghost: it.t0, mean: 'عندك كام سنة؟', meanHi: hi, meanSize: 44 });
+    const s = seg(t, R.tSay - .1, R.tSay + .2);
+    [['r06', 'عندي 26 سنة.'], ['r07', 'عندي 26 سنة. (نفس المعنى)']].forEach(([id, mean], i) => {
+      const items = fromLine(id), size = fit(items, 110, 800);
+      drawRow(c, t, items.map(o => ({ ...o, mark: /^I'm$/.test(o.w) ? eo(s) * (1 - seg(t, (LINE(id) ? LINE(id).t0 : 1e9) - .2, LINE(id) ? LINE(id).t0 : 1e9)) : 0 })), { x: CX, y: 500 + i * 200, size, who: 'youssef', alpha: a, ghost: it.t0 + .2, mean, meanSize: 40 });
+    });
+  },
+  // the two mistakes, squiggled, each with its fix in leaf green
+  wrong(c, t, a, it) {
+    const rows = [{ w: ['I', 'have', '26', 'years.'], t: R.tW1, y: 330, pill: 'ترجمة حرفية', fix: "I'm 26." }, { w: ["I'm", '26', 'years.'], t: R.tW2, y: 620, pill: 'ناقصة كلمة', fix: "I'm 26 years old." }];
+    rows.forEach((r, i) => {
+      const ra = a * seg(t, r.t - .05, r.t + .25); if (ra <= 0) return;
+      const row = drawRow(c, t, r.w.map((w, j) => ({ w, t: r.t - .05 + j * .07 })), { x: CX, y: r.y, size: 110, who: 'youssef', alpha: ra });
+      if (!row) return;
+      c.save(); c.globalAlpha = ra;
+      const x0 = i === 0 ? wordX(row, 0) - 6 : wordX(row, 2) - 6, x1 = row.x + row.W / 2 - mw('.', 110) + 6;
+      squiggle(c, x0, x1, r.y + 18, seg(t, r.t + .35, r.t + .75), 7, P.red, 7);
+      cross(c, row.x + row.W / 2 + 64, r.y - 50, 30, seg(t, r.t + .75, r.t + 1.1));
+      const pa = seg(t, r.t + .8, r.t + 1.1);
+      if (pa > 0) { c.globalAlpha = ra * pa; c.direction = 'rtl'; c.font = `700 36px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; const w = c.measureText(r.pill).width + 50; rr(c, row.x + row.W / 2 - w + 40, r.y + 40, w, 56, 28); c.fillStyle = rgba(P.red, .12); c.fill(); c.fillStyle = P.red; c.fillText(r.pill, row.x + row.W / 2 - w / 2 + 40, r.y + 70); c.direction = 'ltr'; }
+      // the fix (leaf, with a ✓) under it, when the narration says "old"
+      const fk = seg(t, R.tOld + .3 + i * .25, R.tOld + .6 + i * .25);
+      if (fk > 0) {
+        c.globalAlpha = ra * fk; c.font = FONT(84); c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+        const fw = c.measureText(r.fix).width, fx = CX - 120, fy = r.y + 165;
+        c.fillStyle = P.leaf; c.fillText('→', fx - fw / 2 - 70, fy);
+        rr(c, fx - fw / 2 - 12, fy - 66, (fw + 24) * eo(fk), 80, 18); c.fillStyle = rgba(P.leaf, .18); c.fill();
+        c.fillStyle = dark(P.leaf, .35); c.fillText(r.fix, fx, fy);
+        check(c, fx + fw / 2 + 50, fy - 28, 28, seg(t, R.tOld + .5 + i * .25, R.tOld + .85 + i * .25));
+      }
+      c.restore();
+    });
+  },
+  // the order trap: ستة وعشرين (6 + 20, the ones first) → twenty-six (20 + 6, the tens first)
+  order(c, t, a, it) {
+    const ka = a * seg(t, R.tSix - .1, R.tSix + .25), ke = a * seg(t, R.tTwentyFirst - .1, R.tTwentyFirst + .25), r08 = LINE('r08');
+    const blk = (x, y, txt, font, sub, n, col, k, rtl) => {
+      if (k <= 0) return;
+      c.save(); c.globalAlpha = k; c.translate(x, y); const s = back(clamp(k * 1.2), 2); c.scale(s, s);
+      c.direction = rtl ? 'rtl' : 'ltr'; c.font = font; c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+      const w = c.measureText(txt).width + 50;
+      rr(c, -w / 2, -92, w, 128, 26); c.fillStyle = '#FFFDF8'; c.fill(); c.strokeStyle = rgba(col, .6); c.lineWidth = 4; c.stroke();
+      c.fillStyle = P.ink; c.fillText(txt, 0, 4);
+      c.direction = 'ltr'; c.font = '400 52px "Lilita One"'; c.fillStyle = col; c.fillText(sub, 0, 92);
+      ell(c, 0, -110, 24, 24); c.fillStyle = col; c.fill(); c.font = '400 32px "Lilita One"'; c.fillStyle = P.cream; c.textBaseline = 'middle'; c.fillText(n, 0, -108);
+      c.restore();
+    };
+    const AF = `800 84px ${AR}`, EF = '600 84px "Fredoka"';
+    // Arabic: read right → left: ستة (1) then عشرين (2)
+    blk(CX + 170, 330, 'ستة', AF, '6', '1', P.red, ka, true);
+    if (ka > 0) { c.save(); c.globalAlpha = ka; c.direction = 'rtl'; c.font = `800 70px ${AR}`; c.textAlign = 'center'; c.fillStyle = rgba(P.ink, .5); c.fillText('و', CX + 15, 330); c.restore(); }
+    blk(CX - 150, 330, 'عشرين', AF, '20', '2', P.red, ka * seg(t, R.tSix + .15, R.tSix + .4), true);
+    if (ka > 0) { c.save(); c.globalAlpha = ka * seg(t, R.tSixFirst - .1, R.tSixFirst + .2); arrowLine(c, CX + 300, 245, CX - 290, 245, P.red); c.restore(); }
+    // English: read left → right: twenty (1) then six (2)
+    const k2 = ke * seg(t, R.tTwentyFirst + .1, R.tTwentyFirst + .4);
+    blk(CX - 150, 640, 'twenty', EF, '20', '1', P.teal, ke, false);
+    if (ke > 0) { c.save(); c.globalAlpha = ke; c.font = EF; c.textAlign = 'center'; c.fillStyle = rgba(P.ink, .5); c.fillText('-', CX + 30, 640); c.restore(); }
+    blk(CX + 180, 640, 'six', EF, '6', '2', P.teal, k2, false);
+    if (ke > 0) { c.save(); c.globalAlpha = k2; arrowLine(c, CX - 300, 555, CX + 290, 555, P.teal); c.restore(); }
+    // r08 "Twenty-six." highlight under the English blocks
+    if (r08 && t > r08.t0 - .1) { const cur = seg(t, r08.t0 - .1, r08.t0 + .1) * (1 - seg(t, r08.t1, r08.t1 + .3)); c.save(); c.globalAlpha = a * cur; rr(c, CX - 330, 540, 660, 210, 30); c.strokeStyle = P.mustard; c.lineWidth = 8; c.stroke(); c.restore(); }
+    if (r08) check(c, CX + 380, 600, 32, seg(t, r08.t1 + .1, r08.t1 + .45));
   },
 };
+// a reading-direction arrow
+function arrowLine(c, x0, y, x1, y1, col) {
+  const d = Math.sign(x1 - x0);
+  c.strokeStyle = col; c.fillStyle = col; c.lineWidth = 7; c.lineCap = 'round'; c.setLineDash([18, 14]);
+  c.beginPath(); c.moveTo(x0, y); c.lineTo(x1 - d * 20, y1); c.stroke(); c.setLineDash([]);
+  c.beginPath(); c.moveTo(x1, y1); c.lineTo(x1 - d * 28, y1 - 16); c.lineTo(x1 - d * 28, y1 + 16); c.closePath(); c.fill();
+}

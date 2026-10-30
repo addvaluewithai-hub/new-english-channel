@@ -4,14 +4,14 @@
   "alignment_mode": "whole_audio_gemini_transcribe",
   "alignment_provider": "gemini",
   "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:11:17.637Z",
-  "duration_ms": 10700,
-  "word_count": 18,
+  "generated_at": "2026-10-30T18:22:03.082Z",
+  "duration_ms": 9600,
+  "word_count": 15,
   "diarization": true,
   "language_codes": [
     "en-US"
   ],
-  "recognized_text": "Short pause. I live in Queens. Oh, sorry. Uh, I live in Queens. Good. Where in Egypt? Cairo.",
+  "recognized_text": "I live in Queens. Oh, sorry. I live in Queens. Good. Where in Egypt? Cairo.",
   "source_text": "I live in Queens. Oh! Sorry. I live in Queens. Good! Where in Egypt? Cairo!",
   "source_turns": [
     {
@@ -37,110 +37,92 @@
   ],
   "words": [
     {
-      "start_ms": 200,
-      "end_ms": 500,
-      "text": "Short",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 500,
-      "end_ms": 900,
-      "text": "pause.",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 1400,
-      "end_ms": 1500,
+      "start_ms": 300,
+      "end_ms": 400,
       "text": "I",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 1500,
-      "end_ms": 2000,
+      "start_ms": 400,
+      "end_ms": 800,
       "text": "live",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 2000,
-      "end_ms": 2200,
+      "start_ms": 800,
+      "end_ms": 900,
       "text": "in",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 2200,
-      "end_ms": 2800,
+      "start_ms": 900,
+      "end_ms": 1800,
       "text": "Queens.",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 3400,
-      "end_ms": 3600,
+      "start_ms": 2700,
+      "end_ms": 3100,
       "text": "Oh,",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 4200,
-      "end_ms": 4700,
+      "start_ms": 3200,
+      "end_ms": 3700,
       "text": "sorry.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4400,
+      "text": "I",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4800,
+      "text": "live",
       "speaker": "spk:1"
     },
     {
       "start_ms": 4800,
       "end_ms": 5000,
-      "text": "Uh,",
-      "speaker": "spk:1"
-    },
-    {
-      "start_ms": 5200,
-      "end_ms": 5300,
-      "text": "I",
-      "speaker": "spk:1"
-    },
-    {
-      "start_ms": 5300,
-      "end_ms": 5600,
-      "text": "live",
-      "speaker": "spk:1"
-    },
-    {
-      "start_ms": 5600,
-      "end_ms": 5700,
       "text": "in",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 5700,
-      "end_ms": 6200,
+      "start_ms": 5000,
+      "end_ms": 5500,
       "text": "Queens.",
       "speaker": "spk:1"
     },
     {
-      "start_ms": 7300,
-      "end_ms": 7800,
+      "start_ms": 6100,
+      "end_ms": 6800,
       "text": "Good.",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 8500,
-      "end_ms": 8800,
+      "start_ms": 7400,
+      "end_ms": 7600,
       "text": "Where",
       "speaker": "spk:0"
     },
     {
-      "start_ms": 8800,
-      "end_ms": 8900,
+      "start_ms": 7600,
+      "end_ms": 7700,
       "text": "in",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7700,
+      "end_ms": 8300,
+      "text": "Egypt?",
       "speaker": "spk:0"
     },
     {
       "start_ms": 8900,
       "end_ms": 9600,
-      "text": "Egypt?",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 10000,
-      "end_ms": 10700,
       "text": "Cairo.",
       "speaker": "spk:1"
     }

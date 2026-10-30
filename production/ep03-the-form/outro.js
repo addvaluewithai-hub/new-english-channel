@@ -4,7 +4,7 @@ import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
 import { clamp, lerp, seg, ss, eo, ei, eio, back, hash } from '/core/lib.js';
 import { TL, SEC, BEAT, NARR, LINE, nwT, has } from './tl.js';
 import { drawWorld, drawReception, drawCounter, toScreen, GROUND, ROOM4 } from './world.js';
-import { charState, drawActor, head, camAt, dofOf, speedLines } from './story.js';
+import { charState, drawActor, head, camAt, dofOf } from './story.js';
 import { fold, F, ARM, CUP, CLAP, POINT, PULL, DIP, OPEN, OUTLOW, RUNARM } from './act.js';
 import { bubble, lineBubble, wordStates, micIcon, check, sparkle, commentIcon, alarmClock, timeTag, SPEAKER, bigMark, squiggle, cross } from './ui.js';
 import { cue } from './cues.js';
@@ -84,7 +84,7 @@ export function buildOutro() {
     { t: tMixed - .2, turn: 0, face: F('embarrassed', { lx: 0, ly: .2 }), armL: ARM.scratch, d: .25 });
   yN.jumps.push({ t: tMate - .05, h: .035, d: .32 }); yN.blinks.push(tFirst - .1, tMate - .1, tMixed - .2);
   O.yN = yN;
-  O.camN = [{ t: nx.t0 - 1, x: 470, y: 640, z: 1.75 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 450, y: 636, z: 1.95 }];
+  O.camN = [{ t: nx.t0 - 1, x: 560, y: 590, z: 1.45 }, { t: nx.t0, d: Math.max(1, bEnd - nx.t0), x: 520, y: 600, z: 1.6 }];
   // ---------------- cues ----------------
   cue(bT, 'sting', { note: 'title card' });
   cue(bT + .1, 'pop'); cue(bT + .45, 'pop'); cue(bT + .8, 'pop');
@@ -92,7 +92,6 @@ export function buildOutro() {
   cue(tu.t0 - .1, 'page_turn', { note: 'paper → street' });
   cue(tDor, 'pop');
   if (L) cue(L.t0 - .18, 'bubble', { who: 'mia', text: L.text });
-  if (how) cue(how.t0 - .2, 'bubble', { who: 'mia', text: 'How are you?' });
   cue(p0 - .35, 'pop', { note: "I'm ______. card" });
   cue(p0, 'mic_on');
   O.countdown.forEach((x, i) => cue(x, 'countdown_tick', { n: 3 - i }));

@@ -36,7 +36,7 @@ pron.PHRASES += [
     ('سيكستي', 'sixty', 'ˈsɪksti'),
     ('أولد', 'old', 'oʊld'),
     ('تيين', '-teen', 'tin'),
-    ('تيي', '-ty', 'ti'),
+    ('تيي', 'tee', 'ti'),   # the -ty ending: the voice spelled "-ty" as letters (T-Y) or said "tie"; the plate shows -ty (timeline.py display)
     ('وير آر يو فروم', 'Where are you from', 'wɛr ɑr ju frʌm'),
 ]
 

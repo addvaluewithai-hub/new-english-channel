@@ -1,13 +1,14 @@
-// Episode 2 "Good Morning?" — entry. window.render(t) is a pure function of t (seeded randomness only); everything is keyed to
+// Episode 4 "Where Are You From?" — entry. window.render(t) is a pure function of t (seeded randomness only); everything is keyed to
 // timeline.json, so a regenerated timeline (new voice timings) re-times the whole picture and the cue list.
-// Modules: kit (tokens, form pass) · bean (characters) · world (the New York street) · ui (type) · tl (timeline) · act (acting) ·
-//          story (open · run · hall + coffee · door + bye) · recap (Living Letters recap) · outro (title, your turn, teaser, end card) · cues (window.EV)
+// Modules: kit (tokens, form pass) · bean (characters, + Ana) · world (the street sets + the classroom) · ui (type) · tl (timeline) ·
+//          act (acting) · story (open · intro + freeze · fix · hook, all in the classroom) · recap (Living Letters recap) ·
+//          outro (title, your turn, site, teaser, end card) · cues (window.EV)
 import { P, grain, CPU } from './kit.js';
 import { setArms } from './bean.js';
 import { clamp, seg, ss } from '/core/lib.js';
 import { loadTimeline, TL, SEC } from './tl.js';
-import { bakeWorld, bakeSets } from './world.js';
-import { buildStory, sceneOpen, sceneRun, sceneHall, sceneDoor } from './story.js';
+import { bakeWorld } from './world.js';
+import { buildStory, sceneClass } from './story.js';
 import { buildRecap, sceneRecap } from './recap.js';
 import { buildOutro, titleCard, wipe, sceneTurn, sceneSite, sceneNext, endCard, O } from './outro.js';
 import { plate } from './ui.js';
@@ -18,12 +19,10 @@ const SW = 1920, SH = 1080;
 let X = null;   // section times
 
 function frame(t) {
-  const { run, hall, door, recap, turn, site, next } = X;
-  if (t < run.t0) { sceneOpen(c, t); titleCard(c, t); return; }
-  if (t < hall.t0) return sceneRun(c, t);
-  if (t < door.t0) return sceneHall(c, t);
-  if (t < recap.t0 - .05) return sceneDoor(c, t);
-  if (t < recap.t0 + .7) return wipe(c, seg(t, recap.t0 - .05, recap.t0 + .65), () => sceneDoor(c, t), () => sceneRecap(c, t));
+  const { intro, recap, turn, site, next } = X;
+  if (t < intro.t0) { sceneClass(c, t); titleCard(c, t); return; }
+  if (t < recap.t0 - .05) return sceneClass(c, t);
+  if (t < recap.t0 + .7) return wipe(c, seg(t, recap.t0 - .05, recap.t0 + .65), () => sceneClass(c, t), () => sceneRecap(c, t));
   if (t < turn.t0 - .1) return sceneRecap(c, t);
   if (t < turn.t0 + .65) return wipe(c, seg(t, turn.t0 - .1, turn.t0 + .6), () => sceneRecap(c, t), () => sceneTurn(c, t));
   if (t < (site.t1 > 0 ? site.t0 : next.t0)) return sceneTurn(c, t);
@@ -33,7 +32,7 @@ function frame(t) {
   return endCard(c, t);
 }
 
-// preview ranges: ?from=door&to=retry (section ids: from its start / to its end) or seconds (?from=33&to=66)
+// preview ranges: ?from=intro&to=fix (section ids: from its start / to its end) or seconds (?from=33&to=66)
 const Q = new URLSearchParams(location.search);
 if (Q.get('arms')) setArms(Q.get('arms'));   // ?arms=A2|A3: for cost comparisons only
 let OFF = 0;
@@ -56,14 +55,14 @@ window.render = t => {
   await Promise.all([document.fonts.load('400 40px "Lilita One"'), document.fonts.load('700 40px "Baloo Bhaijaan 2"', 'أول يوسف'),
     document.fonts.load('800 40px "Baloo Bhaijaan 2"', 'أول يوسف'), document.fonts.load('500 40px "Fredoka"'), document.fonts.load('700 40px "Fredoka"')]);
   await document.fonts.ready;
-  X = { run: SEC('run'), hall: SEC('hall'), door: SEC('door'), recap: SEC('recap'), turn: SEC('turn'), site: SEC('site'), next: SEC('next') };
+  X = { intro: SEC('intro'), recap: SEC('recap'), turn: SEC('turn'), site: SEC('site'), next: SEC('next') };
   const at = (v, end) => v == null ? null : isNaN(+v) ? (end ? SEC(v).t1 : SEC(v).t0) : +v;
   OFF = at(Q.get('from'), false) ?? 0;
   window.DUR = (at(Q.get('to'), true) ?? TL.dur) - OFF;
-  bakeWorld(); bakeSets();
+  
   buildStory(); buildRecap(); buildOutro();
   cue(X.recap.t0 - .05, 'page_turn', { note: 'story → recap' });
-  cue(0, 'music_intro', { dur: SEC('run').t1, note: 'light theme under the opening and the run' });
+  cue(0, 'music_intro', { dur: SEC('open').t1, note: 'light theme under the opening' });
   cue(X.recap.t0 + .3, 'music_recap', { dur: X.recap.t1 - X.recap.t0 - .3, note: 'soft bed under the recap' });
   cue(SEC('next').t0, 'music_outro', { dur: TL.dur - SEC('next').t0 });
   window.EV = finishCues();

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:13:09.704Z",
+  "duration_ms": 1700,
+  "word_count": 2,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "I'm 26.",
+  "source_text": "I'm 26.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "I'm 26."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 800,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1700,
+      "text": "26."
+    }
+  ]
+}

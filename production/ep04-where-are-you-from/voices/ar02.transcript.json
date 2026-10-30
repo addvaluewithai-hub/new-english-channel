@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:07.563Z",
+  "duration_ms": 6600,
+  "word_count": 14,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وعلى السبورة سؤال سهل انا عارف ايام من اول يوم هقولها في كل حتة",
+  "source_text": "وعلى السبورة سؤال: Where are you from ؟ سهل! أنا عارف I'm من أول يوم… هقولها في كل حتة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وعلى السبورة سؤال: Where are you from ؟ سهل! أنا عارف I'm من أول يوم… هقولها في كل حتة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 300,
+      "text": "وعلى"
+    },
+    {
+      "start_ms": 300,
+      "end_ms": 800,
+      "text": "السبورة"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1200,
+      "text": "سؤال"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3600,
+      "text": "سهل"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 3900,
+      "text": "انا"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4200,
+      "text": "عارف"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4400,
+      "text": "ايام"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4500,
+      "text": "من"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4800,
+      "text": "اول"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5000,
+      "text": "يوم"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 5900,
+      "text": "هقولها"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6000,
+      "text": "في"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6200,
+      "text": "كل"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6600,
+      "text": "حتة"
+    }
+  ]
+}

@@ -112,7 +112,7 @@
   "temperature": 1
  },
  "ar09": {
-  "text": "والعشرات آخرها <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ti\">-ty</phoneme></lang>.",
+  "text": "والعشرات آخرها <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ti\">tee</phoneme></lang>.",
   "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
@@ -126,7 +126,7 @@
   "temperature": 1
  },
  "ar10": {
-  "text": "وخلي بالك من الضغطة: <short pause> في <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"tin\">-teen</phoneme></lang> الضغطة في الآخر… <short pause> وفي <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ti\">-ty</phoneme></lang> الضغطة في الأول.",
+  "text": "وخلي بالك من الضغطة: <short pause> في <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"tin\">-teen</phoneme></lang> الضغطة في الآخر… <short pause> وفي <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ti\">tee</phoneme></lang> الضغطة في الأول.",
   "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory, stressing the important point. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
@@ -239,7 +239,7 @@
  },
  "r01": {
   "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"wʌn tu θri fɔr faɪv sɪks ˈsɛvən eɪt naɪn tɛn\">One, two, three, four, five, six, seven, eight, nine, ten.</phoneme></lang>",
-  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Counting slowly and clearly for learners, a small pause after each number. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Counting clearly at a steady, natural pace for learners: about one number every 0.7 seconds, no long pauses between numbers. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
   "voice": "Aoede",
   "transcript": {
    "language_codes": [
@@ -253,7 +253,7 @@
  },
  "r02": {
   "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"θɝˈtin fɔrˈtin fɪfˈtin sɪkˈstin ˌsɛvənˈtin eɪˈtin naɪnˈtin\">Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.</phoneme></lang>",
-  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Counting slowly and clearly, the stress on the last syllable of each number (-TEEN). Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Counting clearly at a steady, natural pace: about one number every 0.8 seconds, no long pauses, the stress on the last syllable of each number (-TEEN). Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [
@@ -267,7 +267,7 @@
  },
  "r03": {
   "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈtwɛnti ˈθɝdi ˈfɔrdi ˈfɪfti ˈsɪksti ˈsɛvənti ˈeɪdi ˈnaɪndi wʌn ˈhʌndrəd\">Twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred.</phoneme></lang>",
-  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Counting slowly and clearly, the stress on the first syllable of each number. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Counting clearly at a steady, natural pace: about one number every 0.8 seconds, no long pauses, the stress on the first syllable of each number. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
   "voice": "Aoede",
   "transcript": {
    "language_codes": [
@@ -446,8 +446,8 @@
    },
    {
     "speaker": "Lopez",
-    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"mi\">Me?</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"hɑ\">Ha!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈsɪksti\">I'm sixty.</phoneme></lang>",
-    "style": "Friendly, cheerful woman of about sixty, the receptionist of a language school in New York: warm, chatty, motherly, a natural New York American accent, clear, medium pace. Surprised, then laughing good-naturedly; says 'sixty' with the stress on SIX. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"mi\">Me?</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈsɪksti\">I'm sixty!</phoneme></lang>",
+    "style": "Friendly, cheerful woman of about sixty, the receptionist of a language school in New York: warm, chatty, motherly, a natural New York American accent, clear, medium pace. Surprised, then laughing good-naturedly, proud of her age; says 'sixty' with the stress on SIX. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
    },
    {
     "speaker": "Youssef",
@@ -456,8 +456,8 @@
    },
    {
     "speaker": "Lopez",
-    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪkˈstin\">Sixteen?</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"oʊ θæŋk ju\">Oh, thank you!</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"noʊ noʊ\">No, no.</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɪksti\">Sixty!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪks ˈzɪroʊ\">Six-zero!</phoneme></lang>",
-    "style": "Friendly, cheerful woman of about sixty, the receptionist of a language school in New York: warm, chatty, motherly, a natural New York American accent, clear, medium pace. Flattered and laughing warmly, then clearly correcting him: SIXty, six-zero. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪkˈstin\">Sixteen?</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"oʊ θæŋk ju\">Oh, thank you!</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"noʊ\">No.</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɪksti\">Sixty!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪks ˈzɪroʊ\">Six-zero!</phoneme></lang>",
+    "style": "Friendly, cheerful woman of about sixty, the receptionist of a language school in New York: warm, chatty, motherly, a natural New York American accent, clear, medium pace. Flattered and laughing warmly, then clearly correcting him, said only once: SIXty, six-zero. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
    }
   ],
   "speakers": {

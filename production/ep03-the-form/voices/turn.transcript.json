@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:13:00.890Z",
+  "duration_ms": 1000,
+  "word_count": 4,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "How old are you?",
+  "source_text": "How old are you?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "How old are you?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "How"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 600,
+      "text": "old"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 700,
+      "text": "are"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1000,
+      "text": "you?"
+    }
+  ]
+}

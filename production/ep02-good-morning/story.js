@@ -96,7 +96,8 @@ const head = (st, id, f = 1.08) => st && st.sx != null ? [st.sx, st.sy - H[id] *
 // held props (drawn at a hand, then the hand again over them)
 const hand = (c, id, h, k, grip = false) => drawHand(c, CAST[id], h[0], h[1], H[id] * k, { dir: h[3], grip });
 const cupIn = (c, id, h, k, t, steam = 1, rot = 0) => { drawCup(c, h[0], h[1] - .02 * 300 * k, k, { steam, t, rot }); hand(c, id, h, k, true); };
-const trayIn = (c, id, h, k, t, n, side = -1) => { drawTray(c, h[0] + side * (n > 1 ? .09 : .02) * 300 * k, h[1] - .01 * 300 * k, k, n, { steam: .8, t }); hand(c, id, h, k, true); };
+// the carrier: always two slots (a taken cup leaves an empty slot, the carrier never shrinks); no steam while Sara carries it (it would cross her face)
+const trayIn = (c, id, h, k, t, n, side = -1) => { drawTray(c, h[0] + side * .09 * 300 * k, h[1] - .01 * 300 * k, k, 2, { steam: 0, t, cups: n }); hand(c, id, h, k, true); };
 const bagIn = (c, id, h, k) => { drawBag(c, h[0], h[1], k); };
 const formIn = (c, id, h, k, side = -1, rot = -.12) => { drawForm(c, h[0] + side * .07 * 300 * k, h[1] - .06 * 300 * k, .24 * 300 * k, .3 * 300 * k, { rot: rot * side * -1, age: .3 }); hand(c, id, h, k); };
 // the form held by its top corner: the sheet hangs below and to the camera-left of the hand, tilted so it reads (chest height, the face stays clear)
@@ -111,7 +112,9 @@ export function buildStory() {
     bSip = BEAT('sip', cf.t0 + 11), bWelcome = BEAT('welcome', dr.t0 + 2.6), bForm = BEAT('form', by.t0 + 1.1), bNight = BEAT('good_night', by.t0 + 8.8), bAge = BEAT('age_box', by.t1 - 3);
   const tok = (L, i) => L.tok[Math.min(i, L.tok.length - 1)];
   const SLAP = { dx: .3, dy: -.02, w: 0, bend: 15, elv: [1, 1], flex: 0, tau: .06 };                 // the arm shoots out to the clock
-  const TRAY = ARM.hold, REACHBAG = { dx: -.3, dy: .1, w: 0, bend: 40, elv: [.5, 1], flex: 1, front: true };   // the tray at the chest; a hand into the bag
+  // the tray carried low (hand ≈ .26 H, the cups' lids stay under her mouth line); a hand down into the bag; the form held out low (the sheet hangs below the hand)
+  const TRAY = { dx: .02, dy: .17, w: 0, bend: 40, elv: [1, 1], flex: .6, front: 1 }, REACHBAG = { dx: -.12, dy: .2, w: 0, bend: 30, elv: [.5, 1], flex: .6, front: 1 };
+  const FORMOUT = { dx: .16, dy: .1, w: 0, bend: 30, elv: [.6, 1], flex: .5, front: 1 }, FORMTAKE = { dx: .15, dy: .08, w: 0, bend: 25, elv: [1, 1], flex: .3, front: 1 };
   S = { op, rn, hl, cf, dr, by, HL, CF, DR, BY, n1, n2, n3, n4, n5, n6, n7, bWake, bTitle, bSaraIn, bYawn, bLaugh, bSip, bWelcome, bForm, bNight, bAge };
 
   // ================= open: asleep → the alarm → the clock → the leap → out of the door =================
@@ -184,7 +187,7 @@ export function buildStory() {
   const mH = { id: 'mia', base: { turn: -.38, face: F('happy', { lx: -.45, happy: .4 }), armL: TRAY, armR: ARM.rest, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: hl.t0 + .05, t1: Math.min(H0.t0 - .15, hl.t0 + 1.05), x0: 1935, x1: 1545, k0: .9, k1: .9, step: .33 }], keys: [] };
   const YK = yH.keys, MK = mH.keys;
-  const OFFER = { ...REACH, dx: .2 }, TAKE = { ...REACH, dx: .12 }, HOLD = ARM.hold;   // the tray / the cup in the hand on the other character's side, held in front (they stand close: short reaches)
+  const OFFER = { ...REACH, dx: .2, dy: .1 }, TAKE = { ...REACH, dx: .12, dy: .08 }, HOLD = ARM.hold;   // the tray / the cup in the hand on the other character's side, held in front (they stand close: short reaches)
   const MOUTH = { dx: -.3, dy: -.12, w: 0, bend: 55, elv: [1, .2], flex: 1 }, HANDMOUTH = { dx: -.3, dy: -.14, w: 0, bend: 55, elv: [1, .2], flex: 1 };
   // the sip: the hand stays at shoulder height right under the mouth (the mouth sits at ≈ .548 H, the shoulder at .43 H), so the cup's rim
   // meets the lower face just below the mouth line and nothing covers the eyes; the cup tilts ≈ 20° toward the mouth (see cupIn's rot)
@@ -201,9 +204,9 @@ export function buildStory() {
     { t: tNightY - .1, face: F('neutral', { eye: .35, lid: .4, bLy: .2, bRy: .2, mw: .085, ms: .2, blush: .45, lx: .4, ly: .2 }), sq: 1, d: .3 },
     { t: bLaugh + .08, face: F('surprised', { pupil: .55, mo: .085, mw: .06, lx: .55, ly: -.1, sweat: .5 }), lean: 0, d: .1 },
     { t: bLaugh + .55, face: F('embarrassed', { lx: .5, ly: .15, mo: .02 }), armL: ARM.scratch, lean: -.02, d: .3 },
-    { t: tOh - .1, face: F('surprised', { pupil: .6, mo: .08, mw: .07, lx: .55, sweat: 1, blush: 1, lines: 1 }), armL: RAISE, armR: RAISE, lean: 0, d: .15 },
-    { t: tSorry - .08, lean: .1, sq: .94, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .1, eye: .3, lid: .3, blush: 1, sweat: .9, lines: .8, lx: .3, ly: .4, mw: .1 }), d: .14 },
-    { t: tSorry + .3, lean: .035, sq: 1, d: .3 },
+    { t: tOh - .1, face: F('surprised', { pupil: .6, mo: .08, mw: .07, lx: .55, sweat: 1, blush: 1, lines: 1 }), armL: RAISE, armR: { dx: .04, dy: -.15, w: 0, bend: 75, elv: [1, .1], flex: 1, tau: .08 }, lean: 0, d: .15 },   // the arm on Sara's side stays short of her
+    { t: tSorry - .08, lean: .1, sq: .94, armL: ARM.rest, armR: { ...ARM.rest, dx: -.03 }, face: F('happy', { happy: .1, eye: .3, lid: .3, blush: 1, sweat: .9, lines: .8, lx: .3, ly: .4, mw: .1 }), d: .14 },
+    { t: tSorry + .3, lean: .035, sq: 1, armR: ARM.rest, d: .3 },   // the bow leans toward Sara: the arm on her side stays tucked in until he straightens
     { t: tGM2 - .1, lean: -.01, face: F('happy', { happy: .35, blush: .95, sweat: .7, lines: .5, lx: .55, ly: -.1, mw: .12 }), armL: ARM.chest, d: .25 },
     { t: H3.t1 + .2, lean: 0, face: F('happy', { happy: .2, blush: .85, sweat: .5, lines: .5, lx: .55, bLr: .45, bRr: .45, mw: .1 }), armL: ARM.rest, d: .35 },
     // the close-up: looks away, down; then up at us on "تمانية الصبح!"; at Sara on "ضحكت"; eyes shut on "أنام"
@@ -287,7 +290,7 @@ export function buildStory() {
     // "Oh!" — remembers; the form out of the bag; hands it over
     { t: B0.t0 - .15, face: F('surprised', { lx: -.4, ly: -.3, pupil: .8, mo: .06, mw: .06, bLy: 1, bRy: 1 }), armL: OHUP, lean: -.03, d: .15 },
     { t: bForm - .55, armL: REACHBAG, face: F('happy', { lx: -.3, ly: .4, happy: .3 }), lean: 0, d: .3 },
-    { t: bForm - .05, armL: { ...REACH, dx: .14 }, face: F('happy', { lx: -.55, happy: .5, mw: .12 }), lean: -.04, d: .3 },
+    { t: bForm - .05, armL: FORMOUT, face: F('happy', { lx: -.55, happy: .5, mw: .12 }), lean: -.04, d: .3 },
     { t: tThank2 + .5, armL: RESTF, lean: -.01, face: F('joy', { lx: -.5 }), d: .35 },
     { t: B1.t1 + .6, face: F('happy', { lx: -.5, happy: .4 }), d: .3 },
     // "Good night, Youssef!": a wave; then off to the right
@@ -312,7 +315,7 @@ export function buildStory() {
     { t: B0.t0 - .1, face: F('surprised', { lx: .6, ly: -.1, pupil: .8, mo: .05, mw: .06 }), turn: .55, armL: ARM.rest, d: .25 },
     { t: bForm + .3, face: F('happy', { lx: .6, ly: .1, happy: .2, bLy: .7, bRy: .7 }), d: .3 },
     // takes the form, reads it, "OK… thank you."
-    { t: B1.t0 - .25, armR: { ...REACH, dx: .15 }, lean: .03, d: .25 },
+    { t: B1.t0 - .25, armR: FORMTAKE, lean: .03, d: .25 },
     { t: B1.t0 + .3, armR: HOLDF, lean: .0, face: F('neutral', { lx: .3, ly: .55, lid: .2, bLy: .5, bRy: .5, mw: .09, ms: .3, blush: .5 }), d: .35 },
     { t: tThank2 - .1, face: F('happy', { happy: .5, lx: .55, mw: .12 }), d: .25 },
     // "Good night, Sara!" with a wave (the form stays in the other hand)
@@ -502,6 +505,29 @@ export function sceneHall(c, t) {
   return { cam };
 }
 
+// the form as one object: out of the bag (fading in, sliding up to her hand) → held low by its top edge in her hand → carried across
+// to his hand during the take → hanging from his hand at chest height. The sheet always hangs below the holding hand, so it never
+// rises above a mouth line, and every step is a blend of continuous anchors, so it never jumps.
+function formTravel(c, t, R) {
+  const m = R.m, y = R.y, F = S.formAt;
+  if (!y || !y.hands) return;
+  const hang = (h, k) => [h[0] - .09 * 300 * k, h[1] + .1 * 300 * k];
+  const yA = hang(y.hands[1], y.ks);
+  let P = yA, k = y.ks, rot = -.15, a = 1, uX = 1;
+  if (m && m.hands) {
+    const bag = [m.hands[1][0], m.hands[1][1] + .27 * 276 * m.ks], sA = hang(m.hands[0], m.ks);
+    const uIn = ss(seg(t, F.out, F.out + .45)); a = seg(t, F.out, F.out + .2);
+    const p0 = [lerp(bag[0], sA[0], uIn), lerp(bag[1], sA[1], uIn)];
+    uX = ss(seg(t, F.take - .25, F.take + .3));
+    P = [lerp(p0[0], yA[0], uX), lerp(p0[1], yA[1], uX)]; k = lerp(m.ks, y.ks, uX); rot = lerp(.12, -.15, uX);
+  }
+  c.save(); c.globalAlpha = a;
+  drawForm(c, P[0], P[1], .24 * 300 * k, .3 * 300 * k, { rot, age: .3 });
+  if (m && m.hands && uX < .75) hand(c, 'mia', m.hands[0], m.ks);
+  if (uX > .25) hand(c, 'youssef', y.hands[1], y.ks);
+  c.restore();
+}
+
 // door + bye (golden afternoon), then the close-up of the form
 export function sceneDoor(c, t) {
   if (t >= S.bAge) return formCloseUp(c, t);
@@ -511,11 +537,11 @@ export function sceneDoor(c, t) {
   const yst = charState(S.yD, t), mst = charState(S.mD, t);
   const order = mst.y < yst.y ? [[S.mD, 'm'], [S.yD, 'y']] : [[S.yD, 'y'], [S.mD, 'm']];
   const R = {};
-  const mForm = t >= S.formAt.out && t < S.formAt.take, yForm = t >= S.formAt.take;
   for (const [C, n] of order) {
-    if (n === 'm') R.m = drawActor(c, cam, C, t, { door, behind: (h, k) => { if (h[1][2]) bagIn(c, 'mia', h[1], k); }, front: (h, k) => { if (!h[1][2]) bagIn(c, 'mia', h[1], k); if (mForm && !h[0][2]) formIn(c, 'mia', h[0], k, -1); } });
-    else R.y = drawActor(c, cam, C, t, { door, front: (h, k) => { if (yForm && !h[1][2]) formHeld(c, 'youssef', h[1], k); } });
+    if (n === 'm') R.m = drawActor(c, cam, C, t, { door, behind: (h, k) => { if (h[1][2]) bagIn(c, 'mia', h[1], k); }, front: (h, k) => { if (!h[1][2]) bagIn(c, 'mia', h[1], k); } });
+    else R.y = drawActor(c, cam, C, t, { door, front: () => {} });
   }
+  if (t >= S.formAt.out) formTravel(c, t, R);
   grade(c, tod);
   const yh = head(R.y, 'youssef'), mh = R.m && R.m.sx != null ? head(R.m, 'mia', 1.12) : null;
   const lines = [...S.DR, ...S.BY];

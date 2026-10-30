@@ -44,9 +44,9 @@
 - **EN-3:**
   - Mrs. Lopez: `OK! 26. Great!`
   - Youssef: `And you? How old are you?`
-  - Mrs. Lopez: `Me? Ha! I'm sixty.`
+  - Mrs. Lopez: `Me? I'm sixty!`
   - Youssef (مذهول): `Sixteen?!`
-  - Mrs. Lopez (فرحانة وبتضحك): `Sixteen? Oh, thank you! No, no. Sixty! Six-zero!`
+  - Mrs. Lopez (فرحانة وبتضحك): `Sixteen? Oh, thank you! No. Sixty! Six-zero!`
 - **AR-05:** سيكستين وسيكستي… قريبين أوي من بعض. الفرق في الضغطة: سيكستين، الضغطة في الآخر… سيكستي، في الأول. وهي فرحت أوي إني اديتها ستاشر سنة!
 
 ### د. أول كلاس (النهاية المعلّقة)

@@ -1,5 +1,5 @@
 // index.html — hero, today's review, streak, unit progress and the episode cards.
-import { h, $, starsHTML, esc } from './ui.js';
+import { h, $, starsHTML, esc, mix } from './ui.js';
 import { mountAll } from './bean-widget.js';
 import { streak, dueCount, episodeState, deckSize, nextDue, reviewDoneToday } from './store.js';
 
@@ -35,7 +35,7 @@ async function main() {
       h('div', {},
         h('div', { class: 't-en' }, e.title),
         h('div', { class: 't-ar' }, e.titleAr),
-        isLive ? h('p', { class: 'blurb' }, e.blurb) : h('p', { class: 'blurb' }, 'الحلقة لسه بتتعمل…'),
+        isLive ? h('p', { class: 'blurb', html: mix(e.blurb || '') }) : h('p', { class: 'blurb' }, 'الحلقة لسه بتتعمل…'),
         isLive ? h('div', { class: 'cta' }, h('span', { class: 'stars', html: st.stars ? starsHTML(st.stars) : '' }), h('span', {}, st.stars ? `أعد التمارين · أحسن نتيجة ${st.best}/${st.total}` : `ابدأ التمارين · ${e.minutes || 4} دقايق ←`)) : null),
       isLive ? null : h('span', { class: 'soon' }, 'قريبًا'));
     grid.append(card);

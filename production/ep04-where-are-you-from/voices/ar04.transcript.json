@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:10:09.347Z",
+  "duration_ms": 6700,
+  "word_count": 14,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ساره صلحتها من غير ما تكسفني. ولما قلت حسيت ان سفير مصر في الفصل.",
+  "source_text": "سارة صلّحتها من غير ما تكسفني. ولما قلت Cairo … حسيت إني سفير مصر في الفصل!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "سارة صلّحتها من غير ما تكسفني. ولما قلت Cairo … حسيت إني سفير مصر في الفصل!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "ساره"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1100,
+      "text": "صلحتها"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1200,
+      "text": "من"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1400,
+      "text": "غير"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1500,
+      "text": "ما"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1900,
+      "text": "تكسفني."
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3000,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3500,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5300,
+      "text": "حسيت"
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 5400,
+      "text": "ان"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5800,
+      "text": "سفير"
+    },
+    {
+      "start_ms": 5800,
+      "end_ms": 6200,
+      "text": "مصر"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6300,
+      "text": "في"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6700,
+      "text": "الفصل."
+    }
+  ]
+}

@@ -772,7 +772,7 @@ export function handPos(sp, p) {
 // a cardboard carrier with n takeaway cups, centred on (x, y)
 export function drawTray(ctx, x, y, k, n = 2, o = {}) {
   const u = 300 * k, gap = .15 * u;
-  for (let i = 0; i < n; i++) drawCup(ctx, x + (i - (n - 1) / 2) * gap, y - .02 * u, k, o);
+  for (let i = 0; i < n; i++) if (i >= n - (o.cups ?? n)) drawCup(ctx, x + (i - (n - 1) / 2) * gap, y - .02 * u, k, o);   // o.cups: cups still in the carrier (the slot nearest x − is emptied first)
   ctx.save(); ctx.translate(x, y);
   const w = gap * n + .02 * u;
   rr(ctx, -w / 2, -.02 * u, w, .07 * u, .02 * u); ctx.fillStyle = mix(P.mustard, P.cream, .5); ctx.fill();

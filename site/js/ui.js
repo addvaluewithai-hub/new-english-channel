@@ -14,6 +14,14 @@ export function h(tag, attrs = {}, ...kids) {
 }
 // wrap Latin runs (English inside an Arabic line) in an LTR span so punctuation does not flip
 export const mix = s => esc(s).replace(/[A-Za-z][A-Za-z0-9'’,…!? .-]*[A-Za-z0-9.!?…]|[A-Za-z]/g, m => `<span class="en" dir="ltr">${m}</span>`);
+// the cast: internal id → the bubble tab (as in the episodes), the Arabic name and the verb for "asks you" (feminine / masculine)
+export const SPEAKERS = {
+  youssef: { id: 'youssef', tab: 'YOUSSEF', ar: 'يوسف', asks: 'بيسألك', him: 'عليه' },
+  mia: { id: 'mia', tab: 'SARA', ar: 'سارة', asks: 'بتسألك', him: 'عليها' },          // the teacher Sara (internal id mia)
+  lopez: { id: 'lopez', tab: 'MRS. LOPEZ', ar: 'مسز لوبيز', asks: 'بتسألك', him: 'عليها' },   // episode 3: the receptionist
+  ana: { id: 'ana', tab: 'ANA', ar: 'آنا', asks: 'بتسألك', him: 'عليها' },              // episode 4: the classmate
+};
+export const speaker = w => SPEAKERS[w] || SPEAKERS.youssef;
 export const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 export const sleep = ms => new Promise(r => setTimeout(r, ms));

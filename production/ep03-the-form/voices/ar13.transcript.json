@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:12:36.865Z",
+  "duration_ms": 7500,
+  "word_count": 11,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "واخر حاجه احنا بنقول 26 الستة الاول. الانجليزي بيقول العشرين الاول.",
+  "source_text": "وآخر حاجة: إحنا بنقول ستة وعشرين، الستة الأول. الإنجليزي بيقول العشرين الأول:",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وآخر حاجة: إحنا بنقول ستة وعشرين، الستة الأول. الإنجليزي بيقول العشرين الأول:"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 800,
+      "text": "واخر"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1200,
+      "text": "حاجه"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2100,
+      "text": "احنا"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2400,
+      "text": "بنقول"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 3200,
+      "text": "26"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4100,
+      "text": "الستة"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4600,
+      "text": "الاول."
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 6000,
+      "text": "الانجليزي"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6500,
+      "text": "بيقول"
+    },
+    {
+      "start_ms": 6500,
+      "end_ms": 7100,
+      "text": "العشرين"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7500,
+      "text": "الاول."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:12:35.283Z",
+  "duration_ms": 4800,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولما حد يسالك وبعدها سنك.",
+  "source_text": "ولما حد يسألك: How old are you ؟ قول: I'm ، وبعدها سنّك.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولما حد يسألك: How old are you ؟ قول: I'm ، وبعدها سنّك."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 700,
+      "text": "حد"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1200,
+      "text": "يسالك"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4400,
+      "text": "وبعدها"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4800,
+      "text": "سنك."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:12:57.740Z",
+  "duration_ms": 2000,
+  "word_count": 4,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "I'm 26 years old.",
+  "source_text": "I'm 26 years old.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "I'm 26 years old."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1400,
+      "text": "26"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1700,
+      "text": "years"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 2000,
+      "text": "old."
+    }
+  ]
+}

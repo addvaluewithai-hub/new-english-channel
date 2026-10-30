@@ -1,4 +1,4 @@
-/* يوسف في لندن — companion site. Palette and type from the show's style guide (Bean People v2). */
+/* يوسف في نيويورك — companion site. Palette and type from the show's style guide (Bean People v2). */
 :root {
   color-scheme: light;
   --ink: #2A2742; --cream: #FFF6E8; --sky: #9BD3EC; --red: #E8483A; --navy: #2E3D7C;
@@ -57,7 +57,9 @@ p { margin: 0; }
 /* ---- cards ---- */
 .card { background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
 .tab { display: inline-block; font-family: var(--tab); letter-spacing: .06em; font-size: 14px; padding: 4px 12px 3px; border-radius: 999px; background: var(--navy); color: var(--cream); direction: ltr; }
-.tab.mia { background: var(--rust); }
+.tab.mia { background: var(--rust); }              /* Sara, as in the episodes */
+.tab.lopez { background: #17766F; }               /* Mrs. Lopez (episode 3), the episode's tab colour */
+.tab.ana { background: #A8323F; }                 /* Ana (episode 4) */
 .tab.ar { font-family: var(--ar); font-weight: 800; letter-spacing: 0; direction: rtl; }
 
 /* ---- bean canvas ---- */

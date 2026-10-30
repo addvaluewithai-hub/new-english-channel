@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:13:13.177Z",
+  "duration_ms": 23000,
+  "word_count": 32,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Okay, 26. Great. And you? How old are you? What do I get out of it? Me. I'm 60. 16? 16? Oh, thank you. Oh, no, no. No, no. 60 6 0",
+  "source_text": "OK! 26. Great! And you? How old are you? Me? Ha! I'm sixty. Sixteen?! Sixteen? Oh, thank you! No, no. Sixty! Six-zero!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Lopez",
+      "text": "OK! 26. Great!"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "And you? How old are you?"
+    },
+    {
+      "index": 2,
+      "speaker": "Lopez",
+      "text": "Me? Ha! I'm sixty."
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Sixteen?!"
+    },
+    {
+      "index": 4,
+      "speaker": "Lopez",
+      "text": "Sixteen? Oh, thank you! No, no. Sixty! Six-zero!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 1000,
+      "text": "Okay,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 2200,
+      "text": "26.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2700,
+      "text": "Great.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 3800,
+      "text": "And",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3800,
+      "end_ms": 4200,
+      "text": "you?",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4600,
+      "text": "How",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 4700,
+      "text": "old",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 4800,
+      "text": "are",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5100,
+      "text": "you?",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 6800,
+      "end_ms": 7000,
+      "text": "What",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7000,
+      "end_ms": 7001,
+      "text": "do",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7000,
+      "end_ms": 7100,
+      "text": "I",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7300,
+      "text": "get",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7300,
+      "end_ms": 7500,
+      "text": "out",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7500,
+      "end_ms": 7600,
+      "text": "of",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 7800,
+      "text": "it?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 8900,
+      "end_ms": 9400,
+      "text": "Me.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10000,
+      "end_ms": 10100,
+      "text": "I'm",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 10800,
+      "text": "60.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 12300,
+      "end_ms": 13600,
+      "text": "16?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 14800,
+      "end_ms": 16100,
+      "text": "16?",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 16800,
+      "end_ms": 16801,
+      "text": "Oh,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 16800,
+      "end_ms": 17300,
+      "text": "thank",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 17300,
+      "end_ms": 17900,
+      "text": "you.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 18100,
+      "end_ms": 18500,
+      "text": "Oh,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 18600,
+      "end_ms": 18800,
+      "text": "no,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 18800,
+      "end_ms": 19100,
+      "text": "no.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 19600,
+      "end_ms": 19800,
+      "text": "No,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 19800,
+      "end_ms": 20100,
+      "text": "no.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 20400,
+      "end_ms": 21500,
+      "text": "60",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 21800,
+      "end_ms": 22400,
+      "text": "6",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 22400,
+      "end_ms": 23000,
+      "text": "0",
+      "speaker": "spk:1"
+    }
+  ]
+}

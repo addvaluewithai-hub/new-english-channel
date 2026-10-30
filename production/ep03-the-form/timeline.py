@@ -7,7 +7,11 @@ from tlkit import Builder
 
 tlkit.WHO['Lopez'] = 'lopez'   # the receptionist (a new character, this episode)
 
-b = Builder(HERE,
+import json
+JOBS = json.load(open(os.path.join(HERE, 'tts', 'jobs.json')))
+# what the plate shows where it differs from what the voice was given: "و sixty" (not "وsixty"), and the -ty ending (the voice gets "tee")
+DISPLAY = {k: JOBS[k]['text'].replace('و<lang', 'و <lang').replace('>tee</phoneme>', '>-ty</phoneme>') for k in ('ar05', 'ar09', 'ar10')}
+b = Builder(HERE, display=DISPLAY,
             solo={'r01': 'Sara', 'r02': 'Youssef', 'r03': 'Sara', 'r04': 'Sara', 'r05': 'Sara', 'r06': 'Youssef',
                   'r07': 'Youssef', 'r08': 'Youssef', 'turn': 'Sara'})
 line = lambda pred: [l for l in b.T['lines'] if pred(l['text'])][-1]

@@ -1,4 +1,4 @@
-// Episode 2 — "اللي اتعلمته النهارده": the recap. Living Letters kinetic type, restyled into Bean People:
+// Episode 4 — "اللي اتعلمته النهارده": the recap. Living Letters kinetic type, restyled into Bean People:
 // cream paper, ink Fredoka words that are typeset as they are spoken (rise, land with a squash), a speaker rail + name tab
 // under each line, a mustard highlighter on the spoken word, a red spell-check squiggle under mistakes, and two small
 // presenter beans (Youssef right, Sara left). Every beat is keyed to recap items, lines and narration words in timeline.json.
@@ -7,7 +7,7 @@ import { clamp, lerp, seg, ss, eo, eio, back } from '/core/lib.js';
 import { TL, SEC, NARR, LINE, RECAP, nwT, has } from './tl.js';
 import { charState, drawActor } from './story.js';
 import { fold, F, ARM, CUP, CLAP, DIP, OPEN, POINT, FACEPALM } from './act.js';
-import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle, sunIcon, afternoonIcon, moonIcon, waveHand } from './ui.js';
+import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle } from './ui.js';
 import { cue } from './cues.js';
 
 const PAPER = '#FBF1E1', RULE = rgba(P.ink, .045), GROUND_Y = 900;
@@ -22,15 +22,16 @@ export function buildRecap() {
   const rc = SEC('recap');
   const it = id => RECAP(id) || { t0: rc.t0, t1: rc.t0 };
   const L = id => LINE(id);
-  R = { rc, items: ['times', 'night', 'how', 'andyou', 'welcome', 'polite'].map(id => ({ id, ...it(id) })) };
-  R.title0 = rc.t0 + .55; R.title1 = it('times').t0 - .35;
+  R = { rc, items: ['from', 'live', 'rule', 'are', 'in', 'nat'].map(id => ({ id, ...it(id) })) };
+  R.title0 = rc.t0 + .55; R.title1 = it('from').t0 - .35;
   // keys into the narration (Latin tokens and Arabic words) that time the cards
-  R.tMorning = nwT('ar09', has('الصبح'), .05); R.tAfter = nwT('ar09', has('الضهر'), .15); R.tNightW = nwT('ar09', has('وبالليل'), .25);
-  R.tGNwrong = nwT('ar09', w => /^Good night/i.test(w), .4); R.tNotGreet = nwT('ar09', has('تحية'), .55); R.tFarewell = nwT('ar09', has('للوداع'), .7); R.tSleep = nwT('ar09', has('تنام'), .97);
-  R.tHow = nwT('ar10', w => /^How are/i.test(w), .3); R.tReal = nwT('ar10', has('حقيقي'), .95);
-  R.tAndYou = nwT('ar11', w => /^And you/i.test(w), .6);
-  R.tThank = nwT('ar12', w => /^Thank/i.test(w), .25); R.tWelcomeW = nwT('ar12', w => /^Welcome/i.test(w), .55); R.tRight = nwT('ar12', has('الصح'), .9);
-  R.tPlease = nwT('ar13', w => /^Please/i.test(w), .3); R.tSorryW = nwT('ar13', has('سوري'), .7);
+  const lat = re => w => re.test(w);
+  R.tWhereQ = nwT('ar07', lat(/^Where are/i), .2); R.tImFrom7 = nwT('ar07', lat(/^I'm from/), .45); R.tIFrom = nwT('ar07', lat(/^I from/), .8); R.tWrong7 = nwT('ar07', has('غلط'), .95);
+  R.tWhereLive = nwT('ar08', lat(/^Where do/i), .15); R.tILiveIn = nwT('ar08', lat(/^I live in/), .4); R.tNoAm = nwT('ar08', has('خالص'), .65); R.tIamLive = nwT('ar08', lat(/^I am live/), .8); R.tWrong8 = nwT('ar08', has('غلط'), .95);
+  R.tImFrom9 = nwT('ar09', lat(/^I'm from/), .1); R.tAm9 = nwT('ar09', has('فيها'), .3); R.tVerb = nwT('ar09', has('فعل'), .6); R.tILive9 = nwT('ar09', lat(/^I live/), .75); R.tWithout = nwT('ar09', has('غير'), .92);
+  R.tAreQ = nwT('ar10', lat(/^Are you/i), .25); R.tYes = nwT('ar10', lat(/^Yes/), .6); R.tNo = nwT('ar10', lat(/^No/), .9);
+  R.tInRule = nwT('ar11', has('بتاخد'), .2); R.tInCairo = nwT('ar11', lat(/^in Cairo/), .45); R.tInNY = nwT('ar11', lat(/^in New/), .65); R.tAtCairo = nwT('ar11', lat(/^at Cairo/), .9);
+  R.tNat = nwT('ar12', has('والجنسية'), .4); R.tCap = nwT('ar12', has('كبير'), .9);
   // repeat gaps: after a model line, until the next speech (narration or line) or the end of the recap
   const recapLines = TL.lines.filter(l => l.scene === 'recap');
   const speech = [...TL.narration.map(n => n.t0), ...TL.lines.map(l => l.t0)].sort((a, b) => a - b);
@@ -67,27 +68,28 @@ export function buildRecap() {
     LK.push({ t: l.t0 - .15, face: F('happy', { lx: ys ? .75 : -.75, ly: -.05, happy: .55 }), d: .25 }, { t: l.t1 + .5, face: ys ? mRest : yRest, d: .3 });
     nod(LK, l.t1 - .05);
   }
-  // waves on the greetings / the good night; the time-of-day lines get a small point at the icon
-  const r01 = L('r01'), r04 = L('r04'), r09 = L('r09'), r10 = L('r10'), r12 = L('r12');
-  if (r01) MK.push({ t: r01.t0 - .3, armL: ARM.wave, d: .2 }, { t: r01.t1 + .6, armL: ARM.rest, d: .3 });
-  if (r04) K.push({ t: r04.t0 - .3, armR: ARM.wave, face: F('joy'), d: .2 }, { t: r04.t1 + 1.2, armR: ARM.rest, face: yRest, d: .3 });
+  const r02 = L('r02'), r04 = L('r04'), r09 = L('r09'), r10 = L('r10');
   // the mistakes: facepalm on the squiggle, sheepish scratch while it is explained, proud nod (hand on chest) on the fix
   const mistake = (tSq, tFix, clap = true) => {
     K.push({ t: tSq - .05, armR: FACEPALM, face: F('embarrassed', { eye: .12, lx: 0, ly: .3 }), lean: -.025, d: .2 },
-      { t: tSq + 1.3, armR: ARM.scratch, face: F('embarrassed', { lx: -.5, ly: .2 }), lean: -.015, d: .3 },
+      { t: tSq + 1.1, armR: ARM.scratch, face: F('embarrassed', { lx: -.5, ly: .2 }), lean: -.015, d: .3 },
       { t: tFix - .1, armR: ARM.chest, face: F('joy', { bLy: .9, bRy: .9 }), lean: 0, turn: -.15, d: .25 },
       { t: tFix + 1.5, armR: ARM.rest, face: yRest, turn: -.3, d: .35 });
     nod(K, tFix + .15);
     MK.push({ t: tSq + .1, armL: CUP, face: F('happy', { lx: .7, happy: .8, mw: .09, mo: 0 }), d: .25 },
-      { t: tSq + 1.4, armL: ARM.rest, face: F('happy', { lx: .6, bLy: .7, bRy: .7, happy: .3 }), d: .3 });
+      { t: tSq + 1.2, armL: ARM.rest, face: F('happy', { lx: .6, bLy: .7, bRy: .7, happy: .3 }), d: .3 });
     if (clap) MK.push({ t: tFix, armL: CLAP, armR: CLAP, face: F('joy'), d: .18 }, { t: tFix + .9, armL: ARM.rest, armR: ARM.rest, face: mRest, d: .3 });
-    yR.blinks.push(tSq - .05, tSq + 1.3, tFix - .1); mR.blinks.push(tSq + .1, tFix);
+    yR.blinks.push(tSq - .05, tSq + 1.1, tFix - .1); mR.blinks.push(tSq + .1, tFix);
   };
-  mistake(R.tNotGreet + .1, R.tFarewell + .2);
-  mistake(R.tWelcomeW + .3, r10 ? r10.t0 : R.tRight + 1, false);
-  // "And you?": Youssef points at us; "Sorry!": a small apologetic bow
-  if (r09) K.push({ t: r09.t0 - .3, armL: POINT, face: F('happy', { lx: 0, happy: .5, bLy: .9, bRy: .9 }), d: .25 }, { t: r09.t1 + .8, armL: ARM.rest, d: .3 });
-  if (r12) K.push({ t: r12.t0 - .15, lean: -.06, sq: .95, face: F('embarrassed', { lx: 0, ly: .3, happy: .3, lines: .5, sweat: .4 }), d: .18 }, { t: r12.t0 + .35, lean: 0, sq: 1, d: .3 }, { t: r12.t1 + .9, face: yRest, d: .35 });
+  mistake(R.tIFrom + .2, r02 ? r02.t1 + .1 : R.tWrong7 + 3);
+  mistake(R.tIamLive + .2, r04 ? r04.t1 + .1 : R.tWrong8 + 3);
+  mistake(R.tAtCairo + .2, r09 ? r09.t1 + .1 : R.tAtCairo + 3, false);
+  // the main point: Youssef counts it out on the comparison card (an open hand to each row)
+  K.push({ t: R.tImFrom9 - .2, armL: OPEN, face: F('happy', { lx: -.6, ly: -.2, happy: .5 }), d: .25 }, { t: R.tILive9 - .2, armL: POINT, face: F('happy', { lx: -.6, ly: .2, happy: .5, bLy: .9, bRy: .9 }), d: .25 },
+    { t: R.tWithout + .9, armL: ARM.rest, face: yRest, d: .3 });
+  MK.push({ t: R.tWithout, face: F('joy', { lx: .6 }), d: .2 }, { t: R.tWithout + 1.0, face: mRest, d: .3 });
+  // the nationalities: Youssef beams on "Egyptian"
+  if (r10) K.push({ t: r10.t0 - .3, armL: ARM.chest, face: F('joy'), d: .25 }, { t: r10.t1 + .6, armL: ARM.rest, face: yRest, d: .3 });
   // repeat gaps: Youssef turns to us with an open hand ("your turn"), Sara smiles at us
   for (const g of R.gaps) {
     K.push({ t: g.t0, turn: -.08, face: F('happy', { lx: 0, ly: 0, happy: .55 }), armL: OPEN, d: .3 }, { t: g.t1 - .1, turn: -.3, armL: ARM.rest, face: yRest, d: .3 });
@@ -100,13 +102,11 @@ export function buildRecap() {
   cue(R.title0, 'pop', { note: 'recap title' });
   cue(rc.t0 + .3, 'step', { who: 'youssef' }); cue(hiT - .6, 'step', { who: 'mia' });
   for (const l of recapLines) cue(l.t0 - .05, 'type', { note: 'line typesets: ' + l.text });
-  for (const x of [R.tMorning, R.tAfter, R.tNightW]) cue(x, 'pop', { note: 'time-of-day icon' });
-  cue(R.tGNwrong, 'type'); cue(R.tNotGreet + .1, 'squiggle'); cue(R.tNotGreet + .5, 'error_buzz');
-  cue(R.tFarewell + .2, 'pop', { note: 'moon + wave' }); if (r04) cue(r04.t1 + .1, 'ding');
-  cue(R.tReal, 'pop', { note: 'the three real answers' });
-  cue(R.tThank, 'type'); cue(R.tWelcomeW, 'type'); cue(R.tWelcomeW + .3, 'squiggle'); cue(R.tWelcomeW + .7, 'error_buzz');
-  cue(R.tRight, 'caret'); if (r10) cue(r10.t1 + .1, 'ding');
-  cue(R.tPlease, 'type'); cue(R.tSorryW, 'type');
+  cue(R.tIFrom, 'type'); cue(R.tIFrom + .2, 'squiggle'); cue(R.tIFrom + .6, 'error_buzz'); if (r02) cue(r02.t1 + .1, 'ding');
+  cue(R.tIamLive, 'type'); cue(R.tIamLive + .2, 'squiggle'); cue(R.tIamLive + .6, 'error_buzz'); if (r04) cue(r04.t1 + .1, 'ding');
+  cue(R.tImFrom9, 'pop', { note: 'the comparison card' }); cue(R.tAm9, 'caret'); cue(R.tILive9, 'pop'); cue(R.tWithout, 'squiggle', { dur: .35, note: 'am struck out' });
+  cue(R.tAreQ, 'pop'); cue(R.tInCairo, 'pop'); cue(R.tInNY, 'pop'); cue(R.tAtCairo, 'type'); cue(R.tAtCairo + .2, 'squiggle'); cue(R.tAtCairo + .6, 'error_buzz'); if (r09) cue(r09.t1 + .1, 'ding');
+  cue(R.tCap, 'sparkle', { note: 'capital letters light up' });
   for (const g of R.gaps) cue(g.t0, 'repeat', { dur: g.t1 - g.t0, note: 'learner repeats' });
   return R;
 }
@@ -258,98 +258,116 @@ function gloss(c, txt, x, y, a) {
   c.fillStyle = P.navy; c.fillText(txt, 0, 4); c.restore();
 }
 // ---- items (each card comes in ghosted as soon as its item starts, while the Arabic explains) ----
-const CX = 1000, CUEY = { times: 160, night: 822, how: 150, andyou: 822, welcome: 150, polite: 822 };
+const CX = 1000, CUEY = { from: 822, live: 822, rule: 822, are: 150, in: 822, nat: 822 };
 const ghostRow = (words, who) => words.map(w => ({ w, t: 1e9 }));   // a row that stays ghosted
+// the wrong sentence: ghosted words that pop in, a red squiggle under the bad span (word indices i0..i1), an ✗ and a red note
+function wrongRow(c, t, a, words, tIn, i0, i1, note, y, size = 92) {
+  const A = a * seg(t, tIn - .05, tIn + .25);
+  if (A <= 0) return null;
+  const row = drawRow(c, t, ghostRow(words), { x: CX, y, size, who: 'youssef', alpha: A, ghost: tIn - .05 });
+  if (!row) return null;
+  c.save(); c.globalAlpha = A;
+  const x0 = wordX(row, i0) - 6, x1 = wordX(row, i1) + row.out[i1].ww + 6;
+  squiggle(c, x0, x1, y + 18, seg(t, tIn + .2, tIn + .6), 7, P.red, 7);
+  cross(c, row.x + row.W / 2 + 70, y - size * .45, 30, seg(t, tIn + .6, tIn + .95));
+  const pa = seg(t, tIn + .7, tIn + 1.0);
+  if (pa > 0 && note) { c.globalAlpha = A * pa; c.direction = 'rtl'; c.font = `700 38px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; const w = c.measureText(note).width + 50; rr(c, CX - w / 2, y + 40, w, 58, 29); c.fillStyle = rgba(P.red, .12); c.fill(); c.fillStyle = P.red; c.fillText(note, CX, y + 70); }
+  c.restore();
+  return row;
+}
+// a model line typeset on its speaker's rail, with its Arabic meaning, a ✓ after it is spoken, and optional marked words
+function modelRow(c, t, a, id, who, y, size, mean, o = {}) {
+  const l = LINE(id); const items = fromLine(id).map((w, i) => ({ ...w, mark: o.mark && o.mark.includes(i) ? eo(seg(t, (l ? l.t1 : 0) - .1, (l ? l.t1 : 0) + .3)) : 0 }));
+  const sz = fit(items, size, 820);
+  const row = drawRow(c, t, items, { x: CX + (o.dx || 0), y, size: sz, who, alpha: a, ghost: o.ghost, mean, meanSize: o.meanSize || 40, meanHi: o.meanHi || 0 });
+  if (row && l && o.tick) check(c, row.x + row.W / 2 + 56, y - sz * .55, 30, seg(t, l.t1 + .1, l.t1 + .45));
+  return row;
+}
 const ITEM = {
-  // three greetings with a time-of-day icon each
-  times(c, t, a, it) {
-    const rows = [['r01', 'mia', 'صباح الخير', R.tMorning, (cc, x, y, k) => sunIcon(cc, x, y, 26 * k, P.mustard, t)],
-      ['r02', 'youssef', 'مساء الخير (بعد الضهر)', R.tAfter, (cc, x, y, k) => afternoonIcon(cc, x, y, 24 * k)],
-      ['r03', 'mia', 'مساء الخير', R.tNightW, (cc, x, y, k) => moonIcon(cc, x, y, 24 * k)]];
-    rows.forEach(([id, who, mean, tIcon, icon], i) => {
-      const y = 290 + i * 190, items = fromLine(id), l = LINE(id);
-      const hi = seg(t, tIcon - .1, tIcon + .2) * (1 - seg(t, (l ? l.t0 : tIcon + 2) - .3, l ? l.t0 : tIcon + 2));
-      const row = drawRow(c, t, items, { x: CX + 40, y, size: 100, who, alpha: a, ghost: it.t0, mean, meanHi: hi, meanSize: 44 });
-      const ik = back(seg(t, Math.min(tIcon, it.t0 + .3 + i * .15), Math.min(tIcon, it.t0 + .3 + i * .15) + .4), 2);
-      if (row && ik > 0) { c.save(); c.globalAlpha = a; icon(c, row.x - row.W / 2 - 80, y - 36, ik); c.restore(); }
-    });
+  // "Where are you from?" → "I'm from Egypt." (I from Egypt ✗)
+  from(c, t, a, it) {
+    wrongRow(c, t, a, ['I', 'from', 'Egypt.'], R.tIFrom, 0, 1, "ناقصة 'm", 250);
+    modelRow(c, t, a, 'r01', 'mia', 470, 96, 'إنت منين؟', { ghost: it.t0, meanHi: seg(t, R.tWhereQ - .1, R.tWhereQ + .2) * (1 - seg(t, R.tImFrom7 - .2, R.tImFrom7)) });
+    modelRow(c, t, a, 'r02', 'youssef', 660, 110, 'أنا من مصر.', { ghost: it.t0, tick: true, mark: [0] });
   },
-  // "Good night!" is a goodbye (moon + a wave), never a greeting (red squiggle)
-  night(c, t, a, it) {
-    const l = LINE('r04');
-    // the wrong use: a ghosted "Good night" said as a hello, with a small sun, a squiggle, an ✗ and "مش تحية"
-    const wrongA = a * seg(t, R.tGNwrong - .05, R.tGNwrong + .25);
-    if (wrongA > 0) {
-      const row = drawRow(c, t, ghostRow(['Good', 'night']), { x: CX, y: 390, size: 120, who: 'youssef', alpha: wrongA, ghost: R.tGNwrong - .05 });
-      if (row) {
-        c.save(); c.globalAlpha = wrongA;
-        sunIcon(c, row.x - row.W / 2 - 70, 360, 22, rgba(P.mustard, .7), t);
-        const x0 = row.x - row.W / 2 - 6, x1 = row.x + row.W / 2 + 6;
-        squiggle(c, x0, x1, 408, seg(t, R.tNotGreet + .1, R.tNotGreet + .5), 7, P.red, 7);
-        cross(c, x1 + 70, 345, 32, seg(t, R.tNotGreet + .5, R.tNotGreet + .85));
-        const pa = seg(t, R.tNotGreet + .6, R.tNotGreet + .9);
-        if (pa > 0) { c.globalAlpha = wrongA * pa; c.direction = 'rtl'; c.font = `700 40px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; const w = c.measureText('مش تحية').width + 50; rr(c, CX - w / 2, 440, w, 60, 30); c.fillStyle = rgba(P.red, .12); c.fill(); c.fillStyle = P.red; c.fillText('مش تحية', CX, 472); }
-        c.restore();
+  // "Where do you live?" → "I live in Queens." (I am live ✗)
+  live(c, t, a, it) {
+    wrongRow(c, t, a, ['I', 'am', 'live', 'in', 'Queens.'], R.tIamLive, 1, 1, 'مفيش am مع live', 250);
+    modelRow(c, t, a, 'r03', 'mia', 470, 96, 'ساكن فين؟', { ghost: it.t0, meanHi: seg(t, R.tWhereLive - .1, R.tWhereLive + .2) * (1 - seg(t, R.tILiveIn - .2, R.tILiveIn)) });
+    modelRow(c, t, a, 'r04', 'youssef', 660, 110, 'أنا ساكن في كوينز.', { ghost: it.t0, tick: true, mark: [1] });
+  },
+  // the main point: I'm from (with be) / I live (no be)
+  rule(c, t, a, it) {
+    const a1 = a * seg(t, R.tImFrom9 - .1, R.tImFrom9 + .2), a2 = a * seg(t, R.tILive9 - .1, R.tILive9 + .2), S1 = 124;
+    if (a1 > 0) {
+      const row = drawRow(c, t, ["I'm", 'from', 'Egypt.'].map(w => ({ w, t: -1, typed: true })), { x: CX, y: 330, size: S1, who: 'youssef', alpha: a1 });
+      if (row) {   // the 'm lights up: be is here
+        const k = eo(seg(t, R.tAm9 - .1, R.tAm9 + .25)), x0 = wordX(row, 0) + mw('I', S1) - 4, w = mw("'m", S1) + 10;
+        c.save(); c.globalAlpha = a1; rr(c, x0, 330 - S1 * .78, w * k, S1 * .96, 16); c.fillStyle = rgba(P.mustard, .55); c.fill();
+        c.font = FONT(S1); c.textAlign = 'left'; c.fillStyle = P.ink; if (k > 0) c.fillText("'m", x0 + 4, 330);
+        tag(c, "be ✓", wordX(row, 0) - 40, 330 - S1 * .45, k, P.leaf, -1); c.restore();
       }
     }
-    // the right use: typeset on his line, moon + waving hand, ✓
-    const okA = a * seg(t, R.tFarewell - .05, R.tFarewell + .25);
-    if (okA > 0) {
-      const row = drawRow(c, t, fromLine('r04'), { x: CX + 40, y: 660, size: 130, who: 'youssef', alpha: okA, ghost: R.tFarewell, mean: 'تصبح على خير (وإنت ماشي)', meanSize: 44 });
+    if (a2 > 0) {
+      const ws = ['I', 'am', 'live', 'in', 'Queens.'], k = eo(seg(t, R.tWithout - .1, R.tWithout + .35));
+      const row = drawRow(c, t, ws.map((w, i) => ({ w, t: -1, typed: true, col: i === 1 ? P.red : null, alpha: i === 1 ? 1 - .7 * k : 1 })), { x: CX, y: 620, size: S1, who: 'youssef', alpha: a2 });
       if (row) {
-        c.save(); c.globalAlpha = okA;
-        const ik = back(seg(t, R.tFarewell + .1, R.tFarewell + .5), 2);
-        if (ik > 0) { moonIcon(c, row.x - row.W / 2 - 120, 610, 26 * ik); waveHand(c, row.x - row.W / 2 - 62, 616, 20 * ik, '#B9773F', t); }
-        if (l) check(c, row.x + row.W / 2 + 60, 612, 34, seg(t, l.t1 + .1, l.t1 + .45));
-        c.restore();
+        const x0 = wordX(row, 1) - 8, w = row.out[1].ww + 16;
+        c.save(); c.globalAlpha = a2; c.strokeStyle = P.red; c.lineWidth = 10; c.lineCap = 'round';
+        if (k > 0) { c.beginPath(); c.moveTo(x0, 620 - S1 * .3); c.lineTo(x0 + w * k, 620 - S1 * .38); c.stroke(); }
+        const lv = eo(seg(t, R.tVerb - .1, R.tVerb + .3));   // "live" is the verb: a teal underline
+        if (lv > 0) { const lx = wordX(row, 2); c.strokeStyle = P.teal; c.lineWidth = 9; c.beginPath(); c.moveTo(lx, 620 + 20); c.lineTo(lx + row.out[2].ww * lv, 620 + 20); c.stroke(); }
+        tag(c, "no be", wordX(row, 0) - 40, 620 - S1 * .45, k, P.red, -1); c.restore();
       }
     }
   },
-  // "How are you?" and three real answers that stack
-  how(c, t, a, it) {
-    const q = fromLine('r05'), r05 = LINE('r05');
-    const hi = seg(t, R.tHow - .1, R.tHow + .2) * (1 - seg(t, (r05 ? r05.t0 : R.tHow + 3) - .3, r05 ? r05.t0 : R.tHow + 3));
-    drawRow(c, t, q, { x: CX, y: 280, size: 104, who: 'mia', alpha: a, ghost: it.t0, mean: 'عامل إيه؟', meanHi: hi, meanSize: 44 });
-    const ans = [['r06', 'كويس، شكرًا'], ['r07', 'ماشي الحال… تعبان شوية'], ['r08', 'مش بطّال']];
-    ans.forEach(([id, mean], i) => {
-      const items = fromLine(id), size = fit(items, 76, 800);
-      drawRow(c, t, items, { x: CX, y: 455 + i * 148, size, who: 'youssef', alpha: a * seg(t, R.tReal - .1, R.tReal + .2), ghost: R.tReal - .1, mean, meanSize: 38 });
-    });
+  // Are you from …? → Yes, I am. / No, I'm not.
+  are(c, t, a, it) {
+    const r07 = LINE('r07');
+    modelRow(c, t, a, 'r07', 'youssef', 300, 100, 'إنت من مدريد؟', { ghost: it.t0, meanHi: seg(t, R.tAreQ - .1, R.tAreQ + .2) * (1 - seg(t, (r07 ? r07.t0 : 1e9) - .3, r07 ? r07.t0 : 1e9)) });
+    // the two short answers side by side: "Yes, I am." (typeset on the narration) and "No, I'm not." (Sara's model line)
+    const yA = a * seg(t, R.tYes - .1, R.tYes + .2);
+    if (yA > 0) {
+      const row = drawRow(c, t, ['Yes,', 'I', 'am.'].map((w, i) => ({ w, t: R.tYes - .05 + i * .08 })), { x: CX - 230, y: 590, size: 96, who: 'mia', alpha: yA, mean: 'أيوه.', meanSize: 40 });
+      if (row) check(c, row.x + row.W / 2 + 46, 590 - 52, 26, seg(t, R.tYes + .4, R.tYes + .7), P.leaf);
+    }
+    modelRow(c, t, a * seg(t, R.tNo - .1, R.tNo + .2), 'r08', 'mia', 590, 96, 'لأ.', { ghost: R.tNo - .1, dx: 250 });
   },
-  andyou(c, t, a, it) {
-    const l = LINE('r09'), hi = seg(t, R.tAndYou - .1, R.tAndYou + .2) * (1 - seg(t, (l ? l.t0 : R.tAndYou + 2) - .3, l ? l.t0 : R.tAndYou + 2));
-    drawRow(c, t, fromLine('r09'), { x: CX, y: 480, size: 160, who: 'youssef', alpha: a, ghost: it.t0, mean: 'وإنت؟', meanHi: hi });
+  // in + a city: "in Cairo, in New York" — never "at Cairo"
+  in(c, t, a, it) {
+    const chip = (txt, x, y, k) => { if (k <= 0) return; const s = back(k, 2); c.save(); c.globalAlpha = a; c.translate(x, y); c.scale(s, s); c.font = FONT(64); c.textAlign = 'center'; c.textBaseline = 'middle';
+      const w = mw(txt, 64) + 60; rr(c, -w / 2, -46, w, 92, 46); c.fillStyle = rgba(P.leaf, .2); c.fill(); c.fillStyle = P.ink; c.fillText(txt, 0, 4);
+      c.fillStyle = rgba(P.mustard, .55); rr(c, -w / 2 + 26, 20, mw('in', 64) + 8, 10, 5); c.fill(); c.restore(); };
+    chip('in Cairo', CX - 230, 250, seg(t, R.tInCairo - .1, R.tInCairo + .3)); chip('in New York', CX + 210, 250, seg(t, R.tInNY - .1, R.tInNY + .3));
+    wrongRow(c, t, a, ['I', 'live', 'at', 'Cairo.'], R.tAtCairo, 2, 2, 'المدينة: in', 440, 96);
+    modelRow(c, t, a, 'r09', 'mia', 680, 110, 'أنا ساكنة في نيويورك.', { ghost: R.tAtCairo + .9, tick: true, mark: [2] });
   },
-  // "Thank you" → "Welcome." alone is wrong → "You're welcome."
-  welcome(c, t, a, it) {
-    const r10 = LINE('r10');
-    const thA = a * seg(t, R.tThank - .05, R.tThank + .25);
-    if (thA > 0) drawRow(c, t, ghostRow(['Thank', 'you.']), { x: CX, y: 285, size: 96, who: 'mia', alpha: thA, ghost: R.tThank - .05, mean: 'شكرًا', meanSize: 40 });
-    const wr = [{ w: 'Welcome.', t: R.tWelcomeW - .05 }];
-    const row = drawRow(c, t, wr, { x: CX, y: 490, size: 124, who: 'youssef', alpha: a });
-    if (row && t > R.tWelcomeW) {
+  // country → nationality, both with a capital letter
+  nat(c, t, a, it) {
+    const rows = [['r10', 'youssef', 'مصر ← مصري'], ['r11', 'mia', 'إسبانيا ← إسباني'], ['r12', 'mia', 'أمريكا ← أمريكي']];
+    const cap = eo(seg(t, R.tCap - .1, R.tCap + .3)), S2 = 100;
+    rows.forEach(([id, who, mean], i) => {
+      const y = 300 + i * 190, l = LINE(id); const words = l ? l.tok : [];
+      const items = words.map((o, j) => ({ w: o.w.replace(/[.]$/, ''), t: o.t0 - .06, s0: o.t0, s1: o.t1, gap: j === 0 ? 3.2 : 1 }));
+      if (!items.length) return;
+      const row = drawRow(c, t, items, { x: CX, y, size: S2, who, alpha: a, ghost: it.t0, mean, meanSize: 38 });
+      if (!row) return;
       c.save(); c.globalAlpha = a;
-      const x0 = row.x - row.W / 2 - 6, x1 = row.x + row.W / 2 - mw('.', 124) + 6;
-      squiggle(c, x0, x1, 506, seg(t, R.tWelcomeW + .3, R.tWelcomeW + .7), 7, P.red, 7);
-      cross(c, x1 + 70, 445, 32, seg(t, R.tWelcomeW + .7, R.tWelcomeW + 1.05));
-      const pa = seg(t, R.tWelcomeW + .8, R.tWelcomeW + 1.1);
-      if (pa > 0) { c.globalAlpha = a * pa; c.direction = 'rtl'; c.font = `700 36px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba(P.red, .9); c.fillText('ناقصة كلمة', CX, 560); }
+      // the arrow between the two words
+      const ax0 = wordX(row, 0) + row.out[0].ww + 26, ax1 = wordX(row, 1) - 26, ka = seg(t, items[1].t - .3, items[1].t);
+      if (ka > 0) { c.strokeStyle = rgba(P.ink, .45); c.lineWidth = 7; c.lineCap = 'round'; c.beginPath(); c.moveTo(ax0, y - 34); c.lineTo(lerp(ax0, ax1, ka), y - 34); c.stroke();
+        c.beginPath(); c.moveTo(lerp(ax0, ax1, ka) - 16, y - 48); c.lineTo(lerp(ax0, ax1, ka), y - 34); c.lineTo(lerp(ax0, ax1, ka) - 16, y - 20); c.stroke(); }
+      // capital letters: a mustard box behind each first letter
+      if (cap > 0) for (const j of [0, 1]) { if (t < items[j].t) continue; const x0 = wordX(row, j) - 4, w = mw(items[j].w[0], S2) + 8; rr(c, x0, y - S2 * .8, w * cap, S2 * .98, 12); c.fillStyle = rgba(P.mustard, .5); c.fill();
+        c.font = FONT(S2); c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillStyle = P.red; c.fillText(items[j].w[0], x0 + 4, y); }
       c.restore();
-    }
-    const okA = a * seg(t, R.tRight - .05, R.tRight + .25);
-    if (okA > 0) {
-      const r10i = fromLine('r10'), r10s = fit(r10i, 124, 800);
-      const row2 = drawRow(c, t, r10i, { x: CX - 30, y: 700, size: r10s, who: 'mia', alpha: okA, ghost: R.tRight, mean: 'عفوًا / العفو', meanSize: 44 });
-      if (row2 && r10) check(c, row2.x + row2.W / 2 + 56, 700 - r10s * .55, 32, seg(t, r10.t1 + .1, r10.t1 + .45));
-    }
-  },
-  // the two polite words
-  polite(c, t, a, it) {
-    const pA = a * seg(t, R.tPlease - .05, R.tPlease + .25), sA = a * seg(t, R.tSorryW - .05, R.tSorryW + .25);
-    const r11 = LINE('r11'), r12 = LINE('r12');
-    const hi1 = seg(t, R.tPlease - .1, R.tPlease + .2) * (1 - seg(t, (r11 ? r11.t0 : R.tPlease + 4) - .3, r11 ? r11.t0 : R.tPlease + 4));
-    const hi2 = seg(t, R.tSorryW - .1, R.tSorryW + .2) * (1 - seg(t, (r12 ? r12.t0 : R.tSorryW + 4) - .3, r12 ? r12.t0 : R.tSorryW + 4));
-    if (pA > 0) drawRow(c, t, fromLine('r11').map((o, i) => ({ ...o, mark: i === 1 ? eo(seg(t, R.tPlease, R.tPlease + .4)) * (1 - seg(t, (r11 ? r11.t0 : 1e9) - .2, r11 ? r11.t0 : 1e9)) : 0 })), { x: CX, y: 380, size: 130, who: 'youssef', alpha: pA, ghost: R.tPlease - .05, mean: 'قهوة، لو سمحت', meanHi: hi1 });
-    if (sA > 0) drawRow(c, t, fromLine('r12').map(o => ({ ...o, wob: true })), { x: CX, y: 650, size: 140, who: 'youssef', alpha: sA, ghost: R.tSorryW - .05, mean: 'آسف!', meanHi: hi2 });
+    });
   },
 };
+// a small pill label next to a row ("be ✓" / "no be"), right-aligned to x
+function tag(c, txt, x, y, k, col, side = -1) {
+  if (k <= 0) return;
+  c.save(); c.font = '600 40px "Fredoka"'; c.textBaseline = 'middle'; c.textAlign = 'center';
+  const w = c.measureText(txt).width + 36, s = back(k, 2), cx = x - w / 2;
+  c.translate(cx, y); c.scale(s, s); rr(c, -w / 2, -30, w, 60, 30); c.fillStyle = rgba(col, .16); c.fill(); c.fillStyle = col === P.leaf ? dark(P.leaf, .25) : col; c.fillText(txt, 0, 2); c.restore();
+}

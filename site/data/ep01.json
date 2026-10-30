@@ -34,6 +34,6 @@
     { "type": "gap", "phrase": "im", "text": "___ Youssef.", "chips": ["I'm", "I", "Me"], "answer": "I'm", "explain": "I'm = I am. في الإنجليزي لازم فعل am بعد I." },
     { "type": "fix", "mistake": "m-myname" },
     { "type": "listen", "phrase": "bye", "mode": "en", "options": ["Bye! See you!", "Buy a shoe!", "By the sea!"] },
-    { "type": "speak", "phrase": "im", "asks": "whatsname", "hint": "I'm ______.", "keywords": ["i'm", "i am", "my name is", "name"], "examples": ["I'm Youssef.", "My name is Youssef."] }
+    { "type": "speak", "phrase": "im", "asks": "whatsname", "ask": { "en": "Hi! I'm Sara. What's your name?", "audio": "audio/ep01/turn.mp3" }, "hint": "I'm ______.", "keywords": ["i'm", "i am", "my name is", "name"], "examples": ["I'm Youssef.", "My name is Youssef."] }
   ]
 }
