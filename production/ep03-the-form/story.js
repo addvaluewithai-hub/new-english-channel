@@ -202,10 +202,9 @@ export function buildStory() {
   const tIns0 = bWrite - .1, tIns1 = Math.min(X1.t0 - .25, bWrite + 1.9);
   const tMe = X2.t0, tHa = tokW(X2, /^Ha/i, 1).t0, tSixty1 = tokW(X2, /^sixty/i, 3).t0;
   const tThank = tokW(X4, /^thank/i, 2).t0, tNoNo = tokW(X4, /^No/, 4).t0, tSixty2 = tokW(X4, /^Sixty/, 6).t0, tSixZero = tokW(X4, /^Six-zero/i, 7).t0;
-  const t16 = nwT('ar05', w => /^sixteen/.test(w), .05), t60 = nwT('ar05', w => /^sixty/.test(w), .12), tStress = nwT('ar05', has('الضغطة'), .3);
-  const t16b = (() => { const n = NARR('ar05'); const a = n ? n.tok.filter(o => /^sixteen/.test(o.w)) : []; return a[1] ? a[1].t0 : tStress + 1; })();
-  const t60b = (() => { const n = NARR('ar05'); const a = n ? n.tok.filter(o => /^sixty/.test(o.w)) : []; return a[1] ? a[1].t0 : tStress + 3; })();
-  const tGave = nwT('ar05', has('ستاشر'), .9);
+  const t16 = nwT('ar05', w => /^sixteen/.test(w), .05), t60 = nwT('ar05', w => /^sixty/.test(w), .15);
+  const t16b = t16 + .45, t60b = t60 + .45;   // the stress dot drops on each card just after it pops
+  const tGave = nwT('ar05', has('ستاشر'), .9), tClose = nwT('ar05', has('قريبين'), .4);
   LK.push({ t: tIns1, armR: ARM.rest, face: F('happy', { lx: -.55, happy: .5, mw: .12 }), d: .3 },
     { t: X1.t1 - .1, face: F('surprised', { lx: -.6, pupil: .85, bLy: 1, bRy: 1, mo: .04, mw: .06 }), d: .2 },
     { t: tMe - .1, armR: ME, face: F('surprised', { lx: -.5, ly: -.1, pupil: .8, mo: .05, mw: .06, bLy: 1, bRy: 1 }), d: .2 },
@@ -218,7 +217,7 @@ export function buildStory() {
     { t: tNoNo - .15, armL: ARM.rest, armR: WAG, sq: 1, lean: 0, face: F('happy', { lx: -.6, happy: .55, mw: .12, blush: .8 }), d: .2 },
     { t: tSixty2 - .1, armR: { ...ARM.up, dx: .12 }, face: F('happy', { lx: -.6, ly: -.05, happy: .4, bLy: .9, bRy: .9, mw: .12 }), d: .2 },
     { t: X4.t1 + .2, armR: ARM.rest, face: F('joy', { lx: -.4 }), d: .35 },
-    { t: tStress - .2, face: F('happy', { lx: -.5, happy: .5 }), d: .3 },
+    { t: tClose - .2, face: F('happy', { lx: -.5, happy: .5 }), d: .3 },
     { t: tGave - .15, face: F('joy', { lx: -.3, blush: 1 }), armR: ME, d: .3 }, { t: tGave + 1.3, armR: ARM.rest, face: F('happy', { lx: -.5, happy: .6, blush: .8 }), d: .3 });
   lD.jumps.push({ t: tHa, h: .02, d: .28 }, { t: tThank, h: .03, d: .3 }, { t: tThank + .35, h: .025, d: .3 }, { t: X4.t1 + .2, h: .02, d: .3 }, { t: X4.t1 + .55, h: .02, d: .3 }, { t: tGave, h: .025, d: .3 });
   lD.blinks.push(tIns1, tMe - .1, X3.t0 + .15, tNoNo - .15, tGave - .15);
@@ -235,10 +234,10 @@ export function buildStory() {
     { t: X4.t1 + .6, armL: ARM.rest, face: F('joy', { lx: .4, blush: .8 }), d: .3 },
     // ar05: to us, explaining (an open hand on each word, the stress cards pop beside him)
     { t: n5 ? n5.t0 + .1 : X4.t1 + 1, turn: .2, face: F('happy', { happy: .45, lx: 0, ly: 0, mw: .11, blush: .5 }), d: .35 },
-    { t: tStress - .15, armL: OPEN, face: F('happy', { happy: .35, lx: -.2, ly: -.3, bLy: .8, bRy: .8, mw: .11 }), d: .3 },
+    { t: tClose - .15, armL: OPEN, face: F('happy', { happy: .35, lx: -.2, ly: -.3, bLy: .8, bRy: .8, mw: .11 }), d: .3 },
     { t: tGave - .3, armL: ARM.rest, turn: .4, face: F('joy', { lx: .5 }), d: .3 });
   yD.jumps.push({ t: X3.t0 - .05, h: .09, d: .42 });
-  yD.blinks.push(tIns1, X1.t0 - .2, X3.t0 - .1, tNoNo - .1, tStress - .15);
+  yD.blinks.push(tIns1, X1.t0 - .2, X3.t0 - .1, tNoNo - .1, tClose - .15);
   MK.push({ t: X1.t0 + .3, face: F('surprised', { lx: .55, pupil: .8, mo: .05, mw: .06, bLy: 1, bRy: 1, sweat: .5 }), d: .2 },
     { t: X1.t1 - .1, armL: HANDMOUTH, face: F('embarrassed', { lx: .6, ly: 0, happy: .2, sweat: .6 }), lean: -.03, d: .25 },
     { t: tHa + .1, armL: BAGARM, face: F('happy', { lx: .6, happy: .4, sweat: .3 }), lean: 0, d: .3 },

@@ -13,7 +13,7 @@ export function h(tag, attrs = {}, ...kids) {
   return el;
 }
 // wrap Latin runs (English inside an Arabic line) in an LTR span so punctuation does not flip
-export const mix = s => esc(s).replace(/[A-Za-z][A-Za-z0-9'’,…!? .-]*[A-Za-z0-9.!?…]|[A-Za-z]/g, m => `<span class="en" dir="ltr">${m}</span>`);
+export const mix = s => esc(s).replace(/[A-Za-z][A-Za-z0-9'’,…!? .=-]*[A-Za-z0-9.!?…]|[A-Za-z]/g, m => `<span class="en" dir="ltr">${m}</span>`);
 // the cast: internal id → the bubble tab (as in the episodes), the Arabic name and the verb for "asks you" (feminine / masculine)
 export const SPEAKERS = {
   youssef: { id: 'youssef', tab: 'YOUSSEF', ar: 'يوسف', asks: 'بيسألك', him: 'عليه' },

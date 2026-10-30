@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:13:04.660Z",
+  "duration_ms": 5100,
+  "word_count": 9,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Okay, Youssef. Class starts now. Room four. Now? Okay.",
+  "source_text": "OK, Youssef! Class starts now. Room four! Now?! OK!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Sara",
+      "text": "OK, Youssef! Class starts now. Room four!"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "Now?! OK!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "Okay,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1200,
+      "text": "Youssef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1600,
+      "text": "Class",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2000,
+      "text": "starts",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2400,
+      "text": "now.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 2800,
+      "text": "Room",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2800,
+      "end_ms": 3000,
+      "text": "four.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4400,
+      "text": "Now?",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 5100,
+      "text": "Okay.",
+      "speaker": "spk:1"
+    }
+  ]
+}

@@ -1,59 +1,63 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:31.239Z",
-  "duration_ms": 6000,
-  "word_count": 7,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "ومعايا الاستمارة. مليتها كلها الا خانة واحدة.",
-  "source_text": "ومعايا الاستمارة. ملّيتها كلها… إلا خانة واحدة.",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "ومعايا الاستمارة. ملّيتها كلها… إلا خانة واحدة."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 300,
-      "end_ms": 600,
-      "text": "ومعايا"
-    },
-    {
-      "start_ms": 600,
-      "end_ms": 1200,
-      "text": "الاستمارة."
-    },
-    {
-      "start_ms": 3200,
-      "end_ms": 3500,
-      "text": "مليتها"
-    },
-    {
-      "start_ms": 3500,
-      "end_ms": 4000,
-      "text": "كلها"
-    },
-    {
-      "start_ms": 5200,
-      "end_ms": 5400,
-      "text": "الا"
-    },
-    {
-      "start_ms": 5400,
-      "end_ms": 5600,
-      "text": "خانة"
-    },
-    {
-      "start_ms": 5600,
-      "end_ms": 6000,
-      "text": "واحدة."
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:12:31.239Z",
+ "duration_ms": 4080,
+ "word_count": 7,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "ومعايا الاستمارة. مليتها كلها الا خانة واحدة.",
+ "source_text": "ومعايا الاستمارة. ملّيتها كلها… إلا خانة واحدة.",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "ومعايا الاستمارة. ملّيتها كلها… إلا خانة واحدة."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 300,
+   "end_ms": 600,
+   "text": "ومعايا"
+  },
+  {
+   "start_ms": 600,
+   "end_ms": 1200,
+   "text": "الاستمارة."
+  },
+  {
+   "start_ms": 1720,
+   "end_ms": 2020,
+   "text": "مليتها"
+  },
+  {
+   "start_ms": 2020,
+   "end_ms": 2520,
+   "text": "كلها"
+  },
+  {
+   "start_ms": 2960,
+   "end_ms": 3160,
+   "text": "الا"
+  },
+  {
+   "start_ms": 3160,
+   "end_ms": 3360,
+   "text": "خانة"
+  },
+  {
+   "start_ms": 3360,
+   "end_ms": 3760,
+   "text": "واحدة."
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.45,
+  "removed_s": 2.24
+ }
 }

@@ -1,54 +1,58 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:35.044Z",
-  "duration_ms": 3700,
-  "word_count": 6,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "ومن 13 ل19 كلهم اخرهم تين.",
-  "source_text": "ومن تلتاشر لتسعتاشر… كلهم آخرهم -teen .",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "ومن تلتاشر لتسعتاشر… كلهم آخرهم -teen ."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 300,
-      "end_ms": 500,
-      "text": "ومن"
-    },
-    {
-      "start_ms": 500,
-      "end_ms": 1200,
-      "text": "13"
-    },
-    {
-      "start_ms": 1200,
-      "end_ms": 2000,
-      "text": "ل19"
-    },
-    {
-      "start_ms": 2200,
-      "end_ms": 2800,
-      "text": "كلهم"
-    },
-    {
-      "start_ms": 2800,
-      "end_ms": 3300,
-      "text": "اخرهم"
-    },
-    {
-      "start_ms": 3300,
-      "end_ms": 3700,
-      "text": "تين."
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:12:35.044Z",
+ "duration_ms": 4000,
+ "word_count": 6,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "ومن 13 ل19 كلهم اخرهم تين.",
+ "source_text": "ومن تلتاشر لتسعتاشر… كلهم آخرهم -teen .",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "ومن تلتاشر لتسعتاشر… كلهم آخرهم -teen ."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 300,
+   "end_ms": 500,
+   "text": "ومن"
+  },
+  {
+   "start_ms": 500,
+   "end_ms": 1200,
+   "text": "13"
+  },
+  {
+   "start_ms": 1200,
+   "end_ms": 2000,
+   "text": "ل19"
+  },
+  {
+   "start_ms": 2200,
+   "end_ms": 2800,
+   "text": "كلهم"
+  },
+  {
+   "start_ms": 2800,
+   "end_ms": 3300,
+   "text": "اخرهم"
+  },
+  {
+   "start_ms": 3300,
+   "end_ms": 3700,
+   "text": "تين."
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.45,
+  "removed_s": 0.0
+ }
 }

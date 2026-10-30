@@ -1,59 +1,63 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:36.375Z",
-  "duration_ms": 3600,
-  "word_count": 7,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "دورك. ساره تسالك قول سنك بصوت عالي.",
-  "source_text": "دورك! سارة هتسألك… قول سنّك بصوت عالي.",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "دورك! سارة هتسألك… قول سنّك بصوت عالي."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 200,
-      "end_ms": 600,
-      "text": "دورك."
-    },
-    {
-      "start_ms": 1400,
-      "end_ms": 1700,
-      "text": "ساره"
-    },
-    {
-      "start_ms": 1700,
-      "end_ms": 2200,
-      "text": "تسالك"
-    },
-    {
-      "start_ms": 2500,
-      "end_ms": 2700,
-      "text": "قول"
-    },
-    {
-      "start_ms": 2700,
-      "end_ms": 3000,
-      "text": "سنك"
-    },
-    {
-      "start_ms": 3000,
-      "end_ms": 3200,
-      "text": "بصوت"
-    },
-    {
-      "start_ms": 3200,
-      "end_ms": 3600,
-      "text": "عالي."
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:12:36.375Z",
+ "duration_ms": 3920,
+ "word_count": 7,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "دورك. ساره تسالك قول سنك بصوت عالي.",
+ "source_text": "دورك! سارة هتسألك… قول سنّك بصوت عالي.",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "دورك! سارة هتسألك… قول سنّك بصوت عالي."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 200,
+   "end_ms": 600,
+   "text": "دورك."
+  },
+  {
+   "start_ms": 1400,
+   "end_ms": 1700,
+   "text": "ساره"
+  },
+  {
+   "start_ms": 1700,
+   "end_ms": 2200,
+   "text": "تسالك"
+  },
+  {
+   "start_ms": 2500,
+   "end_ms": 2700,
+   "text": "قول"
+  },
+  {
+   "start_ms": 2700,
+   "end_ms": 3000,
+   "text": "سنك"
+  },
+  {
+   "start_ms": 3000,
+   "end_ms": 3200,
+   "text": "بصوت"
+  },
+  {
+   "start_ms": 3200,
+   "end_ms": 3600,
+   "text": "عالي."
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.45,
+  "removed_s": 0.0
+ }
 }

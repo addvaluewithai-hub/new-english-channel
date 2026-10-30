@@ -428,7 +428,7 @@ export function sceneNext(c, t) {
   const jobs = ['teacher', 'doctor', 'engineer', 'student', 'driver', 'artist'];
   jobs.forEach((n, i) => {
     const t0 = O.tNums + i * .22, u = seg(t, t0, t0 + 2.6 + (i % 3) * .4); if (u <= 0 || u >= 1) return;
-    const a = hash(i * 2.3 + 1) * Math.PI * 2, x = 470 + Math.cos(a) * (340 + 50 * hash(i)) + Math.sin(u * 5 + i) * 18, y = 540 + Math.sin(a) * 220 - u * 240;
+    const x = 520 + (i - 2.5) * 150 + Math.sin(u * 5 + i) * 16, y = 290 - (i % 2) * 60 - u * 200;
     c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = Math.sin(Math.PI * u); c.translate(x, y); c.rotate(Math.sin(u * 4 + i) * .15); const s = .7 + .4 * eo(Math.min(1, u * 3)); c.scale(s, s);
     c.font = '600 58px "Fredoka"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = rgba('#1E1B33', .2); c.fillText(n, 4, 5); c.fillStyle = [P.teal, P.red, P.navy, P.mustard][i % 4]; c.fillText(n, 0, 0); c.restore();
   });

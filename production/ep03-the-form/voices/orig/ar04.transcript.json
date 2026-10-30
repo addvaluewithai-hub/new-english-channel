@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:12:32.905Z",
+  "duration_ms": 7700,
+  "word_count": 10,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "في الانجليزي انت مش عندك سن انت سنك زي بالظبط.",
+  "source_text": "في الإنجليزي، إنت مش عندك سن… إنت سنّك. I'm 26 … زي I'm tired بالظبط.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "في الإنجليزي، إنت مش عندك سن… إنت سنّك. I'm 26 … زي I'm tired بالظبط."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 300,
+      "text": "في"
+    },
+    {
+      "start_ms": 300,
+      "end_ms": 1100,
+      "text": "الانجليزي"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1400,
+      "text": "انت"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1600,
+      "text": "مش"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2200,
+      "text": "عندك"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2600,
+      "text": "سن"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3600,
+      "text": "انت"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4100,
+      "text": "سنك"
+    },
+    {
+      "start_ms": 6500,
+      "end_ms": 6800,
+      "text": "زي"
+    },
+    {
+      "start_ms": 7400,
+      "end_ms": 7700,
+      "text": "بالظبط."
+    }
+  ]
+}

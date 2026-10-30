@@ -1,4 +1,4 @@
-"""Episode 2 mix: voices (timeline.json place) + the series theme + foley (events.json) + London ambience -> out/mix.wav"""
+"""Episode 4 mix: voices (timeline.json place) + the series theme + foley (events.json) + classroom ambience -> out/mix.wav"""
 import json, os, sys
 import numpy as np, soundfile as sf, soxr
 from scipy.ndimage import maximum_filter1d, uniform_filter1d
@@ -93,23 +93,19 @@ def block(t0, t1, fade_in=.0, fade_out=.6, **kw):
     e0 = int(t1 * SR); env[e0:b] = np.linspace(1, 0, b - e0)
     mus = keep + mus * env[:, None]
 
-o, rn, hl, cf, dr, by, rc, tu, nx = (SEC[k] for k in ('open', 'run', 'hall', 'coffee', 'door', 'bye', 'recap', 'turn', 'next'))
-# the alarm opens the episode (a foley cue); the theme comes in when he wakes
-block(BT['wake'] + .4, BT['title'] - .1, fade_in=.6, mel=True, lvl=.5)
+o, it, fx_, hk, rc, tu, nx = (SEC[k] for k in ('open', 'intro', 'fix', 'hook', 'recap', 'turn', 'next'))
+block(.3, BT['title'] - .1, fade_in=.8, mel=True, lvl=.5)                         # the first class: the theme
 sting(BT['title'], v=.3)                                                          # title card
-block(BT['title'] + .5, BT['mia_enters'] - .2, mel=False, perc=True, lvl=.7)     # the run: pulse only, hurried
-for i, m in enumerate([69, 72, 77]): add(mus, glock(m + 12, 1.4, .25), BT['mia_enters'] + .1 + i * .12, 1, .1)   # Mia chime
-for i, (m, d) in enumerate([(55, .3), (53, .3), (52, .8)]):                       # the yawn: a sleepy reed slide
-    add(mus, bassoon(m, d, .2), BT['yawn'] + .2 + i * .32, 1, 0)
-sting(BT['laugh'], (79, 84), .35, .1)                                             # her laugh
-block(BT['sip'] + .1, dr[0] - .3, fade_in=.8, mel=True, lvl=.5)                  # coffee: the theme returns
-sting(BT['sip'], (77, 81, 84, 89), .4, .06)                                       # sparkle on the first sip
-block(dr[0] + .4, BT['welcome'] - .2, mel=False, perc=False, lvl=.45, fade_out=.15)   # afternoon: soft strum
-add(mus, bassoon(50, .35, .25), BT['welcome'] + .5, 1, 0)                         # "Welcome!": one comic boop
-block(BT['welcome'] + 1.2, BT['form'] - .2, fade_in=.8, mel=False, perc=False, lvl=.4, fade_out=.3)
-for i, m in enumerate([77, 81, 84]): add(mus, glock(m, 1.6, .3), BT['good_night'] + .2 + i * .12, 1, .1)   # good night chime
-for i, (m, d) in enumerate([(50, .22), (49, .22), (48, 1.0)]):                    # the age box: dun dun duuun
-    add(mus, bassoon(m, d, .3), BT['age_box'] + .1 + i * .26, 1, 0)
+block(BT['title'] + .4, it[0] + .4, mel=False, perc=True, lvl=.55, fade_out=.5)  # under the title
+for i, m in enumerate([72, 76, 79]): add(mus, glock(m + 12, 1.4, .25), BT['ana_up'] + .1 + i * .12, 1, .1)   # Ana stands up: a chime
+add(mus, glock(84, 1.2, .2), BT['you_up'] + .1, 1, .1)                           # Youssef stands up
+for i, (m, d) in enumerate([(50, .22), (49, .22), (48, 1.0)]):                    # the freeze: dun dun duuun
+    add(mus, bassoon(m, d, .3), BT['freeze'] + .25 + i * .26, 1, 0)
+block(BT['unfreeze'] + .3, BT['cairo'] - .2, mel=False, perc=False, lvl=.4, fade_out=.2)   # the fix: a soft strum
+sting(BT['cairo'] + .05, (77, 81, 84), .35, .08)                                  # "Cairo!"
+block(BT['cairo'] + .6, hk[0] - .1, fade_in=.8, mel=True, lvl=.45, fade_out=.4)  # Madrid, Spanish, Egyptian, American: the theme returns
+for i, (m, d) in enumerate([(55, .22), (53, .22), (52, 1.0)]):                    # stuck: what do you do?
+    add(mus, bassoon(m, d, .3), BT['stuck'] + .1 + i * .26, 1, 0)
 sting(rc[0] + .2, (77, 81, 84), .4, .09)                                          # recap title
 block(rc[0] + 1.6, rc[1], fade_in=1.0, mel=False, strum=False, perc=True, lvl=.5)   # recap: bass + brushes only
 block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)
@@ -187,6 +183,9 @@ def slurp(d=.45):
     return (bp(noise(d), 800, 4000) * (.5 + .5 * np.sin(2 * np.pi * 22 * tt)) * .6 + np.sin(2 * np.pi * np.cumsum(f) / SR) * .15) * np.sin(np.pi * tt / d) ** .7
 def paper_(d=.35):
     tt = t_(d); return hp(noise(d), 2500) * (rng.random(len(tt)) > .7) * np.sin(np.pi * tt / d) * .6
+def chair(d=.28):   # a classroom chair: a short wooden scrape + a soft knock
+    tt = t_(d); x = bp(noise(d), 250, 1400) * (.6 + .4 * np.sin(2 * np.pi * 38 * tt)) * np.sin(np.pi * tt / d) ** 1.5 * .6
+    return norm(over(x, (thump(.3, 140)[:int(.12 * SR)] * .5, d * .8))) * .8
 def stars_(d=1.0):
     x = np.zeros(int(d * SR))
     for i, m in enumerate([84, 88, 91, 96]):
@@ -248,8 +247,9 @@ H = {   # event type -> (sound, gain, pan)
     'gulp':      lambda e: (gulp(), .4, 0),
     'click':     lambda e: (tick(), .3, .2),
     'bell':      lambda e: (ding(), .2, .2),
+    'chair':     lambda e: (chair(), .22, .1),
 }
-MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon', 'ambience_hall'}   # covered by the score
+MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon', 'ambience_hall', 'ambience_class'}   # covered by the score
 unknown = {}
 for e in EV:
     k = e['type']
@@ -270,10 +270,10 @@ def street(a, b, lvl=1.0):
     while t < b - 1:
         if rng.random() < .5: add(amb, chirp(), t, .12 * lvl, float(rng.uniform(-.7, .7)))
         t += float(rng.uniform(1.2, 3.5))
-street(rn[0] - .3, rn[1] + .4)                 # outside only while he runs
-street(dr[0] - .3, by[1] + .3, .5)            # the door scenes
+street(.0, rc[0] + .3, .35)                   # the street, faint, through the classroom window
 room = lp(brown(DUR + 1), 300)[:N] * .01; amb += room[:, None]
-hall = bp(noise(hl[1] - hl[0] + 1.5), 150, 900) * .012; add(amb, hall * np.minimum(1, np.minimum(t_(len(hall) / SR) / .8, (len(hall) / SR - t_(len(hall) / SR)) / .8)), hl[0] - .5, 1, 0)   # the hallway: a bigger, duller room
+cls = bp(noise(rc[0] + 1.5), 150, 900) * .012; add(amb, cls * np.minimum(1, np.minimum(t_(len(cls) / SR) / .8, (len(cls) / SR - t_(len(cls) / SR)) / .8)), 0, 1, 0)   # the classroom: a small, warm room
+cls2 = bp(noise(nx[1] - tu[0] + 1), 150, 900) * .008; add(amb, cls2 * np.minimum(1, np.minimum(t_(len(cls2) / SR) / .8, (len(cls2) / SR - t_(len(cls2) / SR)) / .8)), tu[0], 1, 0)   # back in the class for the outro
 
 FX = .4             # sound effects well under the voices (owner: footsteps and effects were too loud)
 fx *= (1 - .6 * speech)[:, None]   # and quieter still while anyone talks

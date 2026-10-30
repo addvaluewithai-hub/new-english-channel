@@ -742,7 +742,7 @@ export function drawHall(c, cam, t, o = {}) {
 // the whiteboard ("Where are you from?" is written live), the world map with live pins, the teal door at the right edge.
 // Desks are drawn separately (deskFront) in front of the seated students; one empty desk sits in the set itself.
 export const CLASS = { win: { x: 40, y: 210, w: 330, h: 380 }, board: { x: 560, y: 186, w: 610, h: 380 }, map: { x: 1206, y: 206, w: 470, h: 262 },
-  door: { x: 1752, w: 200 }, deskTop: 798, desks: { empty: 770, ana: 1080, youssef: 1440 } };
+  door: { x: 1752, w: 200 }, deskTop: 832, desks: { empty: 770, ana: 1080, youssef: 1440 } };
 // the map: equirectangular, lon -170..180, lat 80..-58, inside the frame's inner area
 const MAPA = { lon0: -170, lon1: 180, lat0: 80, lat1: -58 };
 export function mapXY(lon, lat) {
@@ -844,11 +844,12 @@ function planterSmall(c, x, base, s = 1) {
 }
 // a desk seen from the front: the top, a modesty panel, two legs; x = its centre (world). o.book / o.form: things on the top
 export function deskFront(c, x, o = {}) {
-  const top = CLASS.deskTop, w = 300, WOODD = '#C98F5C';
-  contact(c, x + 10, 882, 170, 14, .3);
-  c.fillStyle = mix(P.ink, P.cream, .35); for (const s of [-1, 1]) { rr(c, x + s * (w / 2 - 26) - 7, top + 10, 14, 880 - top - 8, 5); c.fill(); }
-  c.fillStyle = mix(P.navy, P.cream, .55); rr(c, x - w / 2 + 22, top + 14, w - 44, 50, 6); c.fill();
-  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(x - w / 2 + 22, top + 14, w - 44, 10);
+  const top = CLASS.deskTop, w = 270, WOODD = '#C98F5C';
+  contact(c, x + 10, 886, 160, 13, .3);
+  c.fillStyle = mix(P.ink, P.cream, .35); for (const s of [-1, 1]) { rr(c, x + s * (w / 2 - 22) - 7, top + 10, 14, 886 - top - 8, 5); c.fill(); }
+  c.fillStyle = mix(P.navy, P.cream, .55); rr(c, x - w / 2 + 16, top + 12, w - 32, 886 - top - 18, 6); c.fill();   // the modesty panel reaches the floor line (hands at rest stay hidden)
+  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(x - w / 2 + 16, top + 12, w - 32, 10);
+  c.fillStyle = rgba('#FFFFFF', .12); rr(c, x - w / 2 + 30, top + 30, w - 60, 4, 2); c.fill();
   if (o.book) { c.save(); c.translate(x - 50, top - 4); c.rotate(-.05); c.fillStyle = P.teal; rr(c, -46, -10, 92, 14, 3); c.fill(); c.fillStyle = P.cream; c.fillRect(-42, -8, 84, 4); c.restore(); }
   if (o.form) { c.save(); c.translate(x + 40, top - 2); c.fillStyle = '#FFFDF6'; rr(c, -40, -6, 80, 8, 2); c.fill(); c.restore(); }
   if (o.pencil) { c.save(); c.translate(x + 90, top - 3); c.rotate(.08); c.fillStyle = P.mustard; rr(c, -28, -4, 56, 7, 3); c.fill(); c.fillStyle = P.ink; c.fillRect(26, -3, 6, 5); c.restore(); }

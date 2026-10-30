@@ -56,8 +56,8 @@
   "temperature": 1
  },
  "ar05": {
-  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪkˈstin\">sixteen</phoneme></lang> و<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɪksti\">sixty</phoneme></lang>… <short pause> قريبين أوي من بعض. <short pause> الفرق في الضغطة: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪkˈstin\">sixteen</phoneme></lang>، الضغطة في الآخر… <short pause> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɪksti\">sixty</phoneme></lang>، في الأول. <short pause> وهي فرحت أوي إني اديتها ستاشر سنة!",
-  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Amused, explaining clearly, laughing at the end. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɪkˈstin\">sixteen</phoneme></lang> و <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɪksti\">sixty</phoneme></lang>… <short pause> قريبين أوي من بعض! <short pause> وهي فرحت أوي إني اديتها ستاشر سنة!",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Amused, a little embarrassed, laughing at the end. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
   "voice": "Achird",
   "transcript": {
    "language_codes": [

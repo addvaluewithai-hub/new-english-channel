@@ -95,7 +95,7 @@ canvas.bean { display: block; width: 120px; height: 140px; }
 
 /* ---- sentences ---- */
 .sentence { font-family: var(--en); font-weight: 600; font-size: 30px; line-height: 1.35; direction: ltr; text-align: center; margin: 10px 0; color: var(--ink); }
-.bad { text-decoration: underline wavy var(--red); text-decoration-thickness: 3px; text-underline-offset: 7px; text-decoration-skip-ink: none; }
+.bad:not(.feedback) { text-decoration: underline wavy var(--red); text-decoration-thickness: 3px; text-underline-offset: 7px; text-decoration-skip-ink: none; }
 .fixed { background: rgba(245,182,62,.5); border-radius: 10px; padding: 0 6px; }
 .gap { display: inline-block; min-width: 2.2em; border-bottom: 4px solid var(--navy); margin: 0 4px; color: var(--navy); line-height: 1.1; }
 .gap.filled { border-color: var(--mustard); }
@@ -129,7 +129,7 @@ canvas.bean { display: block; width: 120px; height: 140px; }
 .dots i.cur { background: var(--mustard); border-color: var(--mustard); transform: scale(1.5); }
 .stage { display: flex; gap: 10px; align-items: flex-end; margin: 14px 0 8px; min-height: 150px; }
 .stage .bubble { flex: 1; margin-bottom: 38px; max-width: 100%; }
-.stage canvas.bean { flex: none; width: 118px; height: 142px; }
+.stage canvas.bean { flex: none; width: 134px; height: 142px; }
 .kind { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--navy); font-size: 17px; margin-bottom: 8px; }
 .kind .n { font-family: var(--tab); background: var(--mustard); color: var(--ink); border-radius: 999px; padding: 2px 10px 0; font-size: 14px; direction: ltr; }
 .context { background: var(--sky-pastel); border-radius: 14px; padding: 8px 14px; font-size: 16px; margin-bottom: 8px; }
@@ -165,7 +165,7 @@ canvas.bean { display: block; width: 120px; height: 140px; }
 .end .learned .en { font-weight: 600; font-size: 20px; }
 .end .learned .ar { color: var(--ink-60); font-size: 15px; }
 .end .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
-.end canvas.bean { width: 150px; height: 180px; margin: 0 auto; }
+.end canvas.bean { width: 190px; height: 180px; margin: 0 auto; }
 #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
 
 /* ---- home ---- */
@@ -175,8 +175,8 @@ canvas.bean { display: block; width: 120px; height: 140px; }
 .hero .sub { text-align: center; font-size: 18px; color: var(--ink); font-weight: 700; }
 .hero .sub .sub-en { white-space: nowrap; }
 .hero .sub .en { color: var(--rust); white-space: nowrap; }
-.hero .beans { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin-top: 10px; direction: ltr; }
-.hero .beans canvas.bean { width: 150px; height: 180px; }
+.hero .beans { display: flex; justify-content: center; align-items: flex-end; gap: 0; margin-top: 10px; direction: ltr; }
+.hero .beans canvas.bean { width: 166px; height: 180px; }   /* ≈ 1.27 H wide: room for the A3 arms (a wave, a shrug) */
 .hero .cloud { position: absolute; background: #fff; border-radius: 999px; opacity: .85; z-index: 0; }
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
 .stat { background: var(--paper); border-radius: 18px; box-shadow: var(--shadow); padding: 14px; text-align: center; }
@@ -201,7 +201,7 @@ canvas.bean { display: block; width: 120px; height: 140px; }
 .ep .stars { direction: ltr; font-size: 15px; letter-spacing: 2px; }
 .ep .stars .off { opacity: .25; filter: grayscale(1); }
 .ep.locked { opacity: .6; filter: saturate(.3); }
-.ep.locked .soon { position: absolute; top: 12px; inset-inline-end: 12px; background: var(--ink); color: var(--cream); font-size: 13px; padding: 2px 10px; border-radius: 999px; font-weight: 800; }
+.ep.locked .soon { position: absolute; top: 6px; inset-inline-start: 6px; background: var(--ink); color: var(--cream); font-size: 13px; padding: 2px 10px; border-radius: 999px; font-weight: 800; }
 .ep .cta { display: flex; gap: 8px; align-items: center; margin-top: 6px; font-weight: 800; color: var(--navy); font-size: 15px; }
 footer.site { text-align: center; color: var(--ink-60); font-size: 14px; padding: 30px 0 40px; }
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: 999px; font-weight: 700; z-index: 30; opacity: 0; transition: opacity .2s; pointer-events: none; }
@@ -210,9 +210,9 @@ footer.site { text-align: center; color: var(--ink-60); font-size: 14px; padding
 @media (min-width: 700px) {
   :root { --gutter: 24px; }
   .hero h1 { font-size: 60px; }
-  .hero .beans canvas.bean { width: 190px; height: 228px; }
+  .hero .beans canvas.bean { width: 232px; height: 228px; }
   .eps { grid-template-columns: 1fr 1fr; }
-  .stage canvas.bean { width: 150px; height: 180px; }
+  .stage canvas.bean { width: 176px; height: 180px; }
   .stage .bubble { font-size: 26px; }
   .sentence { font-size: 36px; }
   .end .actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }

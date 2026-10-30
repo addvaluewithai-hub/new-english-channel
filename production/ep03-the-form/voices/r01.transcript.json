@@ -1,74 +1,78 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:43.829Z",
-  "duration_ms": 14000,
-  "word_count": 10,
-  "diarization": false,
-  "language_codes": [
-    "en-US"
-  ],
-  "recognized_text": "one two three four five six one eight nine ten",
-  "source_text": "One, two, three, four, five, six, seven, eight, nine, ten.",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "One, two, three, four, five, six, seven, eight, nine, ten."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 300,
-      "end_ms": 900,
-      "text": "one"
-    },
-    {
-      "start_ms": 1900,
-      "end_ms": 2400,
-      "text": "two"
-    },
-    {
-      "start_ms": 3400,
-      "end_ms": 3900,
-      "text": "three"
-    },
-    {
-      "start_ms": 5000,
-      "end_ms": 5600,
-      "text": "four"
-    },
-    {
-      "start_ms": 6600,
-      "end_ms": 7100,
-      "text": "five"
-    },
-    {
-      "start_ms": 8100,
-      "end_ms": 8600,
-      "text": "six"
-    },
-    {
-      "start_ms": 9600,
-      "end_ms": 10100,
-      "text": "one"
-    },
-    {
-      "start_ms": 11100,
-      "end_ms": 11500,
-      "text": "eight"
-    },
-    {
-      "start_ms": 12400,
-      "end_ms": 12900,
-      "text": "nine"
-    },
-    {
-      "start_ms": 13800,
-      "end_ms": 14000,
-      "text": "ten"
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:33:43.136Z",
+ "duration_ms": 7200,
+ "word_count": 10,
+ "diarization": false,
+ "language_codes": [
+  "en-US"
+ ],
+ "recognized_text": "one two three four five six seven eight nine ten",
+ "source_text": "One, two, three, four, five, six, seven, eight, nine, ten.",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "One, two, three, four, five, six, seven, eight, nine, ten."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 300,
+   "end_ms": 600,
+   "text": "one"
+  },
+  {
+   "start_ms": 1030,
+   "end_ms": 1430,
+   "text": "two"
+  },
+  {
+   "start_ms": 1700,
+   "end_ms": 2100,
+   "text": "three"
+  },
+  {
+   "start_ms": 2350,
+   "end_ms": 2750,
+   "text": "four"
+  },
+  {
+   "start_ms": 3040,
+   "end_ms": 3440,
+   "text": "five"
+  },
+  {
+   "start_ms": 3780,
+   "end_ms": 4280,
+   "text": "six"
+  },
+  {
+   "start_ms": 4560,
+   "end_ms": 4960,
+   "text": "seven"
+  },
+  {
+   "start_ms": 5260,
+   "end_ms": 5560,
+   "text": "eight"
+  },
+  {
+   "start_ms": 5890,
+   "end_ms": 6290,
+   "text": "nine"
+  },
+  {
+   "start_ms": 6620,
+   "end_ms": 6920,
+   "text": "ten"
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.24,
+  "removed_s": 3.88
+ }
 }

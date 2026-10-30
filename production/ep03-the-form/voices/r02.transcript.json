@@ -1,59 +1,63 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:56.615Z",
-  "duration_ms": 11600,
-  "word_count": 7,
-  "diarization": false,
-  "language_codes": [
-    "en-US"
-  ],
-  "recognized_text": "thirteen fourteen fifteen sixteen seventeen eighteen nineteen",
-  "source_text": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 200,
-      "end_ms": 1000,
-      "text": "thirteen"
-    },
-    {
-      "start_ms": 2200,
-      "end_ms": 3000,
-      "text": "fourteen"
-    },
-    {
-      "start_ms": 4000,
-      "end_ms": 4700,
-      "text": "fifteen"
-    },
-    {
-      "start_ms": 5800,
-      "end_ms": 6500,
-      "text": "sixteen"
-    },
-    {
-      "start_ms": 7500,
-      "end_ms": 8400,
-      "text": "seventeen"
-    },
-    {
-      "start_ms": 9300,
-      "end_ms": 10000,
-      "text": "eighteen"
-    },
-    {
-      "start_ms": 10800,
-      "end_ms": 11600,
-      "text": "nineteen"
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:33:41.998Z",
+ "duration_ms": 8210,
+ "word_count": 7,
+ "diarization": false,
+ "language_codes": [
+  "en-US"
+ ],
+ "recognized_text": "13 14 15 16 17 18 19",
+ "source_text": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 300,
+   "end_ms": 1100,
+   "text": "13"
+  },
+  {
+   "start_ms": 1520,
+   "end_ms": 2320,
+   "text": "14"
+  },
+  {
+   "start_ms": 2610,
+   "end_ms": 3310,
+   "text": "15"
+  },
+  {
+   "start_ms": 3740,
+   "end_ms": 4540,
+   "text": "16"
+  },
+  {
+   "start_ms": 4880,
+   "end_ms": 5780,
+   "text": "17"
+  },
+  {
+   "start_ms": 6060,
+   "end_ms": 6860,
+   "text": "18"
+  },
+  {
+   "start_ms": 7070,
+   "end_ms": 7970,
+   "text": "19"
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.24,
+  "removed_s": 3.03
+ }
 }

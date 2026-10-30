@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:12:41.573Z",
+  "duration_ms": 10400,
+  "word_count": 12,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "الحلقه الجايه اول كلاس زميله جديده وسؤال شكله سهل وانا اتلخبطت تاني",
+  "source_text": "الحلقة الجاية: أول كلاس. زميلة جديدة… وسؤال شكله سهل: Where are you from ؟ وأنا… اتلخبطت تاني.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "الحلقة الجاية: أول كلاس. زميلة جديدة… وسؤال شكله سهل: Where are you from ؟ وأنا… اتلخبطت تاني."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 600,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1000,
+      "text": "الجايه"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2000,
+      "text": "اول"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2400,
+      "text": "كلاس"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3400,
+      "text": "زميله"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 3700,
+      "text": "جديده"
+    },
+    {
+      "start_ms": 4700,
+      "end_ms": 5400,
+      "text": "وسؤال"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5800,
+      "text": "شكله"
+    },
+    {
+      "start_ms": 5800,
+      "end_ms": 6000,
+      "text": "سهل"
+    },
+    {
+      "start_ms": 8400,
+      "end_ms": 8600,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 9600,
+      "end_ms": 10100,
+      "text": "اتلخبطت"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 10400,
+      "text": "تاني"
+    }
+  ]
+}

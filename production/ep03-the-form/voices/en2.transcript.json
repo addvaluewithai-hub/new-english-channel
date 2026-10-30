@@ -1,96 +1,100 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:13:00.638Z",
-  "duration_ms": 7700,
-  "word_count": 11,
-  "diarization": true,
-  "language_codes": [
-    "en-US"
-  ],
-  "recognized_text": "You have, not I have. Say I'm 26. Oh, I'm 26.",
-  "source_text": "Youssef! Not \"I have\". Say: I'm 26. Oh! I'm 26!",
-  "source_turns": [
-    {
-      "index": 0,
-      "speaker": "Sara",
-      "text": "Youssef! Not \"I have\". Say: I'm 26."
-    },
-    {
-      "index": 1,
-      "speaker": "Youssef",
-      "text": "Oh! I'm 26!"
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 300,
-      "end_ms": 400,
-      "text": "You",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 400,
-      "end_ms": 1000,
-      "text": "have,",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 1400,
-      "end_ms": 1900,
-      "text": "not",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 2000,
-      "end_ms": 2100,
-      "text": "I",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 2100,
-      "end_ms": 2800,
-      "text": "have.",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 3200,
-      "end_ms": 3600,
-      "text": "Say",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 3800,
-      "end_ms": 4000,
-      "text": "I'm",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 4000,
-      "end_ms": 4800,
-      "text": "26.",
-      "speaker": "spk:0"
-    },
-    {
-      "start_ms": 5600,
-      "end_ms": 6000,
-      "text": "Oh,",
-      "speaker": "spk:1"
-    },
-    {
-      "start_ms": 6600,
-      "end_ms": 6900,
-      "text": "I'm",
-      "speaker": "spk:1"
-    },
-    {
-      "start_ms": 6900,
-      "end_ms": 7700,
-      "text": "26.",
-      "speaker": "spk:1"
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:13:00.638Z",
+ "duration_ms": 7780,
+ "word_count": 11,
+ "diarization": true,
+ "language_codes": [
+  "en-US"
+ ],
+ "recognized_text": "You have, not I have. Say I'm 26. Oh, I'm 26.",
+ "source_text": "Youssef! Not \"I have\". Say: I'm 26. Oh! I'm 26!",
+ "source_turns": [
+  {
+   "index": 0,
+   "speaker": "Sara",
+   "text": "Youssef! Not \"I have\". Say: I'm 26."
+  },
+  {
+   "index": 1,
+   "speaker": "Youssef",
+   "text": "Oh! I'm 26!"
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 300,
+   "end_ms": 400,
+   "text": "You",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 400,
+   "end_ms": 1000,
+   "text": "have,",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 1400,
+   "end_ms": 1900,
+   "text": "not",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 2000,
+   "end_ms": 2100,
+   "text": "I",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 2100,
+   "end_ms": 2800,
+   "text": "have.",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 3200,
+   "end_ms": 3600,
+   "text": "Say",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 3800,
+   "end_ms": 4000,
+   "text": "I'm",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 4000,
+   "end_ms": 4800,
+   "text": "26.",
+   "speaker": "spk:0"
+  },
+  {
+   "start_ms": 5390,
+   "end_ms": 5790,
+   "text": "Oh,",
+   "speaker": "spk:1"
+  },
+  {
+   "start_ms": 6380,
+   "end_ms": 6680,
+   "text": "I'm",
+   "speaker": "spk:1"
+  },
+  {
+   "start_ms": 6680,
+   "end_ms": 7480,
+   "text": "26.",
+   "speaker": "spk:1"
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.55,
+  "removed_s": 0.22
+ }
 }

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:33:41.998Z",
+  "duration_ms": 11000,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "13 14 15 16 17 18 19",
+  "source_text": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 1100,
+      "text": "13"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2800,
+      "text": "14"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 4300,
+      "text": "15"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 6000,
+      "text": "16"
+    },
+    {
+      "start_ms": 6800,
+      "end_ms": 7700,
+      "text": "17"
+    },
+    {
+      "start_ms": 8600,
+      "end_ms": 9400,
+      "text": "18"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 11000,
+      "text": "19"
+    }
+  ]
+}

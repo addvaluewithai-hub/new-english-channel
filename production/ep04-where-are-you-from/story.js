@@ -13,10 +13,10 @@ import { cue } from './cues.js';
 
 SPEAKER.ana = { name: 'ANA', tab: '#147A72', hi: P.mustard };   // Ana's name tab (dark teal), added here so the shared ui.js stays unchanged
 const H = { youssef: 300, mia: 276, ana: 266 };
-const SEAT = 32;   // a seated student sinks this far behind the desk
+const SEAT = 22;   // a seated student sinks this far behind the desk
 const X = { mia: 470, ana: CLASS.desks.ana, youssef: CLASS.desks.youssef };
 const WIDE = { x: 960, y: 548, z: 1.04 };
-const SARA = { x: 760, y: 560, z: 1.5 }, ANA1 = { x: 1180, y: 520, z: 1.4 }, YOU1 = { x: 1250, y: 520, z: 1.4 }, PAIR = { x: 1262, y: 610, z: 1.72 };
+const SARA = { x: 700, y: 560, z: 1.5 }, ANA1 = { x: 1180, y: 520, z: 1.4 }, YOU1 = { x: 1250, y: 520, z: 1.4 }, PAIR = { x: 1262, y: 610, z: 1.72 };
 let S = null;
 
 // ---- camera: keys fold like poses; z eases in log space; d = 0 is a cut ----
@@ -121,7 +121,7 @@ export function buildStory() {
   const MK = mC.keys;
   // the opening: she faces the board and points at it while the question writes itself; then turns to welcome Youssef
   MK.push({ t: 0, turn: .75, face: F('happy', { lx: .8, ly: -.4, happy: .3 }), armR: FRONT(ARM.up), d: .01 },
-    { t: bEnter + .8, turn: .45, face: F('happy', { lx: .7, ly: -.05, happy: .5 }), armR: ARM.rest, d: .4 },
+    { t: 2.5, turn: .45, face: F('happy', { lx: .7, ly: -.05, happy: .5 }), armR: ARM.rest, d: .4 },
     { t: tArrive - .3, armL: DIP, d: .15 }, { t: tArrive - .1, armL: ARM.wave, face: F('joy', { lx: .7 }), d: .2 }, { t: tArrive + 1.0, armL: ARM.rest, face: sRest, d: .3 },
     { t: tBoardW - .3, turn: .8, face: F('happy', { lx: .8, ly: -.45, happy: .3 }), armR: FRONT({ ...ARM.up, dx: .16 }), d: .3 },
     { t: tEasy - .1, turn: .42, armR: ARM.rest, face: sRest, d: .4 });
@@ -152,7 +152,7 @@ export function buildStory() {
   if (I0) mC.jumps.push({ t: I0.t0 - .1, h: .03, d: .3 });
   if (F2) mC.jumps.push({ t: F2.t0 - .1, h: .03, d: .3 });
   if (F7) mC.jumps.push({ t: F7.t1 - .2, h: .03, d: .3 });
-  mC.blinks.push(bEnter + .8, tBoardW - .3, tEasy - .1, bUn + .2);
+  mC.blinks.push(2.5, tBoardW - .3, tEasy - .1, bUn + .2);
 
   // ================= Ana: seated at her desk; stands to introduce herself; talks to Youssef =================
   const aRest = F('happy', { lx: -.5, happy: .35 });
@@ -250,12 +250,12 @@ export function buildStory() {
 
   // ================= board writing + map pins (live parts of the set) =================
   S.board = t => {
-    const out = [{ text: 'Where are you from?', x: 865, y: 292, size: 64, col: P.navy, p: Math.max(seg(t, .05, .06) * (t < bEnter + .7 ? seg(t, 0, .9) : 1), seg(t, tBoardW - .1, tBoardW + 1.2)) }];
+    const out = [{ text: 'Where are you from?', x: 865, y: 300, size: 56, col: P.navy, p: Math.max(seg(t, .05, .06) * (t < bEnter + .7 ? seg(t, 0, .9) : 1), seg(t, tBoardW - .1, tBoardW + 1.2)) }];
     // the opening: the question is already half written as the scene starts, completed while she points; after ar02 it is whole
-    out[0].p = t < bEnter + .7 ? lerp(.45, .62, seg(t, 0, bEnter + .7)) : t < tBoardW - .1 ? .62 : lerp(.62, 1, eio(seg(t, tBoardW - .1, tBoardW + 1.1)));
+    out[0].p = eio(seg(t, .4, 2.6));   // Sara points at the board while the question writes itself; on "السبورة" the camera pushes to it
     if (F0 && t > F0.t0 - .35) {
       const w0 = F0.t0 - .35;
-      out.push({ text: 'I am live in Queens.', x: 865, y: 430, size: 60, col: P.navy, p: seg(t, w0, w0 + 1.0), hl: [1, 1, P.red], strike: [1, eo(seg(t, w0 + 1.0, w0 + 1.35))], under: [2, eo(seg(t, w0 + 1.35, w0 + 1.7)), P.teal] });
+      out.push({ text: 'I am live in Queens.', x: 865, y: 440, size: 56, col: P.navy, p: seg(t, w0, w0 + 1.0), hl: [1, 1, P.red], strike: [1, eo(seg(t, w0 + 1.0, w0 + 1.35))], under: [2, eo(seg(t, w0 + 1.35, w0 + 1.7)), P.teal] });
     }
     return out;
   };
@@ -268,25 +268,25 @@ export function buildStory() {
   // ================= cameras =================
   const camKeys = [
     { t: -1, ...WIDE }, { t: .2, d: Math.max(1, tArrive - .2), x: 1000, y: 552, z: 1.08 },
-    { t: tBoardW - .35, d: 1.2, x: 866, y: 420, z: 1.62 },                    // push to the board
-    { t: bTitle - .2, d: 0, x: 1340, y: 610, z: 1.5 }, { t: bTitle - .15, d: Math.max(1, it.t0 - bTitle), x: 1360, y: 612, z: 1.62 },   // Youssef, confident, under the title
-    { t: it.t0, d: 0, ...SARA }, { t: it.t0 + .1, d: 2, x: 770, y: 560, z: 1.55 },
+    { t: tBoardW - .35, d: 1.2, x: 900, y: 462, z: 1.42 },                    // push to the board
+    { t: bTitle - .2, d: 0, x: 1280, y: 600, z: 1.78 }, { t: bTitle - .15, d: Math.max(1, it.t0 - bTitle), x: 1290, y: 602, z: 1.86 },   // Youssef, confident, under the title
+    { t: it.t0, d: 0, ...SARA }, { t: it.t0 + .1, d: 2, x: 705, y: 560, z: 1.55 },
     { t: bAnaUp - .25, d: 0, ...ANA1 }, { t: bAnaUp, d: Math.max(1, bAnaDown - bAnaUp), x: 1170, y: 524, z: 1.48 },
     { t: I2 ? I2.t0 - .1 : bAnaDown, d: 0, ...WIDE },
     { t: bYouUp - .3, d: 0, ...YOU1 }, { t: bYouUp, d: Math.max(1, bFreeze - bYouUp), x: 1270, y: 540, z: 1.62 },
     // after the freeze: Sara at the board for the fix; Youssef's "Oh! Sorry."; the wide for "Where in Egypt?"; Youssef for "Cairo!"
-    { t: bUn, d: 0, ...SARA }, { t: bUn + .05, d: 2.5, x: 790, y: 540, z: 1.58 },
+    { t: bUn, d: 0, ...SARA }, { t: bUn + .05, d: 2.5, x: 712, y: 540, z: 1.58 },
     { t: F1 ? F1.t0 - .2 : bUn + 3, d: 0, ...PAIR },
     { t: F2 ? F2.t0 - .2 : bUn + 6, d: 0, ...WIDE },
     { t: F3 ? F3.t0 - .25 : bCairo - .25, d: 0, ...YOU1 },
     { t: n4 ? n4.t0 : bCairo + 1, d: Math.max(1, (n4 ? n4.t1 : bCairo + 6) - (n4 ? n4.t0 : bCairo + 1)), x: 1400, y: 640, z: 2.2 },
     { t: F4 ? F4.t0 - .45 : fx.t1 - 8, d: 0, ...PAIR }, { t: F4 ? F4.t0 - .4 : fx.t1 - 8, d: 4, x: 1262, y: 616, z: 1.82 },
     { t: F7 ? F7.t0 - .3 : fx.t1 - 3, d: 0, ...WIDE },
-    { t: hk.t0, d: 0, ...SARA }, { t: hk.t0 + .1, d: 3, x: 740, y: 566, z: 1.62 },
+    { t: hk.t0, d: 0, ...SARA }, { t: hk.t0 + .1, d: 3, x: 700, y: 566, z: 1.62 },
     { t: bStuck, d: 0, x: 1360, y: 690, z: 2.5 }, { t: bStuck + .05, d: Math.max(1, rc.t0 - bStuck), x: 1400, y: 690, z: 3.0 },
   ];
   S.cam = camKeys;
-  S.camFreeze = { x: 1330, y: 712, z: 2.6 };
+  S.camFreeze = { x: 1400, y: 650, z: 2.2 };
 
   // ================= sound cues =================
   cue(0, 'ambience_class', { dur: rc.t0, note: 'classroom bed with a little street through the window' });
@@ -294,7 +294,7 @@ export function buildStory() {
   steps(yC, 'youssef', 0, it.t0);
   cue(tSit, 'chair', { note: 'he sits down' }); cue(S.formOnDesk, 'paper', { note: 'the form on the desk' });
   cue(tMate - .1, 'pop', { note: 'Ana waves' });
-  cue(tBoardW - .1, 'write', { dur: 1.2, note: 'the question is written on the board' });
+  cue(.4, 'write', { dur: 2.2, note: 'the question writes itself on the board' }); cue(tBoardW - .3, 'whoosh', { note: 'push to the board' });
   cue(bTitle - .2, 'cut');
   cue(it.t0, 'cut', { note: 'Sara at the board' });
   for (const L of [I0, I1, I2, I3, I4, F0, F1, F2, F3, F4, F5, F6, F7, K0]) if (L) cue(L.t0 - .18, 'bubble', { who: L.who, text: L.text });

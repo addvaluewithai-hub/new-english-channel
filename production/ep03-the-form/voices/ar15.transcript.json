@@ -1,74 +1,78 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:37.126Z",
-  "duration_ms": 5400,
-  "word_count": 10,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "قلتها؟ برافو. واكتب سنك في الكومنتات بالحروف الانجليزي مش بالارقام.",
-  "source_text": "قلتها؟ برافو! واكتب سنّك في الكومنتات… بالحروف الإنجليزي، مش بالأرقام.",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "قلتها؟ برافو! واكتب سنّك في الكومنتات… بالحروف الإنجليزي، مش بالأرقام."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 100,
-      "end_ms": 500,
-      "text": "قلتها؟"
-    },
-    {
-      "start_ms": 1000,
-      "end_ms": 1400,
-      "text": "برافو."
-    },
-    {
-      "start_ms": 2000,
-      "end_ms": 2300,
-      "text": "واكتب"
-    },
-    {
-      "start_ms": 2300,
-      "end_ms": 2600,
-      "text": "سنك"
-    },
-    {
-      "start_ms": 2600,
-      "end_ms": 2700,
-      "text": "في"
-    },
-    {
-      "start_ms": 2700,
-      "end_ms": 3500,
-      "text": "الكومنتات"
-    },
-    {
-      "start_ms": 3600,
-      "end_ms": 4200,
-      "text": "بالحروف"
-    },
-    {
-      "start_ms": 4200,
-      "end_ms": 4800,
-      "text": "الانجليزي"
-    },
-    {
-      "start_ms": 4800,
-      "end_ms": 5000,
-      "text": "مش"
-    },
-    {
-      "start_ms": 5000,
-      "end_ms": 5400,
-      "text": "بالارقام."
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:12:37.126Z",
+ "duration_ms": 5760,
+ "word_count": 10,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "قلتها؟ برافو. واكتب سنك في الكومنتات بالحروف الانجليزي مش بالارقام.",
+ "source_text": "قلتها؟ برافو! واكتب سنّك في الكومنتات… بالحروف الإنجليزي، مش بالأرقام.",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "قلتها؟ برافو! واكتب سنّك في الكومنتات… بالحروف الإنجليزي، مش بالأرقام."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 100,
+   "end_ms": 500,
+   "text": "قلتها؟"
+  },
+  {
+   "start_ms": 1000,
+   "end_ms": 1400,
+   "text": "برافو."
+  },
+  {
+   "start_ms": 2000,
+   "end_ms": 2300,
+   "text": "واكتب"
+  },
+  {
+   "start_ms": 2300,
+   "end_ms": 2600,
+   "text": "سنك"
+  },
+  {
+   "start_ms": 2600,
+   "end_ms": 2700,
+   "text": "في"
+  },
+  {
+   "start_ms": 2700,
+   "end_ms": 3500,
+   "text": "الكومنتات"
+  },
+  {
+   "start_ms": 3600,
+   "end_ms": 4200,
+   "text": "بالحروف"
+  },
+  {
+   "start_ms": 4200,
+   "end_ms": 4800,
+   "text": "الانجليزي"
+  },
+  {
+   "start_ms": 4800,
+   "end_ms": 5000,
+   "text": "مش"
+  },
+  {
+   "start_ms": 5000,
+   "end_ms": 5400,
+   "text": "بالارقام."
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.45,
+  "removed_s": 0.0
+ }
 }

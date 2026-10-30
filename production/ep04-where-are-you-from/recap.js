@@ -45,7 +45,7 @@ export function buildRecap() {
   // presenter Youssef mouths his narration clips (the diary voice's viseme track) and his own model lines; Sara hers
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Sara left facing right: armL) ----
-  const hiT = it('times').t0;
+  const hiT = it('from').t0;
   const YK = 1.6, MK_ = 1.5, YX = 1580, MX = 395;   // 110 px in from the frame edges, clear of the text column (rows fit to 820 px) and the plate
   // Youssef's outer arm (armR: screen-right, he faces left) must never leave the frame: a pose whose hand would pass x = 1880 is
   // pulled in (hand x ≈ YX + shoulder .34 H + dx H + the wave swing + the hand radius, H = 300 · YK)
@@ -278,7 +278,7 @@ function wrongRow(c, t, a, words, tIn, i0, i1, note, y, size = 92) {
 // a model line typeset on its speaker's rail, with its Arabic meaning, a ✓ after it is spoken, and optional marked words
 function modelRow(c, t, a, id, who, y, size, mean, o = {}) {
   const l = LINE(id); const items = fromLine(id).map((w, i) => ({ ...w, mark: o.mark && o.mark.includes(i) ? eo(seg(t, (l ? l.t1 : 0) - .1, (l ? l.t1 : 0) + .3)) : 0 }));
-  const sz = fit(items, size, 820);
+  const sz = fit(items, size, 740);
   const row = drawRow(c, t, items, { x: CX + (o.dx || 0), y, size: sz, who, alpha: a, ghost: o.ghost, mean, meanSize: o.meanSize || 40, meanHi: o.meanHi || 0 });
   if (row && l && o.tick) check(c, row.x + row.W / 2 + 56, y - sz * .55, 30, seg(t, l.t1 + .1, l.t1 + .45));
   return row;
@@ -286,7 +286,7 @@ function modelRow(c, t, a, id, who, y, size, mean, o = {}) {
 const ITEM = {
   // "Where are you from?" → "I'm from Egypt." (I from Egypt ✗)
   from(c, t, a, it) {
-    wrongRow(c, t, a, ['I', 'from', 'Egypt.'], R.tIFrom, 0, 1, "ناقصة 'm", 250);
+    wrongRow(c, t, a, ['I', 'from', 'Egypt.'], R.tIFrom, 0, 1, 'ناقصة am', 250);
     modelRow(c, t, a, 'r01', 'mia', 470, 96, 'إنت منين؟', { ghost: it.t0, meanHi: seg(t, R.tWhereQ - .1, R.tWhereQ + .2) * (1 - seg(t, R.tImFrom7 - .2, R.tImFrom7)) });
     modelRow(c, t, a, 'r02', 'youssef', 660, 110, 'أنا من مصر.', { ghost: it.t0, tick: true, mark: [0] });
   },
@@ -298,14 +298,15 @@ const ITEM = {
   },
   // the main point: I'm from (with be) / I live (no be)
   rule(c, t, a, it) {
-    const a1 = a * seg(t, R.tImFrom9 - .1, R.tImFrom9 + .2), a2 = a * seg(t, R.tILive9 - .1, R.tILive9 + .2), S1 = 124;
+    const a1 = a * seg(t, R.tImFrom9 - .1, R.tImFrom9 + .2), a2 = a * seg(t, R.tILive9 - .1, R.tILive9 + .2);
+    const S1 = Math.min(116, fit(['I', 'am', 'live', 'in', 'Queens.'].map(w => ({ w })), 116, 740));
     if (a1 > 0) {
       const row = drawRow(c, t, ["I'm", 'from', 'Egypt.'].map(w => ({ w, t: -1, typed: true })), { x: CX, y: 330, size: S1, who: 'youssef', alpha: a1 });
       if (row) {   // the 'm lights up: be is here
         const k = eo(seg(t, R.tAm9 - .1, R.tAm9 + .25)), x0 = wordX(row, 0) + mw('I', S1) - 4, w = mw("'m", S1) + 10;
         c.save(); c.globalAlpha = a1; rr(c, x0, 330 - S1 * .78, w * k, S1 * .96, 16); c.fillStyle = rgba(P.mustard, .55); c.fill();
         c.font = FONT(S1); c.textAlign = 'left'; c.fillStyle = P.ink; if (k > 0) c.fillText("'m", x0 + 4, 330);
-        tag(c, "be ✓", wordX(row, 0) - 40, 330 - S1 * .45, k, P.leaf, -1); c.restore();
+        tag(c, 'am ✓', wordX(row, 0) + 70, 330 - S1 - 30, k, P.leaf, -1); c.restore();
       }
     }
     if (a2 > 0) {
@@ -317,7 +318,7 @@ const ITEM = {
         if (k > 0) { c.beginPath(); c.moveTo(x0, 620 - S1 * .3); c.lineTo(x0 + w * k, 620 - S1 * .38); c.stroke(); }
         const lv = eo(seg(t, R.tVerb - .1, R.tVerb + .3));   // "live" is the verb: a teal underline
         if (lv > 0) { const lx = wordX(row, 2); c.strokeStyle = P.teal; c.lineWidth = 9; c.beginPath(); c.moveTo(lx, 620 + 20); c.lineTo(lx + row.out[2].ww * lv, 620 + 20); c.stroke(); }
-        tag(c, "no be", wordX(row, 0) - 40, 620 - S1 * .45, k, P.red, -1); c.restore();
+        tag(c, 'no am', wordX(row, 1) + 120, 620 - S1 - 30, k, P.red, -1); c.restore();
       }
     }
   },
@@ -328,10 +329,9 @@ const ITEM = {
     // the two short answers side by side: "Yes, I am." (typeset on the narration) and "No, I'm not." (Sara's model line)
     const yA = a * seg(t, R.tYes - .1, R.tYes + .2);
     if (yA > 0) {
-      const row = drawRow(c, t, ['Yes,', 'I', 'am.'].map((w, i) => ({ w, t: R.tYes - .05 + i * .08 })), { x: CX - 230, y: 590, size: 96, who: 'mia', alpha: yA, mean: 'أيوه.', meanSize: 40 });
-      if (row) check(c, row.x + row.W / 2 + 46, 590 - 52, 26, seg(t, R.tYes + .4, R.tYes + .7), P.leaf);
+      drawRow(c, t, ['Yes,', 'I', 'am.'].map((w, i) => ({ w, t: R.tYes - .05 + i * .08 })), { x: CX + 40, y: 500, size: 96, who: 'mia', alpha: yA, mean: 'أيوه.', meanSize: 40 });
     }
-    modelRow(c, t, a * seg(t, R.tNo - .1, R.tNo + .2), 'r08', 'mia', 590, 96, 'لأ.', { ghost: R.tNo - .1, dx: 250 });
+    modelRow(c, t, a * seg(t, R.tNo - .1, R.tNo + .2), 'r08', 'mia', 690, 96, 'لأ.', { ghost: R.tNo - .1, dx: 40 });
   },
   // in + a city: "in Cairo, in New York" — never "at Cairo"
   in(c, t, a, it) {
@@ -340,15 +340,15 @@ const ITEM = {
       c.fillStyle = rgba(P.mustard, .55); rr(c, -w / 2 + 26, 20, mw('in', 64) + 8, 10, 5); c.fill(); c.restore(); };
     chip('in Cairo', CX - 230, 250, seg(t, R.tInCairo - .1, R.tInCairo + .3)); chip('in New York', CX + 210, 250, seg(t, R.tInNY - .1, R.tInNY + .3));
     wrongRow(c, t, a, ['I', 'live', 'at', 'Cairo.'], R.tAtCairo, 2, 2, 'المدينة: in', 440, 96);
-    modelRow(c, t, a, 'r09', 'mia', 680, 110, 'أنا ساكنة في نيويورك.', { ghost: R.tAtCairo + .9, tick: true, mark: [2] });
+    modelRow(c, t, a, 'r09', 'mia', 680, 110, 'أنا ساكنة في نيويورك.', { ghost: it.t0, tick: true, mark: [2] });
   },
   // country → nationality, both with a capital letter
   nat(c, t, a, it) {
     const rows = [['r10', 'youssef', 'مصر ← مصري'], ['r11', 'mia', 'إسبانيا ← إسباني'], ['r12', 'mia', 'أمريكا ← أمريكي']];
-    const cap = eo(seg(t, R.tCap - .1, R.tCap + .3)), S2 = 100;
+    const cap = eo(seg(t, R.tCap - .1, R.tCap + .3)), S2 = 80;
     rows.forEach(([id, who, mean], i) => {
       const y = 300 + i * 190, l = LINE(id); const words = l ? l.tok : [];
-      const items = words.map((o, j) => ({ w: o.w.replace(/[.]$/, ''), t: o.t0 - .06, s0: o.t0, s1: o.t1, gap: j === 0 ? 3.2 : 1 }));
+      const items = words.map((o, j) => ({ w: o.w.replace(/[.]$/, ''), t: o.t0 - .06, s0: o.t0, s1: o.t1, gap: j === 0 ? 2.6 : 1 }));
       if (!items.length) return;
       const row = drawRow(c, t, items, { x: CX, y, size: S2, who, alpha: a, ghost: it.t0, mean, meanSize: 38 });
       if (!row) return;

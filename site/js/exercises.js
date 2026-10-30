@@ -83,7 +83,7 @@ async function fix(root, item, ctx) {
           res({ correct: tries === 1 });
         } else {
           b.classList.add('wrong'); b.disabled = true; ctx.react('oops');
-          ctx.feedback('bad', { head: pick(T.bad), why: item.span ? `الغلط في «${esc(item.span)}»` : '' });
+          ctx.feedback('bad', { head: pick(T.bad), why: item.span ? `الغلط في «${enHTML(item.span)}»` : '' });
         }
       });
       chips.append(b);

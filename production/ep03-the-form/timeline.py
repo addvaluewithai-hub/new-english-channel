@@ -17,11 +17,11 @@ b = Builder(HERE, display=DISPLAY,
 line = lambda pred: [l for l in b.T['lines'] if pred(l['text'])][-1]
 # 1. Opening: an early, calm walk to school with the form
 b.section('open')
-b.hold(.6)
+b.hold(.4)
 b.put('ar01', .4)
 b.put('ar02', .5)
 b.beat('title')
-b.hold(3.2)
+b.hold(3.0)
 # 2a. The reception desk: "I have 26 years." -> freeze
 b.section('desk')
 b.hold(.5)
@@ -51,7 +51,7 @@ b.put('ar05', .5)
 b.section('room')
 b.put('en4', .3, scene='room')
 b.beat('walk')
-b.put('ar06', 1.0)
+b.put('ar06', .8)
 b.beat('door_open', b.T['narration'][-1]['t0'] + 1.2)
 # 3. Recap
 b.section('recap')
@@ -62,7 +62,7 @@ b.recap([('ar07', .4, 'count'), ('r01', 'R', 'count'),
          ('ar09', .4, 'ty'), ('r03', 'R', 'ty'),
          ('ar10', .4, 'stress'), ('r04', 'R', 'stress'),
          ('ar11', .4, 'age'), ('r05', .4, 'age'), ('r06', .5, 'age'), ('r07', 'R', 'age'),
-         ('ar12', 1.4, 'wrong'),
+         ('ar12', 1.2, 'wrong'),
          ('ar13', .4, 'order'), ('r08', 'R', 'order')])
 # 4. Your turn
 b.section('turn')

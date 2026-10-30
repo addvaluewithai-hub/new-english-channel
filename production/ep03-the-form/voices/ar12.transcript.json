@@ -1,54 +1,58 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:37.614Z",
-  "duration_ms": 5400,
-  "word_count": 6,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "لكن ما تقولش ولا من غير",
-  "source_text": "لكن ما تقولش: I have 26 years … ولا: I'm 26 years ، من غير old .",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "لكن ما تقولش: I have 26 years … ولا: I'm 26 years ، من غير old ."
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 300,
-      "end_ms": 500,
-      "text": "لكن"
-    },
-    {
-      "start_ms": 500,
-      "end_ms": 600,
-      "text": "ما"
-    },
-    {
-      "start_ms": 600,
-      "end_ms": 1000,
-      "text": "تقولش"
-    },
-    {
-      "start_ms": 2800,
-      "end_ms": 3400,
-      "text": "ولا"
-    },
-    {
-      "start_ms": 5000,
-      "end_ms": 5200,
-      "text": "من"
-    },
-    {
-      "start_ms": 5200,
-      "end_ms": 5400,
-      "text": "غير"
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:12:37.614Z",
+ "duration_ms": 6240,
+ "word_count": 6,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "لكن ما تقولش ولا من غير",
+ "source_text": "لكن ما تقولش: I have 26 years … ولا: I'm 26 years ، من غير old .",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "لكن ما تقولش: I have 26 years … ولا: I'm 26 years ، من غير old ."
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 300,
+   "end_ms": 500,
+   "text": "لكن"
+  },
+  {
+   "start_ms": 500,
+   "end_ms": 600,
+   "text": "ما"
+  },
+  {
+   "start_ms": 600,
+   "end_ms": 1000,
+   "text": "تقولش"
+  },
+  {
+   "start_ms": 2800,
+   "end_ms": 3400,
+   "text": "ولا"
+  },
+  {
+   "start_ms": 5000,
+   "end_ms": 5200,
+   "text": "من"
+  },
+  {
+   "start_ms": 5200,
+   "end_ms": 5400,
+   "text": "غير"
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.45,
+  "removed_s": 0.0
+ }
 }

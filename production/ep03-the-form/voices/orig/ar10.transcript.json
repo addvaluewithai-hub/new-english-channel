@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T18:33:41.704Z",
+  "duration_ms": 8100,
+  "word_count": 14,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وخلي بالك من الضغطه. في تين الضغطه في الاخر. وفي تي الضغطه في الاول.",
+  "source_text": "وخلي بالك من الضغطة: في -teen الضغطة في الآخر… وفي tee الضغطة في الأول.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وخلي بالك من الضغطة: في -teen الضغطة في الآخر… وفي tee الضغطة في الأول."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 800,
+      "text": "وخلي"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1100,
+      "text": "بالك"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1200,
+      "text": "من"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1800,
+      "text": "الضغطه."
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2600,
+      "text": "في"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3600,
+      "text": "تين"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4400,
+      "text": "الضغطه"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4500,
+      "text": "في"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5000,
+      "text": "الاخر."
+    },
+    {
+      "start_ms": 5600,
+      "end_ms": 5900,
+      "text": "وفي"
+    },
+    {
+      "start_ms": 6300,
+      "end_ms": 6700,
+      "text": "تي"
+    },
+    {
+      "start_ms": 7300,
+      "end_ms": 7600,
+      "text": "الضغطه"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 7601,
+      "text": "في"
+    },
+    {
+      "start_ms": 7600,
+      "end_ms": 8100,
+      "text": "الاول."
+    }
+  ]
+}

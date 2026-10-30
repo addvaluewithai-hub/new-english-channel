@@ -1,114 +1,118 @@
 {
-  "schema_version": 1,
-  "type": "word_timestamps",
-  "alignment_mode": "whole_audio_gemini_transcribe",
-  "alignment_provider": "gemini",
-  "alignment_model": "gemini-3.5-transcribe",
-  "generated_at": "2026-10-30T18:12:38.581Z",
-  "duration_ms": 10800,
-  "word_count": 18,
-  "diarization": false,
-  "language_codes": [
-    "ar-EG"
-  ],
-  "recognized_text": "يعني عندي 26 سنة. ترجمتها من العربي كلمة كلمة. وهي بصت لي كاني شايل السنين دي في شنطتي.",
-  "source_text": "I have 26 years … يعني: عندي ستة وعشرين سنة. ترجمتها من العربي كلمة كلمة… وهي بصّتلي كإني شايل السنين دي في شنطتي!",
-  "source_turns": [
-    {
-      "index": 0,
-      "text": "I have 26 years … يعني: عندي ستة وعشرين سنة. ترجمتها من العربي كلمة كلمة… وهي بصّتلي كإني شايل السنين دي في شنطتي!"
-    }
-  ],
-  "words": [
-    {
-      "start_ms": 2800,
-      "end_ms": 3600,
-      "text": "يعني"
-    },
-    {
-      "start_ms": 3700,
-      "end_ms": 4000,
-      "text": "عندي"
-    },
-    {
-      "start_ms": 4000,
-      "end_ms": 4600,
-      "text": "26"
-    },
-    {
-      "start_ms": 4600,
-      "end_ms": 5000,
-      "text": "سنة."
-    },
-    {
-      "start_ms": 6400,
-      "end_ms": 6800,
-      "text": "ترجمتها"
-    },
-    {
-      "start_ms": 6800,
-      "end_ms": 7000,
-      "text": "من"
-    },
-    {
-      "start_ms": 7000,
-      "end_ms": 7400,
-      "text": "العربي"
-    },
-    {
-      "start_ms": 7400,
-      "end_ms": 7800,
-      "text": "كلمة"
-    },
-    {
-      "start_ms": 7800,
-      "end_ms": 8600,
-      "text": "كلمة."
-    },
-    {
-      "start_ms": 8700,
-      "end_ms": 8800,
-      "text": "وهي"
-    },
-    {
-      "start_ms": 8800,
-      "end_ms": 9200,
-      "text": "بصت"
-    },
-    {
-      "start_ms": 9200,
-      "end_ms": 9300,
-      "text": "لي"
-    },
-    {
-      "start_ms": 9300,
-      "end_ms": 9600,
-      "text": "كاني"
-    },
-    {
-      "start_ms": 9600,
-      "end_ms": 9900,
-      "text": "شايل"
-    },
-    {
-      "start_ms": 9900,
-      "end_ms": 10200,
-      "text": "السنين"
-    },
-    {
-      "start_ms": 10200,
-      "end_ms": 10300,
-      "text": "دي"
-    },
-    {
-      "start_ms": 10300,
-      "end_ms": 10400,
-      "text": "في"
-    },
-    {
-      "start_ms": 10400,
-      "end_ms": 10800,
-      "text": "شنطتي."
-    }
-  ]
+ "schema_version": 1,
+ "type": "word_timestamps",
+ "alignment_mode": "whole_audio_gemini_transcribe",
+ "alignment_provider": "gemini",
+ "alignment_model": "gemini-3.5-transcribe",
+ "generated_at": "2026-10-30T18:12:38.581Z",
+ "duration_ms": 11670,
+ "word_count": 18,
+ "diarization": false,
+ "language_codes": [
+  "ar-EG"
+ ],
+ "recognized_text": "يعني عندي 26 سنة. ترجمتها من العربي كلمة كلمة. وهي بصت لي كاني شايل السنين دي في شنطتي.",
+ "source_text": "I have 26 years … يعني: عندي ستة وعشرين سنة. ترجمتها من العربي كلمة كلمة… وهي بصّتلي كإني شايل السنين دي في شنطتي!",
+ "source_turns": [
+  {
+   "index": 0,
+   "text": "I have 26 years … يعني: عندي ستة وعشرين سنة. ترجمتها من العربي كلمة كلمة… وهي بصّتلي كإني شايل السنين دي في شنطتي!"
+  }
+ ],
+ "words": [
+  {
+   "start_ms": 2780,
+   "end_ms": 3580,
+   "text": "يعني"
+  },
+  {
+   "start_ms": 3680,
+   "end_ms": 3980,
+   "text": "عندي"
+  },
+  {
+   "start_ms": 3980,
+   "end_ms": 4580,
+   "text": "26"
+  },
+  {
+   "start_ms": 4580,
+   "end_ms": 4980,
+   "text": "سنة."
+  },
+  {
+   "start_ms": 6310,
+   "end_ms": 6710,
+   "text": "ترجمتها"
+  },
+  {
+   "start_ms": 6710,
+   "end_ms": 6910,
+   "text": "من"
+  },
+  {
+   "start_ms": 6910,
+   "end_ms": 7310,
+   "text": "العربي"
+  },
+  {
+   "start_ms": 7310,
+   "end_ms": 7710,
+   "text": "كلمة"
+  },
+  {
+   "start_ms": 7710,
+   "end_ms": 8510,
+   "text": "كلمة."
+  },
+  {
+   "start_ms": 8610,
+   "end_ms": 8710,
+   "text": "وهي"
+  },
+  {
+   "start_ms": 8710,
+   "end_ms": 9110,
+   "text": "بصت"
+  },
+  {
+   "start_ms": 9110,
+   "end_ms": 9210,
+   "text": "لي"
+  },
+  {
+   "start_ms": 9210,
+   "end_ms": 9510,
+   "text": "كاني"
+  },
+  {
+   "start_ms": 9510,
+   "end_ms": 9810,
+   "text": "شايل"
+  },
+  {
+   "start_ms": 9810,
+   "end_ms": 10110,
+   "text": "السنين"
+  },
+  {
+   "start_ms": 10110,
+   "end_ms": 10210,
+   "text": "دي"
+  },
+  {
+   "start_ms": 10210,
+   "end_ms": 10310,
+   "text": "في"
+  },
+  {
+   "start_ms": 10310,
+   "end_ms": 10710,
+   "text": "شنطتي."
+  }
+ ],
+ "tightened": {
+  "max_gap_s": 0.45,
+  "removed_s": 0.09
+ }
 }

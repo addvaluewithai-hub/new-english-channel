@@ -26,7 +26,7 @@ ar = {
  "ar02": ("ومعايا الاستمارة. <short pause> ملّيتها كلها… <short pause> إلا خانة واحدة.", "Confident, then a little worried at the end."),
  "ar03": ("آي هاف توينتي سيكس ييرز… <short pause> يعني: عندي ستة وعشرين سنة. <short pause> ترجمتها من العربي كلمة كلمة… <short pause> وهي بصّتلي كإني شايل السنين دي في شنطتي!", "Panicked and comic, realizing his mistake."),
  "ar04": ("في الإنجليزي، إنت مش عندك سن… <short pause> إنت سنّك. <short pause> آيم توينتي سيكس… <short pause> زي آيم تايرد بالظبط.", "Relieved, explaining a discovery, a little amazed."),
- "ar05": ("سيكستين وسيكستي… <short pause> قريبين أوي من بعض. <short pause> الفرق في الضغطة: سيكستين، الضغطة في الآخر… <short pause> سيكستي، في الأول. <short pause> وهي فرحت أوي إني اديتها ستاشر سنة!", "Amused, explaining clearly, laughing at the end."),
+ "ar05": ("سيكستين و سيكستي… <short pause> قريبين أوي من بعض! <short pause> وهي فرحت أوي إني اديتها ستاشر سنة!", "Amused, a little embarrassed, laughing at the end."),
  "ar06": ("أول كلاس ليّا في نيويورك… <short pause> ورا الباب ده، ناس جاية من كل حتة في الدنيا.", "Excited and a little nervous, a cliffhanger."),
  "ar07": ("تعالوا نشوف اتعلمت إيه النهارده. <short pause> الأول: الأرقام.", "Upbeat, like a friendly teacher."),
  "ar08": ("ومن تلتاشر لتسعتاشر… <short pause> كلهم آخرهم تيين.", "Clear and explanatory."),

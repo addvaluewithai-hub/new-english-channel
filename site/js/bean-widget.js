@@ -94,7 +94,7 @@ export function mountBean(canvas, opts = {}) {
   function draw(t = now()) {
     resize(); bake(t);
     const s = state(t);
-    const k = Math.min(Hc / (1.3 * H0), W / (1.3 * H0));
+    const k = Math.min(Hc / (1.3 * H0), W / (1.27 * H0));   // 1.27 H0 wide holds the widest reaction (a wave)
     // blinks and darts as in the episodes (their seeded blink list covers 400 s, so the idle clock wraps)
     const tw = 5 + (t % 380);
     let face = liveFace(who, tw, s.face, { talk: false, darts: !REDUCED });
