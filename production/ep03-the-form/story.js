@@ -258,9 +258,9 @@ export function buildStory() {
     { t: R1.t1 + .1, armR: ARM.rest, turn: .3, face: F('happy', { lx: .5, happy: .5 }), d: .3 },
     { t: tGo - .1, turn: -.5, d: .3 },
     // at the door: opens it (the far hand to the handle), smiles back at him, goes in
-    { t: tOpen - .3, armR: { ...REACH, dx: .22, dy: .04 }, d: .3 }, { t: tOpen + .5, armR: ARM.rest, turn: .25, face: F('joy', { lx: .5 }), d: .35 },
+    { t: tOpen - .3, armR: { ...REACH, dx: .16, dy: .06 }, d: .3 }, { t: tOpen + .5, armR: ARM.rest, turn: .25, face: F('joy', { lx: .5 }), d: .35 },
     { t: tIn0 - .2, turn: -.6, d: .3 }, { t: tIn0, alpha: 1 }, { t: tIn1 - .2, alpha: 0, d: .2 });
-  mD.moves.push({ t0: tGo, t1: tSArr, x0: SXP, x1: 395, k0: .9, k1: .9, step: .4 }, { t0: tIn0, t1: tIn1, x0: 395, x1: 250, y0: GROUND, y1: 812, k0: .9, k1: .82, step: .45 });
+  mD.moves.push({ t0: tGo, t1: tSArr, x0: SXP, x1: 345, k0: .9, k1: .9, step: .4 }, { t0: tIn0, t1: tIn1, x0: 345, x1: 240, y0: GROUND, y1: 812, k0: .9, k1: .82, step: .45 });
   YK.push({ t: R0.t0 - .15, turn: .1, face: F('surprised', { lx: -.4, pupil: .8, mo: .03, mw: .06 }), d: .3 },
     { t: tNow - .1, armL: RAISE, armR: RAISE, face: F('surprised', { lx: -.3, ly: -.1, pupil: .6, mo: .09, mw: .07, sweat: .5 }), d: .12 },
     { t: tNow + .55, armL: ARM.rest, armR: { ...ARM.wave, front: true }, turn: .45, face: F('joy', { lx: .5 }), d: .25 },
@@ -270,7 +270,7 @@ export function buildStory() {
     { t: tBehind - .1, face: F('surprised', { lx: -.6, ly: -.05, pupil: .8, mo: .03, mw: .06, bLy: 1, bRy: 1 }), d: .25 },
     { t: tWorld - .5, turn: -.1, armL: { ...ARM.hold, dx: .02 }, armR: { ...ARM.hold, dx: .02 }, face: F('nervous', { lx: 0, ly: 0, sweat: .8, mt: .7 }), d: .3 },
     { t: rm.t1 - .7, turn: -.55, armL: ARM.rest, armR: ARM.rest, face: F('happy', { lx: -.6, happy: .3, sweat: .4 }), d: .35 });
-  yD.moves.push({ t0: tGo + .15, t1: tYArr, x0: YX, x1: 560, k0: .9, k1: .9, step: .42 });
+  yD.moves.push({ t0: tGo + .15, t1: tYArr, x0: YX, x1: 640, k0: .9, k1: .9, step: .42 });
   yD.jumps.push({ t: tNow - .05, h: .07, d: .38 });
   yD.blinks.push(R0.t0 - .15, tNow - .1, tYArr, tWorld - .5);
   LK.push({ t: R1.t0 + .2, face: F('happy', { lx: -.6, happy: .55 }), d: .3 },
@@ -455,7 +455,7 @@ function freezeFrame(c, t) {
   if (!FZ) {
     const cv = document.createElement('canvas'); cv.width = 1920; cv.height = 1080;
     const f = cv.getContext('2d', { willReadFrequently: true });
-    const tf = S.bFreeze + .12, cam = camAt(S.camD, S.bFreeze);
+    const tf = S.bFreeze + .5, cam = camAt(S.camD, S.bFreeze);   // character time a little after the pop, so the scratch pose has arrived
     const R = deskShot(f, tf, cam, true);
     f.setTransform(1, 0, 0, 1, 0, 0);
     f.globalCompositeOperation = 'saturation'; f.fillStyle = 'rgba(128,128,128,.42)'; f.fillRect(0, 0, 1920, 1080); f.globalCompositeOperation = 'source-over';
@@ -496,10 +496,10 @@ function freezeFx(c, t, yh) {
   // "شايل السنين دي في شنطتي": the red suitcase pops with a luggage tag "26 years"
   const kb = back(seg(t, tBag - .1, tBag + .35), 2.2);
   if (kb > 0) {
-    c.save(); c.translate(470, 640); c.scale(kb, kb); c.rotate(-.06 + Math.sin((t - tBag) * 4) * .03);
-    drawSuitcase(c, 0, 120, 1.15, 300, { handle: .4, tilt: 0 });
+    c.save(); c.translate(300, 640); c.scale(kb, kb); c.rotate(-.06 + Math.sin((t - tBag) * 4) * .03);
+    drawSuitcase(c, 0, 230, 2.6, 300, { handle: .4, tilt: 0 });
     c.restore();
-    c.save(); c.translate(600, 470); c.scale(kb, kb); c.rotate(.12);
+    c.save(); c.translate(250, 395); c.scale(kb, kb); c.rotate(-.1);
     c.strokeStyle = P.ink; c.lineWidth = 4; c.beginPath(); c.moveTo(-90, 40); c.quadraticCurveTo(-60, 0, -40, 6); c.stroke();
     rr(c, -40, -38, 210, 88, 18); c.fillStyle = mix(P.mustard, P.cream, .25); c.fill(); c.strokeStyle = dark(P.mustard, .3); c.lineWidth = 4; c.stroke();
     ell(c, -18, 6, 9, 9); c.fillStyle = P.cream; c.fill();
@@ -508,7 +508,7 @@ function freezeFx(c, t, yh) {
   }
   // ? and ! marks around his head on the panicked words
   const marks = [{ t: tSaid + .3, ch: '?' }, { t: tWord, ch: '!' }, { t: tBag + .2, ch: '!' }];
-  const spots = [[-150, -330, -.15], [150, -360, .2], [10, -420, 0]];
+  const spots = [[-230, -150, -.15], [230, -160, .2], [-10, -210, 0]];
   marks.forEach((m, i) => {
     const k = seg(t, m.t, m.t + .35); if (k <= 0) return;
     const [dx, dy, r] = spots[i % spots.length], s = back(k, 2.4);

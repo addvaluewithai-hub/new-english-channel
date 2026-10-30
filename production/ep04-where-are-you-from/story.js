@@ -16,7 +16,7 @@ const H = { youssef: 300, mia: 276, ana: 266 };
 const SEAT = 22;   // a seated student sinks this far behind the desk
 const X = { mia: 470, ana: CLASS.desks.ana, youssef: CLASS.desks.youssef };
 const WIDE = { x: 960, y: 548, z: 1.04 };
-const SARA = { x: 700, y: 560, z: 1.5 }, ANA1 = { x: 1180, y: 520, z: 1.4 }, YOU1 = { x: 1200, y: 520, z: 1.4 }, PAIR = { x: 1262, y: 750, z: 1.85 };
+const SARA = { x: 660, y: 560, z: 1.5 }, ANA1 = { x: 1255, y: 520, z: 1.4 }, YOU1 = { x: 1255, y: 520, z: 1.4 }, PAIR = { x: 1262, y: 750, z: 1.85 };
 let S = null;
 
 // ---- camera: keys fold like poses; z eases in log space; d = 0 is a cut ----
@@ -129,9 +129,9 @@ export function buildStory() {
   if (I0) MK.push({ t: I0.t0 - .25, armL: CLAP, armR: CLAP, face: F('joy', { lx: .5 }), d: .16 }, { t: I0.t0 + .45, armL: ARM.rest, armR: ARM.rest, d: .25 },
     { t: tokT(I0, /^Where/, .4) - .2, turn: .7, armR: FRONT({ ...ARM.up, dx: .16 }), face: F('happy', { lx: .85, ly: -.4, happy: .4 }), d: .25 },
     { t: tokT(I0, /^Ana/, .7) - .2, turn: .42, armR: FRONT(OPEN), face: F('happy', { lx: .55, happy: .55, bLy: .8, bRy: .8 }), lean: .03, d: .25 },
-    { t: I0.t1 + .5, armR: ARM.rest, lean: 0, face: sRest, d: .3 });
+    { t: I0.t1 - .35, armR: ARM.rest, lean: 0, face: sRest, d: .3 });   // the arm is home before the cut to Ana
   if (I2) MK.push({ t: I2.t0 - .2, armL: CLAP, armR: CLAP, face: F('joy', { lx: .55 }), d: .16 }, { t: I2.t0 + .7, armL: ARM.rest, armR: ARM.rest, face: sRest, d: .3 });
-  if (I3) MK.push({ t: I3.t0 - .25, armR: FRONT(OPEN), lean: .04, face: F('happy', { lx: .7, happy: .5, bLy: .8, bRy: .8 }), d: .25 }, { t: I3.t1 + .4, armR: ARM.rest, lean: 0, d: .3 });
+  if (I3) MK.push({ t: I3.t0 - .25, armR: FRONT(OPEN), lean: .04, face: F('happy', { lx: .7, happy: .5, bLy: .8, bRy: .8 }), d: .25 }, { t: I3.t1 - .4, armR: ARM.rest, lean: 0, d: .3 });
   if (I4) MK.push({ t: tIam + .1, face: F('surprised', { lx: .75, pupil: .85, mo: .03, mw: .06, bLy: .9, bRy: .9 }), d: .2 });
   // fix: gentle — turns to the board (the fix writes itself) and back; "Good!"; "Where in Egypt?"
   MK.push({ t: bUn, face: F('happy', { lx: .7, happy: .35, bLy: .6, bRy: .6 }), d: .01 });
@@ -270,19 +270,19 @@ export function buildStory() {
     { t: -1, ...WIDE }, { t: .2, d: Math.max(1, tArrive - .2), x: 1000, y: 552, z: 1.08 },
     { t: tBoardW - .35, d: 1.2, x: 900, y: 462, z: 1.42 },                    // push to the board
     { t: bTitle - .2, d: 0, x: 1280, y: 600, z: 1.78 }, { t: bTitle - .15, d: Math.max(1, it.t0 - bTitle), x: 1290, y: 602, z: 1.86 },   // Youssef, confident, under the title
-    { t: it.t0, d: 0, ...SARA }, { t: it.t0 + .1, d: 2, x: 705, y: 560, z: 1.55 },
-    { t: bAnaUp - .25, d: 0, ...ANA1 }, { t: bAnaUp, d: Math.max(1, bAnaDown - bAnaUp), x: 1170, y: 524, z: 1.48 },
+    { t: it.t0, d: 0, ...SARA }, { t: it.t0 + .1, d: 2, x: 664, y: 560, z: 1.55 },
+    { t: bAnaUp - .25, d: 0, ...ANA1 }, { t: bAnaUp, d: Math.max(1, bAnaDown - bAnaUp), x: 1230, y: 524, z: 1.46 },
     { t: I2 ? I2.t0 - .1 : bAnaDown, d: 0, ...WIDE },
-    { t: bYouUp - .3, d: 0, ...YOU1 }, { t: bYouUp, d: Math.max(1, bFreeze - bYouUp), x: 1225, y: 536, z: 1.5 },
+    { t: Math.max(bYouUp - .3, I3 ? I3.t1 + .05 : 0), d: 0, ...YOU1 }, { t: bYouUp, d: Math.max(1, bFreeze - bYouUp), x: 1225, y: 536, z: 1.5 },
     // after the freeze: Sara at the board for the fix; Youssef's "Oh! Sorry."; the wide for "Where in Egypt?"; Youssef for "Cairo!"
-    { t: bUn, d: 0, ...SARA }, { t: bUn + .05, d: 2.5, x: 712, y: 540, z: 1.58 },
+    { t: bUn, d: 0, ...SARA }, { t: bUn + .05, d: 2.5, x: 668, y: 540, z: 1.56 },
     { t: F1 ? F1.t0 - .2 : bUn + 3, d: 0, ...PAIR },
     { t: F2 ? F2.t0 - .2 : bUn + 6, d: 0, ...WIDE },
     { t: F3 ? F3.t0 - .25 : bCairo - .25, d: 0, ...YOU1 },
     { t: n4 ? n4.t0 : bCairo + 1, d: Math.max(1, (n4 ? n4.t1 : bCairo + 6) - (n4 ? n4.t0 : bCairo + 1)), x: 1400, y: 705, z: 2.2 },
     { t: F4 ? F4.t0 - .45 : fx.t1 - 8, d: 0, ...PAIR }, { t: F4 ? F4.t0 - .4 : fx.t1 - 8, d: 4, x: 1262, y: 752, z: 1.95 },
     { t: F7 ? F7.t0 - .3 : fx.t1 - 3, d: 0, ...WIDE },
-    { t: hk.t0, d: 0, ...SARA }, { t: hk.t0 + .1, d: 3, x: 700, y: 566, z: 1.62 },
+    { t: hk.t0, d: 0, ...SARA }, { t: hk.t0 + .1, d: 3, x: 664, y: 566, z: 1.58 },
     { t: bStuck, d: 0, x: 1360, y: 690, z: 2.5 }, { t: bStuck + .05, d: Math.max(1, rc.t0 - bStuck), x: 1400, y: 690, z: 3.0 },
   ];
   S.cam = camKeys;
@@ -351,7 +351,7 @@ export function sceneClass(c, t) {
     const nx = lines[i + 1] ? lines[i + 1].t0 : null;
     if (L === S.K0 && stuck) return hookBubble(c, t);
     const hp = L.who === 'mia' ? mh : L.who === 'ana' ? ah : yh;
-    if (!hp || hp[0] < -200 || hp[0] > 2120) return;
+    if (!hp || hp[0] < 20 || hp[0] > 1900) return;   // the speaker is off screen (a cut away): no bubble tail into the edge
     const pos = L.who === 'mia' ? { x: hp[0] + 10, y: hp[1], side: 1, lift: 60, maxW: 1150 } : { x: hp[0] + 20, y: hp[1], side: -1, lift: 60, maxW: 1100 };
     if (L === S.I4) { lineBubble(c, L, t, { ...pos, wordFx: (k, tt) => (k === amIdx(L) && tt > L.tok[k].t0 ? { mark: 0, shake: tt > S.bFreeze - .3 ? tt * .5 : 0 } : {}) }, { until: S.bFreeze + .05 }); return; }
     lineBubble(c, L, t, pos, { next: nx, hold: 1.2, until: L === S.K0 ? S.bStuck - .02 : null });
