@@ -12,6 +12,10 @@ export const CAST = {
   // mia = Sara, the teacher (design v3): the internal id stays `mia` (timeline who / talk / mouth); only the displayed name changed
   mia: { id: 'mia', H: 276, a: .352, taper: .15, n: 2.4, skin: SKIN.mia, hair: HAIR.mia, brow: '#94381C',
     band: P.mustard, sleeve: P.mustard, cuff: dark(P.mustard, .18), shoe: P.red, hairE: .045, blush: '#FF7E76', blushA: .55, lash: P.ink, accent: P.mustard },
+  // episode 4: Ana, the classmate from Madrid. Same egg, olive skin, a dark wavy bob with a side-swept fringe and a teal clip,
+  // a red top with a cream collar over teal trousers (palette tokens + mixes only)
+  ana: { id: 'ana', H: 266, a: .352, taper: .14, n: 2.4, skin: '#E2A77C', hair: '#3A2131', brow: '#3A2131',
+    band: P.red, sleeve: P.red, cuff: dark(P.red, .2), shoe: P.navy, hairE: .07, blush: '#F06A5E', blushA: .5, lash: P.ink, accent: P.red },
 };
 
 // ---------------- expressions (face kit presets; all numeric so they can be blended) ----------------
@@ -305,6 +309,12 @@ function hairline(sp, phi) {
     const temple = -.022 * Math.exp(-Math.pow((af - 1.05) / .2, 2));
     return (base + fringe + temple) * H;
   }
+  if (sp.id === 'ana') {   // a bob: side-swept fringe (lower toward her left), sides down to the jaw with a soft wave, short at the back
+    const fringe = -.8 + .045 * Math.tanh((f + .1) * 2.2) + .018 * Math.sin(f * 6 + .5);
+    let y = lerp(fringe, -.5 + .018 * Math.sin(af * 9), sst(.74, 1.02, af));
+    y = lerp(y, -.47, sst(2.0, 2.6, af));
+    return y * H;
+  }
   // Sara (id mia): scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
   const bang = -.79 + .026 * Math.pow(Math.abs(Math.cos(f * 4.4 + .3)), .7) + .025 * f;
   let y = lerp(bang, -.75, sst(.72, .98, af));
@@ -320,7 +330,7 @@ export function drawChar(ctx, sp, p) {
   // contact shadow (stays on the ground while hopping, shrinks with lift)
   const st = p.stage ?? 9;
   if (p.shadow && st >= 3) { const s = 1 - clamp(p.lift / H) * .7; contact(ctx, p.x + .035 * H * k, p.y + .004 * H * k, .44 * H * k * s, .065 * H * k * s, .3 * p.shadow); }
-  const bx = (sp.id === 'mia' ? .82 : .72) * H * k, box = { x: p.x - bx + p.lean * H * k * .6, y: p.y - 1.3 * H * k - p.lift * k, w: bx * 2, h: 1.38 * H * k + p.lift * k };
+  const bx = (sp.id !== 'youssef' ? .82 : .72) * H * k, box = { x: p.x - bx + p.lean * H * k * .6, y: p.y - 1.3 * H * k - p.lift * k, w: bx * 2, h: 1.38 * H * k + p.lift * k };
   const arms = armGeo(sp, p, G);
   formed(ctx, box, l => { l.save(); toScreen(l); bodyFlat(l, sp, p, G, arms); l.restore(); },
     { sx: .055 * H * k, sy: .03 * H * k, soft: .016 * H * k, shadeA: st >= 2 ? .55 : 0, hx: .016 * H * k, hy: .02 * H * k, hiA: st >= 2 ? .38 : 0,
@@ -411,10 +421,10 @@ function bodyFlat(l, sp, p, G, arms) {
   l.save(); smooth(l, big); l.clip(); poly(l, region()); l.fillStyle = sp.hair; l.fill();
   // hair sheen: a soft arc on the lit side
   const [tx, ty] = D(G.hw(-.9 * H) * -.35 + Math.sin(th) * .05 * H, -.9 * H);
-  l.strokeStyle = rgba('#FFFFFF', sp.id === 'mia' ? .2 : .13); l.lineWidth = .028 * H; l.lineCap = 'round';
+  l.strokeStyle = rgba('#FFFFFF', sp.id === 'mia' ? .2 : sp.id === 'ana' ? .16 : .13); l.lineWidth = .028 * H; l.lineCap = 'round';
   l.beginPath(); l.ellipse(tx + .07 * H, ty + .03 * H, .16 * H, .085 * H, -.2, PI * 1.12, PI * 1.42); l.stroke();
   l.restore();
-  if (sp.id === 'youssef') quiff(l, sp, p, G); else tendrils(l, sp, p, G);
+  if (sp.id === 'youssef') quiff(l, sp, p, G); else if (sp.id === 'ana') bob(l, sp, p, G); else tendrils(l, sp, p, G);
 }
 
 function clothes(l, sp, p, G) {
@@ -436,6 +446,18 @@ function clothes(l, sp, p, G) {
     // single button
     const bs = G.surf(0, -.205 * H);
     if (bs.c > .1) { const [bx, by] = D(bs.x, -.205 * H); ell(l, bx, by, .016 * H * Math.max(.4, bs.c), .016 * H); l.fillStyle = dark(sp.band, .35); l.fill(); }
+  } else if (sp.id === 'ana') {
+    // red top with a rounded cream collar, teal trousers below a darker hem
+    const top = G.across(phi => (-.43 - .03 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...top, [H, H], [-H, H]]); l.fillStyle = sp.band; l.fill();
+    for (const s of [-1, 1]) {   // the two collar wings (cream), drawn on the visible front
+      const pts = [];
+      for (let i = 0; i <= 12; i++) { const f = s * (.02 + .5 * i / 12), y = (-.455 + .06 * Math.sin(Math.PI * i / 12) + .02 * i / 12) * H; const ps = f + th; pts.push(D(G.hw(y) * Math.sin(ps), y)); }
+      for (let i = 12; i >= 0; i--) { const f = s * (.02 + .5 * i / 12), y = (-.43 - .005 * Math.sin(Math.PI * i / 12)) * H; const ps = f + th; pts.push(D(G.hw(y) * Math.sin(ps), y)); }
+      if (Math.cos(s * .25 + th) > -.2) { smooth(l, pts); l.fillStyle = P.cream; l.fill(); }
+    }
+    const hem = G.across(() => -.15 * H, 30); poly(l, [...hem, [H, H], [-H, H]]); l.fillStyle = dark(sp.band, .16); l.fill();
+    const tr = G.across(() => -.125 * H, 30); poly(l, [...tr, [H, H], [-H, H]]); l.fillStyle = dark(P.teal, .08); l.fill();
   } else {
     // cream top with a scoop neck, mustard cardigan (placket + buttons + ribbed hem), teal skirt
     const top = G.across(phi => (-.4 - .065 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
@@ -466,6 +488,32 @@ function tendrils(l, sp, p, G) {
       Lp.push(G.D(x - w, y)); Rp.push(G.D(x + w, y));
     }
     smooth(l, [...Lp, ...Rp.reverse()]); l.fillStyle = sp.hair; l.fill();
+  }
+}
+
+// Ana's bob: two wavy side masses that frame the face down to the jaw and flip out a little at the ends, plus a teal clip
+function bob(l, sp, p, G) {
+  const H = G.H, th = G.th;
+  for (const s of [-1, 1]) {
+    const ps = s * 1.12 + th; if (Math.cos(ps) < -.35) continue;
+    const Lp = [], Rp = [], N = 16, sn = Math.sin(ps), sg = Math.sign(sn) || s;
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, y = lerp(-.9, -.47, t) * H;
+      const x = G.hw(y) * sn * 1.02 + sg * (.018 * Math.sin(PI * t) + .02 * Math.pow(t, 3) + .006 * Math.sin(t * 11)) * H;
+      const w = (.045 + .02 * Math.sin(PI * t * .9) - .015 * Math.pow(t, 4)) * H * (.6 + .4 * Math.abs(Math.cos(ps)));
+      Lp.push(G.D(x - w * .7, y)); Rp.push(G.D(x + w, y));
+    }
+    smooth(l, [...Lp, ...Rp.reverse()]); l.fillStyle = sp.hair; l.fill();
+    // a soft wave line inside each side
+    const wl = []; for (let i = 2; i <= N - 2; i++) { const t = i / N, y = lerp(-.88, -.5, t) * H; wl.push(G.D(G.hw(y) * sn * 1.04 + sg * (.01 + .008 * Math.sin(t * 10)) * H, y)); }
+    l.strokeStyle = rgba('#FFFFFF', .1); l.lineWidth = .012 * H; l.lineCap = 'round'; poly(l, wl, false); l.stroke();
+  }
+  // teal clip in the fringe on her left (screen right in a front view)
+  const phi = .55, ps = phi + th, y = -.83 * H;
+  if (Math.cos(ps) > -.1) {
+    const [cx, cy] = G.D(G.hw(y) * .9 * Math.sin(ps), y);
+    l.save(); l.translate(cx, cy); l.rotate(-.5); rr(l, -.04 * H, -.013 * H, .08 * H, .026 * H, .013 * H); l.fillStyle = P.teal; l.fill();
+    rr(l, -.03 * H, -.008 * H, .03 * H, .008 * H, .004 * H); l.fillStyle = light(P.teal, .35); l.fill(); l.restore();
   }
 }
 
@@ -579,7 +627,7 @@ function eye(c, sp, f, H, fx, s) {
   c.save(); ell(c, 0, 0, rx * 1.12, ryo * 1.12); c.clip();
   c.beginPath(); if (lid > .01) upper(); else c.ellipse(0, 0, rx, ryo, 0, PI * 1.1, PI * 1.9); c.stroke();
   c.restore();
-  if (sp.id === 'mia') { const ox = s * rx * .8, oy = -ryo * .58 + (lid > .01 ? ryo * lid * 1.2 : 0); c.beginPath(); c.moveTo(ox, oy); c.quadraticCurveTo(ox + s * rx * .32, oy - ry * .1, ox + s * rx * .45, oy - ry * .3); c.stroke(); }
+  if (sp.id !== 'youssef') { const ox = s * rx * .8, oy = -ryo * .58 + (lid > .01 ? ryo * lid * 1.2 : 0); c.beginPath(); c.moveTo(ox, oy); c.quadraticCurveTo(ox + s * rx * .32, oy - ry * .1, ox + s * rx * .45, oy - ry * .3); c.stroke(); }
 }
 
 function mouth(c, sp, f, H, fx) {

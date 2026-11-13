@@ -1,8 +1,10 @@
-// Bean People v2 — "Youssef in New York": the street set (design v3), in the same vector language and layering as before.
+// Bean People v2 — "Youssef in New York": the street set (design v3) plus the two interior sets of episode 2 (Youssef's bedroom
+// and the school hallway), authored in the same screen px / parallax 1 space.
 // Authored in screen px for the establishing camera (CAM0 = centre 960,540, zoom 1); parallax p: sky 0, far skyline .12,
 // across-the-road brownstones + taxi .45, our pavement + the school 1, lamp foreground 1.3. Same palette tokens, same haze.
 import { CPU, P, HAZE, mix, rgba, dark, light, rr, ell, smooth, poly, contact, formed, layer } from './kit.js';
-import { clamp, lerp, seg, hash } from '/core/lib.js';
+import { clamp, lerp, seg, hash, back } from '/core/lib.js';
+import { drawSuitcase } from './bean.js';
 
 export const SW = 1920, SH = 1080;
 const PI = Math.PI;
@@ -540,4 +542,376 @@ export function drawForeground(c, cam, t, o = {}) {
     const g = c.createRadialGradient(lx, ly, 0, lx, ly, 520 * (1 + (cam.z - 1) * 1.3)); g.addColorStop(0, `rgba(255,220,150,${.55 * o.night})`); g.addColorStop(1, 'rgba(255,220,150,0)');
     c.fillStyle = g; c.fillRect(0, 0, SW, SH); c.restore();
   }
+}
+
+// ======================================================================================================================
+// Episode 2 interiors. Both are flat sets (parallax 1, baked once); the camera zooms and pans them like the street.
+// Youssef's bedroom: lilac wall, window on the left (the light comes from there), bed, bedside table with the alarm
+// clock, the red suitcase in the corner, a door on the right. Characters' feet: the mattress top (BED.sit) or the floor (GROUND).
+export const BED = { x0: 540, x1: 1080, top: 700, sit: 712 };
+export const BEDCLOCK = { x: 1190, y: 648, r: 50 };
+function bedroomStatic(c) {
+  const WALL = mix('#A795D6', P.cream, .64), WOOD = '#D7A676';
+  c.fillStyle = WALL; c.fillRect(-300, -300, 2600, 1100);
+  const g = c.createRadialGradient(350, 200, 0, 350, 200, 1600); g.addColorStop(0, rgba('#FFF6E8', .4)); g.addColorStop(1, rgba('#FFF6E8', 0)); c.fillStyle = g; c.fillRect(-300, -300, 2600, 1100);
+  // picture rail + skirting + floor
+  c.fillStyle = rgba('#FFFFFF', .35); c.fillRect(-300, 60, 2600, 8);
+  c.fillStyle = light(WALL, .45); c.fillRect(-300, 784, 2600, 16);
+  const fg = c.createLinearGradient(0, 800, 0, 1200); fg.addColorStop(0, WOOD); fg.addColorStop(1, dark(WOOD, .18)); c.fillStyle = fg; c.fillRect(-300, 800, 2600, 500);
+  c.strokeStyle = rgba('#7A4A2E', .16); c.lineWidth = 2;
+  for (const y of [836, 884, 946, 1030]) { c.beginPath(); c.moveTo(-300, y); c.lineTo(2300, y); c.stroke(); }
+  for (let x = -300; x < 2300; x += 170) { c.beginPath(); c.moveTo(x, 800); c.lineTo(x + (x - 960) * .45, 1200); c.stroke(); }
+  c.fillStyle = rgba('#3B2F6B', .1); c.fillRect(-300, 800, 2600, 6);
+  // rug
+  ell(c, 980, 950, 560, 105); c.fillStyle = mix(P.teal, P.cream, .58); c.fill();
+  ell(c, 980, 950, 500, 82); c.strokeStyle = mix(P.teal, P.cream, .3); c.lineWidth = 9; c.stroke();
+  // window (left wall): sky, a slice of the city skyline, mullions, curtains, rod
+  const wx = 170, wy = 120, ww = 420, wh = 400;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, wx - 6, wy - 2, ww + 24, wh + 24, 10); c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, wx - 16, wy - 16, ww + 32, wh + 32, 10); c.fill();
+  const sg = c.createLinearGradient(0, wy, 0, wy + wh); sg.addColorStop(0, '#7CC3E6'); sg.addColorStop(.7, '#C9E6F0'); sg.addColorStop(1, '#F6E8D4'); c.fillStyle = sg; c.fillRect(wx, wy, ww, wh);
+  const sun = c.createRadialGradient(wx + 70, wy + 60, 0, wx + 70, wy + 60, 260); sun.addColorStop(0, 'rgba(255,245,210,.95)'); sun.addColorStop(.3, 'rgba(255,240,200,.45)'); sun.addColorStop(1, 'rgba(255,240,200,0)'); c.fillStyle = sun; c.fillRect(wx, wy, ww, wh);
+  const F = mix(mix(P.sky, '#7C78B4', .45), '#DCEAF2', .35); c.fillStyle = F;
+  for (const [bx, bw, bh] of [[0, 60, 70], [60, 40, 110], [100, 70, 60], [170, 30, 150], [200, 80, 90], [280, 50, 120], [330, 90, 70]]) c.fillRect(wx + bx, wy + wh - bh, bw, bh);
+  c.beginPath(); c.arc(wx + 250, wy + wh - 70, 60, Math.PI, 2 * Math.PI); c.strokeStyle = F; c.lineWidth = 5; c.stroke();
+  c.fillStyle = rgba('#FFFFFF', .22); poly(c, [[wx + 40, wy + wh], [wx + 200, wy], [wx + 260, wy], [wx + 100, wy + wh]]); c.fill();
+  c.fillStyle = '#FFFBF4'; c.fillRect(wx + ww / 2 - 6, wy, 12, wh); c.fillRect(wx, wy + wh * .38 - 5, ww, 10);
+  c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(wx, wy, ww, 10); c.fillRect(wx + ww - 8, wy, 8, wh);
+  const CUR = mix(P.mustard, P.cream, .4);
+  for (const [cx0, cw] of [[wx - 76, 78], [wx + ww - 2, 78]]) { c.fillStyle = CUR; rr(c, cx0, wy - 30, cw, wh + 90, 12); c.fill(); c.fillStyle = dark(CUR, .12); for (let i = 1; i < 4; i++) c.fillRect(cx0 + i * cw / 4 - 3, wy - 30, 6, wh + 90); }
+  c.fillStyle = P.navy; rr(c, wx - 100, wy - 44, ww + 200, 12, 6); c.fill(); for (const s of [wx - 104, wx + ww + 92]) { ell(c, s, wy - 38, 12, 12); c.fill(); }
+  // the light shaft from the window on to the bed and the floor
+  c.fillStyle = rgba('#FFF6E0', .16); poly(c, [[wx + 20, wy + 60], [wx + ww, wy + 30], [1500, 1060], [700, 1120]]); c.fill();
+  // framed picture above the bed (generic skyline)
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, 735, 302, 190, 140, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, 728, 290, 190, 140, 8); c.fill(); c.fillStyle = '#F6EAD6'; c.fillRect(742, 304, 162, 112);
+  c.fillStyle = mix(P.sky, P.cream, .4); c.fillRect(742, 304, 162, 80); c.fillStyle = F; for (const [bx, bw, bh] of [[0, 30, 40], [30, 20, 70], [50, 40, 30], [90, 14, 90], [104, 40, 50], [144, 18, 36]]) c.fillRect(742 + bx, 384 - bh, bw, bh);
+  ell(c, 800, 352, 18, 18); c.strokeStyle = F; c.lineWidth = 3; c.stroke();
+  // bed: headboard, mattress, frame, pillow
+  contact(c, 820, 806, 330, 16, .25);
+  c.fillStyle = dark(P.navy, .1); rr(c, 500, 470, 64, 320, 22); c.fill();
+  c.fillStyle = P.navy; rr(c, 508, 478, 48, 300, 18); c.fill();
+  c.fillStyle = light(P.navy, .25); rr(c, 516, 486, 14, 260, 7); c.fill();
+  c.fillStyle = '#5B4A6B'; rr(c, 530, 760, 570, 34, 8); c.fill();
+  c.fillStyle = dark('#5B4A6B', .3); for (const lx of [548, 1068]) rr(c, lx, 790, 22, 12, 4), c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, BED.x0, BED.top, BED.x1 - BED.x0, 66, 16); c.fill();
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, BED.x0, BED.top + 48, BED.x1 - BED.x0, 18, { bl: 14, br: 14 }); c.fill();
+  c.fillStyle = mix(P.sky, P.cream, .7); c.fillRect(BED.x0 + 10, BED.top + 30, BED.x1 - BED.x0 - 20, 6);
+  ell(c, 640, 684, 96, 40, -.08); c.fillStyle = rgba('#3B2F6B', .12); c.fill();
+  ell(c, 634, 676, 96, 40, -.08); c.fillStyle = '#FFFBF4'; c.fill();
+  ell(c, 612, 666, 50, 18, -.1); c.fillStyle = rgba('#FFFFFF', .7); c.fill();
+  // bedside table with a book
+  contact(c, 1200, 806, 90, 12, .25);
+  c.fillStyle = '#A9683F'; rr(c, 1130, 716, 120, 84, 6); c.fill();
+  c.fillStyle = dark('#A9683F', .25); rr(c, 1142, 730, 96, 30, 5); c.fill(); c.fillStyle = P.mustard; ell(c, 1190, 745, 5, 5); c.fill();
+  c.fillStyle = '#C98B5E'; rr(c, 1118, 700, 144, 18, 6); c.fill(); c.fillStyle = rgba('#FFFFFF', .25); c.fillRect(1124, 702, 132, 5);
+  c.fillStyle = P.red; rr(c, 1226, 686, 34, 14, 3); c.fill(); c.fillStyle = '#FFFBF4'; c.fillRect(1230, 689, 26, 3); c.fillRect(1230, 694, 26, 3);
+  // suitcase in the corner, a door on the right
+  drawSuitcase(c, 1660, 876, 1, 300, { handle: .25, tilt: .02 });
+  c.fillStyle = '#FFFBF4'; rr(c, 1792, 262, 226, 540, 10); c.fill();
+  c.fillStyle = P.teal; rr(c, 1806, 276, 198, 526, 6); c.fill();
+  c.fillStyle = dark(P.teal, .18); for (const [py, ph] of [[300, 190], [520, 220]]) { rr(c, 1832, py, 146, ph, 8); c.fill(); }
+  c.fillStyle = P.mustard; ell(c, 1830, 560, 9, 9); c.fill();
+  c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(1792, 262, 10, 540);
+}
+// the blanket over his legs: a = 0 tucked over the bed; a → 1 thrown back, half on the floor (the leap)
+export function blanket(c, a = 0, t = 0, part = 'both') {
+  const BL = mix(P.mustard, P.cream, .42), TOP = '#FFFBF4';
+  c.save();
+  if (a < 1 && part !== 'thrown') {
+    c.globalAlpha = 1 - a;
+    const y0 = 604 + 40 * a, x0 = 690, x1 = BED.x1 + 8;
+    c.beginPath(); c.moveTo(x0 - 20, y0 + 30);
+    for (let x = x0; x <= x1; x += 48) c.quadraticCurveTo(x + 12, y0 - 14 + 6 * Math.sin(x * .3 + t * .5), x + 48, y0 + 2 + 5 * Math.cos(x * .4));
+    c.lineTo(x1, 766); c.quadraticCurveTo(x1 + 10, 775, x1 - 10, 776); c.lineTo(x0 - 20, 776); c.closePath();
+    c.fillStyle = BL; c.fill();
+    c.fillStyle = TOP; rr(c, x0 - 14, y0 + 20, x1 - x0 + 10, 38, 10); c.fill();
+    c.fillStyle = rgba('#3B2F6B', .1); rr(c, x0 - 14, y0 + 50, x1 - x0 + 10, 10, 5); c.fill();
+    c.strokeStyle = rgba('#B8862A', .25); c.lineWidth = 3; for (const yy of [690, 730]) { c.beginPath(); c.moveTo(x0 + 20, yy); c.lineTo(x1 - 20, yy + 8); c.stroke(); }
+  }
+  if (a > 0 && part !== 'tucked') {
+    c.globalAlpha = a;
+    // thrown: a crumpled pile kicked to the foot of the bed
+    c.beginPath(); c.moveTo(860, 760);
+    c.quadraticCurveTo(880, 690, 940, 700); c.quadraticCurveTo(960, 640, 1010, 666); c.quadraticCurveTo(1060, 630, 1090, 690);
+    c.quadraticCurveTo(1130, 700, 1100, 760); c.closePath(); c.fillStyle = BL; c.fill();
+    c.fillStyle = TOP; c.beginPath(); c.moveTo(930, 705); c.quadraticCurveTo(980, 672, 1040, 690); c.quadraticCurveTo(1010, 722, 950, 728); c.closePath(); c.fill();
+    c.fillStyle = rgba('#3B2F6B', .12); c.beginPath(); c.moveTo(1040, 700); c.quadraticCurveTo(1100, 712, 1100, 760); c.lineTo(1030, 760); c.closePath(); c.fill();
+  }
+  c.restore();
+}
+
+// ---------------- the school hallway ----------------
+// cream wall over a navy-pastel wainscot, a plank floor, a window on the left (the light), a notice board between the two
+// marks, a wall clock on the right, teal doors at both ends. GROUND = 880 as in the street, so the beans keep their scale.
+export const HALLCLOCK = { x: 1440, y: 400, r: 62 };
+function hallStatic(c) {
+  const WALL = '#F6EBD8', WAIN = mix(P.navy, P.cream, .76), WOOD = '#DDAB7A';
+  c.fillStyle = WALL; c.fillRect(-300, -300, 2800, 1100);
+  const g = c.createRadialGradient(500, 300, 0, 500, 300, 1900); g.addColorStop(0, rgba('#FFF6E8', .5)); g.addColorStop(1, rgba('#D8CFE0', .25)); c.fillStyle = g; c.fillRect(-300, -300, 2800, 1100);
+  c.fillStyle = WAIN; c.fillRect(-300, 654, 2800, 134);
+  c.fillStyle = dark(WAIN, .12); for (let x = -300; x < 2500; x += 90) c.fillRect(x, 668, 4, 112);
+  c.fillStyle = '#FFFBF4'; rr(c, -300, 642, 2800, 14, 4); c.fill(); c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(-300, 656, 2800, 5);
+  c.fillStyle = light(WAIN, .5); c.fillRect(-300, 786, 2800, 14); c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(-300, 798, 2800, 5);
+  const fg = c.createLinearGradient(0, 800, 0, 1200); fg.addColorStop(0, WOOD); fg.addColorStop(1, dark(WOOD, .2)); c.fillStyle = fg; c.fillRect(-300, 800, 2800, 500);
+  c.strokeStyle = rgba('#7A4A2E', .15); c.lineWidth = 2;
+  for (const y of [832, 872, 926, 1000, 1110]) { c.beginPath(); c.moveTo(-300, y); c.lineTo(2500, y); c.stroke(); }
+  for (let x = -300; x < 2500; x += 180) { c.beginPath(); c.moveTo(x, 800); c.lineTo(x + (x - 1300) * .5, 1200); c.stroke(); }
+  // light from the window across the floor
+  c.fillStyle = rgba('#FFF2D0', .18); poly(c, [[380, 640], [760, 640], [1500, 1100], [500, 1100]]); c.fill();
+  // doors (left end + right end): cream frames, teal leaves with two panels, mustard knobs
+  const door = (x, w) => {
+    c.fillStyle = rgba('#3B2F6B', .1); rr(c, x + 8, 300, w + 10, 496, 8); c.fill();
+    c.fillStyle = '#FFFBF4'; rr(c, x - 14, 286, w + 28, 516, 10); c.fill();
+    c.fillStyle = P.teal; rr(c, x, 300, w, 498, 6); c.fill();
+    c.fillStyle = dark(P.teal, .18); for (const [py, ph] of [[324, 170], [530, 230]]) { rr(c, x + 28, py, w - 56, ph, 8); c.fill(); }
+    c.fillStyle = P.mustard; ell(c, x + w - 30, 560, 9, 9); c.fill();
+    c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(x, 300, 8, 498);
+    c.fillStyle = light(P.teal, .2); c.fillRect(x, 300, w, 10);
+  };
+  door(50, 230); door(1930, 230);
+  // window (left) with a bench under it
+  const wx = 400, wy = 220, ww = 330, wh = 380;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, wx - 4, wy - 2, ww + 22, wh + 22, 8); c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, wx - 14, wy - 14, ww + 28, wh + 28, 8); c.fill();
+  const sg = c.createLinearGradient(0, wy, 0, wy + wh); sg.addColorStop(0, '#86C8E8'); sg.addColorStop(1, '#DCEDF2'); c.fillStyle = sg; c.fillRect(wx, wy, ww, wh);
+  c.fillStyle = mix(P.leaf, P.cream, .25); for (const [bx, by, r] of [[60, 300, 70], [150, 330, 60], [250, 290, 75]]) { ell(c, wx + bx, wy + by, r, r * .8); c.fill(); }
+  c.fillStyle = rgba('#FFFFFF', .25); poly(c, [[wx + 30, wy + wh], [wx + 170, wy], [wx + 230, wy], [wx + 90, wy + wh]]); c.fill();
+  c.fillStyle = '#FFFBF4'; c.fillRect(wx + ww / 2 - 6, wy, 12, wh); c.fillRect(wx, wy + wh * .45 - 5, ww, 10);
+  c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(wx, wy, ww, 9); c.fillRect(wx + ww - 8, wy, 8, wh);
+  c.fillStyle = '#FFFBF4'; rr(c, wx - 30, wy + wh + 14, ww + 60, 16, 4); c.fill();
+  // notice board: navy frame, cork, pinned papers
+  const nx = 1000, ny = 380, nw = 300, nh = 215;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, nx + 6, ny + 8, nw, nh, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, nx - 10, ny - 10, nw + 20, nh + 20, 10); c.fill();
+  c.fillStyle = '#D9B384'; c.fillRect(nx, ny, nw, nh);
+  c.fillStyle = rgba('#8B5A2B', .18); for (let i = 0; i < 70; i++) { const px = nx + ((i * 73) % nw), py = ny + ((i * 41) % nh); c.fillRect(px, py, 3, 2); }
+  const papers = [[nx + 18, ny + 18, 92, 70, mix(P.red, P.cream, .55), -.05], [nx + 128, ny + 14, 72, 90, mix(P.teal, P.cream, .55), .04], [nx + 216, ny + 24, 68, 62, mix(P.mustard, P.cream, .45), -.03],
+    [nx + 26, ny + 108, 80, 86, mix(P.leaf, P.cream, .55), .06], [nx + 122, ny + 118, 100, 72, '#FFFBF4', -.04], [nx + 232, ny + 104, 56, 84, mix(P.sky, P.cream, .35), .05]];
+  for (const [px, py, pw, ph, col, rot] of papers) {
+    c.save(); c.translate(px + pw / 2, py + ph / 2); c.rotate(rot);
+    c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(-pw / 2 + 3, -ph / 2 + 4, pw, ph); c.fillStyle = col; c.fillRect(-pw / 2, -ph / 2, pw, ph);
+    c.fillStyle = rgba('#2A2742', .3); for (let i = 0; i < Math.floor(ph / 16) - 1; i++) c.fillRect(-pw / 2 + 10, -ph / 2 + 14 + i * 16, pw - 20 - (i % 3) * 12, 4);
+    ell(c, 0, -ph / 2 + 2, 6, 6); c.fillStyle = [P.red, P.navy, P.teal][Math.round(Math.abs(rot) * 100) % 3]; c.fill();
+    c.restore();
+  }
+  // wall clock (face; the hands are live)
+  const { x: cx, y: cy, r } = HALLCLOCK;
+  c.fillStyle = rgba('#3B2F6B', .12); ell(c, cx + 6, cy + 8, r + 8, r + 8); c.fill();
+  c.fillStyle = P.navy; ell(c, cx, cy, r + 8, r + 8); c.fill(); c.fillStyle = P.mustard; ell(c, cx, cy, r + 1, r + 1); c.fill(); c.fillStyle = '#FFFBF4'; ell(c, cx, cy, r - 6, r - 6); c.fill();
+  c.fillStyle = P.ink; for (let i = 0; i < 12; i++) { const a = i / 12 * 2 * PI; c.save(); c.translate(cx + Math.sin(a) * (r - 16), cy - Math.cos(a) * (r - 16)); c.rotate(a); rr(c, -2.5, -(i % 3 ? 4 : 7), 5, i % 3 ? 8 : 14, 2.5); c.fill(); c.restore(); }
+  // a framed poster right of the marks (generic skyline), a plant by the right door, a small plaque by the left door (no text)
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, 1676, 402, 200, 150, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, 1668, 392, 200, 150, 8); c.fill(); c.fillStyle = '#FBF1E1'; c.fillRect(1682, 406, 172, 122);
+  c.fillStyle = mix(P.sky, P.cream, .3); c.fillRect(1682, 406, 172, 86); c.fillStyle = mix(P.red, P.cream, .4); ell(c, 1720, 440, 22, 22); c.fill();
+  const FP = mix(mix(P.sky, '#7C78B4', .45), '#DCEAF2', .35); c.fillStyle = FP;
+  for (const [bx, bw, bh] of [[0, 30, 44], [30, 22, 76], [52, 44, 34], [96, 14, 96], [110, 42, 54], [152, 20, 40]]) c.fillRect(1682 + bx, 492 - bh, bw, bh);
+  c.beginPath(); c.arc(1800, 490, 20, Math.PI, 2 * Math.PI); c.strokeStyle = FP; c.lineWidth = 3; c.stroke();
+  c.fillStyle = P.mustard; c.fillRect(1700, 506, 60, 6); c.fillStyle = rgba(P.ink, .4); c.fillRect(1700, 516, 100, 4);
+  planter(c, 1880, 884);
+  c.fillStyle = P.navy; rr(c, 330, 380, 40, 120, 6); c.fill(); c.fillStyle = P.mustard; c.fillRect(338, 392, 24, 4); c.fillRect(338, 404, 24, 4); c.fillRect(338, 416, 16, 4);
+}
+export function hallClockHands(c, hours) {
+  const { x: CX, y: CY, r } = HALLCLOCK, ha = (hours % 12) / 12 * 2 * PI, ma = (hours % 1) * 2 * PI;
+  c.lineCap = 'round'; c.strokeStyle = P.ink;
+  c.lineWidth = 7; c.beginPath(); c.moveTo(CX, CY); c.lineTo(CX + Math.sin(ha) * r * .42, CY - Math.cos(ha) * r * .42); c.stroke();
+  c.lineWidth = 5; c.beginPath(); c.moveTo(CX, CY); c.lineTo(CX + Math.sin(ma) * r * .64, CY - Math.cos(ma) * r * .64); c.stroke();
+  c.fillStyle = P.red; ell(c, CX, CY, 6, 6); c.fill();
+}
+let SETS = null;
+export function bakeSets() {
+  if (SETS) return SETS;
+  SETS = { bed: bake(-20, -20, 2000, 1100, 1.25, bedroomStatic), hall: bake(-150, -100, 2350, 1100, 1.7, hallStatic) };
+  return SETS;
+}
+// draw a flat set with the camera; dof blurs the whole set (close-ups); live(l) draws moving parts in world space
+export function drawBedroom(c, cam, t, o = {}) {
+  const k = bakeSets();
+  soft(c, cam, 1, o.dof || 0, l => { blit(l, k.bed); blanket(l, o.blanket || 0, t, 'thrown'); if (o.live) o.live(l); });
+  c.setTransform(1, 0, 0, 1, 0, 0);
+}
+export function drawHall(c, cam, t, o = {}) {
+  const k = bakeSets();
+  soft(c, cam, 1, o.dof || 0, l => { blit(l, k.hall); hallClockHands(l, o.clock ?? 8.2); if (o.live) o.live(l); });
+  c.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+// ======================================================================================================================
+// Episode 4: the classroom (a flat set like the hallway: parallax 1, baked once; GROUND = 880 so the beans keep their scale).
+// A pale sky wall over a mustard-cream wainscot and the plank floor; left to right: the window onto the New York street,
+// the whiteboard ("Where are you from?" is written live), the world map with live pins, the teal door at the right edge.
+// Desks are drawn separately (deskFront) in front of the seated students; one empty desk sits in the set itself.
+export const CLASS = { win: { x: 40, y: 210, w: 330, h: 380 }, board: { x: 560, y: 186, w: 610, h: 380 }, map: { x: 1206, y: 206, w: 470, h: 262 },
+  door: { x: 1752, w: 200 }, deskTop: 832, desks: { empty: 770, ana: 1080, youssef: 1440 } };
+// the map: equirectangular, lon -170..180, lat 80..-58, inside the frame's inner area
+const MAPA = { lon0: -170, lon1: 180, lat0: 80, lat1: -58 };
+export function mapXY(lon, lat) {
+  const M = CLASS.map, ix = M.x + 16, iy = M.y + 16, iw = M.w - 32, ih = M.h - 32;
+  return [ix + (lon - MAPA.lon0) / (MAPA.lon1 - MAPA.lon0) * iw, iy + (lat - MAPA.lat0) / (MAPA.lat1 - MAPA.lat0) * ih];
+}
+export const PINS = { usa: [-74, 40.7], spain: [-3.7, 40.4], egypt: [31.2, 30.0] };
+const LAND = [
+  [[-160, 68], [-130, 70], [-100, 72], [-80, 66], [-62, 52], [-68, 44], [-76, 36], [-81, 27], [-90, 29], [-97, 24], [-90, 16], [-80, 9], [-92, 15], [-105, 21], [-115, 30], [-124, 40], [-126, 50], [-140, 59], [-158, 58]],
+  [[-55, 80], [-25, 79], [-20, 72], [-42, 60], [-52, 66], [-60, 76]],
+  [[-80, 10], [-62, 10], [-50, 0], [-35, -6], [-40, -22], [-52, -34], [-65, -54], [-72, -48], [-72, -30], [-80, -5]],
+  [[-10, 36], [-9, 43], [-2, 48], [-5, 54], [5, 58], [10, 63], [20, 70], [30, 70], [40, 66], [40, 46], [28, 41], [20, 40], [12, 44], [8, 44], [3, 42], [-5, 36]],
+  [[-6, 50], [2, 51], [-2, 58], [-6, 57]],
+  [[-17, 21], [-12, 30], [-5, 36], [10, 37], [20, 32], [32, 31], [35, 28], [43, 12], [51, 12], [40, -5], [40, -15], [33, -25], [20, -35], [15, -28], [12, -15], [9, -2], [5, 5], [-8, 5], [-17, 14]],
+  [[40, 66], [60, 70], [80, 74], [110, 77], [140, 72], [170, 68], [178, 64], [160, 58], [140, 50], [130, 40], [122, 30], [110, 20], [108, 10], [100, 5], [98, 15], [92, 22], [80, 8], [76, 20], [66, 25], [58, 25], [52, 28], [48, 30], [36, 35], [28, 41], [40, 46]],
+  [[35, 30], [48, 30], [56, 24], [59, 22], [52, 15], [44, 12], [38, 20]],
+  [[113, -22], [122, -17], [131, -12], [142, -11], [146, -19], [153, -28], [147, -38], [138, -35], [130, -32], [115, -34]],
+];
+function classStatic(c) {
+  const WALL = mix(P.sky, P.cream, .72), WAIN = mix(P.mustard, P.cream, .66), WOOD = '#D9A877';
+  c.fillStyle = WALL; c.fillRect(-300, -300, 2800, 1100);
+  const g = c.createRadialGradient(250, 300, 0, 250, 300, 1900); g.addColorStop(0, rgba('#FFF6E8', .55)); g.addColorStop(1, rgba('#C9D6EA', .2)); c.fillStyle = g; c.fillRect(-300, -300, 2800, 1100);
+  // a row of plain paper bunting (no national flags) along the top
+  for (let i = 0; i < 26; i++) {
+    const x = -120 + i * 86, y = 96 + 16 * Math.sin(i * .9) * 0 + 10 * Math.sin((i % 13) / 12 * PI);
+    c.fillStyle = [P.red, P.mustard, P.teal, P.leaf, P.navy][i % 5]; poly(c, [[x, y], [x + 64, y + 4], [x + 30, y + 58]]); c.fill();
+  }
+  c.strokeStyle = rgba(P.ink, .35); c.lineWidth = 3; c.beginPath(); for (let i = 0; i <= 26; i++) { const x = -120 + i * 86, y = 96 + 10 * Math.sin((i % 13) / 12 * PI); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke();
+  // wainscot + rails + floor
+  c.fillStyle = WAIN; c.fillRect(-300, 640, 2800, 150);
+  c.fillStyle = dark(WAIN, .1); for (let x = -300; x < 2500; x += 96) c.fillRect(x, 656, 4, 128);
+  c.fillStyle = '#FFFBF4'; rr(c, -300, 628, 2800, 14, 4); c.fill(); c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(-300, 642, 2800, 5);
+  c.fillStyle = light(WAIN, .45); c.fillRect(-300, 786, 2800, 14); c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(-300, 798, 2800, 5);
+  const fg = c.createLinearGradient(0, 800, 0, 1200); fg.addColorStop(0, WOOD); fg.addColorStop(1, dark(WOOD, .2)); c.fillStyle = fg; c.fillRect(-300, 800, 2800, 500);
+  c.strokeStyle = rgba('#7A4A2E', .15); c.lineWidth = 2;
+  for (const y of [832, 872, 926, 1000, 1110]) { c.beginPath(); c.moveTo(-300, y); c.lineTo(2500, y); c.stroke(); }
+  for (let x = -300; x < 2500; x += 180) { c.beginPath(); c.moveTo(x, 800); c.lineTo(x + (x - 1000) * .5, 1200); c.stroke(); }
+  c.fillStyle = rgba('#FFF2D0', .2); poly(c, [[60, 800], [380, 800], [1100, 1100], [140, 1100]]); c.fill();   // window light on the floor
+  // ---- the window onto the street ----
+  const W = CLASS.win;
+  c.fillStyle = rgba('#3B2F6B', .12); rr(c, W.x - 4, W.y - 2, W.w + 22, W.h + 22, 8); c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, W.x - 14, W.y - 14, W.w + 28, W.h + 28, 8); c.fill();
+  c.save(); c.beginPath(); c.rect(W.x, W.y, W.w, W.h); c.clip();
+  const sg = c.createLinearGradient(0, W.y, 0, W.y + W.h); sg.addColorStop(0, '#79C1E6'); sg.addColorStop(1, '#D8ECF2'); c.fillStyle = sg; c.fillRect(W.x, W.y, W.w, W.h);
+  const FP = mix(mix(P.sky, '#7C78B4', .45), '#DCEAF2', .3);   // far towers + a water tower
+  c.fillStyle = FP; for (const [bx, bw, bh] of [[0, 50, 150], [46, 36, 210], [80, 60, 120], [150, 30, 250], [176, 54, 170], [236, 40, 140], [270, 70, 190]]) c.fillRect(W.x + bx, W.y + 300 - bh, bw, bh + 100);
+  waterTower(c, W.x + 105, W.y + 182, .9);
+  // the brownstone across the street (terracotta, cream window trims)
+  c.fillStyle = BROWN; c.fillRect(W.x - 10, W.y + 190, W.w + 20, 260);
+  c.fillStyle = light(BROWN, .25); c.fillRect(W.x - 10, W.y + 182, W.w + 20, 14);
+  for (const wx of [30, 140, 250]) for (const wy of [222, 318]) { c.fillStyle = mix(BROWN, P.cream, .6); c.fillRect(W.x + wx - 6, W.y + wy - 6, 60, 82); c.fillStyle = '#5E6C9E'; c.fillRect(W.x + wx, W.y + wy, 48, 70); c.fillStyle = rgba('#FFFFFF', .2); c.fillRect(W.x + wx, W.y + wy, 48, 18); }
+  c.fillStyle = IRON; for (let i = 0; i < 3; i++) { c.fillRect(W.x + 120, W.y + 300 + i * 5, 110, 3); }
+  c.fillStyle = P.leaf; for (const [tx, ty, r] of [[40, 360, 60], [120, 380, 54], [300, 352, 66]]) { ell(c, W.x + tx, W.y + ty, r, r * .78); c.fill(); }
+  c.fillStyle = light(P.leaf, .12); ell(c, W.x + 290, W.y + 330, 30, 20); c.fill();
+  c.restore();
+  c.fillStyle = rgba('#FFFFFF', .22); poly(c, [[W.x + 30, W.y + W.h], [W.x + 170, W.y], [W.x + 230, W.y], [W.x + 90, W.y + W.h]]); c.fill();
+  c.fillStyle = '#FFFBF4'; c.fillRect(W.x + W.w / 2 - 6, W.y, 12, W.h); c.fillRect(W.x, W.y + W.h * .45 - 5, W.w, 10);
+  c.fillStyle = rgba('#3B2F6B', .18); c.fillRect(W.x, W.y, W.w, 9); c.fillRect(W.x + W.w - 8, W.y, 8, W.h);
+  c.fillStyle = '#FFFBF4'; rr(c, W.x - 30, W.y + W.h + 14, W.w + 60, 16, 4); c.fill();
+  planterSmall(c, W.x + 60, W.y + W.h + 14); planterSmall(c, W.x + 270, W.y + W.h + 14, .8);
+  // ---- the whiteboard (the writing is live) ----
+  const B = CLASS.board;
+  c.fillStyle = rgba('#3B2F6B', .14); rr(c, B.x + 8, B.y + 12, B.w, B.h, 10); c.fill();
+  c.fillStyle = mix(P.ink, P.cream, .62); rr(c, B.x - 12, B.y - 12, B.w + 24, B.h + 24, 12); c.fill();
+  c.fillStyle = '#FDFEFC'; c.fillRect(B.x, B.y, B.w, B.h);
+  c.fillStyle = rgba('#9BD3EC', .14); poly(c, [[B.x + 60, B.y], [B.x + 170, B.y], [B.x + 40, B.y + B.h], [B.x - 70 + 0, B.y + B.h]]); c.fill();
+  c.fillStyle = rgba('#9BD3EC', .1); poly(c, [[B.x + 210, B.y], [B.x + 250, B.y], [B.x + 120, B.y + B.h], [B.x + 80, B.y + B.h]]); c.fill();
+  c.fillStyle = mix(P.ink, P.cream, .55); rr(c, B.x + 40, B.y + B.h + 10, B.w - 80, 14, 5); c.fill();    // the marker tray
+  for (const [mx, col] of [[B.x + 120, P.navy], [B.x + 170, P.red], [B.x + 215, P.teal]]) { c.fillStyle = col; rr(c, mx, B.y + B.h + 2, 40, 11, 5); c.fill(); c.fillStyle = P.cream; c.fillRect(mx + 28, B.y + B.h + 3, 4, 9); }
+  c.fillStyle = '#FFFBF4'; rr(c, B.x + B.w - 120, B.y + B.h + 4, 60, 20, 6); c.fill(); c.fillStyle = P.navy; c.fillRect(B.x + B.w - 120, B.y + B.h + 16, 60, 8);   // the eraser
+  // ---- the world map (the pins are live) ----
+  const M = CLASS.map;
+  c.fillStyle = rgba('#3B2F6B', .14); rr(c, M.x + 8, M.y + 10, M.w, M.h, 8); c.fill();
+  c.fillStyle = P.navy; rr(c, M.x - 10, M.y - 10, M.w + 20, M.h + 20, 10); c.fill();
+  c.fillStyle = mix(P.sky, P.cream, .35); c.fillRect(M.x, M.y, M.w, M.h);
+  c.strokeStyle = rgba('#FFFFFF', .45); c.lineWidth = 1.5;
+  for (let lon = -150; lon <= 180; lon += 30) { const [x] = mapXY(lon, 0); c.beginPath(); c.moveTo(x, M.y); c.lineTo(x, M.y + M.h); c.stroke(); }
+  for (let lat = -40; lat <= 80; lat += 20) { const [, y] = mapXY(0, lat); c.beginPath(); c.moveTo(M.x, y); c.lineTo(M.x + M.w, y); c.stroke(); }
+  for (const poly_ of LAND) { smooth(c, poly_.map(([lo, la]) => mapXY(lo, la))); c.fillStyle = mix(P.leaf, P.cream, .22); c.fill(); }
+  c.save(); c.globalCompositeOperation = 'source-atop'; c.restore();
+  for (const poly_ of LAND) { smooth(c, poly_.map(([lo, la]) => mapXY(lo + .8, la - 1.2))); c.strokeStyle = rgba(dark(P.leaf, .3), .25); c.lineWidth = 2; c.stroke(); }
+  // ---- the door at the right ----
+  const D = CLASS.door;
+  c.fillStyle = rgba('#3B2F6B', .1); rr(c, D.x + 8, 300, D.w + 10, 496, 8); c.fill();
+  c.fillStyle = '#FFFBF4'; rr(c, D.x - 14, 286, D.w + 28, 516, 10); c.fill();
+  c.fillStyle = mix(P.navy, P.cream, .78); c.fillRect(D.x, 300, D.w, 498);   // the hallway beyond (seen when the door opens)
+  c.fillStyle = mix(P.navy, P.cream, .62); c.fillRect(D.x, 660, D.w, 138);
+  // the empty desk in the set (left of Ana's)
+  deskFront(c, CLASS.desks.empty, { book: true });
+}
+function planterSmall(c, x, base, s = 1) {
+  c.save(); c.translate(x, base); c.scale(s, s);
+  c.fillStyle = P.leaf; ell(c, -12, -58, 22, 26); c.fill(); ell(c, 12, -50, 20, 22); c.fill(); c.fillStyle = light(P.leaf, .15); ell(c, -16, -66, 8, 6, -.5); c.fill();
+  c.fillStyle = P.teal; rr(c, -26, -34, 52, 34, 6); c.fill(); c.fillStyle = light(P.teal, .2); c.fillRect(-29, -37, 58, 8);
+  c.restore();
+}
+// a desk seen from the front: the top, a modesty panel, two legs; x = its centre (world). o.book / o.form: things on the top
+export function deskFront(c, x, o = {}) {
+  const top = CLASS.deskTop, w = 270, WOODD = '#C98F5C';
+  contact(c, x + 10, 886, 160, 13, .3);
+  c.fillStyle = mix(P.ink, P.cream, .35); for (const s of [-1, 1]) { rr(c, x + s * (w / 2 - 22) - 7, top + 10, 14, 886 - top - 8, 5); c.fill(); }
+  c.fillStyle = mix(P.navy, P.cream, .55); rr(c, x - w / 2 + 16, top + 12, w - 32, 886 - top - 18, 6); c.fill();   // the modesty panel reaches the floor line (hands at rest stay hidden)
+  c.fillStyle = rgba('#3B2F6B', .12); c.fillRect(x - w / 2 + 16, top + 12, w - 32, 10);
+  c.fillStyle = rgba('#FFFFFF', .12); rr(c, x - w / 2 + 30, top + 30, w - 60, 4, 2); c.fill();
+  if (o.book) { c.save(); c.translate(x - 50, top - 4); c.rotate(-.05); c.fillStyle = P.teal; rr(c, -46, -10, 92, 14, 3); c.fill(); c.fillStyle = P.cream; c.fillRect(-42, -8, 84, 4); c.restore(); }
+  if (o.form) { c.save(); c.globalAlpha = o.form === true ? 1 : clamp(o.form); c.translate(x + 40, top - 2); c.fillStyle = '#FFFDF6'; rr(c, -40, -6, 80, 8, 2); c.fill(); c.restore(); }
+  if (o.pencil) { c.save(); c.translate(x + 90, top - 3); c.rotate(.08); c.fillStyle = P.mustard; rr(c, -28, -4, 56, 7, 3); c.fill(); c.fillStyle = P.ink; c.fillRect(26, -3, 6, 5); c.restore(); }
+  rr(c, x - w / 2, top - 2, w, 22, 8); c.fillStyle = WOODD; c.fill();
+  c.fillStyle = light(WOODD, .25); rr(c, x - w / 2, top - 2, w, 8, 6); c.fill();
+  c.fillStyle = rgba('#3B2F6B', .15); c.fillRect(x - w / 2 + 6, top + 16, w - 12, 4);
+}
+// board writing: o.lines = [{text, x, y, size, col, p (0..1 written), strike: [word index, p], under: [word index, p, col]}]
+function boardWriting(c, lines) {
+  for (const L of lines || []) {
+    if (!(L.p > 0)) continue;
+    c.save(); c.font = `600 ${L.size}px "Fredoka"`; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+    const W = c.measureText(L.text).width, x0 = L.x - W / 2;
+    c.save(); c.beginPath(); c.rect(x0 - 10, L.y - L.size * 1.1, (W + 20) * L.p, L.size * 1.5); c.clip();
+    c.fillStyle = L.col || P.navy; c.fillText(L.text, x0, L.y); c.restore();
+    const words = L.text.split(' '), sp = c.measureText(' ').width; let wx = x0;
+    words.forEach((w, i) => {
+      const ww = c.measureText(w.replace(/[.?!]$/, '')).width;
+      if (L.hl && L.hl[0] === i && L.hl[1] > 0) { c.fillStyle = L.hl[2] || P.red; c.globalAlpha = 1; c.fillText(w.replace(/[.?!]$/, ''), wx, L.y); }
+      if (L.strike && L.strike[0] === i && L.strike[1] > 0) { c.strokeStyle = P.red; c.lineWidth = L.size * .1; c.lineCap = 'round'; c.beginPath(); c.moveTo(wx - 6, L.y - L.size * .3); c.lineTo(wx - 6 + (ww + 12) * L.strike[1], L.y - L.size * .36); c.stroke(); }
+      if (L.under && L.under[0] === i && L.under[1] > 0) { c.strokeStyle = L.under[2] || P.red; c.lineWidth = L.size * .08; c.lineCap = 'round'; c.beginPath(); c.moveTo(wx, L.y + L.size * .16); c.quadraticCurveTo(wx + ww / 2, L.y + L.size * .26, wx + ww * L.under[1], L.y + L.size * .14); c.stroke(); }
+      wx += c.measureText(w).width + sp;
+    });
+    c.restore();
+  }
+}
+// a map pin: k = 0..1 pop, hi = 0..1 pulse ring; label above/left/right
+function pin(c, x, y, k, hi, t, label, side = 0) {
+  if (k <= 0) return;
+  const s = back(clamp(k), 2.4);
+  if (hi > 0) { const u = (t * 1.4) % 1; c.strokeStyle = rgba(P.red, .6 * hi * (1 - u)); c.lineWidth = 3; ell(c, x, y, 8 + 22 * u, 8 + 22 * u); c.stroke(); }
+  c.save(); c.translate(x, y); c.scale(s, s);
+  ell(c, 2, 1, 6, 3); c.fillStyle = rgba('#1E1B33', .25); c.fill();
+  c.beginPath(); c.moveTo(0, 0); c.bezierCurveTo(-4, -8, -11, -12, -11, -21); c.arc(0, -21, 11, PI, 0); c.bezierCurveTo(11, -12, 4, -8, 0, 0); c.fillStyle = P.red; c.fill();
+  ell(c, 0, -21, 4.5, 4.5); c.fillStyle = P.cream; c.fill();
+  if (label) {
+    c.font = '600 21px "Fredoka"'; c.textBaseline = 'middle'; const w = c.measureText(label).width + 16;
+    const lx = side < 0 ? -w - 14 : side > 0 ? 14 : -w / 2, ly = side ? -24 : -52;
+    c.globalAlpha = clamp(k * 2 - 1); rr(c, lx, ly - 14, w, 28, 14); c.fillStyle = '#FFFDF8'; c.fill(); c.strokeStyle = rgba(P.ink, .15); c.lineWidth = 1.5; c.stroke();
+    c.fillStyle = P.ink; c.textAlign = 'left'; c.fillText(label, lx + 8, ly + 1);
+  }
+  c.restore();
+}
+// the door leaf: open 0..1 (it swings into the room, so the visible leaf narrows)
+function classDoor(c, open) {
+  const D = CLASS.door, lw = D.w * Math.cos(clamp(open) * PI * .46);
+  c.fillStyle = P.teal; rr(c, D.x, 300, lw, 498, 6); c.fill();
+  if (lw > 40) {
+    c.fillStyle = dark(P.teal, .18); for (const [py, ph] of [[324, 170], [530, 230]]) { rr(c, D.x + 26 * lw / D.w, py, Math.max(0, lw - 52 * lw / D.w), ph, 8); c.fill(); }
+    c.fillStyle = P.mustard; ell(c, D.x + lw - 28 * lw / D.w, 560, 9, 9); c.fill();
+  }
+  c.fillStyle = light(P.teal, .2); c.fillRect(D.x, 300, lw, 10);
+  c.fillStyle = rgba('#3B2F6B', .14); c.fillRect(D.x, 300, 8, 498);
+}
+let CLS = null;
+export function drawClass(c, cam, t, o = {}) {
+  if (!CLS) CLS = bake(-200, -120, 2300, 1100, 1.7, classStatic);
+  soft(c, cam, 1, o.dof || 0, l => {
+    blit(l, CLS);
+    classDoor(l, o.door || 0);
+    boardWriting(l, o.board);
+    const P_ = o.pins || {};
+    // each label on the far side of its own pin (Spain's above)
+    for (const [k, side] of [['usa', -1], ['spain', 0], ['egypt', 1]]) { const v = P_[k]; if (v) { const [x, y] = mapXY(...PINS[k]); pin(l, x, y, v.k, v.hi || 0, t, v.label, side); } }
+    if (o.live) o.live(l);
+  });
+  c.setTransform(1, 0, 0, 1, 0, 0);
 }

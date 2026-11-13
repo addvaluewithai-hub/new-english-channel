@@ -2,7 +2,11 @@
 # Timing rules of v2: 0.12–0.25 s between clips in a scene (0.4 s at a scene change), title 1.5 s, "your turn" pause 3.5 s,
 # end card 2.5 s, a 0.9 s repeat gap only after the model lines the learner repeats (T['repeat']), none in EN-6 / EN-7;
 # the fast round EN-7 is one clip per question/answer, the answer placed ANSWER s after the question's last word.
+# Every gap here is AUDIBLE silence: a clip is placed so its first sound starts `gap` s after the previous clip's last sound
+# (each voice file carries ~.2–.4 s of silence at both ends; those silent edges overlap instead of adding up).
+# Run with the lemo-opuscar venv python (numpy + soundfile: the speech edges and the lip-sync gate need them).
 import os, sys, json, wave
+import numpy as np, soundfile as sf
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(HERE, '..', 'lib'))
 import tlkit, lipsync
 from tlkit import Builder
@@ -20,98 +24,119 @@ T['repeat'] = []
 REP, ANSWER = .9, 1.3
 
 
+EDGE = {}
+def edges(k):
+    """(first sound, last sound) of clip k in s: 20 ms RMS frames above -32 dB of the clip's loud level (a missing clip: its words)"""
+    if k not in EDGE:
+        w = os.path.join(HERE, 'voices', k + '.wav')
+        if os.path.exists(w):
+            x, sr = sf.read(w); x = x if x.ndim == 1 else x.mean(1)
+            n = int(.02 * sr); e = np.sqrt(np.convolve(x * x, np.ones(n) / n, 'same'))[::n // 2]
+            on = np.where(e > np.percentile(e, 98) * 10 ** (-32 / 20))[0]
+            EDGE[k] = (max(0, on[0] * n / 2 / sr - .02), min(len(x) / sr, on[-1] * n / 2 / sr + .03))
+        else:
+            dur, words, _ = b.clip(k); EDGE[k] = (words[0]['t0'], words[-1]['t1'])
+    return EDGE[k]
+
+
+def put(k, gap=.2, scene=None):
+    """place k so its first sound starts `gap` s after the cursor (the last sound so far, or a hold); the cursor moves to its last sound"""
+    lead, end = edges(k)
+    b.t += gap - lead
+    s, _ = b.put(k, 0, scene)
+    b.t = s + end
+    return s, s + end
+
+
 def R(k, gap, item, rep=False):
-    """a recap clip (as Builder.recap): rep = the learner repeats it (a 0.9 s gap, recorded in T['repeat'])"""
-    s, e = b.put(k, REP if rep else gap, scene='recap')
+    """a recap clip: rep = the learner repeats it (0.9 s of silence after it, recorded in T['repeat'])"""
+    s, e = put(k, gap, scene='recap')
     if not T['recap'] or T['recap'][-1]['id'] != item:
-        T['recap'].append({'id': item, 't0': round(s, 3)})
-    T['recap'][-1]['t1'] = round(b.t, 3)
+        T['recap'].append({'id': item, 't0': round(s + edges(k)[0] - .15, 3)})
     if rep:
-        T['repeat'].append({'clip': k, 't0': round(T['lines'][-1]['t1'] + .15, 3), 't1': round(b.t + .05, 3)})
-
-
-def lead_tail(k):
-    """(silence before the first word, silence after the last word) of a clip"""
-    dur, words, _ = b.clip(k)
-    return words[0]['t0'], dur - words[-1]['t1']
+        T['repeat'].append({'clip': k, 't0': round(e + .1, 3), 't1': round(e + REP - .05, 3)})
+        b.t = e + REP
+    T['recap'][-1]['t1'] = round(b.t, 3)
+    return s, e
 
 
 # 0. Hook: straight in on the door; freeze on "Sorry?"; AR-00 over the freeze; a VHS rewind into the title
 b.section('open')
-b.hold(.15)
-b.put('open', 0, scene='door')
+b.hold(.2)
+put('open', 0, scene='door')
 b.beat('sorry', b.last_line()['t0'])
 b.beat('freeze', b.last_line()['t1'] + .1)
-b.hold(.05)
-s, e = b.put('ar00', 0)
-b.beat('rewind', T['narration'][-1]['t1'] - .05)
+put('ar00', .35)
+b.beat('rewind', b.t - .1)
 b.t = T['beats']['rewind'] + .6
 b.beat('title')
 b.hold(1.5)
 # 1. The street: AR-01 while he walks, then he rehearses out loud (EN-1a); the door opens
 b.section('street')
+put('ar01', .3)
+put('en1a', .25, scene='street')
 b.hold(.1)
-b.put('ar01', .15)
-b.put('en1a', .2, scene='street')
-b.beat('door_open', b.t - .1)
+b.beat('door_open')
 # 2. The door: after "Sorry?" — AR-05 over a short close-up, then EN-2, AR-06 as they go in
 b.section('door')
-b.hold(.45)
-b.put('ar05', .2)
+put('ar05', .5)
+b.hold(.1)
 b.section('retry')
-b.put('en2', .2, scene='retry')
+put('en2', .15, scene='retry')
 b.beat('come_in', b.last_line()['t0'])
-b.put('ar06', .4)
+put('ar06', .25)
+b.hold(.15)
 # 3. The class: Leo, then Mei; AR-07 over the wide shot
 b.section('class')
+put('en4', .3, scene='class')
+put('en5', .25, scene='class')
+b.beat('wide', b.t + .1)
+put('ar07', .3)
 b.hold(.15)
-b.put('en4', .2, scene='class')
-b.put('en5', .25, scene='class')
-b.beat('wide', b.t - .1)
-b.put('ar07', .4)
 # 4. Goodbye (afternoon, at the door)
 b.section('bye')
-b.hold(.2)
-b.put('en3', 0, scene='bye')
+put('en3', .3, scene='bye')
 b.beat('eight', b.last_line()['t0'])
-b.hold(.15)
-b.put('ar08', .4)
+put('ar08', .2)
+b.hold(.25)
 # 5. Recap: the title card (no line), the items, the name trio, then the fast round
 b.section('recap')
 b.beat('recap_title')
-b.hold(1.2)
-R('r01', .15, 'hi'); R('r02', 0, 'hi', rep=True)
-R('ar10', .2, 'am'); R('r03', .25, 'am'); R('ar11', .12, 'im'); R('r04', 0, 'im', rep=True)
-R('e6s', .12, 'names'); R('e6l', .12, 'names'); R('e6m', .35, 'names')
-R('r05', .15, 'name'); R('r06', 0, 'name', rep=True)
-R('ar13', .15, 'too'); R('r07', 0, 'too', rep=True)
+b.hold(1.0)
+R('r01', 0, 'hi'); R('r02', .2, 'hi', rep=True)
+R('ar10', 0, 'am'); R('r03', .25, 'am'); R('ar11', .2, 'im'); R('r04', .15, 'im', rep=True)
+R('e6s', 0, 'names'); R('e6l', .15, 'names'); R('e6m', .15, 'names')
+R('r05', .4, 'name'); R('r06', .2, 'name', rep=True)
+R('ar13', 0, 'too'); R('r07', .2, 'too', rep=True)
 R('r08', 0, 'sorry', rep=True)
-R('r09', .15, 'bye'); R('r10', 0, 'bye', rep=True)
+R('r09', 0, 'bye'); R('r10', .2, 'bye', rep=True)
 b.section('fast')
-R('ar12', .25, 'fast')
+R('ar12', 0, 'fast')
 for i in range(1, 5):
-    q, a = f'e7q{i}', f'e7a{i}'
-    gap = max(.1, ANSWER - lead_tail(q)[1] - lead_tail(a)[0])
-    R(q, gap, 'fast')
+    R(f'e7q{i}', .3 if i == 1 else .35, 'fast')
     T['beats'][f'q{i}'] = T['lines'][-1]['t0']
-    R(a, .3 if i < 4 else .45, 'fast')
+    R(f'e7a{i}', ANSWER, 'fast')
     T['beats'][f'a{i}'] = T['lines'][-1]['t0']
+b.hold(.35)
 # 6. Your turn
 b.section('turn')
-b.put('ar16', .15)
-b.put('turn', .2, scene='turn')
+put('ar16', .3)
+put('turn', .2, scene='turn')
+b.hold(.2)
 b.beat('pause_start')
 b.hold(3.5)
 b.beat('pause_end')
-b.put('ar17', .3)
+put('ar17', .15)
+b.hold(.2)
 # 7. Solve the exercises on the site
 b.section('site')
 b.beat('site_card')
+put('ar19', .35)
 b.hold(.3)
-b.put('ar19', .3)
 # 8. Next time
 b.section('next')
-b.put('ar18', .3)
+put('ar18', .2)
+b.hold(.3)
 b.beat('end_card')
 b.hold(2.5)
 b.finish()
