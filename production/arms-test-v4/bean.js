@@ -133,7 +133,8 @@ function armGeoA3(sp, p, G) {
     const phi = s * PI / 2, ps = phi + G.th, c = Math.cos(ps), sn = Math.sin(ps), sg = Math.sign(sn) || s;
     const far = c < -.2, fk = far ? clamp(A.front) : 1;   // fk: how much of the arm is drawn in front of the body
     // the anchor on the silhouette: the far cap at the far edge, sliding to the near-arm anchor as the arm comes in front
-    const sx = G.hw(ys) * lerp(.95, .72 + .28 * Math.abs(sn), fk) * sg;
+    // A4: a folded far arm's shoulder slides in behind the body (its cap no longer peeks past the far edge)
+    const sx = G.hw(ys) * lerp(.95, .72 + .28 * Math.abs(sn), fk) * sg * (cfg.a4 && far ? lerp(.76, 1, sstA(A.out ?? 1)) : 1);
     const S = G.D(sx, ys);
     let dx = A.dx * H * s, dy = A.dy * H + .004 * H * (p.breathe || 0);   // the idle arm breathes with the body
     if (far) { dx += s * .03 * H * (1 - fk); dy += .06 * H * (1 - fk); }   // a hanging far arm sits a touch forward so its hand peeks past the body edge
@@ -168,7 +169,7 @@ function tuckA4(R, A, G, sn, sg, c, H) {
   const u = clamp(A.out ?? 1), e = sstA(u), ys = -R.cfg.sy * H, yb = -.165 * H;
   const vis = sstA((c + .2) / .4), far = R.far;
   // the far arm tucks behind the body (inside the silhouette); the near one along the side
-  const edge = y => far ? G.hw(y) * .55 * sg : (G.hw(y) - .016 * H) * sg;
+  const edge = y => far ? (G.hw(y) - .05 * H) * sg : (G.hw(y) - .016 * H) * sg;   // far: just behind the far edge
   const P = v => { const y = lerp(ys + .03 * H, yb, v); return G.D(edge(y), y); };
   const S = R.S, P1 = P(.4), P2 = P(.75), Tt = P(1);
   // control points on the curve, nudged so the cubic passes near P(.4) / P(.75)
@@ -179,7 +180,9 @@ function tuckA4(R, A, G, sn, sg, c, H) {
   R.Hd = [lerp(Tt[0], R.Hd[0], e), lerp(Tt[1], R.Hd[1], e)];
   R.Ec = [lerp((R.c1[0] + R.c2[0]) / 2, R.Ec[0], e), lerp((R.c1[1] + R.c2[1]) / 2, R.Ec[1], e)];
   const fl = Math.hypot(R.Hd[0] - R.c2[0], R.Hd[1] - R.c2[1]) || 1; R.fdir = [(R.Hd[0] - R.c2[0]) / fl, (R.Hd[1] - R.c2[1]) / fl];
-  R.u = u; R.aU = sstA(u / .3); R.hk = lerp(.8, 1, e);
+  R.u = u; R.aU = far ? 1 : sstA(u / .3); R.hk = lerp(.8, 1, e);   // the far arm is hidden by geometry (behind the body), the near one fades in on the bulge
+  // a far arm coming in front (hand-over) is drawn in front only once it is mostly out (else its hand would ghost over the belly)
+  if (far) R.frontK = R.frontK * sstA((e - .3) / .45);
   R.bA = far ? 0 : vis * (1 - sstA((u - .1) / .55));
 }
 function armGeo3(sp, p, G) {

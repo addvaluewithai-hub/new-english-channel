@@ -30,25 +30,29 @@ const POSES = [
 
 export function sheetPoses(c) {
   c.fillStyle = '#F6EEDF'; c.fillRect(0, 0, SW, SH);
-  c.font = '400 50px "Lilita One"'; c.fillStyle = P.navy; c.textAlign = 'left'; c.fillText('ARMS · A3 vs A4', 40, 64);
-  label(c, 'A3 (episodes now): shoulder cap + one tapered sleeve curve + round hand, always full length  ·  A4: at rest the sleeve hugs the side as a bulge in the body silhouette (small hand at the hip, far arm hidden); gestures unfold the A3 arm (+10 % at the shoulder)', 470, 50, 15.5, rgba(P.ink, .7), 'left', 500);
-  label(c, 'same poses, same scale, 3/4 two-shot (Youssef turn .3, Sara −.3). Dashed line in the A4 row: where the new medium two-shot cuts the frame (≈ .2 H above the feet)', 470, 72, 15.5, rgba(P.ink, .5), 'left', 500);
-  const k = .74, cw = 306, x0 = 30, rows = [['A3', 96, P.navy], ['A4', 588, P.teal]];
-  for (const [m, ry, col] of rows) {
+  c.font = '400 46px "Lilita One"'; c.fillStyle = P.navy; c.textAlign = 'left'; c.fillText('ARMS · A3 vs A4', 36, 56);
+  label(c, 'A3 (episodes now): shoulder cap + one tapered sleeve curve + round hand, always full length.   A4: at rest the sleeve hugs the side as a bulge inside the body', 420, 34, 15.5, rgba(P.ink, .72), 'left', 500);
+  label(c, 'silhouette (one form pass, small hand at the hip, far arm hidden); gestures unfold the A3 arm out of it (+10 % at the shoulder).  Same pose objects, same scale, 3/4 view.', 420, 54, 15.5, rgba(P.ink, .72), 'left', 500);
+  label(c, 'Dashed red line in the A4 rows: where the new medium two-shot cuts the frame (≈ .2 H above the feet): below it is off screen in the dialogue shots.', 420, 74, 15.5, rgba(P.ink, .5), 'left', 500);
+  const k = .62, cw = 300, x0 = 120 + cw / 2, rh = 236;
+  const rows = [['youssef', 'A3', 1], ['youssef', 'A4', 1], ['mia', 'A3', 2], ['mia', 'A4', 2]];
+  rows.forEach(([id, m, col], ri) => {
+    const ry = 110 + ri * rh + (ri >= 2 ? 6 : 0);
     setArms(m);
-    c.fillStyle = m === 'A4' ? '#FFF8EC' : '#FFFBF3'; rr(c, 22, ry, SW - 44, 476, 26); c.fill();
-    c.font = '400 46px "Lilita One"'; c.fillStyle = col; c.textAlign = 'left'; c.fillText(m, 42, ry + 52);
+    c.fillStyle = m === 'A4' ? '#FFF6E6' : '#FFFBF3'; rr(c, 16, ry, SW - 32, rh - 8, 22); c.fill();
+    c.font = '400 40px "Lilita One"'; c.fillStyle = m === 'A4' ? P.teal : rgba(P.navy, .8); c.textAlign = 'left'; c.fillText(m, 32, ry + 50);
+    label(c, id === 'mia' ? 'Sara' : 'Youssef', 32, ry + 76, 17, rgba(P.ink, .55), 'left', 600);
     POSES.forEach(([name, yo, so], i) => {
-      const cx = x0 + 140 + i * cw, g = ry + 420;
-      if (i) { c.strokeStyle = rgba(P.ink, .07); c.lineWidth = 2; c.beginPath(); c.moveTo(cx - cw / 2 + 4, ry + 70); c.lineTo(cx - cw / 2 + 4, ry + 440); c.stroke(); }
-      if (m === 'A4') { const yc = g - .2 * 300 * .9 * k; c.setLineDash([7, 7]); c.strokeStyle = rgba(P.red, .45); c.lineWidth = 2; c.beginPath(); c.moveTo(cx - cw / 2 + 14, yc); c.lineTo(cx + cw / 2 - 10, yc); c.stroke(); c.setLineDash([]); }
-      actor(c, 'youssef', cx - 62, g, k * .9, { ...Y0, ...yo });
-      actor(c, 'mia', cx + 82, g, k * .9, { ...S0, ...so });
-      label(c, name, cx + 10, g + 42, 19, rgba(P.ink, .62));
+      const cx = x0 + i * cw, g = ry + rh - 34;
+      if (i) { c.strokeStyle = rgba(P.ink, .07); c.lineWidth = 2; c.beginPath(); c.moveTo(cx - cw / 2, ry + 14); c.lineTo(cx - cw / 2, ry + rh - 22); c.stroke(); }
+      const hh = CAST[id].H * k;
+      if (m === 'A4') { const yc = g - .2 * hh; c.setLineDash([7, 7]); c.strokeStyle = rgba(P.red, .5); c.lineWidth = 2; c.beginPath(); c.moveTo(cx - cw / 2 + 12, yc); c.lineTo(cx + cw / 2 - 12, yc); c.stroke(); c.setLineDash([]); }
+      actor(c, id, cx + (id === 'mia' ? -14 : 14), g, k, { ...(id === 'mia' ? S0 : Y0), ...(id === 'mia' ? so : yo) });
+      if (ri === 0) label(c, name, cx, ry - 6, 19, rgba(P.ink, .7));
     });
-  }
+  });
   setArms('A4');
-  label(c, 'arms test v4 · bean.js ARMS = A4 · the same pose objects feed both rows (A3 ignores the new `out` field)', SW / 2, SH - 12, 14, rgba(P.ink, .45));
+  label(c, 'arms test v4 · bean.js ARMS = A4 · Youssef turn .3 (armL near), Sara turn −.3 (armR near); point / wave / scratch use the near arm, the sip the far arm brought in front (as in the episode)', SW / 2, SH - 8, 14, rgba(P.ink, .45));
 }
 
 // the unfold, frame by frame: the arm fields blended from rest to the gesture by u (the smoothed tracks in act.js move all of them
@@ -62,15 +66,15 @@ export function sheetUnfold(c) {
   const rows = [
     ['Youssef · near arm → point', 'youssef', { turn: .3, face: face('talk', { lx: -.6 }) }, 'armL', ARM.point],
     ['Sara · near arm → wave', 'mia', { turn: -.3, wave: .25, face: face('joy') }, 'armR', ARM.wave],
-    ['Youssef · far arm → hand-over (comes out from behind)', 'youssef', { turn: .5, face: face('joy', { lx: .55 }) }, 'armR', { ...REACH, dx: .12, dy: .08 }],
+    ['Youssef · far arm → hand-over', 'youssef', { turn: .5, face: face('joy', { lx: .55 }) }, 'armR', { ...REACH, dx: .12, dy: .08 }],
     ['Youssef · near arm → scratch', 'youssef', { turn: .3, face: face('embarrassed') }, 'armL', ARM.scratch],
   ];
   rows.forEach(([name, id, base, which, tgt], ri) => {
     const ry = 84 + ri * 246;
     c.fillStyle = ri % 2 ? '#FFF8EC' : '#FFFBF3'; rr(c, 22, ry, SW - 44, 236, 22); c.fill();
-    label(c, name, 44, ry + 30, 19, P.ink, 'left', 600);
+    const nm = name.split(' · '); label(c, nm[0], 40, ry + 40, 20, P.ink, 'left', 700); nm.slice(1).join(' · ').split(' → ').forEach((ln, j) => label(c, (j ? '→ ' : '') + ln, 40, ry + 66 + j * 22, 15, rgba(P.ink, .65), 'left', 500));
     us.forEach((u, i) => {
-      const cx = 130 + i * 205, g = ry + 214;
+      const cx = 300 + i * 190, g = ry + 214;
       actor(c, id, cx, g, k, { ...base, [which]: blendArm(ARM.rest, tgt, u) });
       label(c, `${Math.round(u * 100)} %`, cx + 74, g - 8, 14, rgba(P.ink, .4));
     });
