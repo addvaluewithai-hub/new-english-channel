@@ -3,7 +3,7 @@
 //   unfold: the A4 unfold, frame by frame (rest → point, rest → wave, the far arm rest → hand-over, rest → scratch), for pops
 import { P, rgba, dark, rr } from './kit.js';
 import { CAST, EXPR, ARM, pose, drawChar, drawCup, drawHand, handPos, setArms, blendArm } from './bean.js';
-import { REACH } from './act.js';
+import { REACH, OPEN } from './act.js';
 
 const SW = 1920, SH = 1080;
 const face = (n, x = {}) => ({ ...EXPR[n], ...x });
@@ -79,4 +79,29 @@ export function sheetUnfold(c) {
       label(c, `${Math.round(u * 100)} %`, cx + 74, g - 8, 14, rgba(P.ink, .4));
     });
   });
+}
+
+// hands: A3's ball vs the A4 mitten, close up (Youssef, upper body, k 1.45) and at phone scale (inset, k .32)
+export function sheetHands(c) {
+  c.fillStyle = '#F6EEDF'; c.fillRect(0, 0, SW, SH);
+  c.font = '400 44px "Lilita One"'; c.fillStyle = P.navy; c.textAlign = 'left'; c.fillText('HANDS · ball (A3) vs mitten (A4)', 36, 56);
+  label(c, 'mitten: a rounded palm along the forearm, a small thumb splayed on the upper side, two finger splits at the tip · point = fist + index finger · hold = the tip curls', 36, 84, 16, rgba(P.ink, .68), 'left', 500);
+  label(c, 'over the cup · at rest it hides in the sleeve (A4: a small peek at the hip). Inset top-right of each cell: the same pose at phone scale.', 36, 104, 16, rgba(P.ink, .68), 'left', 500);
+  const cols = [['rest', {}], ['point', { armR: ARM.point }], ['wave', { armR: ARM.wave, wave: .25 }], ['hold cup', { armR: { ...ARM.hold }, cups: [1] }], ['open palm', { armR: OPEN }]];
+  const fc = { rest: face('happy', { happy: .4, lx: -.4 }), point: face('talk', { lx: .6 }), wave: face('joy'), 'hold cup': face('happy', { happy: .5, lx: -.4 }), 'open palm': face('talk', { lx: .5 }) };
+  const cw = 372, ch = 452;
+  [['A3', 120], ['A4', 590]].forEach(([m, ry]) => {
+    setArms(m);
+    c.font = '400 36px "Lilita One"'; c.fillStyle = m === 'A4' ? P.teal : rgba(P.navy, .8); c.textAlign = 'left';
+    cols.forEach(([name, o], i) => {
+      const x = 22 + i * (cw + 4);
+      c.save(); rr(c, x, ry, cw, ch, 20); c.fillStyle = m === 'A4' ? '#FFF6E6' : '#FFFBF3'; c.fill(); c.clip();
+      actor(c, 'youssef', x + cw * .3, ry + ch + 30, 1.1, { turn: -.3, face: fc[name], shadow: 0, ...o });
+      c.fillStyle = rgba('#FFFFFF', .75); rr(c, x + cw - 124, ry + 8, 116, 124, 14); c.fill();
+      actor(c, 'youssef', x + cw - 74, ry + 122, .32, { turn: -.3, face: fc[name], ...o });
+      c.restore();
+      label(c, `${m} · ${name}`, x + 16, ry + 30, 19, m === 'A4' ? dark(P.teal, .2) : rgba(P.navy, .85), 'left', 700);
+    });
+  });
+  setArms('A4');
 }

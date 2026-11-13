@@ -12,7 +12,7 @@ import { buildRecap, sceneRecap } from './recap.js';
 import { buildOutro, titleCard, wipe, sceneTurn, sceneSite, sceneNext, endCard, O } from './outro.js';
 import { plate } from './ui.js';
 import { cue, finishCues } from './cues.js';
-import { sheetPoses, sheetUnfold } from './sheet.js';
+import { sheetPoses, sheetUnfold, sheetHands } from './sheet.js';
 
 const cv = document.getElementById('c'), c = cv.getContext('2d', CPU);
 const SW = 1920, SH = 1080;
@@ -40,7 +40,7 @@ if (Q.get('arms')) setArms(Q.get('arms'));   // ?arms=A3|A4 (arms test v4: A4 is
 let OFF = 0;
 const SHEET = Q.get('f');   // arms test v4: ?f=sheet (A3 vs A4 poses) | f=unfold (the A4 unfold, frame by frame)
 window.render = t => {
-  if (SHEET) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; (SHEET === 'unfold' ? sheetUnfold : sheetPoses)(c); grain(c, SW, SH, .02); return; }
+  if (SHEET) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; ({ unfold: sheetUnfold, hands: sheetHands }[SHEET] || sheetPoses)(c); grain(c, SW, SH, .02); return; }
   t += OFF;
   c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.globalCompositeOperation = 'source-over'; c.filter = 'none';
   t = clamp(t, 0, TL.dur);

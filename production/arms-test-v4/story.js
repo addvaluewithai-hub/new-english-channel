@@ -6,7 +6,7 @@ import { ARMS, CAST, drawChar, drawSuitcase, drawCup, drawTray, drawBag, drawFor
 import { drawWorld, drawBedroom, drawHall, blanket, layerT, toScreen, GROUND, DOOR, BED, BEDCLOCK } from './world.js';
 import { clamp, lerp, seg, ss, eio, eo, back, hash } from '/core/lib.js';
 import { SEC, BEAT, NARR, LINES, nwT, has } from './tl.js';
-import { fold, F, moveAt, hop, liveFace, springAt, smoothArms, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, RAISE, RUNARM, REACH, HOLDLOW } from './act.js';
+import { fold, F, moveAt, hop, walkG, CALM, liveFace, springAt, smoothArms, EXPR, ARM, pose, PULL, CUP, POINT, CLAP, DIP, OPEN, RAISE, RUNARM, REACH, HOLDLOW } from './act.js';
 import { lineBubble, thought, sunIcon, alarmClock, timeTag, sparkle, bigMark, zzz, bubble, wordStates } from './ui.js';
 import { cue } from './cues.js';
 
@@ -32,14 +32,18 @@ export const dofOf = z => 2 * ss(seg(z, 1.3, 1.8)) + 7 * ss(seg(z, 2.5, 3.4));
 
 // ---- small motion helpers ----
 // jumps: [{t, h (fraction of H), d}] → extra lift + squash (anticipation squash, stretch up, landing squash)
+// calm (arms test v4): the small reaction hops (h < .1) keep a fifth of their lift and a quarter of their squash; a real leap
+// (out of bed) keeps its lift with half the squash
 function jumpsAt(list, t, Hc) {
   let lift = 0, sq = 1;
-  for (const j of list) {
+  const calm = CALM();
+  for (const j0 of list) {
+    const j = calm ? { ...j0, h: j0.h < .1 ? j0.h * .2 : j0.h } : j0, q = calm ? (j0.h < .1 ? .25 : .5) : 1;
     const d = j.d || .42, u = (t - j.t) / d;
     if (u < -.25 || u > 1.5) continue;
-    if (u < 0) sq *= 1 - .09 * Math.sin(Math.PI * (u + .25) / .25);
-    else if (u < 1) { const a = Math.sin(Math.PI * u); lift += j.h * Hc * a; sq *= 1 + .07 * a * (1 - u); }
-    else sq *= 1 - .1 * Math.exp(-(u - 1) * 6) * Math.sin((u - 1) * 14);
+    if (u < 0) sq *= 1 - q * .09 * Math.sin(Math.PI * (u + .25) / .25);
+    else if (u < 1) { const a = Math.sin(Math.PI * u); lift += j.h * Hc * a; sq *= 1 + q * .07 * a * (1 - u); }
+    else sq *= 1 - q * .1 * Math.exp(-(u - 1) * 6) * Math.sin((u - 1) * 14);
   }
   return { lift, sq };
 }
@@ -49,13 +53,14 @@ const trem = (t, a) => a * (Math.sin(t * 57) * .6 + Math.sin(t * 91) * .4);
 // a character = keys + moves + jumps → full pose state at t (without the live face layer)
 function charState(C, t) {
   const m = moveAt(C.moves, t, H[C.id]);
-  const hp = hop(m, H[C.id], C.hopAmp ?? 1);
+  const calm = CALM(), hp = (calm ? walkG : hop)(m, H[C.id], C.hopAmp ?? 1);
   const k = fold(C.keys, t, C.base);
   const j = jumpsAt(C.jumps || [], t, H[C.id]);
-  const pant = k.pant ? 1 + .022 * k.pant * Math.sin(t * Math.PI * 2 * 2.6) : 1;
+  const pant = k.pant ? 1 + (calm ? .009 : .022) * k.pant * Math.sin(t * Math.PI * 2 * 2.6) : 1;
+  const ksq = calm ? 1 + ((k.sq ?? 1) - 1) * .35 : (k.sq ?? 1);   // calm: keyed squash/stretch on reactions at about a third
   return {
-    ...k, x: m.x, y: m.y || GROUND, k: m.k * (k.kmul ?? 1), lift: hp.lift + j.lift + (k.lift || 0), sq: hp.sq * j.sq * (k.sq ?? 1) * pant,
-    lean: (k.lean || 0) + hp.lean + trem(t, k.trem || 0), footL: hp.footL, footR: hp.footR, phase: m.phase, walking: m.walking, dir: m.dir,
+    ...k, x: m.x, y: m.y || GROUND, k: m.k * (k.kmul ?? 1), lift: hp.lift + j.lift + (k.lift || 0), sq: hp.sq * j.sq * ksq * pant,
+    lean: (k.lean || 0) + hp.lean + trem(t, k.trem || 0), footL: hp.footL, footR: hp.footR, footXL: hp.footXL || 0, footXR: hp.footXR || 0, phase: m.phase, walking: m.walking, dir: m.dir,
     wave: t * 1.9,
   };
 }

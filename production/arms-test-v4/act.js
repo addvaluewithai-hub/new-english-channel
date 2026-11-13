@@ -1,6 +1,9 @@
 // Episode 1 — acting helpers. Everything is a pure function of t (seeded randomness only).
 import { clamp, lerp, seg, ss, eio, hash, mulberry } from '/core/lib.js';
-import { EXPR, ARM, blendFace, blendArm, normArm, pose } from './bean.js';
+import { EXPR, ARM, blendFace, blendArm, normArm, pose, ARMS } from './bean.js';
+// arms test v4: with A4 the whole 'calm' package is on (grounded walk, fewer hops, softer squash); ?calm=0|1 overrides
+const CALMQ = new URLSearchParams(location.search).get('calm');
+export const CALM = () => CALMQ != null ? CALMQ === '1' : ARMS === 'A4';
 import { mouthAt } from './tl.js';
 
 // ---- keyed state tracks ----
@@ -35,7 +38,9 @@ export function moveAt(segs, t, H = 300) {
   let x = segs[0].x0, y = segs[0].y0 ?? 0, k = segs[0].k0 ?? 1, phase = 0, walking = 0, dir = 1, stepT = .42, ramp = 0;
   for (const s of segs) {
     if (t < s.t0) break;
-    const D = Math.max(.01, s.t1 - s.t0), n = Math.max(1, Math.round(D / (s.step || .42))), u = clamp((t - s.t0) / D);
+    // calm: grounded steps are a little slower (walk ≈ .48 s, a hurry no faster than .34 s)
+    const st = CALM() ? (s.step ? Math.max(s.step, s.step < .3 ? .34 : .45) : .48) : (s.step || .42);
+    const D = Math.max(.01, s.t1 - s.t0), n = Math.max(1, Math.round(D / st)), u = clamp((t - s.t0) / D);
     const e = s.ease === 'lin' ? u : smoothLin(u, Math.min(.18, .3 / D));
     x = lerp(s.x0, s.x1, e);
     if (s.y0 != null) y = lerp(s.y0, s.y1, e);
@@ -52,6 +57,22 @@ function smoothLin(u, r) {
   if (u < r) return v * u * u / (2 * r);
   if (u > 1 - r) { const w = 1 - u; return 1 - v * w * w / (2 * r); }
   return v * (u - r / 2);
+}
+// arms test v4 — the grounded walk: no airborne phase. One foot is always planted: the swing foot travels from behind to in front
+// under the body (a small lift mid-swing) while the planted one slides back; the body bobs ≤ 1.6 % H (highest as the feet pass),
+// sways side to side once per stride (a tiny alternating lean), and leans slightly forward; squash/stretch is ≤ 1 %.
+export function walkG(m, H = 300, amp = 1) {
+  if (!m.walking && m.phase % 1 === 0) return { lift: 0, sq: 1, footL: 0, footR: 0, footXL: 0, footXR: 0, lean: 0 };
+  const u = m.phase % 1, n = Math.floor(m.phase), A = Math.min(1.25, amp) * (m.walking ? ss(m.ramp ?? 1) : 0);
+  const pass = Math.sin(Math.PI * u) ** 2, a = .055 * A, sw = ss(u);
+  const L = n % 2 === 0;   // the left foot swings on even steps
+  const swingX = lerp(-a, a, sw), plantX = lerp(a, -a, u), lift = .028 * A * Math.sin(Math.PI * u);
+  return {
+    lift: .016 * H * A * pass, sq: 1 + .008 * A * (pass - .5),
+    footL: L ? lift : 0, footR: L ? 0 : lift,
+    footXL: (L ? swingX : plantX) * m.dir, footXR: (L ? plantX : swingX) * m.dir,
+    lean: A * (.035 * m.dir + .012 * Math.sin(Math.PI * m.phase)),
+  };
 }
 // hop-walk pose offsets from a step phase (STYLE: squash, lift ≈ .1 H, stretch, damped landing squash; feet alternate)
 export function hop(m, H = 300, amp = 1) {
@@ -145,8 +166,8 @@ export function springAt(stateFn, t, gain = 1) {
 // simulated deterministically over the last second at 90 Hz from the keyed track, so every change eases in and out the same way
 // and nothing pops. foldArm is the arm-only, allocation-free version of fold (vectors cached on the keys).
 // A4: channel 8 = out (folded 0 / unfolded 1), followed faster (τ .07 s) so the unfold rides on the key's own ease (≈ .2–.3 s)
-const NA = 9;
-const armVec = A => { const N = normArm(A); return [N.dx, N.dy, N.w, N.flex, N.front, N.elv[0], N.elv[1], N.bend, N.out, N.tau || 0]; };
+const NA = 10;   // + channel 9 = pt (the pointing finger)
+const armVec = A => { const N = normArm(A); return [N.dx, N.dy, N.w, N.flex, N.front, N.elv[0], N.elv[1], N.bend, N.out, N.pt, N.tau || 0]; };
 const vecOf = (k, which) => { const c = k._av || (k._av = {}); if (c[which] === undefined) c[which] = k[which] ? armVec(k[which]) : null; return c[which]; };
 function foldArm(keys, t, base, which) {
   const bv = vecOf(base, which) || armVec(ARM.rest), x = bv.slice(0, NA); let tau = bv[NA];
@@ -166,7 +187,7 @@ function smoothArm(C, t, which) {
     const g = foldArm(C.keys, T0 + i * dt, C.base, which), w0 = 1 / (g[NA] || C.tau || .14), wo = Math.max(w0, 1 / .07), z = .75;
     for (let j = 0; j < NA; j++) { const w = j === 8 ? wo : w0; v[j] += (w * w * (g[j] - x[j]) - 2 * z * w * v[j]) * dt; x[j] += v[j] * dt; }
   }
-  return { dx: x[0], dy: x[1], w: x[2], flex: x[3], front: x[4], elv: [x[5], x[6]], bend: x[7], out: clamp(x[8]) };
+  return { dx: x[0], dy: x[1], w: x[2], flex: x[3], front: x[4], elv: [x[5], x[6]], bend: x[7], out: clamp(x[8]), pt: clamp(x[9]) };
 }
 export const smoothArms = (C, t) => ({ armL: smoothArm(C, t, 'armL'), armR: smoothArm(C, t, 'armR') });
 

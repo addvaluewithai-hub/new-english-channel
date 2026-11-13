@@ -45,13 +45,13 @@ export const ARMV2 = {
 };
 // an arm pose blend that carries the A2 fields: bend (min elbow bend, deg), flex, elv (elbow-side hint), front (drawn in front:
 // switches at the midpoint), el. Missing fields take the A2 defaults so a bare {dx, dy, w} pose blends like any other.
-const ARMDEF = { dx: 0, dy: 0, w: 0, bend: 35, flex: .8, elv: [1, .5], front: 0, out: 1 };   // out (A4): 0 = folded into the sleeve bulge, 1 = the arm out
-export const normArm = A => ({ ...ARMDEF, ...A, elv: A.elv || ARMDEF.elv, front: +(A.front || 0), out: A.out ?? 1 });
+const ARMDEF = { dx: 0, dy: 0, w: 0, bend: 35, flex: .8, elv: [1, .5], front: 0, out: 1, pt: 0 };   // pt (A4 mitten): the index finger out (point)   // out (A4): 0 = folded into the sleeve bulge, 1 = the arm out
+export const normArm = A => ({ ...ARMDEF, ...A, elv: A.elv || ARMDEF.elv, front: +(A.front || 0), out: A.out ?? 1, pt: A.pt ?? 0 });
 // front is a 0..1 amount (A3 cross-fades the far arm between behind and in front of the body); tau = the follow time of a snap pose
 export const blendArm = (a, b, t) => {
   const A = normArm(a), B = normArm(b);
   const o = { dx: lerp(A.dx, B.dx, t), dy: lerp(A.dy, B.dy, t), w: lerp(A.w, B.w, t), bend: lerp(A.bend, B.bend, t), flex: lerp(A.flex, B.flex, t),
-    elv: [lerp(A.elv[0], B.elv[0], t), lerp(A.elv[1], B.elv[1], t)], front: lerp(A.front, B.front, t), out: lerp(A.out, B.out, t) };
+    elv: [lerp(A.elv[0], B.elv[0], t), lerp(A.elv[1], B.elv[1], t)], front: lerp(A.front, B.front, t), out: lerp(A.out, B.out, t), pt: lerp(A.pt, B.pt, t) };
   const tau = t > .5 ? B.tau : A.tau; if (tau) o.tau = tau;
   const el = t > .5 ? B.el : A.el; if (el) o.el = el;
   return o;
@@ -121,7 +121,7 @@ export const ARM3 = {
   door:    { dx: .18, dy: -.5, w: 0, app: [.2, -1], flex: .8 },
 };
 for (const k in ARM3) ARM[k] = { ...ARM3[k], ...(X2[k] || {}), ...(X3[k] || {}) };
-ARM.rest.out = 0;   // A4: the resting arm is folded into the sleeve bulge (A3 ignores `out`)
+ARM.rest.out = 0; ARM.point.pt = 1;   // A4: the resting arm is folded into the sleeve bulge (A3 ignores `out`)
 // A3 geometry: one cubic from the shoulder cap to the hand. The bend point E sits off the chord's midpoint along the pose's elbow
 // bias by `lat`: at least the pose's minimum bend (bend°, as if two .165 H bones), more with flex (0 = the minimum, 1 = the full
 // bones). The hand is pulled in to the reach of that minimum bend. Everything is continuous in the pose fields, so smoothing the
@@ -154,7 +154,7 @@ function armGeoA3(sp, p, G) {
     const c1 = [lerp(S[0], E[0], .85), lerp(S[1], E[1], .85)], c2 = [lerp(T[0], E[0], .85), lerp(T[1], E[1], .85)];
     const fl = Math.hypot(T[0] - c2[0], T[1] - c2[1]) || 1, fdir = [(T[0] - c2[0]) / fl, (T[1] - c2[1]) / fl];
     const dir = [(T[0] - S[0]) / d, (T[1] - S[1]) / d];
-    const R = { s, S, E: null, Ec: E, Hd: T, far, frontK: fk, wave: A.w, c1, c2, cfg, dir, front: fk > .5, fdir };
+    const R = { pt: A.pt || 0, s, S, E: null, Ec: E, Hd: T, far, frontK: fk, wave: A.w, c1, c2, cfg, dir, front: fk > .5, fdir };
     if (cfg.a4) tuckA4(R, A, G, sn, sg, c, H);
     out.push(R);
   }
@@ -294,7 +294,7 @@ function drawArm3(c, sp, A, H) {
   rr(c, -.016 * H, -wW * .58, .034 * H, wW * 1.16, .012 * H); c.fillStyle = sp.cuff; c.fill();
   if (sp.id === 'youssef') { rr(c, .012 * H, -wW * .5, .01 * H, wW, .004 * H); c.fillStyle = P.cream; c.fill(); }
   c.restore();
-  drawHand(c, sp, e[0], e[1], H * (A.hk ?? 1), { dir: A.fdir });
+  drawHand(c, sp, e[0], e[1], H * (A.hk ?? 1), { dir: A.fdir, pt: A.pt, side: A.s });
 }
 // A4: draw fn into a scratch canvas and composite it at opacity a (a group opacity: the arm's overlapping fills don't show
 // through each other while it fades in/out); a full or zero opacity draws directly / not at all
@@ -320,7 +320,7 @@ function bulgeA4(l, sp, A, H) {
   const pts = armPath(Q), w0 = T.cfg.wS * H * k, w1 = .066 * H * k;
   // the hand under the cuff (drawn first, the cuff end overlaps its top)
   const e = Q.Hd, hr = .8 * k;
-  if (hr > .05) drawHand(l, sp, e[0] - A.s * .004 * H, e[1] + .026 * H * k, H * hr, { dir: [0, 1] });
+  if (hr > .05) drawHand(l, sp, e[0] - A.s * .004 * H, e[1] + .026 * H * k, H * hr, { dir: [0, 1], side: A.s, tuck: 1 });
   l.fillStyle = sp.sleeve;
   // fuller in the middle: two overlapping tapered tubes (shoulder → elbow, elbow → cuff)
   const m = pts.length >> 1;
@@ -466,7 +466,8 @@ function bodyFlat(l, sp, p, G, arms) {
   for (const s of [-1, 1]) {
     const lift = (s < 0 ? p.footL : p.footR) * H, side = Math.abs(Math.sin(th));
     const fx = s * .12 * H * Math.cos(th) + Math.sin(th) * .06 * H + s * side * .02 * H;
-    const [X, Y] = D(fx, -.03 * H - lift);
+    const fxx = fx + ((s < 0 ? p.footXL : p.footXR) || 0) * H;   // arms test v4: the grounded walk moves the feet forward / back
+    const [X, Y] = D(fxx, -.03 * H - lift);
     ell(l, X, Y, lerp(.068, .085, side) * H, .043 * H, Math.sin(th) * -.12 + s * .05 * (1 - side) - (lift ? .25 * Math.sign(Math.sin(th) || s) : 0));
     l.fillStyle = sp.shoe; l.fill();
   }
@@ -766,6 +767,7 @@ export function drawSuitcase(ctx, x, y, k, u = 300, o = {}) {
 // the round hand on its own (to draw it again over a held prop)
 // o.dir: the forearm direction (unit), for the thumb; o.grip: a short dark crease where the hand meets a held cup (A2)
 export function drawHand(ctx, sp, hx, hy, H, o = {}) {
+  if (ARMCFG[ARMS] && ARMCFG[ARMS].a4) return mitten(ctx, sp, hx, hy, H, o);
   const x2 = ARMCFG[ARMS] && ARMCFG[ARMS].x2, r = (ARMS === 'v2' ? .047 : x2 ? .0565 : .054) * H;
   const dk = mix(sp.skin, '#4B2E52', .32);
   if (x2) {   // thumb bump: on the upper side of the hand, leaning back toward the forearm
@@ -777,6 +779,39 @@ export function drawHand(ctx, sp, hx, hy, H, o = {}) {
   ell(ctx, hx - .009 * H, hy - .008 * H, r * .8, r * .8); ctx.fillStyle = sp.skin; ctx.fill();
   ell(ctx, hx - .02 * H, hy - .02 * H, r * .25, r * .2); ctx.fillStyle = rgba('#FFF6E8', .35); ctx.fill();
   if (o.grip) { ctx.strokeStyle = rgba('#3B2142', .4); ctx.lineWidth = .011 * H; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(hx, hy - r * .1, r * .72, PI * 1.2, PI * 1.8); ctx.stroke(); }
+}
+// arms test v4 — the mitten hand (A4): a rounded palm a little longer than wide, lying along the forearm (o.dir), a small thumb on
+// the upper side splayed toward the fingertips, a hint of two finger splits at the tip; o.pt (0..1) curls the mitten into a fist
+// and slides the index finger out (point); o.grip curls the tip over a held cup (no splits, a short crease). Same skin, same
+// two-tone shading as the ball (dark under-shape, lit shape toward the light, a small sheen).
+function mitten(ctx, sp, hx, hy, H, o = {}) {
+  const r = .06 * H, pt = clamp(o.pt || 0), g = o.grip ? 1 : 0;
+  let d = o.dir || [0, 1]; const dl = Math.hypot(d[0], d[1]) || 1; d = [d[0] / dl, d[1] / dl];
+  let n = [-d[1], d[0]]; if (n[1] > .05 || (Math.abs(n[1]) <= .05 && (o.side || 1) * n[0] > 0)) n = [-n[0], -n[1]];   // the thumb side: up (or forward)
+  const ang = Math.atan2(d[1], d[0]), L = r * lerp(1.14, .84, Math.max(pt, g * .6)), W = r * .9;
+  const C = [hx + d[0] * r * .18, hy + d[1] * r * .18];
+  const tsg = Math.sign(n[0] * -d[1] + n[1] * d[0]) || 1;   // the side of n in the rotated frame
+  const shape = (sc, ox, oy) => {
+    ell(ctx, C[0] + ox, C[1] + oy, L * sc, W * sc, ang); ctx.fill();
+    // thumb: splayed out toward the fingertips
+    const tx = C[0] + n[0] * W * .78 + d[0] * r * .12 + ox, ty = C[1] + n[1] * W * .78 + d[1] * r * .12 + oy;
+    ell(ctx, tx, ty, r * .44 * sc, r * .27 * sc, ang - tsg * .75 * (1 - g * .5)); ctx.fill();
+    if (pt > .01) {   // the index finger: a capsule out along the forearm, on the thumb side of the fist
+      const f0 = [C[0] + d[0] * L * .55 + n[0] * W * .32 + ox, C[1] + d[1] * L * .55 + n[1] * W * .32 + oy], fl = r * 1.05 * pt;
+      ctx.save(); ctx.translate(f0[0], f0[1]); ctx.rotate(ang); rr(ctx, -r * .2 * sc, -r * .2 * sc, fl + r * .4 * sc, r * .4 * sc, r * .2 * sc); ctx.fill(); ctx.restore();
+    }
+  };
+  ctx.fillStyle = mix(sp.skin, '#4B2E52', .32); shape(1, 0, 0);
+  ctx.fillStyle = sp.skin; shape(.84, -.008 * H, -.007 * H);
+  ell(ctx, C[0] - .018 * H, C[1] - .018 * H, r * .26, r * .18, ang); ctx.fillStyle = rgba('#FFF6E8', .32); ctx.fill();
+  // finger splits (open mitten) / a grip crease
+  const k = (1 - pt) * (1 - g) * (o.tuck ? 0 : 1);
+  ctx.strokeStyle = rgba(mix(sp.skin, '#4B2E52', .55), .7 * k); ctx.lineWidth = .009 * H; ctx.lineCap = 'round';
+  if (k > .02) for (const q of [-.28, .12]) {
+    const bx = C[0] + d[0] * L * .95 + n[0] * W * q, by = C[1] + d[1] * L * .95 + n[1] * W * q;
+    ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx - d[0] * L * .45, by - d[1] * L * .45); ctx.stroke();
+  }
+  if (g) { ctx.strokeStyle = rgba('#3B2142', .4); ctx.lineWidth = .011 * H; ctx.beginPath(); ctx.ellipse(C[0], C[1], L * .62, W * .62, ang, -.9, .9); ctx.stroke(); }
 }
 // takeaway coffee cup: x,y = the centre of the cup body; k = scale (1 = a 300 px owner); o.steam (0..1) + o.t animate the steam
 export function drawCup(ctx, x, y, k, o = {}) {
