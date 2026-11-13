@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:50:35.736Z",
+  "duration_ms": 10500,
+  "word_count": 22,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "What's your name? My name is Youssef. Youssef, nice to meet you, Youssef. Nice to meet you, too. Come in, come in.",
+  "source_text": "What's your name? My name is Youssef. Youssef! Nice to meet you, Youssef. Nice to meet you too. Come in, come in!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Sara",
+      "text": "What's your name?"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "My name is Youssef."
+    },
+    {
+      "index": 2,
+      "speaker": "Sara",
+      "text": "Youssef! Nice to meet you, Youssef."
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Nice to meet you too."
+    },
+    {
+      "index": 4,
+      "speaker": "Sara",
+      "text": "Come in, come in!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "What's",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 900,
+      "text": "your",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1300,
+      "text": "name?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2700,
+      "text": "My",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3100,
+      "text": "name",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3600,
+      "text": "is",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4200,
+      "text": "Youssef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5600,
+      "text": "Youssef,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 6000,
+      "text": "nice",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6000,
+      "end_ms": 6100,
+      "text": "to",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6100,
+      "end_ms": 6400,
+      "text": "meet",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6400,
+      "end_ms": 6500,
+      "text": "you,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6500,
+      "end_ms": 7000,
+      "text": "Youssef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7800,
+      "end_ms": 8100,
+      "text": "Nice",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8100,
+      "end_ms": 8200,
+      "text": "to",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8200,
+      "end_ms": 8400,
+      "text": "meet",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8400,
+      "end_ms": 8500,
+      "text": "you,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8500,
+      "end_ms": 8900,
+      "text": "too.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 9600,
+      "end_ms": 9800,
+      "text": "Come",
+      "speaker": "spk:2"
+    },
+    {
+      "start_ms": 9800,
+      "end_ms": 9900,
+      "text": "in,",
+      "speaker": "spk:2"
+    },
+    {
+      "start_ms": 9900,
+      "end_ms": 10100,
+      "text": "come",
+      "speaker": "spk:2"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 10500,
+      "text": "in.",
+      "speaker": "spk:2"
+    }
+  ]
+}
