@@ -197,7 +197,9 @@ export function buildStory() {
   const mH = { id: 'mia', base: { turn: -.38, face: F('happy', { lx: -.45, happy: .4 }), armL: TRAY, armR: ARM.rest, kmul: 1 }, blinks: [], jumps: [],
     moves: [{ t0: hl.t0 + .05, t1: Math.min(H0.t0 - .15, hl.t0 + 1.05), x0: 1935, x1: 1545, k0: .9, k1: .9, step: .33 }], keys: [] };
   const YK = yH.keys, MK = mH.keys;
-  const OFFER = { ...REACH, dx: .2, dy: .1 }, TAKE = { ...REACH, dx: .12, dy: .08 }, HOLD = ARM.hold;   // the tray / the cup in the hand on the other character's side, held in front (they stand close: short reaches)
+  // arms test v4: in the medium framing the hand-over is lifted toward chest height so it stays in frame
+  const hi = FRAME() === 'med' ? -.08 : 0;
+  const OFFER = { ...REACH, dx: .2, dy: .1 + hi }, TAKE = { ...REACH, dx: .12, dy: .08 + hi }, HOLD = ARM.hold;   // the tray / the cup in the hand on the other character's side, held in front (they stand close: short reaches)
   const MOUTH = { dx: -.3, dy: -.12, w: 0, bend: 55, elv: [1, .2], flex: 1 }, HANDMOUTH = { dx: -.3, dy: -.14, w: 0, bend: 55, elv: [1, .2], flex: 1 };
   // the sip: the hand stays at shoulder height right under the mouth (the mouth sits at ≈ .548 H, the shoulder at .43 H), so the cup's rim
   // meets the lower face just below the mouth line and nothing covers the eyes; the cup tilts ≈ 20° toward the mouth (see cupIn's rot)
