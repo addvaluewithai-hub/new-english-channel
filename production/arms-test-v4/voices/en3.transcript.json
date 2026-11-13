@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:51:16.723Z",
+  "duration_ms": 6500,
+  "word_count": 8,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Thank you, Yusef. Welcome. You're welcome. You're welcome.",
+  "source_text": "Thank you, Youssef! Welcome! You're welcome. You're welcome!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Sara",
+      "text": "Thank you, Youssef!"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "Welcome!"
+    },
+    {
+      "index": 2,
+      "speaker": "Sara",
+      "text": "You're welcome."
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "You're welcome!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "Thank",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 500,
+      "text": "you,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 1100,
+      "text": "Yusef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2400,
+      "text": "Welcome.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4500,
+      "text": "You're",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5000,
+      "text": "welcome.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 5900,
+      "text": "You're",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6500,
+      "text": "welcome.",
+      "speaker": "spk:1"
+    }
+  ]
+}

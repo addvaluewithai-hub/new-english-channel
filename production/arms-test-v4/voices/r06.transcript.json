@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:50:49.097Z",
+  "duration_ms": 1500,
+  "word_count": 3,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "I'm good. Thanks.",
+  "source_text": "I'm good, thanks!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "I'm good, thanks!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 400,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 1000,
+      "text": "good."
+    },
+    {
+      "start_ms": 1000,
+      "end_ms": 1500,
+      "text": "Thanks."
+    }
+  ]
+}

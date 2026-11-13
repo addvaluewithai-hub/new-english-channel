@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:51:09.237Z",
+  "duration_ms": 12300,
+  "word_count": 18,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "So, how are you? I'm okay. A little tired. Oh, sorry. Coffee? Yes, please. Thank you. You're welcome.",
+  "source_text": "So… how are you? I'm OK… a little tired. Oh, sorry! Coffee? Yes, please! Thank you! You're welcome.",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Sara",
+      "text": "So… how are you?"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "I'm OK… a little tired."
+    },
+    {
+      "index": 2,
+      "speaker": "Sara",
+      "text": "Oh, sorry! Coffee?"
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Yes, please! Thank you!"
+    },
+    {
+      "index": 4,
+      "speaker": "Sara",
+      "text": "You're welcome."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 1200,
+      "text": "So,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1500,
+      "text": "how",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1800,
+      "text": "are",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2300,
+      "text": "you?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3200,
+      "text": "I'm",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 4300,
+      "text": "okay.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 4601,
+      "text": "A",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 4900,
+      "text": "little",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5500,
+      "text": "tired.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6500,
+      "text": "Oh,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6500,
+      "end_ms": 7200,
+      "text": "sorry.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 7500,
+      "end_ms": 8000,
+      "text": "Coffee?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 8800,
+      "end_ms": 9200,
+      "text": "Yes,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 9200,
+      "end_ms": 10000,
+      "text": "please.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10100,
+      "end_ms": 10400,
+      "text": "Thank",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10400,
+      "end_ms": 10600,
+      "text": "you.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 11500,
+      "end_ms": 11600,
+      "text": "You're",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11600,
+      "end_ms": 12300,
+      "text": "welcome.",
+      "speaker": "spk:0"
+    }
+  ]
+}

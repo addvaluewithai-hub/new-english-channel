@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:50:26.864Z",
+  "duration_ms": 11800,
+  "word_count": 9,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "الحلقه الجايه الاستماره ارقام وسؤال وانا قلت وطلعت غلط.",
+  "source_text": "الحلقة الجاية: الاستمارة. أرقام، وسؤال: How old are you ؟… وأنا قلت: I have 26 years . وطلعت غلط.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "الحلقة الجاية: الاستمارة. أرقام، وسؤال: How old are you ؟… وأنا قلت: I have 26 years . وطلعت غلط."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1100,
+      "text": "الجايه"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2400,
+      "text": "الاستماره"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 4200,
+      "text": "ارقام"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 5200,
+      "text": "وسؤال"
+    },
+    {
+      "start_ms": 7800,
+      "end_ms": 8000,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 8000,
+      "end_ms": 8300,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 11200,
+      "end_ms": 11500,
+      "text": "وطلعت"
+    },
+    {
+      "start_ms": 11500,
+      "end_ms": 11800,
+      "text": "غلط."
+    }
+  ]
+}

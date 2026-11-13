@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:50:31.982Z",
+  "duration_ms": 3200,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "I'm okay. A little tired.",
+  "source_text": "I'm OK… a little tired.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "I'm OK… a little tired."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 400,
+      "text": "I'm"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 1000,
+      "text": "okay."
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2000,
+      "text": "A"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2400,
+      "text": "little"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 3200,
+      "text": "tired."
+    }
+  ]
+}

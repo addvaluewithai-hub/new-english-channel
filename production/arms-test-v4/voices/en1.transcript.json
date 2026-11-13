@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-30T03:50:41.229Z",
+  "duration_ms": 14700,
+  "word_count": 15,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Good morning, Yusef. How are you? Good good night. Good night. Oh, sorry. Good morning.",
+  "source_text": "Good morning, Youssef! How are you? Good… night. Good night?! Oh! Sorry! Good morning!",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Sara",
+      "text": "Good morning, Youssef! How are you?"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "Good… night."
+    },
+    {
+      "index": 2,
+      "speaker": "Sara",
+      "text": "Good night?!"
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Oh! Sorry! Good morning!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 700,
+      "end_ms": 800,
+      "text": "Good",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1300,
+      "text": "morning,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1800,
+      "text": "Yusef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2000,
+      "text": "How",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2200,
+      "text": "are",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2200,
+      "end_ms": 2500,
+      "text": "you?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 8100,
+      "end_ms": 8400,
+      "text": "Good",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8500,
+      "end_ms": 8800,
+      "text": "good",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 8800,
+      "end_ms": 9400,
+      "text": "night.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 10800,
+      "end_ms": 11100,
+      "text": "Good",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11100,
+      "end_ms": 11700,
+      "text": "night.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 12400,
+      "end_ms": 12600,
+      "text": "Oh,",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 13200,
+      "end_ms": 13800,
+      "text": "sorry.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 14200,
+      "end_ms": 14300,
+      "text": "Good",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 14300,
+      "end_ms": 14700,
+      "text": "morning.",
+      "speaker": "spk:1"
+    }
+  ]
+}
