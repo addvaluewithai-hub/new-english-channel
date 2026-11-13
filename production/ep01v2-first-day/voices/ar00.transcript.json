@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:45.134Z",
+  "duration_ms": 2100,
+  "word_count": 6,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "استنوا، خلوني احكي لكم من الاول.",
+  "source_text": "استنوا… خلّوني أحكيلكم من الأول.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "استنوا… خلّوني أحكيلكم من الأول."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 100,
+      "end_ms": 700,
+      "text": "استنوا،"
+    },
+    {
+      "start_ms": 900,
+      "end_ms": 1300,
+      "text": "خلوني"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1500,
+      "text": "احكي"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1700,
+      "text": "لكم"
+    },
+    {
+      "start_ms": 1700,
+      "end_ms": 1800,
+      "text": "من"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2100,
+      "text": "الاول."
+    }
+  ]
+}

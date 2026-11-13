@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:47.040Z",
+  "duration_ms": 4800,
+  "word_count": 12,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "المره دي فهمتني على طول. الفرق كان كلمه واحده هقول لكم عليها.",
+  "source_text": "المرة دي فهمتني على طول. الفرق كان كلمة واحدة… هقولكم عليها.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "المرة دي فهمتني على طول. الفرق كان كلمة واحدة… هقولكم عليها."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 700,
+      "text": "المره"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 800,
+      "text": "دي"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1200,
+      "text": "فهمتني"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1400,
+      "text": "على"
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1700,
+      "text": "طول."
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2600,
+      "text": "الفرق"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 2900,
+      "text": "كان"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3400,
+      "text": "كلمه"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 3900,
+      "text": "واحده"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4500,
+      "text": "هقول"
+    },
+    {
+      "start_ms": 4500,
+      "end_ms": 4600,
+      "text": "لكم"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 4800,
+      "text": "عليها."
+    }
+  ]
+}

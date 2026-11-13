@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:52.802Z",
+  "duration_ms": 6300,
+  "word_count": 10,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "الحلقه الجايه ساره هتسالني وانا هرد رد عمري ما هنساه.",
+  "source_text": "الحلقة الجاية: سارة هتسألني: How are you ؟… وأنا هرد رد عمري ما هنساه.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "الحلقة الجاية: سارة هتسألني: How are you ؟… وأنا هرد رد عمري ما هنساه."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 600,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 1000,
+      "text": "الجايه"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2000,
+      "text": "ساره"
+    },
+    {
+      "start_ms": 2000,
+      "end_ms": 2600,
+      "text": "هتسالني"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4400,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 4800,
+      "text": "هرد"
+    },
+    {
+      "start_ms": 4800,
+      "end_ms": 5200,
+      "text": "رد"
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 5700,
+      "text": "عمري"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 5900,
+      "text": "ما"
+    },
+    {
+      "start_ms": 5900,
+      "end_ms": 6300,
+      "text": "هنساه."
+    }
+  ]
+}

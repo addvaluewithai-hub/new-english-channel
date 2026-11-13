@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:49.704Z",
+  "duration_ms": 3200,
+  "word_count": 3,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Hello. Hi. Hello.",
+  "source_text": "Hello! Hi! Hello!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Hello! Hi! Hello!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 800,
+      "text": "Hello."
+    },
+    {
+      "start_ms": 1400,
+      "end_ms": 1800,
+      "text": "Hi."
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3200,
+      "text": "Hello."
+    }
+  ]
+}

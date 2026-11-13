@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:50.406Z",
+  "duration_ms": 1900,
+  "word_count": 2,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "قلتها برافو",
+  "source_text": "قلتها بـ I'm ؟ برافو!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "قلتها بـ I'm ؟ برافو!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 600,
+      "text": "قلتها"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1900,
+      "text": "برافو"
+    }
+  ]
+}

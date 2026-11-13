@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:47.572Z",
+  "duration_ms": 5900,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "اسمي يوسف مهندس من القاهرة والنهارده اول يوم ليا في نيويورك وطول الطريق وانا باتمرن",
+  "source_text": "اسمي يوسف، مهندس من القاهرة، والنهارده أول يوم ليّا في نيويورك. وطول الطريق وأنا بتمرّن:",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "اسمي يوسف، مهندس من القاهرة، والنهارده أول يوم ليّا في نيويورك. وطول الطريق وأنا بتمرّن:"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 400,
+      "end_ms": 700,
+      "text": "اسمي"
+    },
+    {
+      "start_ms": 700,
+      "end_ms": 1100,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1500,
+      "text": "مهندس"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1600,
+      "text": "من"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 2300,
+      "text": "القاهرة"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2900,
+      "text": "والنهارده"
+    },
+    {
+      "start_ms": 2900,
+      "end_ms": 3200,
+      "text": "اول"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3500,
+      "text": "يوم"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3600,
+      "text": "ليا"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 3700,
+      "text": "في"
+    },
+    {
+      "start_ms": 3700,
+      "end_ms": 4300,
+      "text": "نيويورك"
+    },
+    {
+      "start_ms": 4600,
+      "end_ms": 4900,
+      "text": "وطول"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5300,
+      "text": "الطريق"
+    },
+    {
+      "start_ms": 5300,
+      "end_ms": 5400,
+      "text": "وانا"
+    },
+    {
+      "start_ms": 5400,
+      "end_ms": 5900,
+      "text": "باتمرن"
+    }
+  ]
+}

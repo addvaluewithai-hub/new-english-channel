@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:56.245Z",
+  "duration_ms": 6400,
+  "word_count": 15,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "انا قلت اي يوسف في العربي انا يوسف من غير فعل بس الانجليزي لازم ام",
+  "source_text": "أنا قلت: I Youssef . في العربي: أنا يوسف، من غير فعل… بس الإنجليزي لازم: am .",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "أنا قلت: I Youssef . في العربي: أنا يوسف، من غير فعل… بس الإنجليزي لازم: am ."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "انا"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 1000,
+      "text": "قلت"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1500,
+      "text": "اي"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 2000,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 2600,
+      "text": "في"
+    },
+    {
+      "start_ms": 2600,
+      "end_ms": 3100,
+      "text": "العربي"
+    },
+    {
+      "start_ms": 3200,
+      "end_ms": 3500,
+      "text": "انا"
+    },
+    {
+      "start_ms": 3500,
+      "end_ms": 3900,
+      "text": "يوسف"
+    },
+    {
+      "start_ms": 3900,
+      "end_ms": 4000,
+      "text": "من"
+    },
+    {
+      "start_ms": 4000,
+      "end_ms": 4200,
+      "text": "غير"
+    },
+    {
+      "start_ms": 4200,
+      "end_ms": 4600,
+      "text": "فعل"
+    },
+    {
+      "start_ms": 4900,
+      "end_ms": 5200,
+      "text": "بس"
+    },
+    {
+      "start_ms": 5200,
+      "end_ms": 5700,
+      "text": "الانجليزي"
+    },
+    {
+      "start_ms": 5700,
+      "end_ms": 6100,
+      "text": "لازم"
+    },
+    {
+      "start_ms": 6200,
+      "end_ms": 6400,
+      "text": "ام"
+    }
+  ]
+}

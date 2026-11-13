@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:57:19.245Z",
+  "duration_ms": 2800,
+  "word_count": 8,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "حل تمارين الحلقه خمس دقائق واللينك في الوصف.",
+  "source_text": "حل تمارين الحلقة… خمس دقايق، واللينك في الوصف.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "حل تمارين الحلقة… خمس دقايق، واللينك في الوصف."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 400,
+      "text": "حل"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 800,
+      "text": "تمارين"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1400,
+      "text": "الحلقه"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1800,
+      "text": "خمس"
+    },
+    {
+      "start_ms": 1800,
+      "end_ms": 2100,
+      "text": "دقائق"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2300,
+      "text": "واللينك"
+    },
+    {
+      "start_ms": 2300,
+      "end_ms": 2400,
+      "text": "في"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 2800,
+      "text": "الوصف."
+    }
+  ]
+}

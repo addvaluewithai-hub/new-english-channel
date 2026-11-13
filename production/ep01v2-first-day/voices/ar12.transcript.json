@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:47.718Z",
+  "duration_ms": 1900,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "يلا بسرعة جاوب قبل يوسف.",
+  "source_text": "يلا بسرعة… جاوب قبل يوسف!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "يلا بسرعة… جاوب قبل يوسف!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 500,
+      "text": "يلا"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 900,
+      "text": "بسرعة"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1300,
+      "text": "جاوب"
+    },
+    {
+      "start_ms": 1300,
+      "end_ms": 1500,
+      "text": "قبل"
+    },
+    {
+      "start_ms": 1500,
+      "end_ms": 1900,
+      "text": "يوسف."
+    }
+  ]
+}

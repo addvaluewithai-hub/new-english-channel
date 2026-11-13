@@ -95,7 +95,7 @@ en_single = {
  "e6s": ("Sara", "I'm Sara.", "Bright and clear, a quick model phrase."),
  "e6l": ("Leo", "I'm Leo.", "Cheerful and clear, a quick model phrase."),
  "e6m": ("Mei", "I'm Mei.", "Soft and clear, smiling, a quick model phrase."),
- "e7q1": ("Sara", "Hi!", FAST),
+ "e7q1": ("Sara", "Hi!", FAST + " A bright, clear greeting 'Hi!' with a clear H sound (rhymes with 'my'); it is NOT 'Bye'."),  # v2: v1 sounded like "Bye"
  "e7a1": ("Youssef", "Hello!", FAST + " Clear model pronunciation."),
  "e7q2": ("Sara", "What's your name?", FAST),
  "e7a2": ("Youssef", "I'm Youssef.", FAST + " Clear model pronunciation."),

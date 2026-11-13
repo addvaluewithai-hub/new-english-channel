@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:52.445Z",
+  "duration_ms": 3200,
+  "word_count": 5,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "ولما حد يقول لك الرد",
+  "source_text": "ولما حد يقولك: Nice to meet you ، الرد:",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "ولما حد يقولك: Nice to meet you ، الرد:"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "ولما"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 800,
+      "text": "حد"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1100,
+      "text": "يقول"
+    },
+    {
+      "start_ms": 1100,
+      "end_ms": 1200,
+      "text": "لك"
+    },
+    {
+      "start_ms": 2700,
+      "end_ms": 3200,
+      "text": "الرد"
+    }
+  ]
+}
