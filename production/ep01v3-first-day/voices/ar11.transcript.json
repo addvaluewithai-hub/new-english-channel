@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-10-29T20:55:05.046Z",
+  "duration_ms": 4400,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وغالبا بنختصرها وبتتقال بسرعه كانها كلمه واحده.",
+  "source_text": "وغالبًا بنختصرها لـ: I'm ، وبتتقال بسرعة كأنها كلمة واحدة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وغالبًا بنختصرها لـ: I'm ، وبتتقال بسرعة كأنها كلمة واحدة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 800,
+      "text": "وغالبا"
+    },
+    {
+      "start_ms": 800,
+      "end_ms": 1600,
+      "text": "بنختصرها"
+    },
+    {
+      "start_ms": 2400,
+      "end_ms": 3000,
+      "text": "وبتتقال"
+    },
+    {
+      "start_ms": 3000,
+      "end_ms": 3400,
+      "text": "بسرعه"
+    },
+    {
+      "start_ms": 3400,
+      "end_ms": 3800,
+      "text": "كانها"
+    },
+    {
+      "start_ms": 3800,
+      "end_ms": 4100,
+      "text": "كلمه"
+    },
+    {
+      "start_ms": 4100,
+      "end_ms": 4400,
+      "text": "واحده."
+    }
+  ]
+}

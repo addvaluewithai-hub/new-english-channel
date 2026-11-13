@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:57:28.639Z",
+  "duration_ms": 12100,
+  "word_count": 17,
+  "diarization": true,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Hello. What's your name? My name is Youssef. Sorry? Youssef. I'm Youssef. Oh, hi Youssef. I'm May.",
+  "source_text": "Hello! What's your name? My name is Youssef. Sorry? Youssef! I'm Youssef! Oh! Hi, Youssef! I'm Mei.",
+  "source_turns": [
+    {
+      "index": 0,
+      "speaker": "Mei",
+      "text": "Hello! What's your name?"
+    },
+    {
+      "index": 1,
+      "speaker": "Youssef",
+      "text": "My name is Youssef."
+    },
+    {
+      "index": 2,
+      "speaker": "Mei",
+      "text": "Sorry?"
+    },
+    {
+      "index": 3,
+      "speaker": "Youssef",
+      "text": "Youssef! I'm Youssef!"
+    },
+    {
+      "index": 4,
+      "speaker": "Mei",
+      "text": "Oh! Hi, Youssef! I'm Mei."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 800,
+      "text": "Hello.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 1900,
+      "text": "What's",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 1900,
+      "end_ms": 2100,
+      "text": "your",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 2100,
+      "end_ms": 2400,
+      "text": "name?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 3100,
+      "end_ms": 3300,
+      "text": "My",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 3600,
+      "text": "name",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3600,
+      "end_ms": 3800,
+      "text": "is",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 3800,
+      "end_ms": 4300,
+      "text": "Youssef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 5000,
+      "end_ms": 5400,
+      "text": "Sorry?",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 6100,
+      "end_ms": 6600,
+      "text": "Youssef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 7100,
+      "end_ms": 7300,
+      "text": "I'm",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 7300,
+      "end_ms": 7800,
+      "text": "Youssef.",
+      "speaker": "spk:1"
+    },
+    {
+      "start_ms": 9200,
+      "end_ms": 9600,
+      "text": "Oh,",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 10000,
+      "end_ms": 10400,
+      "text": "hi",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 10400,
+      "end_ms": 11000,
+      "text": "Youssef.",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11500,
+      "end_ms": 11700,
+      "text": "I'm",
+      "speaker": "spk:0"
+    },
+    {
+      "start_ms": 11700,
+      "end_ms": 12100,
+      "text": "May.",
+      "speaker": "spk:0"
+    }
+  ]
+}

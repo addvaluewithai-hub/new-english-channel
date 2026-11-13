@@ -1,0 +1,649 @@
+{
+ "open": {
+  "turns": [
+   {
+    "speaker": "Sara",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haɪ\">Hi!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈsɛrə\">I'm Sara.</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Cheerful, welcoming a new student at the door. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"həloʊ\">Hello!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪ\">I...</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪ ˈjusɛf\">I Youssef.</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Nervous beginner. He makes a typical beginner mistake and says exactly the words 'I Youssef' with NO 'am'; pronounce 'I' clearly and fully each time, then his name. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Sara",
+    "text": "<short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɑri\">Sorry?</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Puzzled but kind. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   }
+  ],
+  "speakers": {
+   "Sara": "Aoede",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en2": {
+  "turns": [
+   {
+    "speaker": "Sara",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"wəts jɔr neɪm\">What's your name?</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Kind and patient, a little slower, helping a nervous beginner. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"maɪ neɪm ɪz ˈjusɛf\">My name is Youssef.</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Careful and slow, choosing each word, then relieved. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Sara",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈjusɛf\">Youssef!</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"naɪs tə mit ju ˈjusɛf\">Nice to meet you, Youssef.</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Delighted and warm. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"naɪs tə mit ju tu\">Nice to meet you too.</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Happy, relieved, a big smile in the voice. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Sara",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"kəm ɪn kəm ɪn\">Come in, come in!</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Welcoming, cheerful. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   }
+  ],
+  "speakers": {
+   "Sara": "Aoede",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en3": {
+  "turns": [
+   {
+    "speaker": "Sara",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"baɪ ˈjusɛf\">Bye, Youssef!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"si ju təmɑroʊ\">See you tomorrow!</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Cheerful, end of the school day. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ɡʊdbaɪ ˈsɛrə\">Goodbye, Sara!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"si ju\">See you!</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Happy, tired after a long day. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Sara",
+    "text": "<short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"klæs ɪz æt eɪt\">Class is at eight!</phoneme></lang>",
+    "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Calling after him brightly, as an afterthought. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"eɪt\">Eight?!</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Shocked, comic disbelief. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   }
+  ],
+  "speakers": {
+   "Sara": "Aoede",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "turn": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haɪ\">Hi!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈsɛrə\">I'm Sara.</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"wəts jɔr neɪm\">What's your name?</phoneme></lang>",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Talking directly to the viewer, warm and inviting, a little slower. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r01": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haɪ\">Hi!</phoneme></lang>",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Bright and clear, a model phrase for learners. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r02": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"həloʊ\">Hello!</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Clear and friendly. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r03": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪ æm ˈjusɛf\">I am Youssef.</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Slow and clear, stressing the word 'am'. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r04": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈjusɛf\">I'm Youssef.</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Natural and confident. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r05": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"wəts jɔr neɪm\">What's your name?</phoneme></lang>",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Clear, a model phrase for learners. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r06": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"maɪ neɪm ɪz ˈjusɛf\">My name is Youssef.</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Clear and confident. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r07": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"naɪs tə mit ju tu\">Nice to meet you too.</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Warm and clear. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r08": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"sɑri\">Sorry?</phoneme></lang>",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. A natural questioning 'Sorry?', as when you did not hear well. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r09": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"baɪ\">Bye!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"si ju\">See you!</phoneme></lang>",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent, medium pace. Cheerful, a model phrase for learners. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "r10": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ɡʊdbaɪ\">Goodbye!</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man practicing English carefully: clear, slow-ish, standard General American pronunciation with no foreign accent (these are model phrases learners repeat). Cheerful. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar01": {
+  "text": "اسمي يوسف. <short pause> مهندس من القاهرة، عندي ستة وعشرين سنة… <short pause> والنهارده أول يوم ليّا في نيويورك.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Opening of the story, inviting.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar02": {
+  "text": "جاي أدرس إنجليزي وأشتغل هنا. <short pause> وكنت فاكر إن الإنجليزي بتاعي كويس… <short pause> لحد ما قابلت سارة.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Ends with a small knowing laugh in the voice.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar05": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɑri\">Sorry</phoneme></lang>؟! <short pause> هي ما سمعتنيش؟ ولا أنا قلت حاجة غلط؟ <short pause> ما أنا قلت اسمي أهو!",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Panicked and embarrassed, faster, comic. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar06": {
+  "text": "المرة دي فهمتني على طول. <short pause> الفرق كان كلمة واحدة صغيرة… هحكيلكم عليها في الآخر.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Relieved, then teasing.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar08": {
+  "text": "تمانية الصبح؟! <short pause> هو أنا جاي أدرس… ولا جاي الجيش؟",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Shocked, comic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar09": {
+  "text": "تعالوا نشوف اتعلمت إيه النهارده.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Upbeat, like a friendly teacher.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar10": {
+  "text": "أول حاجة، غلطتي. <short pause> أنا قلت: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪ ˈjuːsɛf\">I Youssef</phoneme></lang>. <short pause> في العربي بنقول أنا يوسف من غير أي فعل… <short pause> لكن في الإنجليزي لازم يبقى فيه: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"æm\">am</phoneme></lang>.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory, friendly teacher. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar11": {
+  "text": "وغالبًا بنختصرها لـ: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm\">I'm</phoneme></lang>، <short pause> وبتتقال بسرعة كأنها كلمة واحدة.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar12": {
+  "text": "ولو عايز تسأل حد عن اسمه، <short pause> والرد:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar13": {
+  "text": "ولما حد يقولك: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"naɪs tə mit ju\">Nice to meet you</phoneme></lang>، <short pause> ما تقولش: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"mi tu\">Me too</phoneme></lang>. <short pause> قول:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear, a little playful. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar14": {
+  "text": "ولو ما سمعتش كويس، قول ببساطة:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Clear and explanatory.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar15": {
+  "text": "وإنت ماشي:",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Light.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar16": {
+  "text": "دورك! <short pause> سارة بتسألك… رد عليها بصوت عالي.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Energetic, encouraging.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar17": {
+  "text": "قلتها بـ <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm\">I'm</phoneme></lang>؟ <short pause> برافو عليك! <short pause> واكتبها في الكومنتات.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Proud and warm. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar18": {
+  "text": "الحلقة الجاية: <short pause> صحيت متأخر، وأول ما شفت سارة سألتني: <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haʊ ɑr ju\">How are you</phoneme></lang>؟… <short pause> وأنا رديت رد عمري ما هنساه.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Teaser, mysterious and funny. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation. Then continue in Egyptian Arabic.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar19": {
+  "text": "وعشان الجمل دي تثبت في دماغك… <short pause> ادخل على الموقع وحل تمارين الحلقة. <short pause> خمس دقايق بس. <short pause> اللينك في الوصف.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, intimate like telling a friend, medium pace. Friendly nudge, encouraging, like a tip from a friend.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar00": {
+  "text": "استنوا… <short pause> خلّوني أحكيلكم من الأول.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, lively and brisk, like telling a friend a funny story; keep a quick pace with no long pauses. Playful, a quick aside to the audience after an embarrassing moment, rewinding the story.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "ar07": {
+  "text": "وفي الكلاس… قلتها صح. <short pause> مرة، واتنين، وتلاتة.",
+  "style": "Youssef, a friendly 26-year-old Egyptian man from Cairo, narrating his own travel diary in natural Egyptian Arabic (Cairo dialect). Warm, self-amused, lively and brisk, like telling a friend a funny story; keep a quick pace with no long pauses. Proud and happy, counting with growing confidence.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "ar-EG"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en1a": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"həˈloʊ\">Hello!</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haɪ\">Hi!</phoneme></lang> <short pause><lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"həˈloʊ\">Hello!</phoneme></lang>",
+  "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. Walking along the street, rehearsing to himself out loud under his breath at first, growing more confident each time; the last 'Hello!' bright and proud. He says exactly three words: Hello, Hi, Hello. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Achird",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en4": {
+  "turns": [
+   {
+    "speaker": "Leo",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"heɪ\">Hey!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈlioʊ\">I'm Leo.</phoneme></lang>",
+    "style": "Leo, a cheerful, easygoing 24-year-old Latino-American guy, a student in a small English class in New York. Young, warm, upbeat, a smile in his voice, natural American English. Turning round from his desk with a big friendly grin, relaxed and welcoming. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haɪ ˈlioʊ\">Hi, Leo!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈjusɛf\">I'm Youssef.</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"naɪs tə mit ju\">Nice to meet you.</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. A man's natural speaking voice, friendly and now confident; he says 'I'm Youssef' correctly. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Leo",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"naɪs tə mit ju tu\">Nice to meet you too!</phoneme></lang>",
+    "style": "Leo, a cheerful, easygoing 24-year-old Latino-American guy, a student in a small English class in New York. Young, warm, upbeat, a smile in his voice, natural American English. Warm and upbeat. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   }
+  ],
+  "speakers": {
+   "Leo": "Puck",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "en5": {
+  "turns": [
+   {
+    "speaker": "Mei",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"həˈloʊ\">Hello!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"wʌts jʊr neɪm\">What's your name?</phoneme></lang>",
+    "style": "Mei, a soft-spoken, friendly 23-year-old young woman from Taiwan, a student in a small English class in New York. She speaks clear simple English with a light, natural Taiwanese Mandarin accent; gentle and a little shy. Shy and friendly, a little quiet. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say exactly the tagged English words, with a light, natural Taiwanese Mandarin accent."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"maɪ neɪm ɪz ˈjusɛf\">My name is Youssef.</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. A man's natural speaking voice, friendly, normal volume. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Mei",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈsɑri\">Sorry?</phoneme></lang>",
+    "style": "Mei, a soft-spoken, friendly 23-year-old young woman from Taiwan, a student in a small English class in New York. She speaks clear simple English with a light, natural Taiwanese Mandarin accent; gentle and a little shy. She did not hear well: a soft, questioning 'Sorry?'. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say exactly the tagged English words, with a light, natural Taiwanese Mandarin accent."
+   },
+   {
+    "speaker": "Youssef",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"ˈjusɛf\">Youssef!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈjusɛf\">I'm Youssef!</phoneme></lang>",
+    "style": "Friendly 26-year-old Egyptian man speaking English with a light, natural Egyptian accent. A man's voice, louder and clearer, smiling and confident, repeating his name for her. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation."
+   },
+   {
+    "speaker": "Mei",
+    "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"oʊ\">Oh!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"haɪ ˈjusɛf\">Hi, Youssef!</phoneme></lang> <lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm meɪ\">I'm Mei.</phoneme></lang>",
+    "style": "Mei, a soft-spoken, friendly 23-year-old young woman from Taiwan, a student in a small English class in New York. She speaks clear simple English with a light, natural Taiwanese Mandarin accent; gentle and a little shy. Delighted, a little laugh, warm. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say exactly the tagged English words, with a light, natural Taiwanese Mandarin accent."
+   }
+  ],
+  "speakers": {
+   "Mei": "Leda",
+   "Youssef": "Achird"
+  },
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "e6s": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈsɛrə\">I'm Sara.</phoneme></lang>",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent. Bright and clear, a quick model phrase. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Aoede",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "e6l": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm ˈlioʊ\">I'm Leo.</phoneme></lang>",
+  "style": "Leo, a cheerful, easygoing 24-year-old Latino-American guy, a student in a small English class in New York. Young, warm, upbeat, a smile in his voice, natural American English. Cheerful and clear, a quick model phrase. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "voice": "Puck",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ },
+ "e6m": {
+  "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"aɪm meɪ\">I'm Mei.</phoneme></lang>",
+  "style": "Mei, a soft-spoken, friendly 23-year-old young woman from Taiwan, a student in a small English class in New York. She speaks clear simple English with a light, natural Taiwanese Mandarin accent; gentle and a little shy. Soft and clear, smiling, a quick model phrase. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say exactly the tagged English words, with a light, natural Taiwanese Mandarin accent.",
+  "voice": "Leda",
+  "transcript": {
+   "language_codes": [
+    "en-US"
+   ],
+   "write_vtt": true
+  },
+  "routing": "quality",
+  "format": "wav",
+  "temperature": 1
+ }
+}

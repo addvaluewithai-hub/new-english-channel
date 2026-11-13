@@ -1,0 +1,10 @@
+Youssef in London — Ep 1 "First Day" (picture)
+
+Picture: drawn entirely in code (Canvas 2D): kit.js, bean.js, world.js, ui.js, tl.js, act.js, story.js, recap.js, outro.js, cues.js, main.js.
+Original designs (Bean People v2); the recap restyles the series' own "Living Letters" kinetic-type test. No third-party images, brands or logos.
+Render tooling: Lemo-Opuscar library (core/render/*.mjs, core/lib.js easing helpers), used unmodified.
+
+Fonts (SIL Open Font License 1.1, self-hosted in fonts/ via the series font kit fonts.css):
+- Fredoka (English dialogue, recap type) — github.com/google/fonts/tree/main/ofl/fredoka
+- Lilita One (sign, name tabs, title "First Day", countdown) — github.com/google/fonts/tree/main/ofl/lilitaone
+- Baloo Bhaijaan 2 (Arabic narration, title, cards) — github.com/google/fonts/tree/main/ofl/baloobhaijaan2

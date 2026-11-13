@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:56:45.578Z",
+  "duration_ms": 5000,
+  "word_count": 7,
+  "diarization": false,
+  "language_codes": [
+    "ar-EG"
+  ],
+  "recognized_text": "وفي الكلاس قلتها صح. مرة واتنين وتلاتة.",
+  "source_text": "وفي الكلاس… قلتها صح. مرة، واتنين، وتلاتة.",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "وفي الكلاس… قلتها صح. مرة، واتنين، وتلاتة."
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 400,
+      "text": "وفي"
+    },
+    {
+      "start_ms": 400,
+      "end_ms": 1100,
+      "text": "الكلاس"
+    },
+    {
+      "start_ms": 1200,
+      "end_ms": 1600,
+      "text": "قلتها"
+    },
+    {
+      "start_ms": 1600,
+      "end_ms": 1900,
+      "text": "صح."
+    },
+    {
+      "start_ms": 2500,
+      "end_ms": 3000,
+      "text": "مرة"
+    },
+    {
+      "start_ms": 3300,
+      "end_ms": 4000,
+      "text": "واتنين"
+    },
+    {
+      "start_ms": 4400,
+      "end_ms": 5000,
+      "text": "وتلاتة."
+    }
+  ]
+}
