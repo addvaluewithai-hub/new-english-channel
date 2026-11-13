@@ -136,3 +136,64 @@ A character costs about 1–1.5 ms, which is cheap: there are no offscreen layer
 - **The walk** is 4 keys only, with no in-betweens. It has not been tested in motion.
 - **Feet in 3/4:** the far foot is mostly hidden behind the near one.
 - **Leo and Mei** were designed from the brief only, with no prior model, and got the least iteration (one lineup pose each, no sheets).
+
+---
+# v6 "bolder" round (v5 files are unchanged)
+v6 adds the following. Everything v5 shipped is still there.
+- **Rig:** `cast6.js`, with the same API as `cast.js`.
+- **Pages:** `main6.js`. `main.js` is now a small loader: `?r=6` loads v6, and anything else loads v5 (`main5.js`, the old `main.js`).
+- **Stills:** `cast_lineup_v6.jpg`, `youssef_sheet_v6.jpg`, `sara_sheet_v6.jpg` (both sheets include a 2x arm-pose close-up block) and `frame_coffee_flatbg_v6.jpg`.
+- **Render:**
+  ```
+  --q 'r=6&v=lineup' --size 2400x1350
+  --q 'r=6&v=sheet&who=sara' --size 2560x2960
+  --q 'r=6&v=coffeeflat'
+  ```
+
+## Shoulders and arms (the owner's note)
+- **The shoulder is the torso's own corner.** The arm pivot sits inside the torso: 12 % of the shoulder width in from the side, and 10 % of the torso height below the top edge. The joint therefore never shows as a bulge.
+- **Arms in front** (rest, point, hold cup, hand on chest, facepalm):
+  - The arm is drawn over the torso.
+  - The torso's corner is then laid back over the sleeve base, in the jacket or cardigan colour, so the sleeve comes out from under the shoulder.
+  - A front arm is clipped so it can never poke above the shoulder line next to its own pivot.
+- **Raised arms** (elbow above the pivot: wave, scratch; `behind` can force it either way):
+  - The whole sleeve is drawn before the torso and the head, so only the part coming out from behind the shoulder line or the head shows.
+  - The hand is drawn after the head, so a scratching hand sits on the hair.
+  - Raised arms also lift the shoulder pivot slightly (`lift`).
+- **Sleeve shape:** a tapered block (100 → 94 → 84 % width), drawn as two straight segments. The elbow is a flat bevelled corner, with no round knuckle. A cuff band follows, then the mitten.
+- **Scratch:** the elbow goes out and up past the head silhouette, and the fist sits on the upper side of the hair. No arm crosses the face.
+- **Hands on the face or over the head** get a 2 px darker-skin separation edge, because skin on skin is otherwise invisible. Facepalm and scratch are the cases where this matters.
+
+## Proportions and charm
+- **Heads:** height ratio ≈ 1 : 2.6–2.8 (Youssef 138 / ~360). Heads are squarer rounded rectangles: superellipse with top exponent 3.0 and jaw exponent 3.4 for Youssef, softer for Sara, Ana and Mrs. Lopez.
+- **Torsos:** chunky blocks, with a short neck.
+- **Legs:** short straight tubes.
+- **Feet:** flat pills.
+- **Eyes:** big (0.24 × 0.30 of head width) and close-set (±0.33 rad). The nose is drawn after the eyes and overlaps between them.
+- **Mouths:** 1.33x wider.
+- **Lids:** drawn outside the eye clip, which removes v5's thin antialias ring.
+- **Hands:** chunkier mittens. The resting hand is turned slightly, with the thumb and a crease visible.
+- **Mei** carries a signature tote (mustard with a teal band, on her far shoulder). Her silhouette now separates clearly from Mrs. Lopez's.
+
+## Render cost (v6, same bench)
+| what | ms / frame |
+|---|---|
+| 2 characters at 1.8x + full-frame fill | 3.4 |
+| ep02 hall (baked) + 2 characters | 10.0 |
+| flat hall (live) + 2 characters | 4.8 |
+| 6 characters | 7.3 |
+
+v6 costs slightly more than v5 (more fill calls per limb, plus the shoulder-cap and arm clips), but it is still far below the old bean form pass.
+
+## Honest view vs v5
+**Better:**
+- v6 has much more charm and personality. It no longer reads as stock explainer vector: the big squarish heads and close-set eyes give each face attitude at phone size.
+- The shoulder problem is solved: no pipe arms, no joint bulge, and a clean elbow corner.
+- Silhouettes are at least as distinct as in v5, and Mei now has a signature shape.
+
+**Weaker or open:**
+- Short arms against big heads limit poses near the head. Scratch and facepalm work, but they are tuned per character. A hands-behind-head pose would need longer arms.
+- The torsos are boxy enough that turned figures look stiff. Youssef's blazer shoulder in 3/4 shows a small square step where the arm meets the narrowed torso.
+- Sara's ponytail dominates the 3/4 close-ups. Her glasses in 3/4 sit close together (I widened the eye spacing to fix this; they still nearly touch).
+- The walk in v6 is the v5 keys on shorter legs, untested in motion.
+- Leo, Ana, Mrs. Lopez and Mei have only their lineup pose (no sheets).
