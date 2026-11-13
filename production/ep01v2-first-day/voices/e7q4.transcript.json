@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T13:20:44.248Z",
+  "duration_ms": 600,
+  "word_count": 1,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "Bye.",
+  "source_text": "Bye!",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "Bye!"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 200,
+      "end_ms": 600,
+      "text": "Bye."
+    }
+  ]
+}

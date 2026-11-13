@@ -52,7 +52,7 @@ def R(k, gap, item, rep=False):
     """a recap clip: rep = the learner repeats it (0.9 s of silence after it, recorded in T['repeat'])"""
     s, e = put(k, gap, scene='recap')
     if not T['recap'] or T['recap'][-1]['id'] != item:
-        T['recap'].append({'id': item, 't0': round(s + edges(k)[0] - .15, 3)})
+        T['recap'].append({'id': item, 't0': round(max(T['recap'][-1]['t1'] if T['recap'] else 0, s + edges(k)[0] - .15), 3)})
     if rep:
         T['repeat'].append({'clip': k, 't0': round(e + .1, 3), 't1': round(e + REP - .05, 3)})
         b.t = e + REP
@@ -102,7 +102,7 @@ b.hold(.25)
 # 5. Recap: the title card (no line), the items, the name trio, then the fast round
 b.section('recap')
 b.beat('recap_title')
-b.hold(1.0)
+b.hold(1.3)
 R('r01', 0, 'hi'); R('r02', .2, 'hi', rep=True)
 R('ar10', 0, 'am'); R('r03', .25, 'am'); R('ar11', .2, 'im'); R('r04', .15, 'im', rep=True)
 R('e6s', 0, 'names'); R('e6l', .15, 'names'); R('e6m', .15, 'names')
@@ -132,7 +132,7 @@ b.hold(.2)
 b.section('site')
 b.beat('site_card')
 put('ar19', .35)
-b.hold(.3)
+b.hold(.8)
 # 8. Next time
 b.section('next')
 put('ar18', .2)
@@ -167,3 +167,11 @@ print(f"STATS duration {dur:.1f}s ({int(dur // 60)}:{dur % 60:04.1f})  coverage 
       f"silences>=1s: {len(sil)} totalling {sum(z - a for a, z in sil):.1f}s  English speech {en:.1f}s = {100 * en / dur:.1f}% of runtime")
 for a, z in sil:
     print(f"   silence {a:6.2f}-{z:6.2f} ({z - a:.2f}s)")
+latin = [(w['t0'], w['t1']) for n in T['narration'] for w in n['words'] if w['w'][:1].isascii() and w['w'][:1].isalpha()]
+en2 = []
+for a, z in sorted([tuple(x) for x in en_merged] + latin):
+    if en2 and a <= en2[-1][1]: en2[-1][1] = max(en2[-1][1], z)
+    else: en2.append([a, z])
+spans = sum(l['t1'] - l['t0'] for l in T['lines'])
+print(f"      English incl. the English inside the narration: {sum(z - a for a, z in en2):.1f}s = {100 * sum(z - a for a, z in en2) / dur:.1f}%;"
+      f"  English line spans (first to last word of each line): {spans:.1f}s = {100 * spans / dur:.1f}%")

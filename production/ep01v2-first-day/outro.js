@@ -1,3 +1,5 @@
+// Episode 1 v2 — the title card comes right after the rewind (1.5 s, faster pops), then the same outro as the original but
+// tighter: "your turn" (3.5 s countdown), the site call-to-action keyed to the shorter AR-19, the teaser and a 2.5 s end card.
 // Episode 1 — title card, page wipe, "your turn" (Sara asks the viewer, 3-2-1 countdown), the full-screen exercises call-to-action
 // (the companion website's exercise plays by itself over the blurred street), next-episode teaser and end card (design v3).
 import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
@@ -16,9 +18,9 @@ export function buildOutro() {
   const tu = SEC('turn'), nx = SEC('next'), op = SEC('open'), st = SEC('street');
   const bT = BEAT('title', op.t1 - 3), p0 = BEAT('pause_start', tu.t0 + 7), p1 = BEAT('pause_end', p0 + 4.5), bEnd = BEAT('end_card', nx.t1 - 4);
   const n16 = NARR('ar16'), n17 = NARR('ar17'), n18 = NARR('ar18'), L = LINE('turn');
-  O = { tu, nx, bT, tTitleOut: st.t0 - .45, p0, p1, bEnd, L, n18 };
+  O = { tu, nx, bT, tTitleOut: st.t0 - .4, p0, p1, bEnd, L, n18 };
   // ---------------- your turn: Sara faces the camera ----------------
-  const tDor = nwT('ar16', has('دورك'), .05), tRud = nwT('ar16', has('رد'), .6), tBravo = nwT('ar17', has('برافو'), .4), tWrite = nwT('ar17', has('واكتبها'), .7);
+  const tDor = nwT('ar16', has('دورك'), .05), tRud = nwT('ar16', has('بتسأل'), .6), tBravo = nwT('ar17', has('برافو'), .6), tWrite = null;   // v2: no comment nudge
   const tWhat = L ? (L.tok.find(o => /^What/i.test(o.w)) || L.tok[0]).t0 : p0 - 2;
   O.tBravo = tBravo; O.tWrite = tWrite;
   const mT = { id: 'mia', base: { turn: 0, face: F('happy', { happy: .45 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
@@ -31,7 +33,7 @@ export function buildOutro() {
   K.push({ t: p0 - .1, lean: .035, armR: CUP, face: F('happy', { bLy: 1, bRy: 1, happy: .25, mo: .02, lx: .25, ly: -.05 }), d: .35 },
     { t: p1 - .05, lean: 0, armR: CLAP, armL: CLAP, face: F('joy'), d: .2 }, { t: p1 + 1.2, armR: ARM.rest, armL: ARM.rest, face: F('happy', { happy: .6 }), d: .3 },
     { t: tBravo - .2, armL: CLAP, armR: CLAP, face: F('joy'), d: .18 }, { t: tBravo + .9, armL: ARM.rest, armR: ARM.rest, face: F('happy', { happy: .55 }), d: .3 },
-    { t: tWrite - .1, armR: OPEN, d: .25 }, { t: tWrite + 1.4, armR: ARM.rest, d: .3 });
+  );
   const third = (p1 - p0) / 3;
   for (let i = 0; i < 3; i++) mT.jumps.push({ t: p0 + i * third + .05, h: .015, d: .3 });
   mT.jumps.push({ t: p1, h: .07, d: .4 }, { t: tBravo, h: .06, d: .38 });
@@ -45,8 +47,9 @@ export function buildOutro() {
   O.countdown = [0, 1, 2].map(i => p0 + i * third);
   // ---------------- site: "solve the episode's exercises on the website" — the full-screen call-to-action (design v3) ----------------
   const si = SEC('site'), bSite = BEAT('site_card', si.t1 > 0 ? si.t0 : nx.t0 - 8), NS = 'ar19';
-  const tEnter = nwT(NS, has('ادخل'), .35), tSolve = nwT(NS, has('وحل'), .45), tFive = nwT(NS, has('خمس'), .68), tLink = nwT(NS, has('اللينك'), .88);
-  const sOut = nx.t0 - .4;   // the card leaves before the teaser
+  // v2 AR-19 "حل تمارين الحلقة… خمس دقايق، واللينك في الوصف.": point on "حل", the tap on "تمارين", stars on "خمس", the bar on "اللينك"
+  const tEnter = nwT(NS, has('حل'), .05), tSolve = Math.max(bSite + 1.15, nwT(NS, has('تمارين'), .2) + .2), tFive = nwT(NS, has('خمس'), .5), tLink = nwT(NS, has('اللينك'), .75);
+  const sOut = nx.t0 - .3;   // the card leaves before the teaser
   O.bSite = bSite; O.tEnter = tEnter; O.tSolve = tSolve; O.tFive = tFive; O.tLink = tLink; O.sOut = sOut;
   // the mini exercise, mirrored from the site's "fix Youssef's mistake" item for this episode
   O.EX = { n: 2, context: "Hi! I'm Sara.", wrong: 'I Youssef.', span: 'I', answer: "I'm", chips: ['My', "I'm", 'Me'], right: 1 };
@@ -73,9 +76,9 @@ export function buildOutro() {
   O.sS = sS;
   O.yS = yS;
   // ---------------- next: alarm → running late → "How are you?" → end card ----------------
-  const tLate = nwT('ar18', has('متأخر'), .25), tB = Math.max(nx.t0 + 1.4, nwT('ar18', has('وأول'), .4) - .15);
+  const tB = Math.max(nx.t0 + 1.0, nwT('ar18', has('سارة'), .3) - .35);
   const how = n18 ? n18.tok.find(o => o.lat) : null;
-  const tC = how ? how.t0 - .35 : nx.t0 + (bEnd - nx.t0) * .55, tAns = nwT('ar18', has('رديت'), .85);
+  const tC = how ? Math.max(tB + .8, how.t0 - .35) : nx.t0 + (bEnd - nx.t0) * .55, tAns = nwT('ar18', has('هرد'), .75);
   O.tB = tB; O.tC = tC; O.how = how; O.tAns = tAns;
   const yN = { id: 'youssef', case: true, base: { turn: .5, face: F('worried', { sweat: .9, lx: .5, mwob: 1, bLr: .7, bRr: .7 }), armL: PULL, armR: RUNARM, alpha: 1, kmul: 1 },
     moves: [{ t0: tB, t1: tC + .05, x0: -500, x1: 700, k0: .9, k1: .9, step: .26, ease: 'lin' }, { t0: tC, t1: tC + .55, x0: 1050, x1: 1310, k0: .9, k1: .9, step: .27 }], keys: [], jumps: [], blinks: [], hopAmp: 1.3 };
@@ -93,7 +96,7 @@ export function buildOutro() {
   ];
   // ---------------- cues ----------------
   cue(bT, 'sting', { note: 'title card' });
-  cue(bT + .1, 'pop'); cue(bT + .45, 'pop'); cue(bT + .8, 'pop');
+  cue(bT + .1 * TS, 'pop'); cue(bT + .45 * TS, 'pop'); cue(bT + .8 * TS, 'pop');
   cue(O.tTitleOut, 'whoosh', { note: 'title out' });
   cue(tu.t0 - .1, 'page_turn', { note: 'paper → street' });
   cue(tDor, 'pop');
@@ -105,7 +108,6 @@ export function buildOutro() {
   cue(p1, 'ding', { note: 'time up' });
   cue(p1 + .05, 'confetti');
   cue(tBravo, 'cheer');
-  cue(tWrite, 'pop', { note: 'comment icon' });
   cue(bSite, 'whoosh', { note: 'site card in' });
   cue(bSite + .33, 'step', { who: 'mia' }); cue(bSite + .6, 'step', { who: 'mia' });
   for (let i = 1; i <= 3; i++) cue(bSite + .3 + i * .27, 'step', { who: 'youssef' });
@@ -124,15 +126,20 @@ export function buildOutro() {
   cue(tC, 'cut', { note: 'arrives at the door' });
   cue(tAns - .1, 'gulp');
   cue(bEnd, 'sting_end', { note: 'end card' });
-  cue(bEnd + 1.3, 'pop', { note: 'subscribe button' });
-  cue(bEnd + 2.1, 'click'); cue(bEnd + 2.2, 'bell');
-  cue(bEnd + 1.55, 'pop', { note: 'exercises pill' });
+  cue(bEnd + 1.3 * EC, 'pop', { note: 'subscribe button' });
+  cue(bEnd + 2.05 * EC, 'click'); cue(bEnd + 2.15 * EC, 'bell');
+  cue(bEnd + 1.55 * EC, 'pop', { note: 'exercises pill' });
   return O;
 }
 
 // ---------------- title card (over the walking street) ----------------
+const TS = .62;   // v2: the title's pops at 1/TS speed (a 1.5 s card)
 export function titleCard(c, t) {
-  const t0 = O.bT, t1 = O.tTitleOut;
+  const t1 = O.tTitleOut, t0 = O.bT;
+  if (t < t0 || t > t1 + .4) return;
+  return titleCardAt(c, t0 + (t - t0) / TS, t0, t0 + (t1 - t0) / TS);
+}
+function titleCardAt(c, t, t0, t1) {
   if (t < t0 || t > t1 + .4) return;
   const out = eio(seg(t, t1, t1 + .38));
   c.save(); c.setTransform(1, 0, 0, 1, 0, 0);
@@ -245,8 +252,8 @@ function card(c, t, out = 0) {   // out: 0..1 exit (the site card takes its plac
   c.restore();
   // confetti across the frame
   confetti(c, t, O.p1 + .05);
-  // comment nudge
-  const ck = seg(t, O.tWrite - .05, O.tWrite + .35);
+  // comment nudge (not in v2: tWrite = null)
+  const ck = O.tWrite == null ? 0 : seg(t, O.tWrite - .05, O.tWrite + .35);
   if (ck > 0) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1 - out; const s = back(ck, 2.2); c.translate(cx + 300, cy + 240); c.scale(s, s); commentIcon(c, 0, 0, 1.1, P.navy); c.restore(); }
 }
 function confetti(c, t, t0) {
@@ -437,9 +444,10 @@ function alarmShot(c, t) {
 }
 
 const NEXT_Q = 'How are you';
+const EC = .62;   // end-card time scale (the original's 4 s choreography in ~2.5 s)
 // ---------------- end card (design v3): the series title on top, "الحلقة الجاية", the next question, the big teal + red pills ----------------
 export function endCard(c, t) {
-  const t0 = O.bEnd, u = t - t0;
+  const t0 = O.bEnd, u = (t - t0) / EC;   // v2: the end card plays at 1/EC speed (2.5 s hold)
   c.setTransform(1, 0, 0, 1, 0, 0);
   c.fillStyle = '#FBF1E1'; c.fillRect(0, 0, 1920, 1080);
   c.fillStyle = mix('#FBF1E1', P.mustard, .16); c.fillRect(0, 900, 1920, 180);
@@ -465,7 +473,7 @@ export function endCard(c, t) {
   c.restore();
   // nervous Youssef peeking in from the left, pointing at the pills
   const yk = { id: 'youssef', base: { turn: .45, face: F('nervous', { sweat: 1, lx: .6, ly: -.2, mt: .7 }), armL: ARM.rest, armR: ARM.rest, alpha: 1, kmul: 1 },
-    moves: [{ t0: t0 + .4, t1: t0 + 1.0, x0: -200, x1: 230, y0: 985, y1: 985, k0: 1.0, k1: 1.0, step: .3 }], keys: [{ t: t0 + 1.2, armR: ARM.point, d: .3 }], jumps: [], blinks: [] };
+    moves: [{ t0: t0 + .4 * EC, t1: t0 + 1.0 * EC, x0: -200, x1: 230, y0: 985, y1: 985, k0: 1.0, k1: 1.0, step: .25 }], keys: [{ t: t0 + 1.2 * EC, armR: ARM.point, d: .25 }], jumps: [], blinks: [] };
   drawActor(c, SCREEN, yk, t);
   const pill = (x, y, lab, col, icon, k, tap = 0, iconRot = 0) => {
     if (k <= 0) return 0;

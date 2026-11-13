@@ -101,7 +101,7 @@ en_single = {
  "e7a2": ("Youssef", "I'm Youssef.", FAST + " Clear model pronunciation."),
  "e7q3": ("Sara", "Nice to meet you.", FAST),
  "e7a3": ("Youssef", "Nice to meet you too.", FAST + " Clear model pronunciation."),
- "e7q4": ("Sara", "Bye!", FAST),
+ "e7q4": ("Sara", "Bye!", FAST + " A cheerful, clear goodbye 'Bye!' with a clear B sound at the start (as in 'goodbye')."),  # v2: v1 was heard as "Die"
  "e7a4": ("Youssef", "See you!", FAST + " Clear model pronunciation."),
 }
 en_multi = {

@@ -491,7 +491,7 @@
  },
  "e7q4": {
   "text": "<lang xml:lang=\"en-US\"><phoneme alphabet=\"ipa\" ph=\"baɪ\">Bye!</phoneme></lang>",
-  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent. Quick and snappy, a fast quiz round: say it promptly, with no pause before or after. Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
+  "style": "Friendly young American woman, a warm English teacher from New York. Natural, clear, relaxed General American accent. Quick and snappy, a fast quiz round: say it promptly, with no pause before or after. A cheerful, clear goodbye 'Bye!' with a clear B sound at the start (as in 'goodbye'). Bracketed tags and XML/IPA pronunciation markup in the text are silent instructions and must never be spoken; say the tagged English with a clean, natural General American pronunciation.",
   "voice": "Aoede",
   "transcript": {
    "language_codes": [

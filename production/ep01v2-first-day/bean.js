@@ -6,6 +6,7 @@ import { P, SKIN, HAIR, SHADE, mix, rgba, dark, light, formed, ell, smooth, poly
 import { lerp, clamp } from '/core/lib.js';
 
 const PI = Math.PI;
+export const LILAC = mix(SHADE, P.cream, .38);   // Mei's sweater: the kit's cool shade token lifted with cream
 export const CAST = {
   youssef: { id: 'youssef', H: 300, a: .352, taper: .11, n: 2.5, skin: SKIN.youssef, hair: HAIR.youssef, brow: HAIR.youssef,
     band: P.navy, sleeve: P.navy, cuff: dark(P.navy, .3), shoe: '#3B2C34', hairE: .035, blush: '#E2564E', blushA: .5, lash: P.ink, accent: P.navy },
@@ -16,6 +17,14 @@ export const CAST = {
   // a red top with a cream collar over teal trousers (palette tokens + mixes only)
   ana: { id: 'ana', H: 266, a: .352, taper: .14, n: 2.4, skin: '#E2A77C', hair: '#3A2131', brow: '#3A2131',
     band: P.red, sleeve: P.red, cuff: dark(P.red, .2), shoe: P.navy, hairE: .07, blush: '#F06A5E', blushA: .5, lash: P.ink, accent: P.red },
+  // episode 1 v2: the classmates. Leo: warm brown skin, short dark curly hair (bumps on the silhouette + a curly fringe edge),
+  // a leaf-green hoodie (hood roll, cream drawstrings, kangaroo pocket) over navy trousers
+  leo: { id: 'leo', H: 294, a: .352, taper: .11, n: 2.5, skin: '#9A6140', hair: '#2A1F2C', brow: '#2A1F2C',
+    band: P.leaf, sleeve: P.leaf, cuff: dark(P.leaf, .22), shoe: P.ink, hairE: .05, blush: '#D35A4C', blushA: .38, lash: P.ink, accent: P.leaf },
+  // Mei: light warm skin, a black straight bob with blunt bangs, a lilac sweater (the cool shade token lifted with cream) with a
+  // ribbed collar and hem over ink-navy trousers
+  mei: { id: 'mei', H: 262, a: .352, taper: .14, n: 2.4, skin: '#F3CBA2', hair: '#1D1926', brow: '#1D1926',
+    band: LILAC, sleeve: LILAC, cuff: dark(LILAC, .18), shoe: P.navy, hairE: .06, blush: '#F2817A', blushA: .55, lash: P.ink, accent: LILAC },
 };
 
 // ---------------- expressions (face kit presets; all numeric so they can be blended) ----------------
@@ -315,6 +324,17 @@ function hairline(sp, phi) {
     y = lerp(y, -.47, sst(2.0, 2.6, af));
     return y * H;
   }
+  if (sp.id === 'leo') {   // short curly crop: a scalloped curly fringe high on the forehead, close at the temples, short at the back
+    const base = lerp(-.86, -.68, Math.pow((1 - Math.cos(f)) / 2, .9));
+    const curl = .022 * Math.pow(Math.abs(Math.cos(f * 5.5 + .4)), .6);
+    return (base + curl) * H;
+  }
+  if (sp.id === 'mei') {   // a straight bob: blunt bangs straight across the brow, straight sides to the jaw, short at the back
+    let y = -.765 + .006 * Math.cos(f * 14);
+    y = lerp(y, -.5, sst(.78, .98, af));
+    y = lerp(y, -.48, sst(2.0, 2.6, af));
+    return y * H;
+  }
   // Sara (id mia): scalloped bangs in front, hair down to the temples at the sides, longer at the back (+ separate side tendrils)
   const bang = -.79 + .026 * Math.pow(Math.abs(Math.cos(f * 4.4 + .3)), .7) + .025 * f;
   let y = lerp(bang, -.75, sst(.72, .98, af));
@@ -421,10 +441,11 @@ function bodyFlat(l, sp, p, G, arms) {
   l.save(); smooth(l, big); l.clip(); poly(l, region()); l.fillStyle = sp.hair; l.fill();
   // hair sheen: a soft arc on the lit side
   const [tx, ty] = D(G.hw(-.9 * H) * -.35 + Math.sin(th) * .05 * H, -.9 * H);
-  l.strokeStyle = rgba('#FFFFFF', sp.id === 'mia' ? .2 : sp.id === 'ana' ? .16 : .13); l.lineWidth = .028 * H; l.lineCap = 'round';
+  l.strokeStyle = rgba('#FFFFFF', sp.id === 'mia' ? .2 : sp.id === 'ana' || sp.id === 'mei' ? .16 : .13); l.lineWidth = .028 * H; l.lineCap = 'round';
   l.beginPath(); l.ellipse(tx + .07 * H, ty + .03 * H, .16 * H, .085 * H, -.2, PI * 1.12, PI * 1.42); l.stroke();
   l.restore();
-  if (sp.id === 'youssef') quiff(l, sp, p, G); else if (sp.id === 'ana') bob(l, sp, p, G); else tendrils(l, sp, p, G);
+  if (sp.id === 'youssef') quiff(l, sp, p, G); else if (sp.id === 'ana') bob(l, sp, p, G); else if (sp.id === 'leo') curls(l, sp, p, G);
+  else if (sp.id === 'mei') straightBob(l, sp, p, G); else tendrils(l, sp, p, G);
 }
 
 function clothes(l, sp, p, G) {
@@ -446,6 +467,35 @@ function clothes(l, sp, p, G) {
     // single button
     const bs = G.surf(0, -.205 * H);
     if (bs.c > .1) { const [bx, by] = D(bs.x, -.205 * H); ell(l, bx, by, .016 * H * Math.max(.4, bs.c), .016 * H); l.fillStyle = dark(sp.band, .35); l.fill(); }
+  } else if (sp.id === 'leo') {
+    // leaf hoodie: a darker hood roll around the neck, two cream drawstrings, a kangaroo pocket; navy trousers below the hem
+    const top = G.across(phi => (-.44 - .02 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...top, [H, H], [-H, H]]); l.fillStyle = sp.band; l.fill();
+    const hood = G.across(phi => (-.475 + .035 * Math.max(0, Math.cos(wrap(phi))) ** 2) * H, 48), hood2 = G.across(phi => (-.425 + .04 * Math.max(0, Math.cos(wrap(phi))) ** 2) * H, 48);
+    poly(l, [...hood, ...hood2.reverse()]); l.fillStyle = dark(sp.band, .14); l.fill();
+    for (const ph of [-.17, .17]) {   // drawstrings
+      const s0 = G.surf(ph, -.41 * H); if (s0.c < .15) continue;
+      const pts = [-.41, -.37, -.33, -.3].map(y => { const q = G.surf(ph, y * H); return D(q.x, y * H); });
+      l.strokeStyle = P.cream; l.lineWidth = .014 * H; l.lineCap = 'round'; poly(l, pts, false); l.stroke();
+      const [ex, ey] = pts[pts.length - 1]; ell(l, ex, ey + .006 * H, .01 * H, .012 * H); l.fillStyle = light(P.cream, .1); l.fill();
+    }
+    const pk = []; for (let i = 0; i <= 14; i++) { const f = -.55 + 1.1 * i / 14, y = -.27 * H; const q = G.surf(f, y); if (q.c > -.05) pk.push(D(q.x, y)); }
+    for (let i = 14; i >= 0; i--) { const f = -.62 + 1.24 * i / 14, y = -.165 * H; const q = G.surf(f, y); if (q.c > -.05) pk.push(D(q.x, y)); }
+    if (pk.length > 6) { smooth(l, pk); l.fillStyle = dark(sp.band, .08); l.fill(); l.strokeStyle = dark(sp.band, .2); l.lineWidth = .009 * H; l.stroke(); }
+    const hem = G.across(() => -.15 * H, 30); poly(l, [...hem, [H, H], [-H, H]]); l.fillStyle = dark(sp.band, .18); l.fill();
+    const tr = G.across(() => -.122 * H, 30); poly(l, [...tr, [H, H], [-H, H]]); l.fillStyle = mix(P.navy, P.ink, .25); l.fill();
+  } else if (sp.id === 'mei') {
+    // lilac sweater with a ribbed crew collar (cream tee edge just above it) and a ribbed hem; ink-navy trousers
+    const tee = G.across(phi => (-.452 - .02 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...tee, [H, H], [-H, H]]); l.fillStyle = P.cream; l.fill();
+    const top = G.across(phi => (-.44 - .016 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...top, [H, H], [-H, H]]); l.fillStyle = dark(sp.band, .12); l.fill();
+    const body = G.across(phi => (-.418 - .014 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
+    poly(l, [...body, [H, H], [-H, H]]); l.fillStyle = sp.band; l.fill();
+    const hem = G.across(() => -.16 * H, 30); poly(l, [...hem, [H, H], [-H, H]]); l.fillStyle = dark(sp.band, .12); l.fill();
+    l.strokeStyle = rgba('#FFFFFF', .14); l.lineWidth = .006 * H;   // rib lines on the hem
+    for (let f = -1.3; f <= 1.3; f += .13) { const q0 = G.surf(f, -.158 * H); if (q0.c < .1) continue; const q1 = G.surf(f, -.13 * H); l.beginPath(); l.moveTo(...D(q0.x, -.155 * H)); l.lineTo(...D(q1.x, -.132 * H)); l.stroke(); }
+    const tr = G.across(() => -.128 * H, 30); poly(l, [...tr, [H, H], [-H, H]]); l.fillStyle = mix(P.navy, P.ink, .45); l.fill();
   } else if (sp.id === 'ana') {
     // red top with a rounded cream collar, teal trousers below a darker hem
     const top = G.across(phi => (-.43 - .03 * Math.max(0, Math.cos(wrap(phi)))) * H, 40);
@@ -514,6 +564,51 @@ function bob(l, sp, p, G) {
     const [cx, cy] = G.D(G.hw(y) * .9 * Math.sin(ps), y);
     l.save(); l.translate(cx, cy); l.rotate(-.5); rr(l, -.04 * H, -.013 * H, .08 * H, .026 * H, .013 * H); l.fillStyle = P.teal; l.fill();
     rr(l, -.03 * H, -.008 * H, .03 * H, .008 * H, .004 * H); l.fillStyle = light(P.teal, .35); l.fill(); l.restore();
+  }
+}
+
+// Leo's curls: round bumps on the head's silhouette above the hairline (volume) and along the curly fringe edge, with a few
+// light curl arcs inside
+function curls(l, sp, p, G) {
+  const H = G.H, th = G.th, r = .05 * H;
+  l.fillStyle = sp.hair;
+  for (const s of [-1, 1]) for (let i = 0; i < 7; i++) {   // the silhouette: from the temple up to the crown
+    const y = lerp(-.74, -.985, i / 6) * H, x = s * G.hw(y) * .96;
+    const [bx, by] = G.D(x, y); ell(l, bx, by, r * (1 - .25 * i / 6), r * (1 - .25 * i / 6)); l.fill();
+  }
+  { const [bx, by] = G.D(0, -1.0 * H); ell(l, bx, by, r * .9, r * .8); l.fill(); }
+  for (let i = 0; i <= 10; i++) {   // the fringe edge (front only)
+    const f = -1.15 + 2.3 * i / 10, ps = f + th; if (Math.cos(ps) < .05) continue;
+    const y = hairline(sp, f) - .005 * H, [bx, by] = G.D(G.hw(y) * Math.sin(ps) * .98, y);
+    ell(l, bx, by, r * .62 * (.6 + .4 * Math.cos(ps)), r * .55); l.fill();
+  }
+  l.strokeStyle = rgba('#FFFFFF', .14); l.lineWidth = .01 * H; l.lineCap = 'round';
+  for (const [f, y] of [[-.55, -.9], [.1, -.95], [.6, -.88], [-.15, -.84], [.95, -.8], [-1.0, -.8]]) {
+    const ps = f + th; if (Math.cos(ps) < .1) continue;
+    const [cx, cy] = G.D(G.hw(y * H) * Math.sin(ps) * .9, y * H); l.beginPath(); l.arc(cx, cy, .022 * H, PI * .9, PI * 2.1); l.stroke();
+  }
+}
+
+// Mei's straight bob: two straight side panels to the jaw with a blunt, slightly curved-under cut, and a sheen line on the bangs
+function straightBob(l, sp, p, G) {
+  const H = G.H, th = G.th;
+  for (const s of [-1, 1]) {
+    const ps = s * 1.1 + th; if (Math.cos(ps) < -.35) continue;
+    const Lp = [], Rp = [], N = 14, sn = Math.sin(ps), sg = Math.sign(sn) || s;
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, y = lerp(-.9, -.465, t) * H;
+      const x = G.hw(y) * sn * 1.02 + sg * (.014 * Math.sin(PI * Math.min(1, t * 1.3))) * H;
+      const w = (.042 + .012 * t) * H * (.6 + .4 * Math.abs(Math.cos(ps)));
+      Lp.push(G.D(x - w * .65, y)); Rp.push(G.D(x + w, y));
+    }
+    const tip = G.D(G.hw(-.465 * H) * sn * 1.02 - sg * .012 * H, -.455 * H);   // the blunt end turns under a little
+    smooth(l, [...Lp, tip, ...Rp.reverse()]); l.fillStyle = sp.hair; l.fill();
+  }
+  // bangs sheen: a short light arc across the fringe
+  const ps0 = th, y = -.8 * H;
+  if (Math.cos(ps0) > -.2) {
+    const pts = []; for (let i = 0; i <= 8; i++) { const f = -.5 + i / 8, q = G.surf(f, y); if (q.c > 0) pts.push(G.D(q.x, y - .012 * H * Math.sin(PI * i / 8))); }
+    if (pts.length > 2) { l.strokeStyle = rgba('#FFFFFF', .16); l.lineWidth = .014 * H; l.lineCap = 'round'; poly(l, pts, false); l.stroke(); }
   }
 }
 
@@ -627,7 +722,7 @@ function eye(c, sp, f, H, fx, s) {
   c.save(); ell(c, 0, 0, rx * 1.12, ryo * 1.12); c.clip();
   c.beginPath(); if (lid > .01) upper(); else c.ellipse(0, 0, rx, ryo, 0, PI * 1.1, PI * 1.9); c.stroke();
   c.restore();
-  if (sp.id !== 'youssef') { const ox = s * rx * .8, oy = -ryo * .58 + (lid > .01 ? ryo * lid * 1.2 : 0); c.beginPath(); c.moveTo(ox, oy); c.quadraticCurveTo(ox + s * rx * .32, oy - ry * .1, ox + s * rx * .45, oy - ry * .3); c.stroke(); }
+  if (sp.id === 'mia' || sp.id === 'ana' || sp.id === 'mei') { const ox = s * rx * .8, oy = -ryo * .58 + (lid > .01 ? ryo * lid * 1.2 : 0); c.beginPath(); c.moveTo(ox, oy); c.quadraticCurveTo(ox + s * rx * .32, oy - ry * .1, ox + s * rx * .45, oy - ry * .3); c.stroke(); }
 }
 
 function mouth(c, sp, f, H, fx) {

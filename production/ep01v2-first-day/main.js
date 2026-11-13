@@ -1,13 +1,14 @@
-// Episode 1 "First Day" — entry. window.render(t) is a pure function of t (seeded randomness only); everything is keyed to
+// Episode 1 v2 "First Day" (the tighter test cut) — entry. window.render(t) is a pure function of t (seeded randomness only); everything is keyed to
 // timeline.json, so a regenerated timeline (new voice timings) re-times the whole picture and the cue list.
 // Modules: kit (tokens, form pass) · bean (characters) · world (the New York street) · ui (type) · tl (timeline) · act (acting) ·
-//          story (open → bye) · recap (Living Letters recap) · outro (title, your turn, teaser, end card) · cues (window.EV)
+//          story (hook + rewind → street → door → retry → class → bye) · recap (Living Letters recap + name cards + the fast round) ·
+//          outro (title, your turn, site, teaser, end card) · cues (window.EV)
 import { P, grain, CPU } from './kit.js';
 import { setArms } from './bean.js';
 import { clamp, seg, ss } from '/core/lib.js';
 import { loadTimeline, TL, SEC } from './tl.js';
 import { bakeWorld } from './world.js';
-import { buildStory, sceneA, sceneD } from './story.js';
+import { buildStory, sceneA, sceneClass, sceneD } from './story.js';
 import { buildRecap, sceneRecap } from './recap.js';
 import { buildOutro, titleCard, wipe, sceneTurn, sceneSite, sceneNext, endCard, O } from './outro.js';
 import { plate } from './ui.js';
@@ -18,8 +19,9 @@ const SW = 1920, SH = 1080;
 let X = null;   // section times
 
 function frame(t) {
-  const { day, recap, turn, site, next } = X;
-  if (t < day.t0) { sceneA(c, t); titleCard(c, t); return; }
+  const { cls, bye, recap, turn, site, next } = X;
+  if (t < cls.t0) { sceneA(c, t); titleCard(c, t); return; }
+  if (t < bye.t0) return sceneClass(c, t);
   if (t < recap.t0 - .05) return sceneD(c, t);
   if (t < recap.t0 + .7) return wipe(c, seg(t, recap.t0 - .05, recap.t0 + .65), () => sceneD(c, t), () => sceneRecap(c, t));
   if (t < turn.t0 - .1) return sceneRecap(c, t);
@@ -54,7 +56,7 @@ window.render = t => {
   await Promise.all([document.fonts.load('400 40px "Lilita One"'), document.fonts.load('700 40px "Baloo Bhaijaan 2"', 'أول يوسف'),
     document.fonts.load('800 40px "Baloo Bhaijaan 2"', 'أول يوسف'), document.fonts.load('500 40px "Fredoka"'), document.fonts.load('700 40px "Fredoka"')]);
   await document.fonts.ready;
-  X = { day: SEC('day'), recap: SEC('recap'), turn: SEC('turn'), site: SEC('site'), next: SEC('next') };
+  X = { cls: SEC('class'), bye: SEC('bye'), recap: SEC('recap'), turn: SEC('turn'), site: SEC('site'), next: SEC('next') };
   const at = (v, end) => v == null ? null : isNaN(+v) ? (end ? SEC(v).t1 : SEC(v).t0) : +v;
   OFF = at(Q.get('from'), false) ?? 0;
   window.DUR = (at(Q.get('to'), true) ?? TL.dur) - OFF;
@@ -62,7 +64,7 @@ window.render = t => {
   buildStory(); buildRecap(); buildOutro();
   cue(X.recap.t0 - .05, 'page_turn', { note: 'story → recap' });
   cue(0, 'music_intro', { dur: SEC('open').t1, note: 'light theme under the opening' });
-  cue(X.recap.t0 + .3, 'music_recap', { dur: X.recap.t1 - X.recap.t0 - .3, note: 'soft bed under the recap' });
+  cue(X.recap.t0 + .3, 'music_recap', { dur: SEC('fast').t1 - X.recap.t0 - .3, note: 'soft bed under the recap and the fast round' });
   cue(SEC('next').t0, 'music_outro', { dur: TL.dur - SEC('next').t0 });
   window.EV = finishCues();
   window.render(0);

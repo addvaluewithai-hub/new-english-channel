@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "type": "word_timestamps",
+  "alignment_mode": "whole_audio_gemini_transcribe",
+  "alignment_provider": "gemini",
+  "alignment_model": "gemini-3.5-transcribe",
+  "generated_at": "2026-11-13T12:57:47.593Z",
+  "duration_ms": 900,
+  "word_count": 3,
+  "diarization": false,
+  "language_codes": [
+    "en-US"
+  ],
+  "recognized_text": "What's your name?",
+  "source_text": "What's your name?",
+  "source_turns": [
+    {
+      "index": 0,
+      "text": "What's your name?"
+    }
+  ],
+  "words": [
+    {
+      "start_ms": 300,
+      "end_ms": 500,
+      "text": "What's"
+    },
+    {
+      "start_ms": 500,
+      "end_ms": 600,
+      "text": "your"
+    },
+    {
+      "start_ms": 600,
+      "end_ms": 900,
+      "text": "name?"
+    }
+  ]
+}

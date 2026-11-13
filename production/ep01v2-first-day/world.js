@@ -1,5 +1,6 @@
-// Bean People v2 — "Youssef in New York": the street set (design v3) plus the two interior sets of episode 2 (Youssef's bedroom
-// and the school hallway), authored in the same screen px / parallax 1 space.
+// Bean People v2 — "Youssef in New York": the street set (design v3), the interiors of episode 2 (bedroom, hallway) and the
+// classroom of episode 4, authored in the same screen px / parallax 1 space. Episode 1 v2 uses the street and the classroom
+// (desks re-seated for Mei · Youssef · Leo; the map hangs without pins; no empty desk baked into the set).
 // Authored in screen px for the establishing camera (CAM0 = centre 960,540, zoom 1); parallax p: sky 0, far skyline .12,
 // across-the-road brownstones + taxi .45, our pavement + the school 1, lamp foreground 1.3. Same palette tokens, same haze.
 import { CPU, P, HAZE, mix, rgba, dark, light, rr, ell, smooth, poly, contact, formed, layer } from './kit.js';
@@ -742,7 +743,7 @@ export function drawHall(c, cam, t, o = {}) {
 // the whiteboard ("Where are you from?" is written live), the world map with live pins, the teal door at the right edge.
 // Desks are drawn separately (deskFront) in front of the seated students; one empty desk sits in the set itself.
 export const CLASS = { win: { x: 40, y: 210, w: 330, h: 380 }, board: { x: 560, y: 186, w: 610, h: 380 }, map: { x: 1206, y: 206, w: 470, h: 262 },
-  door: { x: 1752, w: 200 }, deskTop: 832, desks: { empty: 770, ana: 1080, youssef: 1440 } };
+  door: { x: 1752, w: 200 }, deskTop: 832, desks: { mei: 760, youssef: 1080, leo: 1440 } };
 // the map: equirectangular, lon -170..180, lat 80..-58, inside the frame's inner area
 const MAPA = { lon0: -170, lon1: 180, lat0: 80, lat1: -58 };
 export function mapXY(lon, lat) {
@@ -830,8 +831,6 @@ function classStatic(c) {
   c.fillStyle = '#FFFBF4'; rr(c, D.x - 14, 286, D.w + 28, 516, 10); c.fill();
   c.fillStyle = mix(P.navy, P.cream, .78); c.fillRect(D.x, 300, D.w, 498);   // the hallway beyond (seen when the door opens)
   c.fillStyle = mix(P.navy, P.cream, .62); c.fillRect(D.x, 660, D.w, 138);
-  // the empty desk in the set (left of Ana's)
-  deskFront(c, CLASS.desks.empty, { book: true });
 }
 function planterSmall(c, x, base, s = 1) {
   c.save(); c.translate(x, base); c.scale(s, s);

@@ -1,4 +1,7 @@
-"""Mix: voices (timeline.json place) + the series theme + foley (events.json) + London ambience -> out/mix.wav"""
+"""Episode 1 v2 mix: voices (timeline.json place) + the series theme + foley (events.json) + street / classroom ambience -> out/mix.wav
+Standard levels (MUSIC .15, 90 % duck; FX .4, 60 % duck; footsteps .05). v2 adds the VHS rewind (a tape scrub), a light tick for the
+fast-round timer, the classroom chair + bed, and a score plan for the new sections (open → rewind → title → street → door → retry →
+class → bye → recap → fast → turn → site → next)."""
 import json, os, sys
 import numpy as np, soundfile as sf, soxr
 from scipy.ndimage import maximum_filter1d, uniform_filter1d
@@ -93,27 +96,33 @@ def block(t0, t1, fade_in=.0, fade_out=.6, **kw):
     e0 = int(t1 * SR); env[e0:b] = np.linspace(1, 0, b - e0)
     mus = keep + mus * env[:, None]
 
-o, st, dr, rt, dy, by, rc, tu, nx = (SEC[k] for k in ('open', 'street', 'door', 'retry', 'day', 'bye', 'recap', 'turn', 'next'))
-block(0, BT['title'] - .1, fade_in=.3, mel=True, lvl=.5)                        # cold open: the theme
-sting(BT['title'], v=.3)                                                          # title card
-block(BT['title'] + .5, BT['door_open'] - .2, mel=False, perc=True, lvl=.6)      # the walk: strum + pulse
-for i, m in enumerate([69, 72, 77]): add(mus, glock(m + 12, 1.4, .25), BT['door_open'] + .1 + i * .12, 1, .1)   # door chime
-# the freeze: a comic reed "uh-oh" under the panic
-for i, (m, d) in enumerate([(55, .25), (54, .25), (53, .25), (52, .7)]):
+o, st, dr, rt, cl, by, rc, fa, tu, nx = (SEC[k] for k in ('open', 'street', 'door', 'retry', 'class', 'bye', 'recap', 'fast', 'turn', 'next'))
+block(0, BT['sorry'] - .1, fade_in=.2, mel=True, lvl=.5, fade_out=.3)             # the hook at the door: the theme
+for i, (m, d) in enumerate([(55, .25), (54, .25), (53, .25), (52, .7)]):           # the freeze: a comic reed "uh-oh"
     add(mus, bassoon(m, d, .22), BT['freeze'] + .1 + i * .28, 1, 0)
-block(BT['unfreeze'] + .2, BT['come_in'], fade_in=1.0, mel=False, perc=False, lvl=.45)   # second try: soft strum
-block(BT['come_in'], dy[1] - .3, mel=True, lvl=.5)                                # relief + the day passing
-block(by[0] + .3, BT['eight'] - .25, mel=False, perc=False, lvl=.45, fade_out=.15)
+sting(BT['title'], v=.3)                                                          # title card (straight out of the rewind)
+block(BT['title'] + .3, BT['door_open'] - .2, mel=False, perc=True, lvl=.6)      # the walk + the rehearsal: strum + pulse
+for i, m in enumerate([69, 72, 77]): add(mus, glock(m + 12, 1.4, .25), BT['door_open'] + .1 + i * .12, 1, .1)   # door chime
+for i, (m, d) in enumerate([(55, .2), (53, .45)]):                                # the close-up after "Sorry?": a small reed "uh-oh"
+    add(mus, bassoon(m, d, .16), dr[0] + .5 + i * .24, 1, 0)
+block(rt[0] + .3, BT['come_in'], fade_in=.8, mel=False, perc=False, lvl=.45)     # second try: soft strum
+block(BT['come_in'], cl[0] + .2, mel=True, lvl=.5, fade_out=.3)                   # relief, in through the door
+block(cl[0], BT['wide'], fade_in=.4, mel=False, strum=True, perc=True, lvl=.4, fade_out=.2)   # the class: a light pulse
+sting(BT['wide'] + .05, (72, 76, 79, 84), .35, .06)                               # the class waves
+block(BT['wide'] + .3, by[0] + .1, mel=True, lvl=.5, fade_out=.3)                 # proud: the theme
+block(by[0] + .2, BT['eight'] - .25, mel=False, perc=False, lvl=.45, fade_out=.15)
 for i, (m, d) in enumerate([(50, .22), (49, .22), (48, 1.0)]):                    # "Eight?!": dun dun duuun
     add(mus, bassoon(m, d, .3), BT['eight'] + .45 + i * .26, 1, 0)
-sting(rc[0] + .2, (77, 81, 84), .4, .09)                                          # recap title
-block(rc[0] + 1.6, rc[1], fade_in=1.0, mel=False, strum=False, perc=True, lvl=.5)   # recap: bass + brushes only
+sting(rc[0] + .2, (77, 81, 84), .4, .09)                                          # recap title (no opening line)
+block(rc[0] + 1.1, rc[1], fade_in=.8, mel=False, strum=False, perc=True, lvl=.5, fade_out=.2)   # recap: bass + brushes only
+sting(fa[0] + .05, (72, 77, 81), .3, .05)                                         # the fast round
+block(fa[0] + .3, fa[1] - .2, fade_in=.3, mel=False, strum=False, perc=True, lvl=.6, fade_out=.2)   # fast round: the pulse, a bit livelier
 block(tu[0], BT['pause_start'] - .1, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)
 sting(BT['pause_end'] + .2, (72, 76, 79, 84), .45)                                  # praise
 si = SEC['site']
-block(si[0] + .2, si[1] - .3, fade_in=.6, mel=False, strum=True, perc=False, lvl=.4, fade_out=.3)   # the site nudge: soft strum
-block(nx[0], DUR - 1.2, fade_in=.5, mel=True, lvl=.5, fade_out=1.0)                # theme out
-for m, dt in zip([65, 69, 72, 77], [0, .2, .4, .75]): add(mus, glock(m + 12, 2.4, .25), DUR - 2.4 + dt, 1, 0)
+block(si[0] + .2, si[1] - .2, fade_in=.4, mel=False, strum=True, perc=False, lvl=.4, fade_out=.2)   # the site nudge: soft strum
+block(nx[0], DUR - 1.0, fade_in=.4, mel=True, lvl=.5, fade_out=.8)                # theme out
+for m, dt in zip([65, 69, 72, 77], [0, .15, .3, .55]): add(mus, glock(m + 12, 1.8, .25), DUR - 1.9 + dt, 1, 0)
 MUSIC = .15          # music well in the background (the owner asked twice for it quieter)
 mus *= (1 - .9 * speech)[:, None]   # under speech the music almost disappears
 
@@ -173,6 +182,16 @@ def confetti(d=1.2):
         a = int(rng.random() * (d - .2) * SR); p = pop() * (.3 + .4 * rng.random()); x[a:a + len(p)] += p[:len(x) - a]
     return x + bp(noise(d), 3000, 9000) * env_exp(d, .4) * .15
 def chime2(): return over(glock(84, .5, .5), (glock(88, .7, .5), .12))
+def tape_scrub(d=.6):   # the VHS rewind: a fast warbling squeal falling in pitch over motor hiss, with a clunk at the start
+    tt = t_(d); f = 2600 * (1 - .55 * tt / d) * (1 + .12 * np.sin(2 * np.pi * 23 * tt))
+    sq = np.sin(2 * np.pi * np.cumsum(f) / SR) * .25 + np.sin(2 * np.pi * np.cumsum(f * .5) / SR) * .15
+    x = sq * (.6 + .4 * np.sin(2 * np.pi * 31 * tt)) + bp(noise(d), 1500, 7000) * .35
+    x = x * np.minimum(1, np.minimum(tt / .03, (d - tt) / .08))
+    return norm(over(x, thump(.4, 160)[:int(.08 * SR)] * .7))
+def light_tick(): return norm(hp(noise(.025), 4000) * env_exp(.025, .002) + np.sin(2 * np.pi * 3400 * t_(.025)) * env_exp(.025, .004)) * .8
+def chair(d=.28):   # a classroom chair: a short wooden scrape + a soft knock (from episode 4)
+    tt = t_(d); x = bp(noise(d), 250, 1400) * (.6 + .4 * np.sin(2 * np.pi * 38 * tt)) * np.sin(np.pi * tt / d) ** 1.5 * .6
+    return norm(over(x, (thump(.3, 140)[:int(.12 * SR)] * .5, d * .8))) * .8
 
 H = {   # event type -> (sound, gain, pan)
     'door':      lambda e: (norm(over(creak(), (creak() * .7, .2))), .4, .15),
@@ -185,7 +204,9 @@ H = {   # event type -> (sound, gain, pan)
     'ding':      lambda e: (ding(), .22, .1),
     'correct':   lambda e: (ding(), .22, .1),
     'clock_tick':lambda e: (tick(), .25, .1),
-    'tick':      lambda e: (tick(), .25, .1),
+    'tick':      lambda e: (light_tick(), .16, .1),                 # the fast-round timer dots
+    'rewind':    lambda e: (tape_scrub(e.get('dur', .6)), .4, 0),
+    'chair':     lambda e: (chair(), .22, .1),
     'alarm':     lambda e: (alarm(e.get('dur', 1.6)), .14, .2),
     'step':      lambda e: (step(), .05, float(rng.uniform(-.15, .15))),
     'footstep':  lambda e: (step(), .05, float(rng.uniform(-.15, .15))),
@@ -225,7 +246,7 @@ H = {   # event type -> (sound, gain, pan)
     'click':     lambda e: (tick(), .3, .2),
     'bell':      lambda e: (ding(), .2, .2),
 }
-MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon'}   # covered by the score
+MUSICAL = {'sting', 'sting_shock', 'sting_end', 'music_intro', 'music_recap', 'music_outro', 'ambience_street', 'ambience_afternoon', 'ambience_class'}   # covered by the score
 unknown = {}
 for e in EV:
     k = e['type']
@@ -246,9 +267,10 @@ def street(a, b, lvl=1.0):
     while t < b - 1:
         if rng.random() < .5: add(amb, chirp(), t, .12 * lvl, float(rng.uniform(-.7, .7)))
         t += float(rng.uniform(1.2, 3.5))
-street(0, dr[1] + .5)
-street(rt[0] - .5, dy[1] + .3, .6)
-street(by[0] - .3, by[1] + .3, .9)
+street(0, rt[1] + .3)
+street(cl[0], cl[1], .3)                       # the street, faint, through the classroom window
+cls = bp(noise(cl[1] - cl[0]), 150, 900) * .012; add(amb, cls * np.minimum(1, np.minimum(t_(len(cls) / SR) / .5, (len(cls) / SR - t_(len(cls) / SR)) / .5)), cl[0], 1, 0)   # the classroom: a small warm room
+street(by[0] - .1, by[1] + .3, .9)
 room = lp(brown(DUR + 1), 300)[:N] * .01; amb += room[:, None]
 
 FX = .4             # sound effects well under the voices (owner: footsteps and effects were too loud)

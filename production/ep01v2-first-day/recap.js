@@ -2,10 +2,13 @@
 // cream paper, ink Fredoka words that are typeset as they are spoken (rise, land with a squash), a speaker rail + name tab
 // under each line, a mustard highlighter on the spoken word, a red spell-check squiggle under mistakes, and two small
 // presenter beans (Youssef right, Sara left). Every beat is keyed to recap items, lines and narration words in timeline.json.
+// v2: no opening line (the title card + a sting), the repeat gaps come from TL.repeat (only after the lines the learner repeats),
+// the "Nice to meet you" item without the "Me too" detour, a name-card trio for EN-6 (Sara · Leo · Mei, each with a bean head)
+// and the fast round EN-7 (question card → a 3-dot timer → the answer card pops on Youssef's answer).
 import { P, rgba, mix, dark, light, rr, ell, grain } from './kit.js';
 import { clamp, lerp, seg, ss, eo, eio, back } from '/core/lib.js';
 import { TL, SEC, NARR, LINE, RECAP, nwT, has } from './tl.js';
-import { charState, drawActor } from './story.js';
+import { charState, drawActor, beanHead } from './story.js';
 import { fold, F, ARM, CUP, CLAP, DIP, OPEN, FACEPALM } from './act.js';
 import { SPEAKER, RUST, nameTab, squiggle, check, cross, repeatCue, sparkle } from './ui.js';
 import { cue } from './cues.js';
@@ -24,24 +27,20 @@ export function buildRecap() {
   const rc = SEC('recap');
   const it = id => RECAP(id) || { t0: rc.t0, t1: rc.t0 };
   const L = id => LINE(id);
-  R = { rc, items: ['hi', 'am', 'im', 'name', 'too', 'sorry', 'bye'].map(id => ({ id, ...it(id) })) };
-  R.title0 = rc.t0 + .55; R.title1 = it('hi').t0 - .35;
+  R = { rc, items: ['hi', 'am', 'im', 'names', 'name', 'too', 'sorry', 'bye', 'fast'].map(id => ({ id, ...it(id) })) };
+  R.title0 = rc.t0 + .15; R.title1 = it('hi').t0 - .3;
   R.tIY = nwT('ar10', w => /^I\s*Youssef/i.test(w), .3); R.tAna = (() => { const n = NARR('ar10'); const i = n ? n.tok.findIndex((o, k) => o.w.startsWith('أنا') && n.tok[k + 1] && n.tok[k + 1].w.startsWith('يوسف')) : -1; return i >= 0 ? n.tok[i].t0 : (n ? n.t0 + (n.t1 - n.t0) * .55 : R.tIY + 2); })();
   R.tAm = nwT('ar10', w => /^am\b/i.test(w), .97);
   R.tIm = nwT('ar11', w => /^I'?m$/i.test(w), .35); R.tOne = nwT('ar11', has('واحدة'), .9);
-  R.tNice = nwT('ar13', w => /^Nice/i.test(w), .25); R.tMe = nwT('ar13', w => /^Me too/i.test(w), .7); R.tQul = (() => { const n = NARR('ar13'); return n ? n.tok[n.tok.length - 1].t0 : R.tMe + 1; })();
-  R.tEar = NARR('ar14') ? NARR('ar14').t0 : it('sorry').t0;
-  // repeat gaps: after a model line, until the next speech (narration or line) or the end of the recap
+  R.tNice = nwT('ar13', w => /^Nice/i.test(w), .3); R.tRadd = nwT('ar13', has('الرد'), .9);
+  R.tEar = it('sorry').t0;
+  // repeat gaps: laid out by timeline.py (TL.repeat) after the model lines the learner repeats
   const recapLines = TL.lines.filter(l => l.scene === 'recap');
-  const speech = [...TL.narration.map(n => n.t0), ...TL.lines.map(l => l.t0)].sort((a, b) => a - b);
-  R.gaps = [];
-  // (only where the voice hands over to the learner: the next speech is narration, or the recap ends — not a Q → A pair)
-  for (const l of recapLines) {
-    const nx = Math.min(speech.find(s => s > l.t1 + .05) ?? rc.t1, rc.t1);
-    const nextIsLine = TL.lines.some(m => Math.abs(m.t0 - nx) < .01);
-    if (nx - l.t1 >= .8 && !nextIsLine) R.gaps.push({ t0: l.t1 + .18, t1: nx - .12, line: l });
-  }
-  R.tAsk = nwT('ar12', has('اسمك'), .6);
+  R.gaps = (TL.repeat || []).map(g => ({ t0: g.t0, t1: g.t1, line: LINE(g.clip) }));
+  // the fast round: question / answer pairs
+  R.fast = [1, 2, 3, 4].map(i => ({ q: LINE('e7q' + i), a: LINE('e7a' + i) })).filter(p => p.q && p.a);
+  R.names = ['e6s', 'e6l', 'e6m'].map(LINE).filter(Boolean);
+  R.n12 = NARR('ar12');
   // presenter Youssef mouths his narration clips (the diary voice's viseme track) and his own model lines; Sara hers
   const narrSpans = TL.narration.filter(n => n.t0 >= rc.t0 - .1 && n.t1 <= rc.t1 + .1).map(n => [n.t0, n.t1]);   // → TL.mouth_nar in these ranges
   // ---- presenters: two big beans that act (Youssef right facing left: his near arm is armR; Sara left facing right: armL) ----
@@ -62,6 +61,7 @@ export function buildRecap() {
   K.push({ t: rc.t0 + 1.25, armR: DIP, d: .15 }, { t: rc.t0 + 1.4, armR: ARM.wave, d: .2 }, { t: rc.t0 + 2.6, armR: ARM.rest, d: .3 });
   // every model line: the speaker turns to us with an open hand and talks (lip sync from talk); the other looks over and nods
   for (const l of recapLines) {
+    if (l.who !== 'youssef' && l.who !== 'mia') continue;   // Leo / Mei speak from their name cards
     const ys = l.who === 'youssef', [SK, LK] = ys ? [K, MK] : [MK, K];
     SK.push({ t: l.t0 - .3, turn: ys ? -.1 : .1, face: F('happy', { lx: 0, ly: 0, happy: .45, bLy: .6, bRy: .6 }), [ys ? 'armL' : 'armR']: OPEN, d: .25 },
       { t: l.t1 + .35, turn: ys ? -.3 : .3, face: ys ? yRest : mRest, [ys ? 'armL' : 'armR']: ARM.rest, d: .3 });
@@ -87,7 +87,9 @@ export function buildRecap() {
     yR.blinks.push(tSq - .05, tSq + 1.3, tFix - .1); mR.blinks.push(tSq + .1, tFix);
   };
   mistake(R.tIY + .5, R.tAm + .55);
-  mistake(R.tMe + .4, R.tQul + .5);
+  // the name cards: both presenters look at the cards and beam; the fast round: Youssef gets ready (a little bounce)
+  for (const l of R.names) if (l.who !== 'mia') { K.push({ t: l.t0 - .2, face: F('joy', { lx: -.7, ly: -.1 }), d: .2 }); MK.push({ t: l.t0 - .2, face: F('joy', { lx: .7, ly: -.1 }), d: .2 }); }
+  if (R.n12) { K.push({ t: R.n12.t0, face: F('happy', { lx: -.3, ly: -.1, happy: .7, bLy: 1, bRy: 1 }), armR: ARM.up, d: .25 }, { t: R.n12.t1, armR: ARM.rest, d: .3 }); yR.jumps.push({ t: R.n12.t1 - .4, h: .04, d: .3 }); }
   // I am → I'm: a small proud nod; Sara cups an ear for "Sorry?"
   K.push({ t: R.tIm + .45, face: F('joy', { lx: -.5 }), d: .2 }, { t: R.tIm + 1.4, face: yRest, d: .3 }); nod(K, R.tIm + .5);
   const r08 = L('r08');
@@ -111,8 +113,16 @@ export function buildRecap() {
   cue(R.tIY, 'type'); cue(R.tIY + .5, 'squiggle'); cue(R.tIY + .9, 'error_buzz');
   cue(R.tAm - .15, 'caret'); cue(R.tAm + .3, 'type'); cue(R.tAm + .6, 'ding');
   cue(R.tIm + .05, 'squeeze'); cue(R.tIm + .4, 'pop', { note: "apostrophe lands: I'm" });
-  cue(R.tNice, 'type'); cue(R.tMe, 'type'); cue(R.tMe + .4, 'squiggle'); cue(R.tMe + .75, 'error_buzz');
-  cue(R.tQul, 'whoosh', { note: 'Me too → Nice to meet you too.' }); cue(R.tQul + .5, 'ding');
+  cue(R.tNice, 'type');
+  const r07 = LINE('r07'); if (r07) cue(r07.t1 + .05, 'ding', { note: 'too ✓' });
+  R.names.forEach(l => cue(l.t0 - .15, 'pop', { note: 'name card: ' + l.text }));
+  if (R.n12) cue(R.n12.t0, 'whoosh', { note: 'the fast round' });
+  R.fast.forEach(({ q, a }) => {
+    cue(q.t0 - .12, 'pop', { note: 'question card' });
+    const g0 = q.t1 + .1, g1 = a.t0 - .05;
+    for (let i = 0; i < 3; i++) cue(g0 + (g1 - g0) * (i + .5) / 3, 'tick', { note: 'timer dot ' + (i + 1) });
+    cue(a.t0 - .05, 'pop', { note: 'answer card' }); cue(a.t1 + .05, 'ding', { note: 'answer ✓' });
+  });
   for (const g of R.gaps) cue(g.t0, 'repeat', { dur: g.t1 - g.t0, note: 'learner repeats' });
   return R;
 }
@@ -131,7 +141,7 @@ function drawRow(c, t, items, { x, y, size, who, alpha = 1, rail = true, ghost =
   { const W0 = layoutRow(items, size).W; if (W0 > maxW) size *= maxW / W0; }   // every row fits the text column (clear of both presenters)
   const spw = mw(' ', size) * 1.05;
   const { out, W } = layoutRow(items, size);
-  const S = SPEAKER[who], col = who === 'mia' ? RUST : P.navy;
+  const S = SPEAKER[who], col = who === 'mia' ? RUST : who === 'youssef' ? P.navy : S.tab;
   const g = ghost != null ? seg(t, ghost, ghost + .3) : 0;
   c.save(); c.globalAlpha = alpha; c.font = FONT(size); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
   const shown = out.filter(o => t >= o.t && (o.alpha ?? 1) > .05);
@@ -221,7 +231,7 @@ export function sceneRecap(c, t) {
     if (t < it.t0 - .05 || t > it.t1 + .35) continue;
     const carry = it.id === 'am' && nx && nx.id === 'im';            // "I am Youssef." flows straight into the I'm item
     const aIn = it.id === 'im' ? 1 : seg(t, it.t0 - .05, it.t0 + .2);
-    const aOut = carry ? 1 : 1 - seg(t, it.t1 - .05, it.t1 + .3);
+    const aOut = carry ? 1 : 1 - seg(t, it.t1 - .3, it.t1 - .02);   // v2: gone before the next item comes in (items follow back to back)
     if (carry && t >= it.t1) continue;
     const a = aIn * aOut, dy = (1 - aOut) * -40;
     c.save(); c.translate(0, dy);
@@ -352,36 +362,104 @@ const ITEM = {
   },
   name(c, t, a, it) {
     const q = fromLine('r05'), an = fromLine('r06');
-    // "اسمك إيه؟" (the narrator says it) lights up under the question before Sara asks it
-    const r05 = LINE('r05'), hi = seg(t, R.tAsk - .1, R.tAsk + .2) * (1 - seg(t, (r05 ? r05.t0 : R.tAsk + 2) - .3, (r05 ? r05.t0 : R.tAsk + 2)));
-    drawRow(c, t, q, { x: CX, y: Y1, size: fit(q, 120), who: 'mia', alpha: a, ghost: it.t0, mean: 'اسمك إيه؟', meanHi: hi });
+    drawRow(c, t, q, { x: CX, y: Y1, size: fit(q, 120), who: 'mia', alpha: a, ghost: it.t0, mean: 'اسمك إيه؟' });
     drawRow(c, t, an, { x: CX, y: Y2, size: fit(an, 120), who: 'youssef', alpha: a, ghost: it.t0, mean: 'اسمي يوسف' });
   },
   too(c, t, a, it) {
+    // "Nice to meet you." (said by the narrator) → the answer "Nice to meet you too." with "too" marked and a ✓
     const nice = ['Nice', 'to', 'meet', 'you.'].map((w, i) => ({ w, t: R.tNice + i * .09 }));
-    drawRow(c, t, nice, { x: CX, y: Y1 - 10, size: 104, who: 'mia', alpha: a * (1 - .4 * seg(t, R.tQul, R.tQul + .4)), ghost: it.t0, mean: 'اتشرفت بيك' });
-    // "Me too." (wrong) → "Nice to meet you too." (right)
-    const sw = seg(t, R.tQul, R.tQul + .25);   // the wrong row is gone before the right one types in (no overlap)
-    if (sw < 1) {
-      const me = [{ w: 'Me', t: R.tMe }, { w: 'too.', t: R.tMe + .08 }];
-      c.save(); c.translate(0, sw * 60);
-      const row = drawRow(c, t, me, { x: CX, y: Y2, size: 130, who: 'youssef', alpha: a * (1 - sw) });
-      if (row && t > R.tMe) {
-        c.globalAlpha = a * (1 - sw);
-        const x0 = wordX(row, 0) - 6, x1 = wordX(row, 1) + row.out[1].ww - mw('.', 130) + 6;
-        squiggle(c, x0, x1, Y2 + 14, seg(t, R.tMe + .4, R.tMe + .8), 7, P.red, 7);
-        cross(c, x1 + 70, Y2 - 45, 32, seg(t, R.tMe + .75, R.tMe + 1.1));
-      }
-      c.restore();
-    }
-    if (t > R.tQul + .25) {
-      const r07 = LINE('r07'), sp = r07 ? r07.tok : [];
-      const right = ['Nice', 'to', 'meet', 'you', 'too.'].map((w, i) => ({ w, t: R.tQul + .25 + i * .06, s0: sp[i]?.t0, s1: sp[i]?.t1, mark: i === 4 ? eo(seg(t, R.tQul + .7, R.tQul + 1.1)) : 0 }));
-      const size = fit(right, 130, COLW - 90), x = CX - 30;
-      const row = drawRow(c, t, right, { x, y: Y2, size, who: 'youssef', alpha: a, mean: 'وأنا كمان اتشرفت بيك' });
-      if (row) check(c, row.x + row.W / 2 + 48, Y2 - 45, 30, seg(t, R.tQul + .45, R.tQul + .8));
-    }
+    drawRow(c, t, nice, { x: CX, y: Y1 - 10, size: 112, who: 'mia', alpha: a, ghost: it.t0, mean: 'اتشرفت بيك' });
+    const r07 = LINE('r07'), sp = r07 ? r07.tok : [];
+    const t0 = r07 ? r07.t0 - .06 : R.tRadd + .5;
+    const right = ['Nice', 'to', 'meet', 'you', 'too.'].map((w, i) => ({ w, t: t0 + i * .05, s0: sp[i]?.t0, s1: sp[i]?.t1, mark: i === 4 ? eo(seg(t, (r07 ? r07.t1 : t0 + 1) - .1, (r07 ? r07.t1 : t0 + 1) + .3)) : 0 }));
+    const size = fit(right, 124, COLW - 90), x = CX - 30;
+    const row = drawRow(c, t, right, { x, y: Y2, size, who: 'youssef', alpha: a, ghost: it.t0, mean: 'وأنا كمان اتشرفت بيك' });
+    if (row && r07) check(c, row.x + row.W / 2 + 48, Y2 - 45, 30, seg(t, r07.t1, r07.t1 + .35));
   },
+  // EN-6: three name cards (Sara · Leo · Mei), each with the speaker's bean head; the card pops and its line lights up as it is said
+  names(c, t, a, it) {
+    const L = R.names, W = 252, HH = 372, GAP = 32, top = 222;
+    L.forEach((l, i) => {
+      const k = back(seg(t, l.t0 - .2, l.t0 + .12), 2.2), cx = CX + (i - 1) * (W + GAP);
+      if (k <= 0) return;
+      const S = SPEAKER[l.who], col = l.who === 'mia' ? RUST : l.who === 'youssef' ? P.navy : S.tab, on = t >= l.t0 - .05 && t < l.t1 + .1;
+      c.save(); c.globalAlpha = a; c.translate(cx, top + HH / 2); c.scale(k, k); c.translate(-cx, -(top + HH / 2));
+      rr(c, cx - W / 2, top + 10, W, HH, 30); c.fillStyle = rgba(P.ink, .12); c.fill();
+      rr(c, cx - W / 2, top, W, HH, 30); c.fillStyle = '#FFFDF8'; c.fill();
+      c.save(); rr(c, cx - W / 2, top, W, 250, 30); c.clip();
+      c.fillStyle = mix('#FFFDF8', col, .16); c.fillRect(cx - W / 2, top, W, 250);
+      beanHead(c, l.who, cx, top + 338, .92, t, F('happy', { happy: on ? .75 : .5, lx: 0, ly: 0, bLy: on ? .9 : .6, bRy: on ? .9 : .6 }));
+      c.restore();
+      rr(c, cx - W / 2, top + 244, W, 8, 0); c.fillStyle = col; c.fill();
+      if (on) { rr(c, cx - W / 2 - 5, top - 5, W + 10, HH + 10, 34); c.strokeStyle = rgba(P.mustard, .9); c.lineWidth = 7; c.stroke(); }
+      // "I'm Sara." with the spoken word highlighted
+      const words = l.tok.map(o => o.w), size = 54; c.font = FONT(size); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+      const sp = c.measureText(' ').width, ws = words.map(w => c.measureText(w).width), TW = ws.reduce((p, q) => p + q, 0) + sp * (words.length - 1);
+      let x = cx - TW / 2; const by = top + 318;
+      words.forEach((w, j) => {
+        const o = l.tok[j], cur = t >= o.t0 && t < o.t1 + .12;
+        if (cur) { rr(c, x - 6, by - size * .78, ws[j] + 12, size * .95, 12); c.fillStyle = rgba(P.mustard, .6); c.fill(); }
+        c.fillStyle = P.ink; c.fillText(w, x, by); x += ws[j] + sp;
+      });
+      c.restore();
+      nameTab(c, S, cx - W / 2 + 14, top - 16, 24);
+    });
+  },
+  // EN-7: the fast round. A header chip during AR-12; per pair: the question card pops, three timer dots fill over the answer gap,
+  // the answer card pops on Youssef's answer (✓); the pair slides out as the next question comes in
+  fast(c, t, a, it) {
+    const n = R.n12, hk = n ? back(seg(t, n.t0 - .1, n.t0 + .3), 2.2) : 1;
+    // header chip: "راوند سريع" with a lightning bolt
+    c.save(); c.globalAlpha = a; c.translate(CX, 150); const hs = Math.max(.001, hk); c.scale(hs, hs);
+    c.direction = 'rtl'; c.font = `800 52px ${AR}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const lab = 'راوند سريع', lw = c.measureText(lab).width + 130;
+    rr(c, -lw / 2, -40, lw, 80, 40); c.fillStyle = P.red; c.fill(); c.fillStyle = P.cream; c.fillText(lab, 22, 4);
+    c.translate(-lw / 2 + 50, 0); c.rotate(.15); c.fillStyle = P.mustard; c.beginPath(); c.moveTo(4, -28); c.lineTo(-14, 4); c.lineTo(0, 4); c.lineTo(-6, 28); c.lineTo(14, -6); c.lineTo(0, -6); c.closePath(); c.fill();
+    c.restore();
+    // the round counter dots under the header
+    R.fast.forEach((p, i) => { const done = t >= p.a.t1, cur = t >= p.q.t0 - .2 && !done; ell(c, CX - 54 + i * 36, 214, cur ? 11 : 9, cur ? 11 : 9); c.fillStyle = rgba(done ? P.leaf : cur ? P.mustard : P.ink, a * (done || cur ? 1 : .18)); c.fill(); });
+    R.fast.forEach((p, i) => {
+      const nx = R.fast[i + 1], { q, a: an } = p;
+      const in0 = q.t0 - .22, out0 = nx ? nx.q.t0 - .3 : it.t1 - .1;
+      if (t < in0 || t > out0 + .3) return;
+      const so = eio(seg(t, out0, out0 + .28)), al = a * (1 - so), dx = -so * 260;
+      c.save(); c.translate(dx, 0);
+      card(c, t, CX, 368, q, 'mia', in0, al, true);
+      // the timer: three dots fill over the answer gap
+      const g0 = q.t1 + .1, g1 = an.t0 - .05;
+      for (let j = 0; j < 3; j++) {
+        const f = seg(t, g0 + (g1 - g0) * j / 3, g0 + (g1 - g0) * (j + .6) / 3), x = CX - 70 + j * 70, y = 512;
+        ell(c, x, y, 17, 17); c.fillStyle = rgba(P.ink, .12 * al); c.fill();
+        if (f > 0) { const r = 17 * back(f, 2.4); ell(c, x, y, r, r); c.fillStyle = rgba(P.mustard, al); c.fill(); }
+      }
+      if (t >= an.t0 - .12) card(c, t, CX, 660, an, 'youssef', an.t0 - .12, al, false);
+      c.restore();
+    });
+  },
+};
+// a fast-round card: a rounded white card that pops (back ease) at t0, the line typeset on it (word highlight), a tab, ✓ on answers
+function card(c, t, cx, cy, L, who, t0, al, q) {
+  const k = back(seg(t, t0, t0 + .28), 2.4); if (k <= 0 || al <= 0) return;
+  const words = L.tok.map(o => o.w); let size = 96; { const w0 = words.reduce((p, w) => p + mw(w, 96), 0) + mw(' ', 96) * (words.length - 1); if (w0 > 700) size = 96 * 700 / w0; }
+  c.save(); c.font = FONT(size);
+  const sp = mw(' ', size), ws = words.map(w => mw(w, size)), TW = ws.reduce((p, x) => p + x, 0) + sp * (words.length - 1), W = Math.max(380, TW + 110), HH = 150;
+  const S = SPEAKER[who], col = who === 'mia' ? RUST : P.navy;
+  c.globalAlpha = al; c.translate(cx, cy); c.scale(k, k);
+  rr(c, -W / 2, -HH / 2 + 9, W, HH, 34); c.fillStyle = rgba(P.ink, .14); c.fill();
+  rr(c, -W / 2, -HH / 2, W, HH, 34); c.fillStyle = q ? '#FFFDF8' : mix('#FFFDF8', P.mustard, .22); c.fill();
+  rr(c, -W / 2, -HH / 2, 14, HH, 7); c.fillStyle = col; c.fill();
+  c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+  let x = -TW / 2; const by = size * .34;
+  words.forEach((w, j) => {
+    const o = L.tok[j], cur = t >= o.t0 && t < o.t1 + .12;
+    if (cur) { rr(c, x - 8, by - size * .76, ws[j] + 16, size * .92, 16); c.fillStyle = rgba(P.mustard, .55); c.fill(); }
+    c.fillStyle = P.ink; c.fillText(w, x, by); x += ws[j] + sp;
+  });
+  c.restore();
+  c.save(); c.globalAlpha = al * clamp(k); nameTab(c, S, cx - W / 2 * k + 18, cy - HH / 2 * k - 16, 24); c.restore();
+  if (!q) check(c, cx + W / 2 * k + 6, cy - HH / 2 * k + 8, 30, seg(t, L.t1, L.t1 + .3));
+}
+Object.assign(ITEM, {
   sorry(c, t, a, it) {
     const s = fromLine('r08').map(o => ({ ...o, wob: true }));
     drawRow(c, t, s, { x: CX, y: 500, size: 180, who: 'mia', alpha: a, ghost: it.t0, mean: 'نعم؟ / مسمعتش' });
@@ -391,4 +469,4 @@ const ITEM = {
     drawRow(c, t, b1, { x: CX, y: Y1, size: 130, who: 'mia', alpha: a, ghost: it.t0, mean: 'باي! أشوفك' });
     drawRow(c, t, b2, { x: CX, y: Y2, size: 130, who: 'youssef', alpha: a, ghost: it.t0, mean: 'مع السلامة' });
   },
-};
+});
