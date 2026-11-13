@@ -125,6 +125,8 @@ export function buildStory() {
   const FORMOUT = { dx: .16, dy: .1, w: 0, bend: 30, elv: [.6, 1], flex: .5, front: 1 }, FORMTAKE = { dx: .15, dy: .08, w: 0, bend: 25, elv: [1, 1], flex: .3, front: 1 };
   S = { op, rn, hl, cf, dr, by, HL, CF, DR, BY, n1, n2, n3, n4, n5, n6, n7, bWake, bTitle, bSaraIn, bYawn, bLaugh, bSip, bWelcome, bForm, bNight, bAge };
 
+  // arms test v4 (calm): the hurry is a grounded walk-run with the arms folded at the sides (no flexing run arms)
+  const RUNA = CALM() ? ARM.rest : RUNARM;
   // ================= open: asleep → the alarm → the clock → the leap → out of the door =================
   const tSeven = nwT('ar01', has('سبعة'), .45), tHeard = nwT('ar01', has('سمعتوش'), .62), tWoke = nwT('ar01', has('صحيت'), .8), tTen = nwT('ar01', has('وعشرة'), .95);
   const tLeap = Math.max(tWoke + .5, tTen - .25), tLand = tLeap + .5, tRunOut = (n2 ? n2.t0 : tLand + .9) + .1, tGone = tRunOut + 1.25;
@@ -152,7 +154,7 @@ export function buildStory() {
     { t: tLeap - .05, armL: ARM.up, armR: ARM.up, face: F('surprised', { pupil: .45, mo: .11, mw: .07, lx: 0, ly: -.3, sweat: 1 }), turn: .25, trem: 0, d: .2 },
     { t: tLand + .15, armL: ARM.up, armR: ARM.up, face: F('worried', { pupil: .6, mo: .06, mw: .09, mwob: 1, lx: 0, ly: 0, sweat: 1, bLr: .7, bRr: .7 }), turn: .1, trem: .006, d: .25 },
     // "جريت": turns and runs out of the door
-    { t: tRunOut - .15, turn: .55, armL: RUNARM, armR: RUNARM, lean: .07, face: F('nervous', { sweat: 1, lx: .5, mt: .3, mo: .04 }), trem: 0, d: .2 });
+    { t: tRunOut - .15, turn: .55, armL: RUNA, armR: RUNA, lean: .07, face: F('nervous', { sweat: 1, lx: .5, mt: .3, mo: .04 }), trem: 0, d: .2 });
   J.push({ t: bWake - .02, h: .05, d: .3 }, { t: tLeap, h: .55, d: tLand - tLeap });
   BL.push(bWake + .35, tIns1 + .1, tSeven - .35, tHeard - .2, tWoke - .1);
   S.yB = yB; S.tIns0 = tIns0; S.tIns1 = tIns1; S.tLeap = tLeap; S.tLand = tLand; S.tRunOut = tRunOut; S.tGone = tGone;
@@ -167,7 +169,7 @@ export function buildStory() {
   const tGM = nwT('ar03', w => /^Good morning/i.test(w), .5), tSleep = nwT('ar03', has('نايم'), .85);
   const tRun0 = rn.t0 + .1, tRun1 = Math.min(rn.t1 - .4, tRun0 + 7.4), tDoorR = tRun1 - .35;
   const runFace = F('nervous', { sweat: .9, lx: .5, mt: .3, mo: .04, bLr: .5, bRr: .5 });
-  const yR = { id: 'youssef', base: { turn: .5, face: runFace, armL: RUNARM, armR: RUNARM, lean: .07, kmul: 1 },
+  const yR = { id: 'youssef', base: { turn: .5, face: runFace, armL: RUNA, armR: RUNA, lean: .07, kmul: 1 },
     blinks: [], jumps: [], hopAmp: 1.3, moves: [{ t0: tRun0, t1: tRun1, x0: -760, x1: 1300, k0: .9, k1: .9, step: .28, ease: 'lin' }], keys: [] };
   yR.keys.push({ t: tGM - .55, face: F('happy', { lx: .3, ly: -.6, happy: .35, mw: .11, mo: .03, sweat: .5 }), d: .35 },
     { t: tGM + 1.6, face: runFace, d: .35 },
